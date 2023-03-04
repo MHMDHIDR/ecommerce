@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /categories
+Allow: /view
+Allow: /view/item
