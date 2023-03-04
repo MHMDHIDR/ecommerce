@@ -15,7 +15,7 @@ const App = () => (
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
-        <Route path='*' element={<ModalNotFound />} />
+        <Route path='*' element={<ModalNotFound fullscreen={true} />} />
       </Routes>
     </Suspense>
   </Router>

@@ -13,7 +13,8 @@ const Modal = ({
   btnName = '',
   btnLink = '/',
   ctaConfirmBtns = [],
-  ctaSpecialBtns = []
+  ctaSpecialBtns = [],
+  fullscreen
 }: ModalProps) => {
   if (redirectLink && redirectTime) {
     setTimeout(() => window.location.assign(redirectLink), redirectTime)
@@ -32,7 +33,11 @@ const Modal = ({
       </span>
       <div className='container mx-auto'>
         <div
-          className='p-6 mx-12 text-center text-black bg-gray-200 border border-gray-400 rounded-lg shadow-lg dark:bg-gray-700 dark:text-gray-300 dashed'
+          className={`p-6 mx-12 text-center text-black bg-gray-200 border border-gray-400 rounded-lg shadow-lg dark:bg-gray-700 dark:text-gray-300 dashed${
+            fullscreen
+              ? ' min-h-screen min-w-screen flex flex-col justify-center mx-[0_!important]'
+              : ''
+          }`}
           aria-modal='true'
         >
           <div className='flex justify-center'>{status}</div>

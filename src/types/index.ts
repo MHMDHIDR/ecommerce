@@ -22,6 +22,7 @@ export type ModalProps = {
   btnLink?: string
   ctaConfirmBtns?: string[]
   ctaSpecialBtns?: string[]
+  fullscreen?: boolean
 }
 
 export type DotButtonProps = {
