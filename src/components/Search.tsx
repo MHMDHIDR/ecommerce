@@ -1,10 +1,11 @@
-import { useContext } from 'react'
+import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { SearchContext } from '../contexts/SearchContext'
 import useEventListener from '../hooks/useEventListener'
 import { removeSlug } from '../utils/functions/slug'
 
-const Search = () => {
+const Search = ({ small = false }) => {
+  const [smallSearch, setSmallSearch] = useState(small)
   const { setSearch, search, searchResults } = useContext(SearchContext)
   const navigate = useNavigate()
 
@@ -21,23 +22,30 @@ const Search = () => {
   }
 
   return (
-    <form method='post' className='relative z-20 w-full' onSubmit={handleSearch}>
+    <form
+      method='post'
+      className={`relative z-20 transition-all${smallSearch ? ' w-16' : ' w-full'}`}
+      onSubmit={handleSearch}
+    >
       <input
         type='search'
         id='search'
-        className='font-[600] px-5 py-3 pl-16 sm:pl-28 w-[inherit] text-black outline-blue-400 border border-blue-400 outline-offset-2 rtl bg-neutral-200 dark:bg-neutral-300 rounded-full'
-        placeholder='ابحث عن ترغب في متجرنا'
+        className={`font-[600] px-5 py-3 w-[inherit] text-black outline-blue-400 border border-blue-400 outline-offset-2 rtl bg-neutral-200 dark:bg-neutral-300 rounded-full${
+          smallSearch ? ' pl-10' : ' pl-16 sm:pl-28'
+        }`}
+        placeholder={smallSearch ? '' : 'ابحث عن منتج في المتجر'}
         onChange={e => (e.target.value.trim() ? setSearch(e.target.value.trim()) : '')}
         onKeyUp={(e: any) => {
           const searchValue = e.target.value.trim()
-
           searchValue.length > 0
             ? searchWrapper?.classList.add('opacity-100', 'pointer-events-auto')
             : searchWrapper?.classList.remove('opacity-100', 'pointer-events-auto')
         }}
       />
       <button
-        type='submit'
+        // type={smallSearch ? 'button' : 'submit'}
+        type='button'
+        onClick={() => setSmallSearch(prev => !prev)}
         role='search'
         aria-label='search'
         title='search'
