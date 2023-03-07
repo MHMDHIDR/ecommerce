@@ -91,7 +91,7 @@ const Card = ({
               {/* {cCtaLink ? ( */}
               <Link
                 to={cCtaLink!}
-                className='m-2 min-w-[7.5rem] text-white py-1.5 px-6 rounded-lg bg-green-800 hover:bg-green-700'
+                className='m-2 min-w-fit text-white py-1.5 px-6 rounded-lg bg-green-800 hover:bg-green-700'
               >
                 {cCtaLabel}
               </Link>
@@ -105,7 +105,7 @@ const Card = ({
           title={removeSlug(cImgAlt)}
           className='[--cardImgSize:20rem] min-w-[var(--cardImgSize)] max-w-[calc(var(--cardImgSize))] overflow-hidden transition-colors bg-gray-100 border border-gray-400 rounded-lg dark:bg-gray-600 min-h-[var(--cardImgSize)*2] max-h-[calc(var(--cardImgSize)*2)]'
         >
-          <Logo width='32 md:w-60' height='32 md:h-60' className='mx-auto my-2' />
+          <Logo width='36 md:w-60' height='36 md:h-60' className='mx-auto my-2' />
           {/* {cImg ? (
             <EmblaCarousel slides={slides} media={media} smallView={true} />
           ) : (

@@ -40,14 +40,15 @@ const CategoryProducts = ({ name }: { name: string }) => {
               // items.find(
               //   (itemInCart: { cItemId: string }) => itemInCart.cItemId === item._id
               // ) ? (
-              <div className='relative rtl m-2 min-w-[7.5rem] text-white py-1.5 px-6 rounded-lg bg-green-800 hover:bg-green-700'>
-                <span className='py-0.5 px-1 pr-1.5 bg-gray-100 rounded-md absolute right-1 top-1 pointer-events-none'>
+              <div className='relative rtl min-w-fit text-white rounded-lg bg-green-800 hover:bg-green-700'>
+                {/* <span className='py-0.5 px-1 pr-1.5 bg-gray-100 rounded-md absolute right-1 top-1 pointer-events-none'>
                   🛒
                 </span>
                 &nbsp;&nbsp;
                 <span className='mr-4 text-center pointer-events-none'>
                   أضف إلى السلة
-                </span>
+                </span> */}
+                <button>+</button>
               </div>
               // ) : (
               //   <div className='relative rtl m-2 min-w-[7.5rem] text-white py-1.5 px-6 rounded-lg bg-red-800 hover:bg-red-700'>
