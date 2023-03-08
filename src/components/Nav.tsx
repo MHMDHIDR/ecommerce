@@ -1,169 +1,56 @@
-import { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { CartContext } from '@contexts/CartContext'
-import ThemeToggler from './ThemeToggler'
-import Logo from './Icons/Logo'
-import menuToggler from '@utils/menuToggler'
-import MyLink from './MyLink'
-import useEventListener from '@hooks/useEventListener'
-import useAxios from '@hooks/useAxios'
-import NavMenu from './NavMenu'
-import { UserProps } from '@types'
-
-const Nav = () => {
-  const handleLogout = () => {
-    'user' in localStorage && localStorage.removeItem('user')
-
-    window.location.href = '/'
-  }
-
-  const [websiteLogoDisplayPath, setWebsiteLogoDisplayPath] = useState('')
-  const USER: UserProps = JSON.parse(localStorage.getItem('user'))
-
-  const { response } = useAxios({ url: '/settings' })
-
-  useEffect(() => {
-    if (response !== null) setWebsiteLogoDisplayPath(response.websiteLogoDisplayPath)
-  }, [response])
-
-  let lastScrollY = window.scrollY
-
-  useEventListener('scroll', () => {
-    const nav = document.querySelector('.nav')
-    const hideNavClass = '-translate-y-[1000px]'
-
-    lastScrollY < window.scrollY
-      ? nav?.classList.add(hideNavClass)
-      : nav?.classList.remove(hideNavClass)
-
-    lastScrollY = window.scrollY
-  })
-
-  const { items } = useContext(CartContext)
-
-  return (
-    <div className='fixed inset-0 bottom-auto z-[9999] w-full transition-transform duration-300 nav ltr'>
-      <nav
-        className={`flex flex-wrap items-center justify-between px-5 xl:px-10 lg:px-20 py-1 bg-gray-300 bg-opacity-90 dark:bg-neutral-900 dark:bg-opacity-90 shadow-xl backdrop-blur-sm saturate-[180%] transition-all${
-          navigator.userAgent.includes('iPhone') ? ' standalone:pt-10' : ''
-        }`}
+const Nav = () => (
+  <nav
+    className='flex-no-wrap relative flex w-full items-center justify-between py-4 lg:flex-wrap lg:justify-start'
+    data-te-navbar-ref
+  >
+    <div className='flex w-full flex-wrap items-center justify-between px-6'>
+      <button
+        className='block border-0 bg-transparent py-2 px-2.5 text-neutral-500 hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 lg:hidden'
+        type='button'
+        data-te-collapse-init
+        data-te-target='#navbarSupportedContent1'
+        aria-controls='navbarSupportedContent1'
+        aria-expanded='false'
+        aria-label='Toggle navigation'
       >
-        <Link aria-label='App Logo' title='App Logo' to='/'>
-          {websiteLogoDisplayPath ? (
-            <img
-              src={websiteLogoDisplayPath}
-              width='50'
-              height='50'
-              className='w-10 xl:w-14 h-10 xl:h-14 rounded-2xl opacity-70'
-              alt='Website Logo'
-            />
-          ) : (
-            <Logo width='10 xl:w-14' height='10 xl:h-14' />
-          )}
-        </Link>
-
-        <ThemeToggler />
-
-        <Link to='/order-food' className='underline-hover'>
-          <span className='hidden sm:inline'>سلة الطلبات: </span>
-          <span>{items?.length || 0}&nbsp;&nbsp;🛒</span>
-        </Link>
-
-        {/* Nav toggler */}
-        <input
-          className={`absolute w-10 h-10 opacity-0 cursor-pointer xl:pointer-events-none right-5 lg:right-20 top-1 peer group ${
-            navigator.userAgent.includes('iPhone') ? ' standalone:top-10' : ''
-          }`}
-          type='checkbox'
-          aria-label='Navigation Menu'
-          title='Navigation Menu'
-          id='menuToggler'
-        />
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          className='w-10 h-10 transition-colors xl:hidden stroke-gray-800 dark:stroke-white peer-checked:stroke-orange-600'
-          viewBox='0 0 24 24'
-          onClick={() => menuToggler()}
-        >
-          <path
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            strokeWidth='1.5'
-            d='M4 6h16M4 12h16M4 18h16'
-          />
-        </svg>
-
-        {/* Navigation Menu */}
-        <div
-          className='w-full transition-all duration-200 opacity-0 pointer-events-none -translate-y-96 peer-checked:opacity-100 peer-checked:translate-y-0 peer-checked:pointer-events-auto xl:pointer-events-auto xl:translate-y-0 xl:flex xl:items-center xl:w-auto xl:opacity-100'
-          id='menu'
-        >
-          <ul
-            className='absolute flex flex-col items-center w-full py-5 mx-auto mt-3 text-gray-800 border border-orange-300 rounded-lg shadow-lg gap-x-6 2xl:gap-12 space-y-7 sm:space-y-10 sm:py-8 sm:mt-8 bg-gradient-to-tr from-orange-300 to-orange-400 rtl xl:static xl:justify-between xl:flex-row xl:space-y-0 xl:bg-none xl:space-x-4 xl:py-0 xl:mt-0 xl:border-none xl:shadow-none'
-            id='menu'
+        <span className='[&>svg]:w-7'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 24 24'
+            fill='currentColor'
+            className='h-7 w-7'
           >
-            <li>
-              <MyLink to='menu'>القائمة</MyLink>
-            </li>
-            <li>
-              <MyLink to='new'>جديدنا</MyLink>
-            </li>
-            <li>
-              <Link to='/categories' className='underline-hover'>
-                التصنيفات
-              </Link>
-            </li>
-            <li>
-              <MyLink to='about'>عن المطعم</MyLink>
-            </li>
-            <li>
-              <MyLink to='contact'>تواصل معنا</MyLink>
-            </li>
-            {'user' in localStorage ? (
-              <li className='flex gap-3'>
-                <NavMenu
-                  label={`مرحباً عزيزي ${USER.userFullName || ''}`}
-                  isOptions={false}
-                >
-                  {(USER?.userAccountType === 'admin' ||
-                    USER?.userAccountType === 'cashier') && (
-                    <Link
-                      to='/dashboard'
-                      className='px-3 py-1 text-white transition-colors bg-gray-800 border-2 rounded-lg hover:bg-gray-700 xl:border-0 text-sm select-none text-center'
-                    >
-                      لوحة التحكم
-                    </Link>
-                  )}
-                  <Link
-                    to='/my-orders'
-                    className='px-3 py-1 text-white transition-colors bg-gray-800 border-2 rounded-lg hover:bg-gray-700 xl:border-0 text-sm select-none text-center'
-                  >
-                    طلباتي
-                  </Link>
-                  <Link
-                    to='/#'
-                    className='px-3 py-1 text-white transition-colors bg-red-700 border-2 rounded-lg hover:bg-red-600 xl:border-0 text-sm select-none text-center'
-                    onClick={handleLogout}
-                  >
-                    تسجيل الخروج
-                  </Link>
-                </NavMenu>
-              </li>
-            ) : (
-              <li>
-                <Link
-                  to='/auth/login'
-                  className='px-3 py-1 text-white transition-colors bg-gray-800 border-2 rounded-lg hover:bg-gray-700 xl:border-0 text-sm select-none text-center'
-                >
-                  تسجيل الدخول
-                </Link>
-              </li>
-            )}
-          </ul>
+            <path
+              fill-rule='evenodd'
+              d='M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z'
+              clip-rule='evenodd'
+            />
+          </svg>
+        </span>
+      </button>
+
+      <div className='relative flex items-center'>
+        <div className='relative' data-te-dropdown-ref>
+          <a
+            className='hidden-arrow flex items-center whitespace-nowrap transition duration-150 ease-in-out motion-reduce:transition-none'
+            href='#'
+            id='dropdownMenuButton2'
+            role='button'
+            data-te-dropdown-toggle-ref
+            aria-expanded='false'
+          >
+            <img
+              src='https://tecdn.b-cdn.net/img/new/avatars/2.jpg'
+              className='rounded-full w-8 h-8'
+              style={{ height: '32px', width: '32px' }}
+              alt=''
+              loading='lazy'
+            />
+          </a>
         </div>
-      </nav>
+      </div>
     </div>
-  )
-}
+  </nav>
+)
 
 export default Nav

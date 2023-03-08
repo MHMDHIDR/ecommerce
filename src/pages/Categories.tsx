@@ -8,7 +8,7 @@ const Categories = () => {
   //products inside the item page
 
   return (
-    <section className='container px-10 mx-auto my-10 flex flex-col rtl'>
+    <section className='container px-7 mx-auto my-10 flex flex-col rtl'>
       <div className='flex gap-x-7 items-center justify-between'>
         <Search small={true} />
         <Link to={`/`} className='w-8 h-8 min-w-fit'>
@@ -21,7 +21,6 @@ const Categories = () => {
           />
         </Link>
       </div>
-      <h3 className='my-4'>Title: {name ?? name}</h3>
       {name ? (
         <CategoryProducts name={name} />
       ) : (

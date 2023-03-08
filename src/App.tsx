@@ -15,11 +15,9 @@ const App = () => (
   <Router>
     <Suspense fallback={<LoadingPage />}>
       <Routes>
-        <Route path='/product' element={<Product />}>
-          <Route path=':name' element={<Product />} />
-        </Route>
+        <Route path='/product/:name' element={<Product />} />
         <Route path='/categories' element={<Categories />}>
-          <Route path=':name' element={<Product />} />
+          <Route path=':name' element={<Categories />} />
         </Route>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />

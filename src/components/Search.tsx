@@ -30,8 +30,8 @@ const Search = ({ small = false }) => {
       <input
         type='search'
         id='search'
-        className={`font-[600] px-5 py-3 w-[inherit] text-black outline-blue-400 border border-blue-400 outline-offset-2 rtl bg-neutral-200 dark:bg-neutral-300 rounded-full${
-          smallSearch ? ' pl-10' : ' pl-16 sm:pl-28'
+        className={`font-[600] px-5 py-3 w-[inherit] text-black outline-blue-400 border-blue-400 outline-offset-2 rtl rounded-full${
+          smallSearch ? ' pl-10' : ' pl-16 sm:pl-28 bg-neutral-200 dark:bg-neutral-300 '
         }`}
         placeholder={smallSearch ? '' : 'ابحث عن منتج في المتجر'}
         onChange={e => (e.target.value.trim() ? setSearch(e.target.value.trim()) : '')}
@@ -43,13 +43,14 @@ const Search = ({ small = false }) => {
         }}
       />
       <button
-        // type={smallSearch ? 'button' : 'submit'}
-        type='button'
+        type={`button`} //todo: if search value length > 1 make it submit/ else button
         onClick={() => setSmallSearch(prev => !prev)}
         role='search'
         aria-label='search'
         title='search'
-        className='absolute top-0 bottom-0 left-0 flex items-center justify-center w-16'
+        className={`absolute top-0 bottom-0 left-0 flex items-center w-16 pl-4${
+          smallSearch ? ' justify-start' : ' justify-end'
+        }`}
       >
         <svg
           className='w-6'
