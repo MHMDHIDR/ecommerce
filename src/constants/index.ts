@@ -2,6 +2,8 @@ export const { origin }: any = typeof window !== 'undefined' && window.location
 
 export const ITEMS_PER_PAGE = 10
 
+export const MAX_QUANTITY = 100
+
 const url = {
   local: `localhost`,
   dev: `dev.com`

@@ -1,4 +1,4 @@
-import { Suspense, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import useDocumentTitle from '../hooks/useDocumentTitle'
 import { LoadingPage } from '../components/Loading'
@@ -9,14 +9,14 @@ import Arrow from '../components/Icons/Arrow'
 import CategoryProducts from '../components/CategoryProducts'
 
 const Home = () => {
-  useDocumentTitle('Home')
-  const [selectedCategory, setSelectedCategory] = useState('')
+  useDocumentTitle('الرئيسية')
+  const [selectedCategory, setSelectedCategory] = useState<string>('')
 
   return (
     <Suspense fallback={<LoadingPage />}>
       <Layout>
         <section className='container px-5 mx-auto h-full'>
-          <header className='rtl'>
+          <header className='rtl mb-3'>
             <h1 className='text-2xl font-bold'>مرحبا،</h1>
             <span>معك في كل وقت</span>
           </header>
@@ -51,19 +51,44 @@ const Home = () => {
             <div className='flex flex-col'>
               <h2 className='my-3 font-bold'>التصنيفات</h2>
               <ul className='flex gap-x-3 overflow-x-auto'>
-                <li className='border text-sm rounded-full py-0.5 px-3 border-gray-800 hover:bg-gray-800 dark:border-gray-200 dark:bg-gray-200 focus:bg-gray-800 focus:text-white hover:text-white'>
+                <li
+                  className='border text-sm rounded-full py-0.5 px-3 border-gray-800 hover:bg-gray-800 dark:border-gray-200 dark:bg-gray-200 focus:bg-gray-800 focus:text-white hover:text-white'
+                  onClick={e =>
+                    setSelectedCategory((e.target as HTMLElement).textContent!)
+                  }
+                >
                   الملابس
                 </li>
-                <li className='border text-sm rounded-full py-0.5 px-3 border-gray-800 hover:bg-gray-800 dark:border-gray-200 dark:bg-gray-200 focus:bg-gray-800 focus:text-white hover:text-white'>
+                <li
+                  className='border text-sm rounded-full py-0.5 px-3 border-gray-800 hover:bg-gray-800 dark:border-gray-200 dark:bg-gray-200 focus:bg-gray-800 focus:text-white hover:text-white'
+                  onClick={e =>
+                    setSelectedCategory((e.target as HTMLElement).textContent!)
+                  }
+                >
                   الجاكيتات
                 </li>
-                <li className='border text-sm rounded-full py-0.5 px-3 border-gray-800 hover:bg-gray-800 dark:border-gray-200 dark:bg-gray-200 focus:bg-gray-800 focus:text-white hover:text-white'>
+                <li
+                  className='border text-sm rounded-full py-0.5 px-3 border-gray-800 hover:bg-gray-800 dark:border-gray-200 dark:bg-gray-200 focus:bg-gray-800 focus:text-white hover:text-white'
+                  onClick={e =>
+                    setSelectedCategory((e.target as HTMLElement).textContent!)
+                  }
+                >
                   الجينز
                 </li>
-                <li className='border text-sm rounded-full py-0.5 px-3 border-gray-800 hover:bg-gray-800 dark:border-gray-200 dark:bg-gray-200 focus:bg-gray-800 focus:text-white hover:text-white'>
+                <li
+                  className='border text-sm rounded-full py-0.5 px-3 border-gray-800 hover:bg-gray-800 dark:border-gray-200 dark:bg-gray-200 focus:bg-gray-800 focus:text-white hover:text-white'
+                  onClick={e =>
+                    setSelectedCategory((e.target as HTMLElement).textContent!)
+                  }
+                >
                   الأحذية
                 </li>
-                <li className='border text-sm rounded-full py-0.5 px-3 border-gray-800 hover:bg-gray-800 dark:border-gray-200 dark:bg-gray-200 focus:bg-gray-800 focus:text-white hover:text-white'>
+                <li
+                  className='border text-sm rounded-full py-0.5 px-3 border-gray-800 hover:bg-gray-800 dark:border-gray-200 dark:bg-gray-200 focus:bg-gray-800 focus:text-white hover:text-white'
+                  onClick={e =>
+                    setSelectedCategory((e.target as HTMLElement).textContent!)
+                  }
+                >
                   النظارات
                 </li>
               </ul>
@@ -74,7 +99,7 @@ const Home = () => {
                 عرض الكل
               </Link>
             </div>
-            <CategoryProducts category={selectedCategory || 'all'} />
+            <CategoryProducts category={selectedCategory || 'جميع التصنيفات'} />
           </main>
         </section>
       </Layout>

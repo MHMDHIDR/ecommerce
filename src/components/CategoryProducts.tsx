@@ -1,11 +1,12 @@
 import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 
 const CategoryProducts = ({ name, category }: { name?: string; category?: string }) => {
   const products = [...Array(5).keys()]
 
   return (
     <>
-      <h2 className='font-bold mt-4'>{name}</h2>
+      <h2 className='mt-5'>{name}</h2>
       <div className='grid grid-cols-2 gap-y-10 gap-x-2 place-items-center mt-10'>
         {products.map((_product: any, idx: number) => (
           <motion.div

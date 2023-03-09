@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { MAX_QUANTITY } from '../constants'
 
 const Product = () => {
   const [count, setCount] = useState(1)
@@ -27,14 +28,14 @@ const Product = () => {
           />
         </Link>
       </div>
-      <div className='px-5 py-6 bg-white rounded-tl-3xl rounded-tr-3xl -translate-y-10 flex-1 min-h-screen'>
+      <div className='px-5 py-6 bg-white rounded-tl-[2rem] rounded-tr-[2rem] -translate-y-10 flex-1 min-h-screen'>
         <h5 className='flex justify-between text-xl font-semibold tracking-tight text-slate-900'>
           <Link to='#'>حذاء نايك ام-اكس سوبر 5000</Link>
           <div className='flex justify-center w-24 bg-gray-100 py-2 px-5 rounded-full'>
             <svg
               className='fill-current text-gray-600'
               viewBox='0 0 448 512'
-              onClick={() => setCount(prev => prev - 1)}
+              onClick={() => setCount(prev => (prev > 1 ? prev - 1 : prev))}
             >
               <path d='M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z' />
             </svg>
@@ -42,12 +43,14 @@ const Product = () => {
               className='text-center w-8 bg-gray-100'
               type='number'
               value={count}
+              min={1}
+              max={MAX_QUANTITY}
               onChange={e => setCount(parseInt(e.target.value))}
             />
             <svg
               className='fill-current text-gray-600'
               viewBox='0 0 448 512'
-              onClick={() => setCount(prev => prev + 1)}
+              onClick={() => setCount(prev => (prev < MAX_QUANTITY ? prev + 1 : prev))}
             >
               <path d='M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z' />
             </svg>
