@@ -1,10 +1,6 @@
 import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
-import abstractText from '../utils/functions/abstractText'
-import { removeSlug } from '../utils/functions/slug'
-import Card from './Card'
 
-const CategoryProducts = ({ name }: { name: string }) => {
+const CategoryProducts = ({ name, category }: { name?: string; category?: string }) => {
   const products = [...Array(5).keys()]
 
   return (
@@ -14,7 +10,7 @@ const CategoryProducts = ({ name }: { name: string }) => {
         {products.map((_product: any, idx: number) => (
           <motion.div
             key={idx}
-            initial={{ x: '50vw', opacity: 0 }}
+            initial={{ x: '-30vw', opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{
@@ -22,7 +18,7 @@ const CategoryProducts = ({ name }: { name: string }) => {
               duration: 3
             }}
           >
-            <div className='relative w-full max-w-xs overflow-hidden'>
+            <div className='relative w-full max-w-xs overflow-x-hidden'>
               <a href='#' className='block h-40 w-40'>
                 <img
                   className='h-full w-full rounded-lg object-cover'

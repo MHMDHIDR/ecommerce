@@ -48,8 +48,8 @@ const Search = ({ small = false }) => {
         role='search'
         aria-label='search'
         title='search'
-        className={`absolute top-0 bottom-0 left-0 flex items-center w-16 pl-4${
-          smallSearch ? ' justify-start' : ' justify-end'
+        className={`absolute top-0 bottom-0 left-0 flex items-center w-16${
+          smallSearch ? ' justify-start' : ' justify-center'
         }`}
       >
         <svg
