@@ -4,7 +4,8 @@ import useLocalStorage from '../hooks/useLocalStorage'
 export interface Item {
   [key: string]: any
   id: string
-  price: number
+  currentPrice: number
+  oldPrice: number
   name: string
   imgUrl: string
   description: string
@@ -21,11 +22,6 @@ interface InitialState {
   totalItems: number
   totalUniqueItems: number
   cartTotal: number
-  metadata?: Metadata
-}
-
-export interface Metadata {
-  [key: string]: any
 }
 
 interface CartProviderState extends InitialState {
@@ -37,9 +33,6 @@ interface CartProviderState extends InitialState {
   emptyCart: () => void
   getItem: (id: Item['id']) => any | undefined
   inCart: (id: Item['id']) => boolean
-  clearCartMetadata: () => void
-  setCartMetadata: (metadata: Metadata) => void
-  updateCartMetadata: (metadata: Metadata) => void
 }
 
 export type Actions =
@@ -52,17 +45,13 @@ export type Actions =
       payload: object
     }
   | { type: 'EMPTY_CART' }
-  | { type: 'CLEAR_CART_META' }
-  | { type: 'SET_CART_META'; payload: Metadata }
-  | { type: 'UPDATE_CART_META'; payload: Metadata }
 
 export const initialState: any = {
   items: [],
   isEmpty: true,
   totalItems: 0,
   totalUniqueItems: 0,
-  cartTotal: 0,
-  metadata: {}
+  cartTotal: 0
 }
 
 const CartContext = createContext<CartProviderState | undefined>(initialState)
@@ -111,29 +100,6 @@ function reducer(state: CartProviderState, action: Actions) {
     case 'EMPTY_CART':
       return initialState
 
-    case 'CLEAR_CART_META':
-      return {
-        ...state,
-        metadata: {}
-      }
-
-    case 'SET_CART_META':
-      return {
-        ...state,
-        metadata: {
-          ...action.payload
-        }
-      }
-
-    case 'UPDATE_CART_META':
-      return {
-        ...state,
-        metadata: {
-          ...state.metadata,
-          ...action.payload
-        }
-      }
-
     default:
       throw new Error('No action specified')
   }
@@ -157,11 +123,11 @@ const generateCartState = (state = initialState, items: Item[]) => {
 const calculateItemTotals = (items: Item[]) =>
   items.map(item => ({
     ...item,
-    itemTotal: item.price * item.quantity!
+    itemTotal: item.currentPrice * item.quantity!
   }))
 
 const calculateTotal = (items: Item[]) =>
-  items.reduce((total, item) => total + item.quantity! * item.price, 0)
+  items.reduce((total, item) => total + item.quantity! * item.currentPrice, 0)
 
 const calculateTotalItems = (items: Item[]) =>
   items.reduce((sum, item) => sum + item.quantity!, 0)
@@ -180,7 +146,6 @@ export const CartProvider: FC<{
     key: string,
     initialValue: string
   ) => [string, (value: Function | string) => void]
-  metadata?: Metadata
 }> = ({
   children,
   id: cartId,
@@ -189,8 +154,7 @@ export const CartProvider: FC<{
   onItemAdd,
   onItemUpdate,
   onItemRemove,
-  storage = useLocalStorage,
-  metadata
+  storage = useLocalStorage
 }) => {
   const id = cartId ? cartId : createCartIdentifier()
 
@@ -199,8 +163,7 @@ export const CartProvider: FC<{
     JSON.stringify({
       id,
       ...initialState,
-      items: defaultItems,
-      metadata
+      items: defaultItems
     })
   )
 
@@ -227,8 +190,8 @@ export const CartProvider: FC<{
 
     const currentItem = state.items.find((i: Item) => i.id === item.id)
 
-    if (!currentItem && !item.hasOwnProperty('price'))
-      throw new Error('You must pass a `price` for new items')
+    if (!currentItem && !item.hasOwnProperty('currentPrice'))
+      throw new Error('You must pass a `currentPrice property` for new items')
 
     if (!currentItem) {
       const payload = { ...item, quantity }
@@ -302,30 +265,6 @@ export const CartProvider: FC<{
 
   const inCart = (id: Item['id']) => state.items.some((i: Item) => i.id === id)
 
-  const clearCartMetadata = () => {
-    dispatch({
-      type: 'CLEAR_CART_META'
-    })
-  }
-
-  const setCartMetadata = (metadata: Metadata) => {
-    if (!metadata) return
-
-    dispatch({
-      type: 'SET_CART_META',
-      payload: metadata
-    })
-  }
-
-  const updateCartMetadata = (metadata: Metadata) => {
-    if (!metadata) return
-
-    dispatch({
-      type: 'UPDATE_CART_META',
-      payload: metadata
-    })
-  }
-
   return (
     <CartContext.Provider
       value={{
@@ -337,10 +276,7 @@ export const CartProvider: FC<{
         updateItem,
         updateItemQuantity,
         removeItem,
-        emptyCart,
-        clearCartMetadata,
-        setCartMetadata,
-        updateCartMetadata
+        emptyCart
       }}
     >
       {children}

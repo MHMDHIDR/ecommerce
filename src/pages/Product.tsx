@@ -14,10 +14,11 @@ const Product = () => {
   const product = {
     id: id!,
     name: 'حذاء نايك ام-اكس سوبر 5000',
-    price: 14500,
     imgUrl:
       'https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D',
     discount: true,
+    currentPrice: 249,
+    oldPrice: 299,
     rating: 5.0,
     description: `حذاء جديد بتصميم عصري وأنيق سيبدو رائع عليك! حذاء جديد بتصميم عصري وأنيق سيبدو
             رائع عليك! حذاء جديد بتصميم عصري وأنيق سيبدو رائع عليك! حذاء جديد بتصميم عصري
@@ -59,7 +60,7 @@ const Product = () => {
 
         <div className='mt-2.5 mb-5 flex items-center'>
           <span className='ml-2 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold'>
-            {product.rating}
+            {product.rating.toFixed(1)}
           </span>
           {[...Array(product.rating).keys()].map((_star: any, idx: number) => (
             <svg
@@ -82,9 +83,13 @@ const Product = () => {
 
         <div className='flex items-center justify-between'>
           <p>
-            <span className='text-2xl font-bold text-slate-900'>249 ج.س </span>
+            <span className='text-2xl font-bold text-slate-900'>
+              {product.currentPrice} ج.س
+            </span>
             {product.discount && (
-              <span className='text-sm text-slate-900 line-through'>299 ج.س </span>
+              <span className='text-sm text-slate-900 line-through pr-1'>
+                {product.oldPrice} ج.س
+              </span>
             )}
           </p>
 

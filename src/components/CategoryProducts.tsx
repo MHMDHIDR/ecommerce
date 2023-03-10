@@ -20,7 +20,7 @@ const CategoryProducts = ({ name, category }: { name?: string; category?: string
             }}
           >
             <div className='relative w-full max-w-xs overflow-hidden'>
-              <Link to='/#' className='block h-40 w-40'>
+              <Link to={`/product/${idx + 1}`} className='block h-40 w-40'>
                 <img
                   className='h-full w-full rounded-lg object-cover'
                   src='https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'
