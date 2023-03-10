@@ -320,6 +320,7 @@ export type NoItemsProps = {
     to: string
     label: string
   }[]
+  className?: string
 }
 
 export type cCategory = {
@@ -379,4 +380,10 @@ export type deleteFoodEventListenerProps = {
 export type DashboardHomeProps = {
   orderItemsCount: number
   menuItemsCount: number
+}
+
+export type ControlBtnProps = {
+  className?: string
+  label?: string
+  onClick?: () => void
 }
