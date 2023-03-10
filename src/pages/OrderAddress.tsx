@@ -20,7 +20,7 @@ const OrderAddress = () => {
             <h1 className='font-bold mb-2'>عنوان التوصيل</h1>
             <ul className='flex flex-col justify-center border gap-x-3 p-5 rounded-xl shadow-xl overflow-hidden space-y-3'>
               <li className='flex gap-x-2'>
-                <span className='font-bold'>رقم :المنزل</span>
+                <span className='font-bold'>رقم المنزل: </span>
                 <span className='text-gray-700'>123</span>
               </li>
               <li className='flex gap-x-2'>
@@ -28,15 +28,15 @@ const OrderAddress = () => {
                 <span className='text-gray-700'>123</span>
               </li>
               <li className='flex gap-x-2'>
-                <span className='font-bold'>الحي:</span>
+                <span className='font-bold'>الحي: </span>
                 <span className='text-gray-700'>123</span>
               </li>
               <li className='flex gap-x-2'>
-                <span className='font-bold'>المدينة:</span>
+                <span className='font-bold'>المدينة: </span>
                 <span className='text-gray-700'>123</span>
               </li>
               <li className='flex gap-x-2'>
-                <span className='font-bold'>رقم :الهاتف</span>
+                <span className='font-bold'>رقم الهاتف: </span>
                 <span className='text-gray-700'>123</span>
               </li>
             </ul>
