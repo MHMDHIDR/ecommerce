@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const CategoryProducts = ({ name, category }: { name?: string; category?: string }) => {
   const products = [...Array(5).keys()]
@@ -19,14 +19,14 @@ const CategoryProducts = ({ name, category }: { name?: string; category?: string
               duration: 3
             }}
           >
-            <div className='relative w-full max-w-xs overflow-x-hidden'>
-              <a href='#' className='block h-40 w-40'>
+            <div className='relative w-full max-w-xs overflow-hidden'>
+              <Link to='/#' className='block h-40 w-40'>
                 <img
                   className='h-full w-full rounded-lg object-cover'
                   src='https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'
                   alt='product image'
                 />
-              </a>
+              </Link>
               <span className='absolute hidden top-0 right-0 w-28 py-1 translate-y-4 translate-x-8 rotate-45 bg-blue-600 text-center text-sm text-white'>
                 تخفيض
               </span>

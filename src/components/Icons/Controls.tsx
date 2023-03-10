@@ -1,4 +1,4 @@
-export const AddBtn = ({
+export const MinusBtn = ({
   className,
   onClick
 }: {
@@ -14,7 +14,7 @@ export const AddBtn = ({
   </svg>
 )
 
-export const MinusBtn = ({
+export const AddBtn = ({
   className,
   onClick
 }: {

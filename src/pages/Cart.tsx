@@ -9,7 +9,6 @@ import { AddBtn, MinusBtn } from '../components/Icons/Controls'
 const Cart = () => {
   useDocumentTitle('السلة')
   const [count, setCount] = useState(1)
-
   const products = [...Array(5).keys()]
 
   return (
@@ -38,7 +37,9 @@ const Cart = () => {
                 {/* Count buttons */}
                 <div className='flex justify-center w-24 bg-gray-100 py-2 px-5 rounded-full'>
                   <AddBtn
-                    onClick={() => setCount(prev => (prev > 1 ? prev - 1 : prev))}
+                    onClick={() =>
+                      setCount(prev => (prev < MAX_QUANTITY ? prev + 1 : prev))
+                    }
                   />
                   <input
                     className='text-center w-8 bg-gray-100'
@@ -49,9 +50,7 @@ const Cart = () => {
                     onChange={e => setCount(parseInt(e.target.value))}
                   />
                   <MinusBtn
-                    onClick={() =>
-                      setCount(prev => (prev < MAX_QUANTITY ? prev + 1 : prev))
-                    }
+                    onClick={() => setCount(prev => (prev > 1 ? prev - 1 : prev))}
                   />
                 </div>
               </Link>
