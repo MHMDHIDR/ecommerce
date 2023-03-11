@@ -19,8 +19,8 @@ import FileUploadContextProvider from './contexts/FileUploadContext'
 import EditProfile from './pages/EditProfile'
 
 const App = () => (
-  <CartProvider>
-    <FileUploadContextProvider>
+  <FileUploadContextProvider>
+    <CartProvider>
       <Router>
         <Suspense fallback={<LoadingPage />}>
           <Routes>
@@ -40,8 +40,8 @@ const App = () => (
           </Routes>
         </Suspense>
       </Router>
-    </FileUploadContextProvider>
-  </CartProvider>
+    </CartProvider>
+  </FileUploadContextProvider>
 )
 
 export default App

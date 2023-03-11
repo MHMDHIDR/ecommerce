@@ -8,7 +8,7 @@
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-orange-600;
+    @apply bg-blue-600;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -32,11 +32,11 @@
     @apply relative before:h-0.5 before:w-0 before:absolute bg-gray-100 bg-opacity-30 dark:bg-opacity-80 py-2 px-6 rounded-lg 
     text-sm xl:text-base
     hover:bg-opacity-50 outline-offset-8 before:bottom-0 before:right-0 before:transition-all hover:before:w-full
-    md:bg-transparent md:bg-opacity-0 md:py-0 md:px-0 md:rounded-none md:hover:bg-opacity-0 text-gray-800 md:dark:text-gray-200 md:before:bg-orange-500;
+    md:bg-transparent md:bg-opacity-0 md:py-0 md:px-0 md:rounded-none md:hover:bg-opacity-0 text-gray-800 md:dark:text-gray-200 md:before:bg-blue-500;
   }
 
   .form__group {
-    @apply relative block w-full px-4 py-2 mx-auto mb-8 transition-all border-2 border-gray-400 border-solid rounded-lg last:border-none focus-within:border-orange-500 dark:focus-within:border-orange-400;
+    @apply relative block w-full px-4 py-2 mx-auto mb-8 transition-all border-2 border-gray-400 border-solid rounded-lg last:border-none focus-within:border-blue-500 dark:focus-within:border-blue-400;
   }
 
   .form__input {
@@ -73,7 +73,7 @@
     @apply block p-[var(--padding)] text-white transition-all duration-300 pr-7 hover:pr-[calc(var(--padding)*2.35)];
   }
   .dashboard__nav.isActive {
-    @apply font-bold bg-orange-700;
+    @apply font-bold bg-blue-700;
   }
 
   .rtl {
