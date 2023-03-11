@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { ThemeContext } from '@contexts/ThemeContext'
+import { ThemeContext } from '../contexts/ThemeContext'
 
 const DarkmodeToggle = () => {
   const { isDark, setIsDark, getLocalStorageTheme } = useContext(ThemeContext)
@@ -18,7 +18,7 @@ const DarkmodeToggle = () => {
   })
 
   //set the theme in localStorage
-  function setLocalStorageTheme(isDark) {
+  function setLocalStorageTheme(isDark: boolean) {
     return localStorage.setItem('theme', isDark ? 'dark' : 'lights')
   }
 
@@ -28,13 +28,13 @@ const DarkmodeToggle = () => {
     setLocalStorageTheme(!isDark)
   }
 
-  function setHtmlToDark(isDark) {
+  function setHtmlToDark(isDark: boolean) {
     const HTML = document.querySelector('html')
     if (isDark || getLocalStorageTheme()) {
-      HTML.classList.add('dark')
+      HTML!.classList.add('dark')
       return
     }
-    HTML.classList.remove('dark') //remove dark class
+    HTML!.classList.remove('dark') //remove dark class
   }
 
   return (

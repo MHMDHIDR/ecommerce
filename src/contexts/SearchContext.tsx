@@ -7,7 +7,7 @@ export const SearchContext = createContext<SearchContextProps>({} as SearchConte
 
 const SearchContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [search, setSearch] = useState('')
-  const [searchResults, setRearchResults] = useState([])
+  const [searchResults, setRearchResults] = useState([''])
   const [foodCategory, setFoodCategory] = useState('')
   const [searchFor, setSearchFor] = useState('foods')
 

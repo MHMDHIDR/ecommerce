@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react'
 import Axios from 'axios'
-// import { axiosProps, responseTypes } from '@types'
-// import { origin } from '@constants'
-// import { parseJson } from 'functions/jsonTools'
+import { axiosProps } from '../types'
+import { origin } from '../constants'
+import { parseJson } from '../utils/functions/jsonTools'
 
 Axios.defaults.baseURL = `${origin}/api`
 
-const useAxios = (
-  { url, method = 'get', body = null, headers = null } /*: axiosProps*/
-) => {
-  const [response, setResponse] = useState</*responseTypes | */ null>(null)
+const useAxios = ({ url, method = 'get', body = null, headers = null }: axiosProps) => {
+  const [response, setResponse] = useState<any>(null)
   const [error, setError] = useState<{
     error: any
     response: any
@@ -25,7 +23,7 @@ const useAxios = (
           data: body,
           headers:
             headers !== null
-              ? headers //parseJson(headers)
+              ? parseJson(headers)
               : {
                   'Content-Type': 'application/json'
                 }

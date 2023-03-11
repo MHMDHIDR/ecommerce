@@ -50,7 +50,9 @@ const Home = () => {
             </div>
 
             <div className='flex flex-col'>
-              <h2 className='my-3 font-bold'>التصنيفات</h2>
+              <Link className='my-3 font-bold' to={'categories'}>
+                التصنيفات
+              </Link>
               <ul className='flex gap-x-3 overflow-x-auto'>
                 {CATEGORIES.map(({ label }: { label: string }, idx: number) => (
                   <li
