@@ -1,13 +1,14 @@
 import { Link, useParams } from 'react-router-dom'
 import Footer from '../components/Footer'
-import { AddBtn, MinusBtn, TrashBtn } from '../components/Icons/Controls'
-import { MAX_QUANTITY } from '../constants'
-import { Item, useCart } from '../contexts/CartContext'
+import BackButton from '../components/Icons/BackButton'
+import { useCart } from '../contexts/CartContext'
+import { Item } from '../types'
+import Controls from './Cart/Controls'
 
 const Product = () => {
   const { id } = useParams()
 
-  const { items, addItem, removeItem, inCart, updateItemQuantity } = useCart()
+  const { items, addItem, inCart } = useCart()
   const alreadyAdded = inCart(id!)
 
   const product = {
@@ -19,6 +20,7 @@ const Product = () => {
     currentPrice: 249,
     oldPrice: 299,
     rating: 5.0,
+    quantity: 1,
     description: `حذاء جديد بتصميم عصري وأنيق سيبدو رائع عليك! حذاء جديد بتصميم عصري وأنيق سيبدو
             رائع عليك! حذاء جديد بتصميم عصري وأنيق سيبدو رائع عليك! حذاء جديد بتصميم عصري
             وأنيق سيبدو رائع عليك!`
@@ -29,13 +31,7 @@ const Product = () => {
       <div className='relative w-full overflow-hidden rtl flex flex-col justify-between h-screen'>
         <div className='flex'>
           <Link to={`/`} className='absolute z-50 top-6 left-6'>
-            <img
-              className='mb-10'
-              src='/assets/img/icons/arrow.svg'
-              width='32'
-              height='32'
-              alt='Arrow'
-            />
+            <BackButton className='w-8 h-8' />
           </Link>
 
           {product.discount && (
@@ -100,30 +96,7 @@ const Product = () => {
                 {items
                   .filter((item: Item) => item.id === id)
                   .map((item: Item) => (
-                    <div key={item.id} className='flex items-center gap-x-2'>
-                      <TrashBtn
-                        className='w-5 h-5 fill-red-600'
-                        onClick={() => removeItem(item.id)}
-                      />
-                      <div className='flex justify-center w-24 bg-gray-100 py-2 px-5 rounded-full'>
-                        <AddBtn
-                          onClick={() => updateItemQuantity(item.id, item.quantity! + 1)}
-                        />
-                        <input
-                          className='text-center w-8 bg-gray-100'
-                          type='number'
-                          value={item.quantity}
-                          min={1}
-                          max={MAX_QUANTITY}
-                          onChange={e =>
-                            updateItemQuantity(item.id, parseInt(e.target.value))
-                          }
-                        />
-                        <MinusBtn
-                          onClick={() => updateItemQuantity(item.id, item.quantity! - 1)}
-                        />
-                      </div>
-                    </div>
+                    <Controls key={item.id} item={item} />
                   ))}
               </>
             ) : (

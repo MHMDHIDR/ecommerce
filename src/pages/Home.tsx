@@ -7,6 +7,7 @@ import Search from '../components/Search'
 import Filter from '../components/Icons/Filter'
 import Arrow from '../components/Icons/Arrow'
 import CategoryProducts from '../components/CategoryProducts'
+import { CATEGORIES } from '../constants'
 
 const Home = () => {
   useDocumentTitle('الرئيسية')
@@ -51,46 +52,17 @@ const Home = () => {
             <div className='flex flex-col'>
               <h2 className='my-3 font-bold'>التصنيفات</h2>
               <ul className='flex gap-x-3 overflow-x-auto'>
-                <li
-                  className='border text-sm rounded-full py-0.5 px-3 border-gray-800 hover:bg-gray-800 dark:border-gray-200 dark:bg-gray-200 focus:bg-gray-800 focus:text-white hover:text-white'
-                  onClick={e =>
-                    setSelectedCategory((e.target as HTMLElement).textContent!)
-                  }
-                >
-                  الملابس
-                </li>
-                <li
-                  className='border text-sm rounded-full py-0.5 px-3 border-gray-800 hover:bg-gray-800 dark:border-gray-200 dark:bg-gray-200 focus:bg-gray-800 focus:text-white hover:text-white'
-                  onClick={e =>
-                    setSelectedCategory((e.target as HTMLElement).textContent!)
-                  }
-                >
-                  الجاكيتات
-                </li>
-                <li
-                  className='border text-sm rounded-full py-0.5 px-3 border-gray-800 hover:bg-gray-800 dark:border-gray-200 dark:bg-gray-200 focus:bg-gray-800 focus:text-white hover:text-white'
-                  onClick={e =>
-                    setSelectedCategory((e.target as HTMLElement).textContent!)
-                  }
-                >
-                  الجينز
-                </li>
-                <li
-                  className='border text-sm rounded-full py-0.5 px-3 border-gray-800 hover:bg-gray-800 dark:border-gray-200 dark:bg-gray-200 focus:bg-gray-800 focus:text-white hover:text-white'
-                  onClick={e =>
-                    setSelectedCategory((e.target as HTMLElement).textContent!)
-                  }
-                >
-                  الأحذية
-                </li>
-                <li
-                  className='border text-sm rounded-full py-0.5 px-3 border-gray-800 hover:bg-gray-800 dark:border-gray-200 dark:bg-gray-200 focus:bg-gray-800 focus:text-white hover:text-white'
-                  onClick={e =>
-                    setSelectedCategory((e.target as HTMLElement).textContent!)
-                  }
-                >
-                  النظارات
-                </li>
+                {CATEGORIES.map(({ label }: { label: string }, idx: number) => (
+                  <li
+                    key={idx}
+                    className='border text-sm rounded-full py-0.5 px-3 border-gray-800 hover:bg-gray-800 dark:border-gray-200 dark:bg-gray-200 focus:bg-gray-800 focus:text-white hover:text-white'
+                    onClick={e =>
+                      setSelectedCategory((e.target as HTMLElement).textContent!)
+                    }
+                  >
+                    {label}
+                  </li>
+                ))}
               </ul>
             </div>
             <div className='flex items-center justify-between -mb-6'>

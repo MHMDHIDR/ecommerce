@@ -33,8 +33,7 @@ export const AddBtn = ({
 )
 
 export const TrashBtn = ({ className, onClick, label }: ControlBtnProps) => (
-  <>
-    {label && <span>label</span>}
+  <div className='flex items-center gap-x-1.5 hover:bg-gray-100 w-fit px-1.5 py-0.5 rounded-lg select-none text-sm'>
     <svg
       className={`fill-current text-gray-600${className ? ' ' + className : ''}`}
       xmlns='http://www.w3.org/2000/svg'
@@ -52,5 +51,6 @@ export const TrashBtn = ({ className, onClick, label }: ControlBtnProps) => (
         strokeWidth='1'
       />
     </svg>
-  </>
+    {label && <span>{label}</span>}
+  </div>
 )

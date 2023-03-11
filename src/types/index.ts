@@ -1,4 +1,4 @@
-import { Key, MouseEventHandler, ReactNode } from 'react'
+import { MouseEventHandler, ReactNode, KeyboardEvent } from 'react'
 
 export type UserProps = {
   token?: string
@@ -12,8 +12,8 @@ export type UserProps = {
 
 export type ModalProps = {
   msg?: string
-  extraComponents?: React.ReactNode
-  status?: React.ReactNode
+  extraComponents?: ReactNode
+  status?: ReactNode
   modalHidden?: string
   classes?: string
   redirectLink?: string
@@ -49,47 +49,6 @@ export type CartProps = {
   grandPrice: number
 }
 
-export type orderProps = {
-  ordersData: {
-    grandPrice: number
-    orderDate: string
-    orderId: string
-    orderItems: cardProps[]
-    orderStatus: string
-    orderToppings: {
-      toppingId: string
-      toppingPrice: number
-    }[]
-    paymentData: {
-      accelerated: boolean
-      billingToken?: string
-      facilitatorAccessToken: string
-      orderID: string
-      payerID: string
-      paymentID: string
-      paymentSource: string
-    }
-    personAddress: string
-    personName: string
-    personNotes: string
-    personPhone: string
-    userEmail: any
-    userId: string
-    _id: string
-  }
-  setOrdersData: any
-  orderToppings?: orderProps['ordersData']['orderToppings']
-  removeOrderFromItems: any
-  orderItemsGrandPrice: number
-  setOrderItemsGrandPrice: any
-}
-
-export type orderDataProps = {
-  itemsCount: number
-  numberOfPages: number
-  response: orderProps
-}
-
 export type FileUploadProps = {
   file: File[]
   fileURLs: string[]
@@ -100,11 +59,11 @@ export type FileUploadProps = {
 
 export type FileUploadComponentProps = {
   data: {
-    foodId?: string
-    foodName: string
+    id?: string
+    Name: string
     defaultImg: {
-      foodImgDisplayName: string
-      foodImgDisplayPath: string
+      ImgDisplayName: string
+      ImgDisplayPath: string
       websiteLogoDisplayName?: string
     }[]
   }
@@ -126,56 +85,15 @@ export type uploadurlDataProps = {
   }[]
 }
 
-export type cardProps = {
-  cItemId: Key
-  cHeading: any
-  cDesc: string
-  cTags: string[]
-  cToppings: Array<any>
-  cCtaLabel: any
-  cCtaLink?: string
-  cImg?: any
-  cImgAlt?: string
-  cPrice: number
-  cCategory: string
-  cQuantity?: number
-}
-
 export type orderMsgProps = {
   Success: string
   Failure: string
-}
-
-export type responseTypes = {
-  orderMsg: orderMsgProps
-  orderItems: any
-  orderToppings: any
-  userAccountType: string
-  response: Array<any> | null | any
-  itemsCount: number
-  numberOfPages: number
-  CategoryList: string[]
-  _id: string
-  websiteLogoDisplayPath: string
-  websiteLogoDisplayName: string
-  heroBg: string[]
-  appName: string
-  appDesc: string
-  appTagline: string
-  instagramAccount: string
-  twitterAccount: string
-  whatsAppNumber: string
 }
 
 export type DividerProps = {
   thickness?: number
   style?: 'dashed'
   marginY?: number
-}
-
-export type ImgsProps = {
-  length: number
-  foodImgs?: string[]
 }
 
 export type settingsProps = {
@@ -193,13 +111,13 @@ export type headerProps = {
 }
 
 export type MyLinkProps = {
-  children: React.ReactNode
+  children: ReactNode
   to?: string
   className?: string
 }
 
 export type NavMenuPros = {
-  children: React.ReactNode
+  children: ReactNode
   isOptions?: boolean
   label?: string
   className?: string
@@ -252,7 +170,7 @@ export type TagsProps = {
   tags: string[]
   setTags: (tags: string[]) => void
   removeTags: (index: number) => void
-  addTag: (e: React.KeyboardEvent<HTMLInputElement>) => void
+  addTag: (e: KeyboardEvent<HTMLInputElement>) => void
   saveSelectedTags: (id: number, tags: string[]) => void
   removeSelectedTags: (id: number) => any
   selectedTags: { id: string; tags: string[] }[]
@@ -274,44 +192,9 @@ export type ThemeProps = {
   getLocalStorageTheme: () => boolean
 }
 
-export type FoodImgsProps = {
-  foodImgDisplayPath: string
-  foodImgDisplayName: string
-}
-
-export type foodDataProps = {
-  response: {
-    _id: string
-    foodName: string
-    foodPrice: number
-    category: string
-    createdAt: string
-    updatedAt: string
-    foodDesc: string
-    foodTags: string[]
-    foodToppings: ToppingsProps[]
-    foodImgs: FoodImgsProps[]
-    foodImgDisplayName?: FoodImgsProps['foodImgDisplayName']
-    foodImgDisplayPath?: FoodImgsProps['foodImgDisplayPath']
-  }
-  itemsCount?: number
-  next: {
-    limit: number
-    page: number
-  }
-  numberOfPages?: number
-}
-
-export type selectedToppingsProps = {
-  toppingId: string
-  toppingQuantity?: number
-  toppingPrice: number
-  toppingName?: string
-}
-
-export type ToppingsProps = {
-  toppingName: string
-  toppingPrice: number
+export type ImgsProps = {
+  ImgDisplayPath: string
+  ImgDisplayName: string
 }
 
 export type NoItemsProps = {
@@ -376,6 +259,51 @@ export type deleteFoodEventListenerProps = {
     }
   }
 }
+
+export type Item = {
+  [key: string]: any
+  id: string
+  currentPrice: number
+  oldPrice: number
+  name: string
+  imgUrl: string
+  description: string
+  quantity: number
+  itemTotal?: number
+  discount?: boolean
+  rating?: number
+}
+
+export type InitialState = {
+  id: string
+  items: Item[]
+  isEmpty: boolean
+  totalItems: number
+  totalUniqueItems: number
+  cartTotal: number
+}
+
+export type CartProviderState = InitialState & {
+  addItem: (item: Item, quantity?: number) => void
+  removeItem: (id: Item['id']) => void
+  updateItem: (id: Item['id'], payload: object) => void
+  setItems: (items: Item[]) => void
+  updateItemQuantity: (id: Item['id'], quantity: number) => void
+  emptyCart: () => void
+  getItem: (id: Item['id']) => any | undefined
+  inCart: (id: Item['id']) => boolean
+}
+
+export type Actions =
+  | { type: 'SET_ITEMS'; payload: Item[] }
+  | { type: 'ADD_ITEM'; payload: Item }
+  | { type: 'REMOVE_ITEM'; id: Item['id'] }
+  | {
+      type: 'UPDATE_ITEM'
+      id: Item['id']
+      payload: object
+    }
+  | { type: 'EMPTY_CART' }
 
 export type DashboardHomeProps = {
   orderItemsCount: number

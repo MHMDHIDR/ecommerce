@@ -72,7 +72,7 @@ const Footer = () => {
 
         <Link
           className='relative hidden-arrow flex items-center whitespace-nowrap transition duration-150 ease-in-out motion-reduce:transition-none'
-          to={`/account`}
+          to={`/profile`}
           role='button'
           aria-expanded='false'
         >
@@ -80,7 +80,7 @@ const Footer = () => {
             src='https://tecdn.b-cdn.net/img/new/avatars/2.jpg'
             className='rounded-full'
             style={{ height: '20px', width: '20px' }}
-            alt=''
+            alt='Profile'
             loading='lazy'
           />
         </Link>

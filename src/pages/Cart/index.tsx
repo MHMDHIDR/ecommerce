@@ -1,25 +1,18 @@
 import { Suspense } from 'react'
 import { Link } from 'react-router-dom'
-import { useCart } from '../contexts/CartContext'
-import useDocumentTitle from '../hooks/useDocumentTitle'
-import { LoadingPage } from '../components/Loading'
-import Layout from '../components/Layout'
-import { AddBtn, MinusBtn, TrashBtn } from '../components/Icons/Controls'
-import { MAX_QUANTITY } from '../constants'
-import NoItems from '../components/NoItems'
+import { useCart } from '../../contexts/CartContext'
+import useDocumentTitle from '../../hooks/useDocumentTitle'
+import { LoadingPage } from '../../components/Loading'
+import Layout from '../../components/Layout'
+import NoItems from '../../components/NoItems'
+import { TrashBtn } from '../../components/Icons/ControlBtn'
+import Controls from './Controls'
+import { Item } from '../../types'
 
 const Cart = () => {
   useDocumentTitle('السلة')
 
-  const {
-    items,
-    removeItem,
-    updateItemQuantity,
-    isEmpty,
-    emptyCart,
-    cartTotal,
-    totalItems
-  } = useCart()
+  const { items, isEmpty, emptyCart, cartTotal, totalItems } = useCart()
 
   return (
     <Suspense fallback={<LoadingPage />}>
@@ -34,7 +27,7 @@ const Cart = () => {
                   onClick={emptyCart}
                   label='تفريغ السلة'
                 />
-                {items.map((item: any) => (
+                {items.map((item: Item) => (
                   <div key={item.id} className='border-b py-2'>
                     <Link
                       to={`/product/${item.id}`} //to product link using id or name [/product/:name] to make url more SEO friendly
@@ -58,38 +51,7 @@ const Cart = () => {
                       </div>
                     </Link>
 
-                    {/* control buttons */}
-                    <div className='flex items-center gap-x-2'>
-                      <TrashBtn
-                        className='w-5 h-5 fill-red-600'
-                        onClick={() => removeItem(item.id)}
-                      />
-                      <div className='flex justify-center w-24 bg-gray-100 py-2 px-5 rounded-full'>
-                        <AddBtn
-                          onClick={() =>
-                            updateItemQuantity(
-                              item.id,
-                              item.quantity < MAX_QUANTITY
-                                ? item.quantity + 1
-                                : item.quantity
-                            )
-                          }
-                        />
-                        <input
-                          className='text-center w-8 bg-gray-100'
-                          type='number'
-                          value={item.quantity}
-                          min={1}
-                          max={MAX_QUANTITY}
-                          onChange={e =>
-                            updateItemQuantity(item.id, parseInt(e.target.value))
-                          }
-                        />
-                        <MinusBtn
-                          onClick={() => updateItemQuantity(item.id, item.quantity - 1)}
-                        />
-                      </div>
-                    </div>
+                    <Controls item={item} />
                   </div>
                 ))}
               </div>

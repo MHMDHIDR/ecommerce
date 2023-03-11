@@ -1,50 +1,6 @@
 import { createContext, FC, ReactNode, useContext, useEffect, useReducer } from 'react'
 import useLocalStorage from '../hooks/useLocalStorage'
-
-export interface Item {
-  [key: string]: any
-  id: string
-  currentPrice: number
-  oldPrice: number
-  name: string
-  imgUrl: string
-  description: string
-  quantity?: number
-  itemTotal?: number
-  discount?: boolean
-  rating?: number
-}
-
-interface InitialState {
-  id: string
-  items: Item[]
-  isEmpty: boolean
-  totalItems: number
-  totalUniqueItems: number
-  cartTotal: number
-}
-
-interface CartProviderState extends InitialState {
-  addItem: (item: Item, quantity?: number) => void
-  removeItem: (id: Item['id']) => void
-  updateItem: (id: Item['id'], payload: object) => void
-  setItems: (items: Item[]) => void
-  updateItemQuantity: (id: Item['id'], quantity: number) => void
-  emptyCart: () => void
-  getItem: (id: Item['id']) => any | undefined
-  inCart: (id: Item['id']) => boolean
-}
-
-export type Actions =
-  | { type: 'SET_ITEMS'; payload: Item[] }
-  | { type: 'ADD_ITEM'; payload: Item }
-  | { type: 'REMOVE_ITEM'; id: Item['id'] }
-  | {
-      type: 'UPDATE_ITEM'
-      id: Item['id']
-      payload: object
-    }
-  | { type: 'EMPTY_CART' }
+import { Actions, CartProviderState, Item } from '../types'
 
 export const initialState: any = {
   items: [],
