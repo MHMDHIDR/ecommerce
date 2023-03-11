@@ -4,7 +4,7 @@ import { SearchContext } from '../contexts/SearchContext'
 import useEventListener from '../hooks/useEventListener'
 import { removeSlug } from '../utils/functions/slug'
 
-const Search = ({ small = false }) => {
+const Search = ({ small = false, className }: { small: boolean; className?: string }) => {
   const [smallSearch, setSmallSearch] = useState(small)
   const { setSearch, search, searchResults } = useContext(SearchContext)
   const navigate = useNavigate()
@@ -24,7 +24,9 @@ const Search = ({ small = false }) => {
   return (
     <form
       method='post'
-      className={`relative z-20 transition-all${smallSearch ? ' w-16' : ' w-full'}`}
+      className={`relative z-20 transition-all${smallSearch ? ' w-16' : ' w-full'}${
+        className ? ' ' + className : ''
+      }`}
       onSubmit={handleSearch}
     >
       <input

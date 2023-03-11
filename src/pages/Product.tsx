@@ -1,17 +1,17 @@
 import { Link, useParams } from 'react-router-dom'
 import Footer from '../components/Footer'
 import BackButton from '../components/Icons/BackButton'
+import { CartIconLined } from '../components/Icons/CartIcon'
 import { useCart } from '../contexts/CartContext'
 import { Item } from '../types'
 import Controls from './Cart/Controls'
 
 const Product = () => {
   const { id } = useParams()
-
   const { items, addItem, inCart } = useCart()
   const alreadyAdded = inCart(id!)
 
-  const product = {
+  const PRODUCT = {
     id: id!,
     name: 'حذاء نايك ام-اكس سوبر 5000',
     imgUrl:
@@ -34,7 +34,7 @@ const Product = () => {
             <BackButton className='w-8 h-8' />
           </Link>
 
-          {product.discount && (
+          {PRODUCT.discount && (
             <span className='absolute top-0 right-0 w-28 py-1 translate-y-4 translate-x-8 rotate-45 bg-blue-600 text-center text-sm text-white'>
               تخفيض
             </span>
@@ -43,22 +43,22 @@ const Product = () => {
           <Link to='#' className='block h-[25rem]'>
             <img
               className='h-full w-full object-cover object-right'
-              src={product.imgUrl}
-              alt={product.name}
+              src={PRODUCT.imgUrl}
+              alt={PRODUCT.name}
             />
           </Link>
         </div>
 
         <div className='px-5 py-6 bg-white rounded-tl-[2rem] rounded-tr-[2rem] -translate-y-10 flex-1 min-h-screen'>
           <h5 className='flex justify-between text-xl font-semibold tracking-tight text-slate-900'>
-            <Link to={`/product/${id}`}>{product.name}</Link>
+            <Link to={`/product/${id}`}>{PRODUCT.name}</Link>
           </h5>
 
           <div className='mt-2.5 mb-5 flex items-center'>
             <span className='ml-2 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold'>
-              {product.rating.toFixed(1)}
+              {PRODUCT.rating.toFixed(1)}
             </span>
-            {[...Array(Math.round(product.rating)).keys()].map(
+            {[...Array(Math.round(PRODUCT.rating)).keys()].map(
               (_star: any, idx: number) => (
                 <svg
                   key={idx}
@@ -76,17 +76,17 @@ const Product = () => {
 
           <div className='flex flex-col gap-y-2 pb-6'>
             <h3 className='font-bold text-lg'>الوصف</h3>
-            <p className='text-gray-700'>{product.description}</p>
+            <p className='text-gray-700'>{PRODUCT.description}</p>
           </div>
 
           <div className='flex items-center justify-between'>
             <p>
               <span className='text-2xl font-bold text-slate-900'>
-                {product.currentPrice} ج.س
+                {PRODUCT.currentPrice} ج.س
               </span>
-              {product.discount && (
+              {PRODUCT.discount && (
                 <span className='text-sm text-slate-900 line-through pr-1'>
-                  {product.oldPrice} ج.س
+                  {PRODUCT.oldPrice} ج.س
                 </span>
               )}
             </p>
@@ -102,24 +102,11 @@ const Product = () => {
             ) : (
               <button
                 type='button'
-                onClick={() => addItem(product)}
-                className='flex items-center rounded-md bg-blue-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300'
+                onClick={() => addItem(PRODUCT)}
+                className='flex items-center rounded-md bg-blue-600 px-5 py-2.5 text-center text-sm text-white hover:bg-gray-700 focus:outline-none'
               >
+                <CartIconLined className='ml-2' />
                 أضف الى السلة
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  className='mr-2 h-6 w-6'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  stroke='currentColor'
-                  strokeWidth='2'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    d='M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z'
-                  />
-                </svg>
               </button>
             )}
           </div>

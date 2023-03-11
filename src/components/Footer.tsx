@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom'
 import { useCart } from '../contexts/CartContext'
 import HomeIcon from './Icons/HomeIcon'
-import CartIcon from './Icons/CartIcon'
+import { CartIconFilled } from './Icons/CartIcon'
 import NotificationsIcon from './Icons/NotificationsIcon'
 
 const Footer = () => {
@@ -17,7 +17,7 @@ const Footer = () => {
     {
       label: 'السلة',
       to: '/cart',
-      icon: CartIcon,
+      icon: CartIconFilled,
       totalUniqueItems
     },
     {

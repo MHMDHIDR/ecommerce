@@ -17,6 +17,7 @@ import Profile from './pages/Profile'
 import { CartProvider } from './contexts/CartContext'
 import FileUploadContextProvider from './contexts/FileUploadContext'
 import EditProfile from './pages/EditProfile'
+import Favourites from './pages/Favourites'
 
 const App = () => (
   <FileUploadContextProvider>
@@ -30,6 +31,7 @@ const App = () => (
             <Route path='/notifications' element={<Notifications />} />
             <Route path='/profile' element={<Profile />} />
             <Route path='/profile/edit' element={<EditProfile />} />
+            <Route path='/profile/favourites' element={<Favourites />} />
             <Route path='/product/:id' element={<Product />} />
             <Route path='/categories' element={<Categories />}>
               <Route path=':name' element={<Categories />} />
