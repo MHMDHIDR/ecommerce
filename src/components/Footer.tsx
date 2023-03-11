@@ -42,7 +42,7 @@ const Footer = () => {
   ]
 
   return (
-    <footer className='fixed flex-no-wrap bottom-0 rounded-tl-3xl rounded-tr-3xl flex w-full py-4 lg:flex-wrap lg:justify-start shadow-[0_-1px_7px_0_rgb(97_97_97_/_30%)] bg-gray-100 dark:bg-gray-800 transition-colors px-6 md:px-10 lg:px-20 bg-opacity-50 backdrop-blur-sm saturate-[180%] rtl'>
+    <footer className='fixed flex-no-wrap bottom-0 rounded-tl-3xl rounded-tr-3xl flex w-full py-3 lg:flex-wrap lg:justify-start shadow-[0_-1px_7px_0_rgb(97_97_97_/_30%)] bg-gray-100 dark:bg-gray-800 transition-colors px-6 md:px-10 lg:px-20 bg-opacity-50 backdrop-blur-sm saturate-[180%] rtl'>
       <menu className='flex items-center gap-8 w-full justify-around'>
         {Menus.map((item, idx) => (
           <NavLink
@@ -52,7 +52,7 @@ const Footer = () => {
             aria-controls='navbar'
             aria-expanded='false'
             aria-label='Toggle navigation'
-            className={`text-sm text-black rounded-full relative`}
+            className={`text-sm text-black rounded-full relative flex`}
           >
             {isActive(item.to) ? (
               <div className='flex items-center'>
@@ -62,8 +62,8 @@ const Footer = () => {
                 <span className='px-2'>{item.label}</span>
               </div>
             ) : (
-              <span className='[&>svg]:w-5 inline-block py-1'>
-                <item.icon className='w-4 h-4' />
+              <span className='[&>svg]:w-5 inline-block py-1.5'>
+                <item.icon className='w-5 h-5' />
               </span>
             )}
             {item.totalUniqueItems ? (
