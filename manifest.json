@@ -1,23 +1,14 @@
 {
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "./",
+  "scope": "./",
   "orientation": "portrait",
-  "background_color": "#b73306",
-  "theme_color": "#b73306",
+  "background_color": "#ced1d6",
+  "theme_color": "#ced1d6",
   "display": "standalone",
-  "name": "Resaturant",
-  "short_name": "Resaturant",
-  "description": "Restaurant Web and App to order and find delicious food",
-  "categories": [
-    "Restaurant",
-    "Order",
-    "Delicious",
-    "Food",
-    "Drinks",
-    "and",
-    "Sweets",
-    "Online"
-  ],
+  "name": "eCommerce",
+  "short_name": "eCommerce",
+  "description": "eCommerce Web and App to order and find different items",
+  "categories": ["eCommerce", "Order", "different", "items", "Online"],
   "icons": [
     {
       "src": "/assets/img/logo.png",
