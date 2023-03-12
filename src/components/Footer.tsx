@@ -1,12 +1,12 @@
-import { NavLink, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useCart } from '../contexts/CartContext'
 import HomeIcon from './Icons/HomeIcon'
 import { CartIconFilled } from './Icons/CartIcon'
 import NotificationsIcon from './Icons/NotificationsIcon'
+import { isActiveLink } from '../utils/functions/isActiveLink'
 
 const Footer = () => {
   const { totalUniqueItems } = useCart()
-  const isActive = (to: string) => useLocation().pathname === to
 
   const Menus = [
     {
@@ -31,9 +31,9 @@ const Footer = () => {
       icon: () => (
         <img
           src='https://tecdn.b-cdn.net/img/new/avatars/2.jpg'
-          width={20}
-          height={20}
-          className='rounded-full w-5 h-5'
+          width={16}
+          height={16}
+          className='rounded-full w-4 h-4'
           alt='Profile'
           loading='lazy'
         />
@@ -45,7 +45,7 @@ const Footer = () => {
     <footer className='fixed flex-no-wrap bottom-0 rounded-tl-3xl rounded-tr-3xl flex w-full py-3 lg:flex-wrap lg:justify-start shadow-[0_-1px_7px_0_rgb(97_97_97_/_30%)] bg-gray-100 dark:bg-gray-800 transition-colors px-6 md:px-10 lg:px-20 bg-opacity-50 backdrop-blur-sm saturate-[180%] rtl'>
       <menu className='flex items-center gap-8 w-full justify-around'>
         {Menus.map((item, idx) => (
-          <NavLink
+          <Link
             key={idx}
             to={item.to}
             type='button'
@@ -54,7 +54,7 @@ const Footer = () => {
             aria-label='Toggle navigation'
             className={`text-sm text-black rounded-full relative flex`}
           >
-            {isActive(item.to) ? (
+            {isActiveLink(item.to) ? (
               <div className='flex items-center'>
                 <span className='bg-black p-2 rounded-full'>
                   <item.icon className='w-4 h-4 fill-white' />
@@ -71,7 +71,7 @@ const Footer = () => {
                 {item.totalUniqueItems}
               </span>
             ) : null}
-          </NavLink>
+          </Link>
         ))}
       </menu>
     </footer>

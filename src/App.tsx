@@ -9,7 +9,8 @@ import Login from './pages/auth/Login'
 import Signup from './pages/auth/Signup'
 import Product from './pages/Product'
 import Categories from './pages/Categories'
-import Cart from './pages/Cart'
+import Cart from './pages/Cart/MyOrders'
+import CompletedOrders from './pages/Cart/CompletedOrders'
 import OrderAddress from './pages/OrderAddress'
 import Notifications from './pages/Notifications'
 import Profile from './pages/Profile'
@@ -27,6 +28,7 @@ const App = () => (
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/cart' element={<Cart />} />
+            <Route path='/completed-orders' element={<CompletedOrders />} />
             <Route path='/order-address' element={<OrderAddress />} />
             <Route path='/notifications' element={<Notifications />} />
             <Route path='/profile' element={<Profile />} />

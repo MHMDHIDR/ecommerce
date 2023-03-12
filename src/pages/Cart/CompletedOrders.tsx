@@ -10,7 +10,7 @@ import Controls from './Controls'
 import { Item } from '../../types'
 
 const Cart = () => {
-  useDocumentTitle('السلة')
+  useDocumentTitle('طلباتي')
 
   const { items, isEmpty, emptyCart, cartTotal, totalItems } = useCart()
 
@@ -21,6 +21,13 @@ const Cart = () => {
           {!isEmpty ? (
             <>
               <div className='flex flex-col gap-y-3'>
+                <div className='flex justify-between'>
+                  <span>طلباتي</span>
+                  <div className='flex gap-x-2'>
+                    <Link to={`/cart`}>تحت الاجراء</Link>
+                    <Link to={`/completed-orders`}>مكتملة</Link>
+                  </div>
+                </div>
                 {/* bg-gray-100 px-3 py-1 rounded-xl mb-4 inline */}
                 <TrashBtn
                   className='w-5 h-5 fill-red-600'

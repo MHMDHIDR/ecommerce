@@ -1,6 +1,7 @@
 // import ThemeToggler from '../ThemeToggler'
 import { Loading } from '../Icons/Status'
 import { ModalProps } from '../../types'
+import { Link } from 'react-router-dom'
 
 const Modal = ({
   msg = ``,
@@ -35,7 +36,7 @@ const Modal = ({
         <div
           className={`p-6 mx-12 text-center text-black bg-gray-200 border border-gray-400 rounded-lg shadow-lg dark:bg-gray-700 dark:text-gray-300 dashed${
             fullscreen
-              ? ' min-h-screen min-w-screen flex flex-col justify-center mx-[0_!important]'
+              ? ' min-h-screen min-w-screen flex flex-col justify-center mx-[0_!important] rounded-none'
               : ''
           }`}
           aria-modal='true'
@@ -46,12 +47,12 @@ const Modal = ({
           </pre>
           {extraComponents && extraComponents}
           {btnName && btnLink ? (
-            <a
-              href={btnLink}
+            <Link
+              to={btnLink}
               className='inline-block px-5 py-1 text-white bg-blue-600 rounded-md hover:bg-blue-700'
             >
               {btnName}
-            </a>
+            </Link>
           ) : ctaConfirmBtns ? (
             <button className='flex items-center justify-center w-full gap-6'>
               {ctaConfirmBtns.map((btn, key) => {

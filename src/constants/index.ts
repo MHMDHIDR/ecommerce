@@ -11,7 +11,7 @@ const url = {
 
 export const PROFILE_LINKS = [
   { label: 'البيانات الشخصية', to: 'edit' },
-  { label: 'طلباتي', to: 'orders' },
+  { label: 'طلباتي', to: '/completed-orders' },
   { label: 'المفضلة', to: 'favourites' },
   { label: 'عنوان التوصيل', to: 'shipping-address' },
   { label: 'الخصوصية', to: 'privacy-policy' },
