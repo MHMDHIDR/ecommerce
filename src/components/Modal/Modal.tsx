@@ -22,9 +22,7 @@ const Modal = ({
     setTimeout(() => window.location.assign(redirectLink), redirectTime)
   }
 
-  useEffect(() => {
-    window.document.body.classList.add('overflow-hidden')
-  }, [])
+  useEffect(() => window.document.body.classList.add('overflow-hidden'), [])
 
   return (
     <section
@@ -53,6 +51,7 @@ const Modal = ({
           {extraComponents && extraComponents}
           {btnName && btnLink ? (
             <Link
+              onClick={() => window.document.body.classList.remove('overflow-hidden')}
               to={btnLink}
               className='inline-block px-5 py-1 text-white bg-blue-600 rounded-md hover:bg-blue-700'
             >
