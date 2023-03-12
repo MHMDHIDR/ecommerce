@@ -2,6 +2,7 @@
 import { Loading } from '../Icons/Status'
 import { ModalProps } from '../../types'
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const Modal = ({
   msg = ``,
@@ -20,6 +21,10 @@ const Modal = ({
   if (redirectLink && redirectTime) {
     setTimeout(() => window.location.assign(redirectLink), redirectTime)
   }
+
+  useEffect(() => {
+    window.document.body.classList.add('overflow-hidden')
+  }, [])
 
   return (
     <section

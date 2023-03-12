@@ -30,9 +30,7 @@ const Product = () => {
     <>
       <div className='relative w-full overflow-hidden rtl flex flex-col justify-between h-screen'>
         <div className='flex'>
-          <Link to={`/`} className='absolute z-50 top-6 left-6'>
-            <BackButton className='w-8 h-8' />
-          </Link>
+          <BackButton to='/' className='w-8 h-8 absolute z-50 top-6 left-6' />
 
           {PRODUCT.discount && (
             <span className='absolute top-0 right-0 w-28 py-1 translate-y-4 translate-x-8 rotate-45 bg-blue-600 text-center text-sm text-white'>

@@ -26,6 +26,23 @@ export const CATEGORIES = [
   { label: 'النظارات', to: 'sunglasses', itemCount: 60 }
 ]
 
+export const PRODUCT = (id: string) => {
+  return {
+    id: id!,
+    name: 'حذاء نايك ام-اكس سوبر 5000',
+    imgUrl:
+      'https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D',
+    discount: true,
+    currentPrice: 249,
+    oldPrice: 299,
+    rating: 5.0,
+    quantity: 1,
+    description: `حذاء جديد بتصميم عصري وأنيق سيبدو رائع عليك! حذاء جديد بتصميم عصري وأنيق سيبدو
+            رائع عليك! حذاء جديد بتصميم عصري وأنيق سيبدو رائع عليك! حذاء جديد بتصميم عصري
+            وأنيق سيبدو رائع عليك!`
+  }
+}
+
 export const APP_URL =
   process.env.NODE_ENV === 'development'
     ? origin?.includes(url.dev)

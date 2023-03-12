@@ -8,6 +8,7 @@ import NoItems from '../../components/NoItems'
 import { TrashBtn } from '../../components/Icons/ControlBtn'
 import Controls from './Controls'
 import { Item } from '../../types'
+import CartHeader from './CartHeader'
 
 const Cart = () => {
   useDocumentTitle('السلة')
@@ -18,17 +19,10 @@ const Cart = () => {
     <Suspense fallback={<LoadingPage />}>
       <Layout>
         <section className='container px-5 mx-auto rtl mb-24'>
+          <CartHeader />
           {!isEmpty ? (
             <>
               <div className='flex flex-col gap-y-3'>
-                <div className='flex justify-between'>
-                  <span>طلباتي</span>
-                  <div className='flex gap-x-2'>
-                    <Link to={`/cart`}>تحت الاجراء</Link>
-                    <Link to={`/completed-orders`}>مكتملة</Link>
-                  </div>
-                </div>
-                {/* bg-gray-100 px-3 py-1 rounded-xl mb-4 inline */}
                 <TrashBtn
                   className='w-5 h-5 fill-red-600'
                   onClick={emptyCart}

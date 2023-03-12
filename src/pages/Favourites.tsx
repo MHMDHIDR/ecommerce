@@ -9,34 +9,22 @@ import { useCart } from '../contexts/CartContext'
 import abstractText from '../utils/functions/abstractText'
 import { Item } from '../types'
 import Controls from './Cart/Controls'
+import { PRODUCT } from '../constants'
+import BackButton from '../components/Icons/BackButton'
 
 const Favourites = () => {
   useDocumentTitle('قائمة المفضلة')
 
   const { items, addItem, inCart } = useCart()
 
-  const PRODUCT = (id: string) => {
-    return {
-      id: id!,
-      name: 'حذاء نايك ام-اكس سوبر 5000',
-      imgUrl:
-        'https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D',
-      discount: true,
-      currentPrice: 249,
-      oldPrice: 299,
-      rating: 5.0,
-      quantity: 1,
-      description: `حذاء جديد بتصميم عصري وأنيق سيبدو رائع عليك! حذاء جديد بتصميم عصري وأنيق سيبدو
-            رائع عليك! حذاء جديد بتصميم عصري وأنيق سيبدو رائع عليك! حذاء جديد بتصميم عصري
-            وأنيق سيبدو رائع عليك!`
-    }
-  }
-
   return (
     <Suspense fallback={<LoadingPage />}>
       <Layout>
         <section className='container px-5 mx-auto rtl mb-20'>
-          <Search small={true} className='my-7' />
+          <div className='flex justify-between gap-x-5 items-center'>
+            <Search small={true} className='my-7' />
+            <BackButton to='/profile' className='w-8 h-8' />
+          </div>
 
           <h1 className='font-bold'>قائمة المفضلة</h1>
           <div className='flex flex-col gap-y-3'>
