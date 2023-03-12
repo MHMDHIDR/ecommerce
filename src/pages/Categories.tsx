@@ -18,9 +18,7 @@ const Categories = () => {
         <section className='container px-7 mx-auto my-10 flex flex-col rtl mb-24'>
           <div className='flex gap-x-7 items-center justify-between'>
             <Search small={true} />
-            <Link to={`/`} className='w-8 h-8 min-w-fit'>
-              <BackButton className='w-8 h-8' />
-            </Link>
+            <BackButton to={`/`} className='w-8 h-8' />
           </div>
           {name ? (
             <CategoryProducts name={name} />
