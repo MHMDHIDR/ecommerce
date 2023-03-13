@@ -1,8 +1,7 @@
-// import ThemeToggler from '../ThemeToggler'
+import { Link } from 'react-router-dom'
 import { Loading } from '../Icons/Status'
 import { ModalProps } from '../../types'
-import { Link } from 'react-router-dom'
-import { useEffect } from 'react'
+// import ThemeToggler from '../ThemeToggler'
 
 const Modal = ({
   msg = ``,
@@ -22,12 +21,10 @@ const Modal = ({
     setTimeout(() => window.location.assign(redirectLink), redirectTime)
   }
 
-  useEffect(() => window.document.body.classList.add('overflow-hidden'), [])
-
   return (
     <section
       id='modal'
-      className={`fixed inset-0 p-0 m-0 min-h-screen min-w-screen z-[10000] bg-gray-500 opacity-95 ${
+      className={`fixed inset-0 p-0 m-0 min-h-screen min-w-screen z-[10000] bg-gray-500${
         modalHidden.includes('hidden') ? ' hidden' : ''
       } flex items-center`}
     >
@@ -51,7 +48,6 @@ const Modal = ({
           {extraComponents && extraComponents}
           {btnName && btnLink ? (
             <Link
-              onClick={() => window.document.body.classList.remove('overflow-hidden')}
               to={btnLink}
               className='inline-block px-5 py-1 text-white bg-blue-600 rounded-md hover:bg-blue-700'
             >

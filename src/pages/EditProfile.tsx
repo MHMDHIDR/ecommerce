@@ -31,7 +31,6 @@ const EditProfile = () => {
               type='text'
               id='username'
               className='form__input'
-              autoFocus
               required
               onChange={e => console.log(e.target.value.trim())}
             />
@@ -66,7 +65,6 @@ const EditProfile = () => {
               type='tel'
               id='tel'
               className='form__input'
-              autoFocus
               required
               onChange={e => console.log(e.target.value.trim())}
             />
