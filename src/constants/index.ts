@@ -14,8 +14,8 @@ export const PROFILE_LINKS = [
   { label: 'طلباتي', to: '/completed-orders' },
   { label: 'المفضلة', to: 'favourites' },
   { label: 'عنوان التوصيل', to: 'shipping-address' },
-  { label: 'الخصوصية', to: 'privacy-policy' },
-  { label: 'سياسة الاستخدام', to: 'terms-and-conditions' }
+  { label: 'الخصوصية', to: '/privacy-policy' },
+  { label: 'سياسة الاستخدام', to: '/terms-and-conditions' }
 ]
 
 export const CATEGORIES = [

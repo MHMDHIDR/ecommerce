@@ -75,7 +75,14 @@ const Signup = () => {
                     className='inline-block pr-3 hover:cursor-pointer'
                     htmlFor='terms&condCheckbox'
                   >
-                    بالضغط هنا فأنت توافق على شروط الاستخدام وسياسة الخصوصية
+                    بالضغط هنا فأنت توافق على
+                    <Link to='/terms-and-conditions' className='underline-hover -mx-2'>
+                      شروط الاستخدام
+                    </Link>
+                    و
+                    <Link to='/privacy-policy' className='underline-hover -mx-2'>
+                      سياسة الخصوصية
+                    </Link>
                   </label>
                 </div>
               </div>

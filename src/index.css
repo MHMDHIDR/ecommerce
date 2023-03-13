@@ -29,10 +29,12 @@
 /* CUSTOM CSS */
 @layer components {
   .underline-hover {
-    @apply relative before:h-0.5 before:w-0 before:absolute bg-gray-100 bg-opacity-30 dark:bg-opacity-80 py-2 px-6 rounded-lg 
+    @apply relative before:h-0.5 before:w-0 before:absolute dark:bg-opacity-80 
     text-sm xl:text-base
-    hover:bg-opacity-50 outline-offset-8 before:bottom-0 before:right-0 before:transition-all hover:before:w-full
-    md:bg-transparent md:bg-opacity-0 md:py-0 md:px-0 md:rounded-none md:hover:bg-opacity-0 text-gray-800 md:dark:text-gray-200 md:before:bg-blue-500;
+    inline-block
+    outline-offset-8 before:bottom-0 before:right-0 before:transition-all hover:before:w-full
+    bg-transparent bg-opacity-0 py-0 rounded-none hover:bg-opacity-0 text-gray-800 dark:text-gray-200 before:bg-blue-500
+    /* bg-gray-100 hover:bg-opacity-50 bg-opacity-30 py-2 px-6 rounded-lg  */;
   }
 
   .form__group {

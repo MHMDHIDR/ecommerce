@@ -20,6 +20,8 @@ import FileUploadContextProvider from './contexts/FileUploadContext'
 import ThemeContextProvider from './contexts/ThemeContext'
 import EditProfile from './pages/EditProfile'
 import Favourites from './pages/Favourites'
+import PrivacyPolicy from './pages/PrivacyPolicy'
+import TermsConditions from './pages/TermsConditions'
 
 const App = () => (
   <FileUploadContextProvider>
@@ -40,6 +42,8 @@ const App = () => (
               <Route path='/categories' element={<Categories />}>
                 <Route path=':name' element={<Categories />} />
               </Route>
+              <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+              <Route path='/terms-and-conditions' element={<TermsConditions />} />
               <Route path='/login' element={<Login />} />
               <Route path='/signup' element={<Signup />} />
               <Route path='*' element={<ModalNotFound fullscreen={true} />} />
