@@ -1,8 +1,7 @@
+import { Link } from 'react-router-dom'
+
 const Nav = () => (
-  <nav
-    className='flex-no-wrap relative flex w-full items-center justify-between py-4 lg:flex-wrap lg:justify-start'
-    data-te-navbar-ref
-  >
+  <nav className='flex-no-wrap relative flex w-full items-center justify-between py-4 lg:flex-wrap lg:justify-start'>
     <div className='flex w-full flex-wrap items-center justify-between px-6'>
       <button
         className='block border-0 bg-transparent py-2 px-2.5 text-neutral-500 hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 lg:hidden'
@@ -30,13 +29,11 @@ const Nav = () => (
       </button>
 
       <div className='relative flex items-center'>
-        <div className='relative' data-te-dropdown-ref>
-          <a
+        <div className='relative'>
+          <Link
             className='hidden-arrow flex items-center whitespace-nowrap transition duration-150 ease-in-out motion-reduce:transition-none'
-            href='#'
-            id='dropdownMenuButton2'
+            to='/profile'
             role='button'
-            data-te-dropdown-toggle-ref
             aria-expanded='false'
           >
             <img
@@ -46,7 +43,7 @@ const Nav = () => (
               alt=''
               loading='lazy'
             />
-          </a>
+          </Link>
         </div>
       </div>
     </div>

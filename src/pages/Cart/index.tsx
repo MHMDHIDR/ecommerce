@@ -25,7 +25,9 @@ const Cart = () => {
               <div className='flex flex-col gap-y-3'>
                 <TrashBtn
                   className='w-5 h-5 fill-red-600'
-                  onClick={emptyCart}
+                  onClick={() =>
+                    confirm(`هل تريد حذف المنتج من سلة المشتريات؟`) ? emptyCart() : null
+                  }
                   label='تفريغ السلة'
                 />
                 {items.map((item: Item) => (

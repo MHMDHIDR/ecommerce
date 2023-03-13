@@ -4,18 +4,18 @@ import { ThemeContext } from '../contexts/ThemeContext'
 const DarkmodeToggle = () => {
   const { isDark, setIsDark, getLocalStorageTheme } = useContext(ThemeContext)
 
-  const PREFERENCE = window.matchMedia('(prefers-color-scheme: dark)')
+  // const PREFERENCE = window.matchMedia('(prefers-color-scheme: dark)')
 
   //if there's no theme object in the localStorage, (if TRUE), get the user System preference and set it to localStorage.
-  if (!('theme' in localStorage)) {
-    setLocalStorageTheme(PREFERENCE.matches)
-  }
+  // if (!('theme' in localStorage)) {
+  //   setLocalStorageTheme(PREFERENCE.matches)
+  // }
   setHtmlToDark(getLocalStorageTheme())
 
   //listen when user changes his preferences and change the theme accordingly.
-  PREFERENCE.addEventListener('change', () => {
-    handleToggle()
-  })
+  // PREFERENCE.addEventListener('change', () => {
+  //   handleToggle()
+  // })
 
   //set the theme in localStorage
   function setLocalStorageTheme(isDark: boolean) {
