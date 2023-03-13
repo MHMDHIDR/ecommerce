@@ -1,4 +1,12 @@
 User-agent: *
 Allow: /categories
-Allow: /view
-Allow: /view/item
+Allow: /cart
+Allow: /completed-orders
+Allow: /product
+Allow: /notifications
+Allow: /profile
+Allow: /profile/edit
+Allow: /profile/favourites
+Allow: /profile/shipping-address
+Allow: /profile/privacy-policy
+Allow: /profile/terms-and-conditions
