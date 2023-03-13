@@ -44,11 +44,11 @@
   }
 
   .form__group:has(> .form__input[type='radio']:checked) {
-    @apply bg-gray-200;
+    @apply bg-gray-200 dark:bg-gray-900;
   }
 
   .form__input {
-    @apply w-full text-gray-700 border-b outline-none dark:text-gray-200 rtl;
+    @apply w-full text-gray-700 border-b dark:border-b-gray-200 dark:bg-gray-800 outline-none dark:text-gray-200 rtl;
   }
 
   .form__input[type='radio'] {

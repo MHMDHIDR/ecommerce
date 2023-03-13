@@ -33,8 +33,10 @@ const Profile = () => {
           <div className='p-3 border border-gray-400 rounded-xl my-10 space-y-7'>
             {PROFILE_LINKS.map(
               ({ label, to }: { label: string; to: string }, idx: number) => (
-                <BorderLink key={idx} to={to}>
-                  <span>{label}</span>
+                <BorderLink key={idx}>
+                  <Link className='inline-block w-full' to={to}>
+                    {label}
+                  </Link>
                 </BorderLink>
               )
             )}

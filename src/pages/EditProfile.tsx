@@ -4,6 +4,7 @@ import { LoadingPage } from '../components/Loading'
 import FileUpload from '../components/FileUpload'
 import Footer from '../components/Footer'
 import BorderLink from '../components/Icons/BorderLink'
+import ThemeToggler from '../components/ThemeToggler'
 
 const EditProfile = () => {
   useDocumentTitle('تعديل بيانات الحساب')
@@ -70,13 +71,13 @@ const EditProfile = () => {
             />
           </label>
           <div className='p-3 border border-gray-400 rounded-xl w-full my-10 space-y-7'>
-            <BorderLink to={`language`}>
+            <BorderLink>
               <span>اللغة</span>
             </BorderLink>
-            <BorderLink to={`language`}>
+            <BorderLink>
               <span>الاشعارات</span>
             </BorderLink>
-            <BorderLink to={`language`}>
+            <BorderLink icon={<ThemeToggler />}>
               <span>الوضع الداكن</span>
             </BorderLink>
           </div>

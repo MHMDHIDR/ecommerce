@@ -1,12 +1,17 @@
-import { Link } from 'react-router-dom'
 import Arrow from './Arrow'
 
-const BorderLink = ({ to, children }: { to: string; children: JSX.Element }) => {
+const BorderLink = ({
+  icon,
+  children
+}: {
+  icon?: JSX.Element
+  children: JSX.Element
+}) => {
   return (
-    <Link to={to} className='flex justify-between items-center'>
+    <div className='flex justify-between items-center'>
       {children}
-      <Arrow />
-    </Link>
+      {icon ?? <Arrow />}
+    </div>
   )
 }
 export default BorderLink
