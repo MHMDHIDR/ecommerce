@@ -20,7 +20,7 @@ const TermsConditions = () => {
               <p>
                 تحدد هذه الشروط والأحكام القواعد واللوائح الخاصة باستخدام موقع التجارة
                 الإلكترونية ، الموجود على موقع
-                <Link to='/' className='underline-hover font-bold -mr-20 text-base'>
+                <Link to='/' className='underline-hover font-bold mr-2 text-base'>
                   eCommerce
                 </Link>
               </p>
