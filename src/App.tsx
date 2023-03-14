@@ -18,41 +18,44 @@ import Profile from './pages/Profile'
 import { CartProvider } from './contexts/CartContext'
 import FileUploadContextProvider from './contexts/FileUploadContext'
 import ThemeContextProvider from './contexts/ThemeContext'
+import SearchContextProvider from './contexts/SearchContext'
 import EditProfile from './pages/EditProfile'
 import Favourites from './pages/Favourites'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsConditions from './pages/TermsConditions'
 
 const App = () => (
-  <FileUploadContextProvider>
-    <CartProvider>
-      <ThemeContextProvider>
-        <Router>
-          <Suspense fallback={<LoadingPage />}>
-            <Routes>
-              <Route path='/' element={<Home />} />
-              <Route path='/cart' element={<Cart />} />
-              <Route path='/completed-orders' element={<CompletedOrders />} />
-              <Route path='/order-address' element={<OrderAddress />} />
-              <Route path='/notifications' element={<Notifications />} />
-              <Route path='/profile' element={<Profile />} />
-              <Route path='/profile/edit' element={<EditProfile />} />
-              <Route path='/profile/favourites' element={<Favourites />} />
-              <Route path='/product/:id' element={<Product />} />
-              <Route path='/categories' element={<Categories />}>
-                <Route path=':name' element={<Categories />} />
-              </Route>
-              <Route path='/privacy-policy' element={<PrivacyPolicy />} />
-              <Route path='/terms-and-conditions' element={<TermsConditions />} />
-              <Route path='/login' element={<Login />} />
-              <Route path='/signup' element={<Signup />} />
-              <Route path='*' element={<ModalNotFound fullscreen={true} />} />
-            </Routes>
-          </Suspense>
-        </Router>
-      </ThemeContextProvider>
-    </CartProvider>
-  </FileUploadContextProvider>
+  <ThemeContextProvider>
+    <SearchContextProvider>
+      <FileUploadContextProvider>
+        <CartProvider>
+          <Router>
+            <Suspense fallback={<LoadingPage />}>
+              <Routes>
+                <Route path='/' element={<Home />} />
+                <Route path='/cart' element={<Cart />} />
+                <Route path='/completed-orders' element={<CompletedOrders />} />
+                <Route path='/order-address' element={<OrderAddress />} />
+                <Route path='/notifications' element={<Notifications />} />
+                <Route path='/profile' element={<Profile />} />
+                <Route path='/profile/edit' element={<EditProfile />} />
+                <Route path='/profile/favourites' element={<Favourites />} />
+                <Route path='/product/:id' element={<Product />} />
+                <Route path='/categories' element={<Categories />}>
+                  <Route path=':name' element={<Categories />} />
+                </Route>
+                <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+                <Route path='/terms-and-conditions' element={<TermsConditions />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/signup' element={<Signup />} />
+                <Route path='*' element={<ModalNotFound fullscreen={true} />} />
+              </Routes>
+            </Suspense>
+          </Router>
+        </CartProvider>
+      </FileUploadContextProvider>
+    </SearchContextProvider>
+  </ThemeContextProvider>
 )
 
 export default App

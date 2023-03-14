@@ -7,9 +7,12 @@ const Controls = ({ item }: { item: Item }) => {
   const { removeItem, updateItemQuantity } = useCart()
 
   return (
-    <div className='flex items-center gap-x-1'>
-      <TrashBtn className='w-4 h-4 fill-red-600' onClick={() => removeItem(item.id)} />
-      <div className='flex items-center justify-around w-24 bg-gray-100 py-0.5 px-3 rounded-full'>
+    <div className='flex items-center gap-x-1 mt-1.5'>
+      <TrashBtn
+        className='w-4 h-4 fill-red-600 dark:fill-red-400'
+        onClick={() => removeItem(item.id)}
+      />
+      <div className='flex items-center justify-around w-24 bg-gray-100 dark:bg-gray-700 py-0.5 px-3 rounded-full'>
         <AddBtn
           className='w-2.5 h-2.5'
           onClick={() =>
@@ -20,7 +23,7 @@ const Controls = ({ item }: { item: Item }) => {
           }
         />
         <input
-          className='text-center w-6 bg-gray-100'
+          className='text-center w-6 bg-gray-100 dark:bg-gray-700 '
           type='number'
           value={item.quantity}
           min={1}

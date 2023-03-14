@@ -18,7 +18,7 @@ const Profile = () => {
         <div className='flex flex-col w-full'>
           <Link
             to={`edit`}
-            className='flex items-center gap-x-3 overflow-hidden rounded-lg bg-white p-2 shadow-md'
+            className='flex items-center gap-x-3 overflow-hidden rounded-lg bg-white dark:bg-gray-700 p-2 shadow-md'
           >
             <img
               className='h-16 w-16 rounded-lg object-cover'
@@ -26,8 +26,12 @@ const Profile = () => {
               alt='profile image'
             />
             <div className='py-2'>
-              <h5 className='text-md font-semibold text-gray-800'>اسم المستخدم</h5>
-              <p className='text-sm text-gray-600'>mr.hamood277@gmail.com</p>
+              <h5 className='text-md font-semibold text-gray-800 dark:text-gray-100'>
+                اسم المستخدم
+              </h5>
+              <p className='text-sm text-gray-600 dark:text-gray-100'>
+                mr.hamood277@gmail.com
+              </p>
             </div>
           </Link>
           <div className='p-3 border border-gray-400 rounded-xl my-10 space-y-7'>

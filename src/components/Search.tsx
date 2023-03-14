@@ -32,11 +32,11 @@ const Search = ({ small = false, className }: { small: boolean; className?: stri
       <input
         type='search'
         id='search'
-        className={`font-[600] px-5 py-3 w-[inherit] text-black outline-blue-400 border-blue-400 outline-offset-2 rtl rounded-full${
-          smallSearch ? ' pl-10' : ' pl-16 sm:pl-28 bg-neutral-200 dark:bg-neutral-300 '
+        className={`font-[600] px-5 py-3 w-[inherit] bg-gray-200 dark:bg-gray-700 text-black dark:text-white outline-blue-400 border-blue-400 outline-offset-2 rtl rounded-full${
+          smallSearch ? ' pl-10' : ' pl-16 sm:pl-28'
         }`}
         placeholder={smallSearch ? '' : 'ابحث عن منتج في المتجر'}
-        onChange={e => (e.target.value.trim() ? setSearch(e.target.value.trim()) : '')}
+        // onChange={e => (e.target.value.trim() ? setSearch(e.target.value.trim()) : '')}
         onKeyUp={(e: any) => {
           const searchValue = e.target.value.trim()
           searchValue.length > 0
@@ -50,8 +50,8 @@ const Search = ({ small = false, className }: { small: boolean; className?: stri
         role='search'
         aria-label='search'
         title='search'
-        className={`absolute top-0 bottom-0 left-0 flex items-center w-16${
-          smallSearch ? ' justify-start' : ' justify-center'
+        className={`absolute top-0 bottom-0 flex items-center w-16${
+          smallSearch ? ' justify-start -left-5' : ' justify-center left-0'
         }`}
       >
         <svg
@@ -62,7 +62,11 @@ const Search = ({ small = false, className }: { small: boolean; className?: stri
         >
           <path
             d='M39.5112 37.155L28.1363 25.78C30.3397 23.0584 31.6663 19.6 31.6663 15.8334C31.6663 7.10336 24.563 0 15.8331 0C7.1032 0 0 7.10328 0 15.8333C0 24.5633 7.10328 31.6666 15.8332 31.6666C19.5998 31.6666 23.0581 30.34 25.7797 28.1366L37.1546 39.5116C37.4796 39.8366 37.9062 40 38.3329 40C38.7597 40 39.1863 39.8366 39.5113 39.5116C40.1629 38.86 40.1629 37.8066 39.5112 37.155ZM15.8332 28.3333C8.9399 28.3333 3.33332 22.7266 3.33332 15.8333C3.33332 8.93992 8.9399 3.33328 15.8332 3.33328C22.7265 3.33328 28.333 8.93992 28.333 15.8333C28.333 22.7266 22.7264 28.3333 15.8332 28.3333Z'
-            fill='black'
+            fill={
+              document.querySelector('html')?.classList.contains('dark')
+                ? 'white'
+                : 'black'
+            }
           />
         </svg>
       </button>
@@ -70,20 +74,20 @@ const Search = ({ small = false, className }: { small: boolean; className?: stri
       <div className='absolute w-[inherit] bg-neutral-200 dark:bg-neutral-300 opacity-0 pointer-events-none search__wrapper rtl border-2 border-b-blue-400 border-r-blue-400 border-l-blue-400 hidden'>
         <ul className='overflow-y-auto rtl:text-right max-h-60'>
           {search &&
-            searchResults?.map(({ _id, foodName, foodImgs }, idx) => (
+            searchResults?.map(({ _id, itemName, itemImgs }, idx) => (
               <Link
                 key={idx}
                 to={`/view/item/${_id}`}
                 className={`w-full flex px-4 py-2 justify-start items-center gap-x-5 transition-colors font-[600] text-blue-600 dark:text-blue-700 text-xl hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-neutral-400 border-b border-b-gray-300 dark:border-b-gray-400`}
               >
-                {/* food img */}
+                {/* item img */}
                 <img
                   loading='lazy'
-                  src={foodImgs[0].foodImgDisplayPath}
-                  alt={foodName}
+                  src={itemImgs[0].ImgDisplayPath}
+                  alt={itemName}
                   className={`object-cover rounded-lg shadow-md w-14 h-14`}
                 />
-                <p>{removeSlug(foodName)}</p>
+                <p>{removeSlug(itemName)}</p>
               </Link>
             ))}
         </ul>

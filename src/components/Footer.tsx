@@ -42,7 +42,7 @@ const Footer = () => {
   ]
 
   return (
-    <footer className='fixed flex-no-wrap bottom-0 rounded-tl-3xl rounded-tr-3xl flex w-full py-3 lg:flex-wrap lg:justify-start shadow-[0_-1px_7px_0_rgb(97_97_97_/_30%)] bg-gray-100 dark:bg-gray-800 transition-colors px-6 md:px-10 lg:px-20 bg-opacity-50 backdrop-blur-sm saturate-[180%] rtl'>
+    <footer className='fixed flex-no-wrap -bottom-1 rounded-tl-3xl rounded-tr-3xl flex w-full py-3 lg:flex-wrap lg:justify-start dark:shadow-[0_-1px_7px_0_rgb(10_10_10_/_30%)] shadow-[0_-1px_7px_0_rgb(97_97_97_/_30%)] bg-gray-100 dark:bg-gray-700 transition-colors px-6 md:px-10 lg:px-20 bg-opacity-50 backdrop-blur-sm saturate-[180%] rtl'>
       <menu className='flex items-center gap-8 w-full justify-around'>
         {Menus.map((item, idx) => (
           <Link
@@ -56,10 +56,10 @@ const Footer = () => {
           >
             {isActiveLink(item.to) ? (
               <div className='flex items-center'>
-                <span className='bg-black p-2 rounded-full'>
-                  <item.icon className='w-4 h-4 fill-white' />
+                <span className='bg-black dark:bg-gray-300 p-2 rounded-full'>
+                  <item.icon className='w-4 h-4 fill-gray-50 dark:fill-neutral-900' />
                 </span>
-                <span className='px-2'>{item.label}</span>
+                <span className='px-2 dark:text-gray-50'>{item.label}</span>
               </div>
             ) : (
               <span className='[&>svg]:w-5 inline-block py-1.5'>

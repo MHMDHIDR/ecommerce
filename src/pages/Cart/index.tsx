@@ -24,7 +24,7 @@ const Cart = () => {
             <>
               <div className='flex flex-col gap-y-3'>
                 <TrashBtn
-                  className='w-5 h-5 fill-red-600'
+                  className='w-5 h-5 fill-red-600 dark:fill-red-400'
                   onClick={() =>
                     confirm(`هل تريد حذف المنتج من سلة المشتريات؟`) ? emptyCart() : null
                   }
@@ -34,7 +34,7 @@ const Cart = () => {
                   <div key={item.id} className='border-b py-2'>
                     <Link
                       to={`/product/${item.id}`} //to product link using id or name [/product/:name] to make url more SEO friendly
-                      className='flex items-center gap-x-3 bg-white overflow-hidden'
+                      className='flex items-center gap-x-3 bg-white dark:bg-gray-700 overflow-hidden rounded-md px-1.5'
                     >
                       <img
                         className='h-16 w-16 rounded-lg object-cover'
@@ -42,13 +42,13 @@ const Cart = () => {
                         alt={item.name}
                       />
                       <div className='py-2'>
-                        <h5 className='text-md font-semibold text-gray-800'>
+                        <h5 className='text-md font-semibold text-gray-800 dark:text-gray-50'>
                           {item.name}
                         </h5>
-                        <p className='text-sm text-gray-600 truncate max-w-[25%]'>
+                        <p className='text-sm text-gray-600 truncate max-w-[25%] dark:text-gray-50'>
                           {item.description}
                         </p>
-                        <span className='text-md font-bold text-gray-800'>
+                        <span className='text-md font-bold text-gray-800 dark:text-gray-50'>
                           {item.currentPrice} ج.س
                         </span>
                       </div>

@@ -1,6 +1,6 @@
 import { useState, createContext, useEffect } from 'react'
 import useAxios from '../hooks/useAxios'
-import { SearchContextProps } from '../types'
+import { SearchContextProps, SearchResultsProps } from '../types'
 import { removeSlug } from '../utils/functions/slug'
 
 export const SearchContext = createContext<SearchContextProps>({} as SearchContextProps)
@@ -8,19 +8,19 @@ export const SearchContext = createContext<SearchContextProps>({} as SearchConte
 const SearchContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [search, setSearch] = useState('')
   const [searchResults, setRearchResults] = useState([''])
-  const [foodCategory, setFoodCategory] = useState('')
-  const [searchFor, setSearchFor] = useState('foods')
+  const [category, setCategory] = useState('')
+  const [searchFor, setSearchFor] = useState('items')
 
   const { error, loading, ...response } = useAxios({
-    url: `/${searchFor}/0/0?category=${foodCategory}`
+    url: `/${searchFor}/0/0?category=${category}`
   })
 
   useEffect(() => {
     if (response.response !== null) {
       setRearchResults(
         response.response?.response?.filter(
-          ({ foodName, foodTags }: { foodName: string; foodTags: string[] }) =>
-            removeSlug(foodName).includes(search) || foodTags.includes(search)
+          ({ itemName, itemCategories }: SearchResultsProps) =>
+            removeSlug(itemName).includes(search) || itemCategories.includes(search)
         )
       )
     }
@@ -33,7 +33,7 @@ const SearchContextProvider = ({ children }: { children: React.ReactNode }) => {
         search,
         searchResults,
         setSearchFor,
-        setFoodCategory,
+        setCategory,
         loading,
         error
       }}

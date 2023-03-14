@@ -33,13 +33,13 @@ const Product = () => {
           </Link>
         </div>
 
-        <div className='px-5 py-6 bg-white rounded-tl-[2rem] rounded-tr-[2rem] -translate-y-10 flex-1 min-h-screen'>
-          <h5 className='flex justify-between text-xl font-semibold tracking-tight text-slate-900'>
+        <div className='px-5 py-6 bg-white dark:bg-gray-800 rounded-tl-[2rem] rounded-tr-[2rem] -translate-y-10 flex-1 min-h-screen'>
+          <h5 className='flex justify-between text-xl font-semibold tracking-tight'>
             <Link to={`/product/${id}`}>{PRODUCT(id!).name}</Link>
           </h5>
 
           <div className='mt-2.5 mb-5 flex items-center'>
-            <span className='ml-2 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold'>
+            <span className='ml-2 rounded bg-yellow-200 dark:text-black px-2.5 py-0.5 text-xs font-semibold'>
               {PRODUCT(id!).rating.toFixed(1)}
             </span>
             {[...Array(Math.round(PRODUCT(id!).rating)).keys()].map(
@@ -60,16 +60,16 @@ const Product = () => {
 
           <div className='flex flex-col gap-y-2 pb-6'>
             <h3 className='font-bold text-lg'>الوصف</h3>
-            <p className='text-gray-700'>{PRODUCT(id!).description}</p>
+            <p className='text-gray-700 dark:text-gray-50'>{PRODUCT(id!).description}</p>
           </div>
 
           <div className='flex items-center justify-between'>
             <p>
-              <span className='text-2xl font-bold text-slate-900'>
+              <span className='text-2xl font-bold text-gray-800 dark:text-gray-50'>
                 {PRODUCT(id!).currentPrice} ج.س
               </span>
               {PRODUCT(id!).discount && (
-                <span className='text-sm text-slate-900 line-through pr-1'>
+                <span className='text-sm text-gray-800 dark:text-gray-50 line-through pr-1'>
                   {PRODUCT(id!).oldPrice} ج.س
                 </span>
               )}

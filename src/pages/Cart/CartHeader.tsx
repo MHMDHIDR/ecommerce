@@ -8,7 +8,9 @@ const CartHeader = () => (
       <Link
         to={`/cart`}
         className={`border border-gray-200 px-2 py-1 text-sm rounded-lg${
-          isActiveLink('/cart') ? ' bg-black text-white' : ' text-gray-700'
+          isActiveLink('/cart')
+            ? ' bg-gray-100 text-gray-800'
+            : ' text-gray-700 dark:text-gray-300'
         }`}
       >
         تحت الاجراء
@@ -16,7 +18,9 @@ const CartHeader = () => (
       <Link
         to={`/completed-orders`}
         className={`border border-gray-200 px-2 py-1 text-sm rounded-lg${
-          isActiveLink('/completed-orders') ? ' bg-black text-white' : ' text-gray-700'
+          isActiveLink('/completed-orders')
+            ? ' bg-gray-100 text-gray-800'
+            : ' text-gray-700 dark:text-gray-300'
         }`}
       >
         مكتملة

@@ -1,14 +1,4 @@
-import { MouseEventHandler, ReactNode, KeyboardEvent } from 'react'
-
-export type UserProps = {
-  token?: string
-  userAccountType?: string
-  userEmail?: string
-  userFullName: string
-  _id?: string
-  LoggedIn?: number
-  message?: string
-}
+import { MouseEventHandler, ReactNode } from 'react'
 
 export type ModalProps = {
   msg?: string
@@ -40,15 +30,6 @@ export type EmblaThumbProps = DotButtonProps & {
   alt: string
 }
 
-export type CartProps = {
-  items: any[]
-  setItems: any
-  addToCart: any
-  removeFromCart: any
-  setGrandPrice: any
-  grandPrice: number
-}
-
 export type FileUploadProps = {
   file: File[]
   fileURLs: string[]
@@ -57,86 +38,12 @@ export type FileUploadProps = {
   onFileRemove(fileUrl: string, fileName: string): void
 }
 
-export type FileUploadComponentProps = {
-  data: {
-    id?: string
-    Name: string
-    defaultImg: {
-      ImgDisplayName: string
-      ImgDisplayPath: string
-      websiteLogoDisplayName?: string
-    }[]
-  }
-  ignoreDelete?: boolean
-}
-
-export type uploadurlDataProps = {
-  data: {
-    fields: {
-      'Content-Type': string
-      'PolicyX-Amz-Algorithm': string
-      'X-Amz-Credential': string
-      'X-Amz-Date': string
-      'X-Amz-Signature': string
-      bucket: string
-      key: string
-    }
-    url: string
-  }[]
-}
-
-export type orderMsgProps = {
-  Success: string
-  Failure: string
-}
-
-export type DividerProps = {
-  thickness?: number
-  style?: 'dashed'
-  marginY?: number
-}
-
-export type settingsProps = {
-  appName: string
-  websiteLogoDisplayPath: string
-  appDesc: string
-  whatsAppNumber: string
-  instagramAccount: string
-  twitterAccount: string
-}
-
-export type headerProps = {
-  appTagline: string
-  websiteLogoDisplayPath: string
-}
-
-export type MyLinkProps = {
-  children: ReactNode
-  to?: string
-  className?: string
-}
-
-export type NavMenuPros = {
-  children: ReactNode
-  isOptions?: boolean
-  label?: string
-  className?: string
-  src?: string
-}
-
-export type orderInfoProps = {
-  order?: Object | null
-  id?: string
-  status: string
-  email: string
-}
-
 export type PaginationProps = {
   routeName: string
   pageNum: number
   numberOfPages: number
   count: number
-  foodId?: string
+  Id?: string
   itemsPerPage?: number
   category?: string
   loaction?: string
@@ -161,35 +68,22 @@ export type SearchContextProps = {
   search: string
   searchResults: any[]
   setSearchFor: (searchFor: string) => void
-  setFoodCategory: (foodCategory: string) => void
+  setCategory: (itemCategory: string) => void
   loading: boolean
   error: any
 }
 
-export type TagsProps = {
-  tags: string[]
-  setTags: (tags: string[]) => void
-  removeTags: (index: number) => void
-  addTag: (e: KeyboardEvent<HTMLInputElement>) => void
-  saveSelectedTags: (id: number, tags: string[]) => void
-  removeSelectedTags: (id: number) => any
-  selectedTags: { id: string; tags: string[] }[]
-}
-
-export type AddTagsProps = {
-  key: string
-  preventDefault: () => void
-  target: { value: string } | any
-}
-
-export type removeSelectedTagsProps = {
-  id: number
+export type SearchResultsProps = {
+  itemName: string
+  itemCategories: string[]
 }
 
 export type ThemeProps = {
   isDark: boolean
   setIsDark: (isDark: boolean) => void
+  setHtmlToDark: (isDark: boolean) => void
   getLocalStorageTheme: () => boolean
+  setLocalStorageTheme: (isDark: boolean) => void
 }
 
 export type ImgsProps = {
@@ -206,38 +100,11 @@ export type NoItemsProps = {
   className?: string
 }
 
-export type cCategory = {
-  foods: number
-  drinks: number
-  sweets: number
-}
-
-export type notificationProps = {
-  sendStatus: number
-  sendStatusMsg: string
-}
-
-export type mediaProps = {
-  foodId?: string
-  foodImgDisplayPath: string
-  foodName: string
-  _id?: string
-  foodPrice?: number
-}[]
-
 export type axiosProps = {
   url: string
   method?: string
   body?: string | null
   headers?: string | null
-}
-
-export type authUserRequestProps = {
-  user: {
-    _id: string
-    userEmail: string
-    userAccountType: string
-  }
 }
 
 export type fileRequestProps = {
@@ -248,16 +115,6 @@ export type fileRequestProps = {
 export type ButtonProps = {
   children: JSX.Element
   color?: string
-}
-
-export type deleteFoodEventListenerProps = {
-  target: {
-    id: string
-    dataset: {
-      imgName: string
-      name: string
-    }
-  }
 }
 
 export type Item = {
@@ -304,11 +161,6 @@ export type Actions =
       payload: object
     }
   | { type: 'EMPTY_CART' }
-
-export type DashboardHomeProps = {
-  orderItemsCount: number
-  menuItemsCount: number
-}
 
 export type ControlBtnProps = {
   className?: string

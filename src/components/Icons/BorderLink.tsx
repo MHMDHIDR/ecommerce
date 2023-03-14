@@ -10,7 +10,7 @@ const BorderLink = ({
   return (
     <div className='flex justify-between items-center'>
       {children}
-      {icon ?? <Arrow />}
+      {icon ?? <Arrow className='dark:fill-white' />}
     </div>
   )
 }

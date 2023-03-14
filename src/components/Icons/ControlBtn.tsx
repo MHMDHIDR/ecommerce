@@ -8,7 +8,9 @@ export const MinusBtn = ({
   onClick?: () => void
 }) => (
   <svg
-    className={`fill-current text-gray-600${className ? ' ' + className : ''}`}
+    className={`fill-current text-gray-600 dark:text-gray-50${
+      className ? ' ' + className : ''
+    }`}
     viewBox='0 0 448 512'
     onClick={onClick}
   >
@@ -24,7 +26,9 @@ export const AddBtn = ({
   onClick?: () => void
 }) => (
   <svg
-    className={`fill-current text-gray-600${className ? ' ' + className : ''}`}
+    className={`fill-current text-gray-600 dark:text-gray-50${
+      className ? ' ' + className : ''
+    }`}
     viewBox='0 0 448 512'
     onClick={onClick}
   >

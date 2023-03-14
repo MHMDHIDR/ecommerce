@@ -6,8 +6,8 @@ const CategoryProducts = ({ name, category }: { name?: string; category?: string
 
   return (
     <>
-      <h2 className='mt-5'>{name}</h2>
-      <div className='grid grid-cols-2 gap-y-10 gap-x-2 place-items-center mt-10'>
+      <h2 className='mt-5'>{name || category}</h2>
+      <div className='grid grid-cols-2 gap-y-10 gap-x-4 place-items-center mt-10'>
         {products.map((_product: any, idx: number) => (
           <motion.div
             key={idx}
@@ -30,17 +30,20 @@ const CategoryProducts = ({ name, category }: { name?: string; category?: string
               <span className='absolute hidden top-0 right-0 w-28 py-1 translate-y-4 translate-x-8 rotate-45 bg-blue-600 text-center text-sm text-white'>
                 تخفيض
               </span>
-              <div className='text-center'>
-                <a href='#'>
-                  <h5 className='text-sm font-semibold tracking-tight text-slate-900'>
-                    {name}
-                  </h5>
-                </a>
-                <div className='flex flex-col'>
-                  <p>
-                    <span className='text-sm font-bold text-slate-900'>249 ج.س </span>
-                    <span className='text-xs text-slate-900 line-through'>299 ج.س </span>
-                  </p>
+              <div className='text-center mt-1'>
+                <Link
+                  to='#'
+                  className='text-sm font-semibold tracking-tight text-gray-800 dark:text-gray-100'
+                >
+                  {name || category}
+                </Link>
+                <div className='flex justify-center items-center gap-x-2 mt-1'>
+                  <span className='text-sm font-bold text-gray-800 dark:text-gray-100'>
+                    249 ج.س
+                  </span>
+                  <span className='text-xs text-gray-800 dark:text-gray-100 line-through'>
+                    299 ج.س
+                  </span>
                 </div>
               </div>
             </div>
