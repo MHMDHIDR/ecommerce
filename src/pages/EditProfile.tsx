@@ -11,7 +11,7 @@ const EditProfile = () => {
 
   return (
     <Suspense fallback={<LoadingPage />}>
-      <section className='container overflow-x-hidden px-5 rtl'>
+      <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl'>
         <form className='relative flex flex-col items-center'>
           <label htmlFor='uploadImg' className='flex items-center gap-y-2 flex-col'>
             <FileUpload
