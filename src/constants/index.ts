@@ -4,7 +4,7 @@ export const ITEMS_PER_PAGE = 10
 
 export const MAX_QUANTITY = 100
 
-export const isSmallScreen = window.innerWidth < 640 ? true : false
+export const isSmallScreen = window.innerWidth < 768 ? true : false
 
 const url = {
   local: `localhost`,

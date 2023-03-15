@@ -14,7 +14,7 @@ const Product = () => {
 
   return (
     <>
-      <div className='relative w-full overflow-hidden rtl flex flex-col justify-between h-screen'>
+      <div className='relative w-full rtl flex flex-col justify-between overflow-x-hidden overflow-y-auto'>
         <div className='flex'>
           {isSmallScreen && (
             <BackButton to='/' className='w-8 h-8 absolute z-50 top-6 left-6' />
@@ -35,7 +35,7 @@ const Product = () => {
           </Link>
         </div>
 
-        <div className='px-5 py-6 bg-white dark:bg-gray-800 rounded-tl-[2rem] rounded-tr-[2rem] -translate-y-10 flex-1 min-h-screen'>
+        <div className='px-5 py-6 pb-12 bg-white dark:bg-gray-800 rounded-tl-[2rem] rounded-tr-[2rem] -translate-y-10 flex-1 min-h-full'>
           <h5 className='flex justify-between text-xl font-semibold tracking-tight'>
             <Link to={`/product/${id}`}>{PRODUCT(id!).name}</Link>
           </h5>

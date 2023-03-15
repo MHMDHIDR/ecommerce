@@ -21,23 +21,23 @@ const OrderAddress = () => {
             <ul className='flex flex-col justify-center border gap-x-3 p-5 rounded-xl shadow-xl overflow-hidden space-y-3'>
               <li className='flex gap-x-2'>
                 <span className='font-bold'>رقم المنزل: </span>
-                <span className='text-gray-700'>123</span>
+                <span className='text-gray-700 dark:text-gray-50'>123</span>
               </li>
               <li className='flex gap-x-2'>
                 <span className='font-bold'>الشارع:</span>
-                <span className='text-gray-700'>123</span>
+                <span className='text-gray-700 dark:text-gray-50'>123</span>
               </li>
               <li className='flex gap-x-2'>
                 <span className='font-bold'>الحي: </span>
-                <span className='text-gray-700'>123</span>
+                <span className='text-gray-700 dark:text-gray-50'>123</span>
               </li>
               <li className='flex gap-x-2'>
                 <span className='font-bold'>المدينة: </span>
-                <span className='text-gray-700'>123</span>
+                <span className='text-gray-700 dark:text-gray-50'>123</span>
               </li>
               <li className='flex gap-x-2'>
                 <span className='font-bold'>رقم الهاتف: </span>
-                <span className='text-gray-700'>123</span>
+                <span className='text-gray-700 dark:text-gray-50'>123</span>
               </li>
             </ul>
           </div>
@@ -47,7 +47,7 @@ const OrderAddress = () => {
               <Link
                 key={item.id}
                 to={`/product/${item.id}`} //to product link using id or name [/product/:name] to make url more SEO friendly
-                className='flex items-center gap-x-3 bg-white overflow-hidden rounded-xl shadow-md p-2 mb-2'
+                className='flex items-center gap-x-3 bg-white dark:bg-gray-700 overflow-hidden rounded-xl shadow-md p-2 mb-2'
               >
                 <img
                   className='h-16 w-16 rounded-lg object-cover'
@@ -55,16 +55,18 @@ const OrderAddress = () => {
                   alt={item.name}
                 />
                 <div className='py-2'>
-                  <h5 className='text-md font-semibold text-gray-800'>{item.name}</h5>
-                  <p className='text-sm text-gray-600 truncate max-w-[25%] pl-5'>
+                  <h5 className='text-md font-semibold text-gray-800 dark:text-gray-50'>
+                    {item.name}
+                  </h5>
+                  <p className='text-sm text-gray-600 dark:text-gray-50 truncate max-w-[25%] pl-5'>
                     {item.description}
                   </p>
-                  <span className='text-md font-bold text-gray-800'>
+                  <span className='text-md font-bold text-gray-800 dark:text-gray-50'>
                     {item.currentPrice} ج.س
                   </span>
                   <span className='px-2'>x</span>
                   <input
-                    className='text-center w-8 bg-gray-100 p-0.5 font-bold rounded-xl'
+                    className='text-center w-8 bg-gray-100 dark:bg-gray-800 p-0.5 font-bold rounded-xl'
                     type='number'
                     value={item.quantity}
                     disabled

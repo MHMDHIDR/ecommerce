@@ -26,7 +26,7 @@ const Favourites = () => {
             {isSmallScreen && <BackButton to='/profile' className='w-8 h-8' />}
           </div>
 
-          <h1 className='font-bold'>قائمة المفضلة</h1>
+          <h1 className='font-bold mb-3'>قائمة المفضلة</h1>
           <div className='flex flex-col gap-y-3'>
             {[...Array(Math.round(10)).keys()].map((_, idx) => {
               const id = String(idx + 1)
@@ -35,7 +35,7 @@ const Favourites = () => {
               return (
                 <div
                   key={id}
-                  className='flex items-center gap-x-3 overflow-hidden rounded-lg bg-white px-2 shadow-md'
+                  className='flex items-center gap-x-3 overflow-hidden rounded-lg bg-white dark:bg-gray-700 px-2 shadow-md'
                 >
                   <img
                     className='h-16 w-16 rounded-lg object-cover'
@@ -45,15 +45,15 @@ const Favourites = () => {
 
                   <div className='py-2 w-full'>
                     <Link to={`/product/${id}`}>
-                      <h5 className='text-md font-semibold text-gray-800'>
+                      <h5 className='text-md font-semibold text-gray-800 dark:text-gray-50'>
                         {PRODUCT(id).name}
                       </h5>
-                      <p className='text-sm text-gray-600'>
+                      <p className='text-sm text-gray-600 dark:text-gray-50'>
                         {abstractText(PRODUCT(id).description, 30)}
                       </p>
                     </Link>
                     <div className='flex justify-between mt-1'>
-                      <span className='text-md font-bold text-gray-800'>
+                      <span className='text-md font-bold text-gray-800 dark:text-gray-50'>
                         {PRODUCT(id).currentPrice} ج.س
                       </span>
                       {alreadyAdded ? (
