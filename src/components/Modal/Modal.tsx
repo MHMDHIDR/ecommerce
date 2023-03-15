@@ -32,7 +32,7 @@ const Modal = ({
         {/* hidden theme toggler because I don't want user to change theme inside a modal view */}
         {/* <ThemeToggler /> */}
       </span>
-      <div className='container mx-auto'>
+      <div className={fullscreen ? 'w-full' : 'container mx-auto'}>
         <div
           className={`p-6 mx-12 text-center text-black bg-gray-200 border border-gray-400 rounded-lg shadow-lg dark:bg-gray-700 dark:text-gray-300 dashed${
             fullscreen
@@ -49,7 +49,7 @@ const Modal = ({
           {btnName && btnLink ? (
             <Link
               to={btnLink}
-              className='inline-block px-5 py-1 text-white bg-blue-600 rounded-md hover:bg-blue-700'
+              className='inline-block px-10 py-1 text-white bg-blue-600 rounded-md hover:bg-blue-700 mx-auto'
             >
               {btnName}
             </Link>

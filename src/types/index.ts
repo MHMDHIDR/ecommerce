@@ -60,7 +60,6 @@ export type LogoProps = {
   width?: string | number
   height?: string | number
   className?: string
-  color?: 'white' | 'black' | ''
 }
 
 export type SearchContextProps = {
@@ -84,6 +83,12 @@ export type ThemeProps = {
   setHtmlToDark: (isDark: boolean) => void
   getLocalStorageTheme: () => boolean
   setLocalStorageTheme: (isDark: boolean) => void
+}
+
+export type AppSettingsProps = {
+  isSidebarOpen: boolean
+  setIsSidebarOpen: (isSidebarOpen: boolean) => void
+  setSidebarOpen: (isSidebarOpen: boolean) => void
 }
 
 export type ImgsProps = {

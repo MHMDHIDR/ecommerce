@@ -1,11 +1,17 @@
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../contexts/CartContext'
+import { AppSettingsContext } from '../contexts/AppSettingsContext'
 import HomeIcon from './Icons/HomeIcon'
 import { CartIconFilled } from './Icons/CartIcon'
 import NotificationsIcon from './Icons/NotificationsIcon'
 import { isActiveLink } from '../utils/functions/isActiveLink'
+import { isSmallScreen } from '../constants'
+import Logo from './Icons/Logo'
+import { AppSettingsProps } from '../types'
 
 const Footer = () => {
+  const { isSidebarOpen } = useContext<AppSettingsProps>(AppSettingsContext)
   const { totalUniqueItems } = useCart()
 
   const Menus = [
@@ -42,8 +48,18 @@ const Footer = () => {
   ]
 
   return (
-    <footer className='fixed flex-no-wrap -bottom-1 rounded-tl-3xl rounded-tr-3xl flex w-full py-3 lg:flex-wrap lg:justify-start dark:shadow-[0_-1px_7px_0_rgb(10_10_10_/_30%)] shadow-[0_-1px_7px_0_rgb(97_97_97_/_30%)] bg-gray-100 dark:bg-gray-700 transition-colors px-6 md:px-10 lg:px-20 bg-opacity-50 backdrop-blur-sm saturate-[180%] rtl'>
-      <menu className='flex items-center gap-8 w-full justify-around'>
+    <footer
+      className={`fixed flex-no-wrap -bottom-1 rounded-tl-3xl rounded-tr-3xl flex w-full z-50 rtl
+      py-3 dark:shadow-[0_-1px_7px_0_rgb(10_10_10_/_30%)] shadow-[0_-1px_7px_0_rgb(97_97_97_/_30%)]
+    bg-gray-100 dark:bg-gray-700 transition-all duration-500 px-6 bg-opacity-50 backdrop-blur-sm saturate-[180%]
+      md:rounded-none md:w-fit md:px-10 md:h-screen md:bg-opacity-80 ${
+        isSidebarOpen ? 'md:right-0' : 'md:-right-full'
+      }
+      lg:flex-wrap lg:justify-start lg:px-20
+    `}
+    >
+      <menu className='flex md:flex-col items-center gap-8 md:gap-12 w-full md:justify-start md:pt-40 justify-around'>
+        {!isSmallScreen && <Logo width='24' height='20' />}
         {Menus.map((item, idx) => (
           <Link
             key={idx}

@@ -1,7 +1,7 @@
 import { ArrowProps } from '../../types'
 
 const Arrow = ({
-  width = 'clamp(15px,2vw,3rem)',
+  width = 'clamp(15px,1.25vw,3rem)',
   height = width,
   toLeft,
   className

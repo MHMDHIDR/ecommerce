@@ -5,15 +5,17 @@ import { LoadingPage } from '../components/Loading'
 import Footer from '../components/Footer'
 import BorderLink from '../components/Icons/BorderLink'
 import BackButton from '../components/Icons/BackButton'
-import { PROFILE_LINKS } from '../constants'
+import { isSmallScreen, PROFILE_LINKS } from '../constants'
 
 const Profile = () => {
   useDocumentTitle('إعدادات الحساب')
 
   return (
     <Suspense fallback={<LoadingPage />}>
-      <section className='container px-5 py-20 mx-auto rtl flex justify-center items-center'>
-        <BackButton to='/' className='w-8 h-8 absolute z-50 top-6 left-6' />
+      <section className='container px-5 py-20 mx-auto rtl flex justify-center items-center max-w-6xl'>
+        {isSmallScreen && (
+          <BackButton to='/' className='w-8 h-8 absolute z-50 top-6 left-6' />
+        )}
 
         <div className='flex flex-col w-full'>
           <Link

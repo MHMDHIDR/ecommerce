@@ -21,8 +21,8 @@ const Signup = () => {
         />
       )}
 
-      <div className='container px-6 py-16'>
-        <div className='flex h-full flex-wrap items-center justify-center lg:justify-between'>
+      <div className='container px-6 py-16 mx-auto max-w-6xl'>
+        <div className='flex h-full flex-wrap items-center justify-center'>
           <img src='assets/img/logo.png' className='w-40 h-32 mb-10' alt='Logo image' />
 
           <form className='w-full rtl' onSubmit={handleSignup}>
@@ -63,28 +63,25 @@ const Signup = () => {
             </label>
 
             <div className='mb-6 flex items-center justify-between'>
-              <div className='flex gap-x-6 mb-[0.125rem] min-h-[1.5rem]'>
-                <div className='flex mb-[0.125rem] min-h-[1.5rem]'>
-                  <input
-                    type='checkbox'
-                    id='terms&condCheckbox'
-                    onChange={e => console.log(e.target.checked)}
-                    defaultChecked={true}
-                  />
-                  <label
-                    className='inline-block pr-3 hover:cursor-pointer'
-                    htmlFor='terms&condCheckbox'
-                  >
-                    بالضغط هنا فأنت توافق على
-                    <Link to='/terms-and-conditions' className='underline-hover -mx-2'>
+              <div className='flex gap-x-2 mb-[0.125rem] min-h-[1.5rem]'>
+                <input
+                  type='checkbox'
+                  id='terms&condCheckbox'
+                  onChange={e => console.log(e.target.checked)}
+                  defaultChecked={true}
+                />
+                <label className='hover:cursor-pointer' htmlFor='terms&condCheckbox'>
+                  بالضغط هنا فأنت توافق على
+                  <div className='inline-flex items-center gap-x-2 pr-2'>
+                    <Link to='/terms-and-conditions' className='underline-hover '>
                       شروط الاستخدام
                     </Link>
                     و
-                    <Link to='/privacy-policy' className='underline-hover -mx-2'>
+                    <Link to='/privacy-policy' className='underline-hover '>
                       سياسة الخصوصية
                     </Link>
-                  </label>
-                </div>
+                  </div>
+                </label>
               </div>
             </div>
 
@@ -109,7 +106,7 @@ const Signup = () => {
               to={'facebookLogin'}
               aria-label='Continue with facebook'
               role='button'
-              className='focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 flex items-center w-full mt-5'
+              className='focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5'
             >
               <Google />
               <p className='text-base font-medium mr-4 text-gray-700'>
@@ -120,7 +117,7 @@ const Signup = () => {
               to={'facebookLogin'}
               aria-label='Continue with facebook'
               role='button'
-              className='focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 flex items-center w-full mt-5'
+              className='focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5'
             >
               <Facebook />
               <p className='text-base font-medium mr-4 text-gray-700'>

@@ -1,10 +1,17 @@
 import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { isSmallScreen } from '../constants'
 import { SearchContext } from '../contexts/SearchContext'
 import useEventListener from '../hooks/useEventListener'
 import { removeSlug } from '../utils/functions/slug'
 
-const Search = ({ small = false, className }: { small: boolean; className?: string }) => {
+const Search = ({
+  small = isSmallScreen,
+  className
+}: {
+  small?: boolean
+  className?: string
+}) => {
   const [smallSearch, setSmallSearch] = useState(small)
   const { setSearch, search, searchResults } = useContext(SearchContext)
   const navigate = useNavigate()
@@ -32,8 +39,8 @@ const Search = ({ small = false, className }: { small: boolean; className?: stri
       <input
         type='search'
         id='search'
-        className={`font-[600] px-5 py-3 w-[inherit] bg-gray-200 dark:bg-gray-700 text-black dark:text-white outline-blue-400 border-blue-400 outline-offset-2 rtl rounded-full${
-          smallSearch ? ' pl-10' : ' pl-16 sm:pl-28'
+        className={`font-[600] px-5 py-3 bg-gray-200 dark:bg-gray-700 text-black dark:text-white outline-blue-400 border-blue-400 outline-offset-2 rtl rounded-full${
+          smallSearch ? ' w-0 pl-10 hover:cursor-pointer' : ' w-[inherit] pl-16 sm:pl-28'
         }`}
         placeholder={smallSearch ? '' : 'ابحث عن منتج في المتجر'}
         // onChange={e => (e.target.value.trim() ? setSearch(e.target.value.trim()) : '')}
@@ -43,6 +50,7 @@ const Search = ({ small = false, className }: { small: boolean; className?: stri
             ? searchWrapper?.classList.add('opacity-100', 'pointer-events-auto')
             : searchWrapper?.classList.remove('opacity-100', 'pointer-events-auto')
         }}
+        disabled={smallSearch}
       />
       <button
         type={`button`} //todo: if search value length > 1 make it submit/ else button
@@ -51,7 +59,7 @@ const Search = ({ small = false, className }: { small: boolean; className?: stri
         aria-label='search'
         title='search'
         className={`absolute top-0 bottom-0 flex items-center w-16${
-          smallSearch ? ' justify-start -left-5' : ' justify-center left-0'
+          smallSearch ? ' justify-start -left-4' : ' justify-center left-0'
         }`}
       >
         <svg

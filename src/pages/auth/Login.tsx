@@ -4,8 +4,8 @@ import { Facebook, Google } from '../../components/Icons/Socials'
 const Login = () => {
   return (
     <section className='h-screen'>
-      <div className='container px-6 py-16'>
-        <div className='flex h-full flex-wrap items-center justify-center lg:justify-between'>
+      <div className='container px-6 py-16 mx-auto max-w-6xl'>
+        <div className='flex h-full flex-wrap items-center justify-center'>
           <img src='assets/img/logo.png' className='w-40 h-32 mb-10' alt='Logo image' />
 
           <form className='w-full rtl'>
@@ -65,7 +65,7 @@ const Login = () => {
               to={'facebookLogin'}
               aria-label='Continue with facebook'
               role='button'
-              className='focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 flex items-center w-full mt-5'
+              className='focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5'
             >
               <Google />
               <p className='text-base font-medium mr-4 text-gray-700'>
@@ -76,7 +76,7 @@ const Login = () => {
               to={'facebookLogin'}
               aria-label='Continue with facebook'
               role='button'
-              className='focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 flex items-center w-full mt-5'
+              className='focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5'
             >
               <Facebook />
               <p className='text-base font-medium mr-4 text-gray-700'>

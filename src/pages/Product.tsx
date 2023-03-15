@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import Footer from '../components/Footer'
 import BackButton from '../components/Icons/BackButton'
 import { CartIconLined } from '../components/Icons/CartIcon'
-import { PRODUCT } from '../constants'
+import { isSmallScreen, PRODUCT } from '../constants'
 import { useCart } from '../contexts/CartContext'
 import { Item } from '../types'
 import Controls from './Cart/Controls'
@@ -16,7 +16,9 @@ const Product = () => {
     <>
       <div className='relative w-full overflow-hidden rtl flex flex-col justify-between h-screen'>
         <div className='flex'>
-          <BackButton to='/' className='w-8 h-8 absolute z-50 top-6 left-6' />
+          {isSmallScreen && (
+            <BackButton to='/' className='w-8 h-8 absolute z-50 top-6 left-6' />
+          )}
 
           {PRODUCT(id!).discount && (
             <span className='absolute top-0 right-0 w-28 py-1 translate-y-4 translate-x-8 rotate-45 bg-blue-600 text-center text-sm text-white'>
@@ -24,7 +26,7 @@ const Product = () => {
             </span>
           )}
 
-          <Link to='#' className='block h-[25rem]'>
+          <Link to='#' className='block h-[25rem] w-full'>
             <img
               className='h-full w-full object-cover object-right'
               src={PRODUCT(id!).imgUrl}

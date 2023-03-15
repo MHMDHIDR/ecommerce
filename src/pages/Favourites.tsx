@@ -9,7 +9,7 @@ import { useCart } from '../contexts/CartContext'
 import abstractText from '../utils/functions/abstractText'
 import { Item } from '../types'
 import Controls from './Cart/Controls'
-import { PRODUCT } from '../constants'
+import { isSmallScreen, PRODUCT } from '../constants'
 import BackButton from '../components/Icons/BackButton'
 
 const Favourites = () => {
@@ -20,10 +20,10 @@ const Favourites = () => {
   return (
     <Suspense fallback={<LoadingPage />}>
       <Layout>
-        <section className='container px-5 mx-auto rtl mb-20'>
+        <section className='container px-5 mx-auto rtl mb-20 max-w-6xl'>
           <div className='flex justify-between gap-x-5 items-center'>
-            <Search small={true} className='my-7' />
-            <BackButton to='/profile' className='w-8 h-8' />
+            <Search className='my-7' />
+            {isSmallScreen && <BackButton to='/profile' className='w-8 h-8' />}
           </div>
 
           <h1 className='font-bold'>قائمة المفضلة</h1>
