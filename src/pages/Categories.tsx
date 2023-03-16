@@ -15,7 +15,7 @@ const Categories = () => {
   return (
     <Suspense fallback={<LoadingPage />}>
       <Layout>
-        <section className='container px-7 mx-auto my-10 flex flex-col rtl mb-24'>
+        <section className='container px-7 mx-auto my-10 flex flex-col rtl mb-24 max-w-6xl'>
           <div className='flex gap-x-7 items-center justify-between'>
             <Search />
             {isSmallScreen && <BackButton to='/' className='w-8 h-8' />}
@@ -23,7 +23,7 @@ const Categories = () => {
           {name ? (
             <CategoryProducts name={name} />
           ) : (
-            <div className='flex flex-wrap justify-center mt-5 gap-3 md:gap-12 xl:justify-between'>
+            <div className='flex flex-wrap justify-center mt-5 gap-3 md:gap-12'>
               {CATEGORIES.map(
                 (
                   {

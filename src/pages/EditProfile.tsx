@@ -86,7 +86,7 @@ const EditProfile = () => {
                 <span>الاشعارات</span>
               </BorderLink>
               <BorderLink icon={<ThemeToggler />}>
-                <span>الوضع الداكن</span>
+                <label htmlFor='toggler'>الوضع الداكن</label>
               </BorderLink>
             </div>
             <button

@@ -21,6 +21,7 @@ const DarkmodeToggle = () => {
         className='absolute inset-0 w-6 h-6 sm:w-12 sm:h-12 opacity-0 theme-toggler peer pointer-events-none'
         type='checkbox'
         data-theme='toggler'
+        id='toggler'
         defaultChecked={isDark}
         onChange={handleToggle}
         aria-label='Dark Mode Toggler Checkbox'

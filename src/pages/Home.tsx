@@ -17,7 +17,7 @@ const Home = () => {
   return (
     <Suspense fallback={<LoadingPage />}>
       <Layout>
-        <section className='container px-5 mx-auto h-full'>
+        <section className='container px-5 mx-auto h-full max-w-6xl'>
           <header className='rtl mb-3'>
             <h1 className='text-2xl font-bold'>مرحبا،</h1>
             <span>معك في كل وقت</span>
