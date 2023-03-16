@@ -1,4 +1,4 @@
-const Filter = ({ className }: { className?: string }) => (
+const Filter = ({ className, onClick }: { className?: string; onClick?: () => void }) => (
   <svg
     id='Group_35'
     data-name='Group 35'
@@ -7,6 +7,7 @@ const Filter = ({ className }: { className?: string }) => (
     height='57.184'
     viewBox='0 0 66.58 57.184'
     className={className}
+    onClick={onClick}
   >
     <path
       id='Path_16'

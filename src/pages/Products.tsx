@@ -7,12 +7,11 @@ import Search from '../components/Search'
 import Filter from '../components/Icons/Filter'
 import Arrow from '../components/Icons/Arrow'
 import CategoryProducts from '../components/CategoryProducts'
-import { CATEGORIES, isSmallScreen, PRODUCT } from '../constants'
+import { isSmallScreen, PRODUCT } from '../constants'
 import abstractText from '../utils/functions/abstractText'
 
 const Home = () => {
   useDocumentTitle('المنتجات')
-  const [selectedCategory, setSelectedCategory] = useState<string>('')
 
   return (
     <Suspense fallback={<LoadingPage />}>
@@ -21,7 +20,10 @@ const Home = () => {
           <main className='rtl'>
             <div className='flex justify-between gap-x-5 items-center'>
               <Search />
-              <Filter className='w-6 h-6 min-w-fit dark:fill-white' />
+              <Filter
+                className='w-6 h-6 min-w-fit dark:fill-white hover:cursor-pointer'
+                onClick={() => console.log('hi')}
+              />
             </div>
 
             <div>
@@ -40,10 +42,7 @@ const Home = () => {
                     {PRODUCT('1').name}
                   </h5>
                   <p className='text-sm text-gray-600 dark:text-gray-50'>
-                    {abstractText(
-                      PRODUCT('1').description,
-                      isSmallScreen ? 45 : undefined
-                    )}
+                    {abstractText(PRODUCT('1').description, isSmallScreen ? 45 : 200)}
                   </p>
                   <span className='text-md font-bold text-gray-800 dark:text-gray-50'>
                     {PRODUCT('1').currentPrice} ج.س

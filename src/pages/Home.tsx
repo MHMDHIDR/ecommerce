@@ -25,7 +25,10 @@ const Home = () => {
           <main className='rtl'>
             <div className='flex justify-between gap-x-5 items-center'>
               <Search />
-              <Filter className='w-6 h-6 min-w-fit dark:fill-white' />
+              <Filter
+                className='w-6 h-6 min-w-fit dark:fill-white hover:cursor-pointer'
+                onClick={() => console.log('hi')}
+              />
             </div>
 
             <div>

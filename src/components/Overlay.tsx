@@ -1,9 +1,12 @@
 import { useContext } from 'react'
 import { AppSettingsContext } from '../contexts/AppSettingsContext'
+import useEventListener from '../hooks/useEventListener'
 import { AppSettingsProps } from '../types'
 
 const Overlay = () => {
   const { isSidebarOpen, menuToggler } = useContext<AppSettingsProps>(AppSettingsContext)
+
+  useEventListener('keydown', (e: any) => e.key === 'Escape' && menuToggler())
 
   return (
     <div
