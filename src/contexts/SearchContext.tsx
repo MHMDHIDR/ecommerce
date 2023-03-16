@@ -1,11 +1,11 @@
-import { useState, createContext, useEffect } from 'react'
+import { useState, createContext, useEffect, ReactNode } from 'react'
 import useAxios from '../hooks/useAxios'
 import { SearchContextProps, SearchResultsProps } from '../types'
 import { removeSlug } from '../utils/functions/slug'
 
 export const SearchContext = createContext<SearchContextProps>({} as SearchContextProps)
 
-const SearchContextProvider = ({ children }: { children: React.ReactNode }) => {
+const SearchContextProvider = ({ children }: { children: ReactNode }) => {
   const [search, setSearch] = useState('')
   const [searchResults, setRearchResults] = useState([''])
   const [category, setCategory] = useState('')

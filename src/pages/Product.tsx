@@ -16,9 +16,7 @@ const Product = () => {
     <>
       <div className='relative w-full rtl flex flex-col justify-between overflow-x-hidden overflow-y-auto'>
         <div className='flex'>
-          {isSmallScreen && (
-            <BackButton to='/' className='w-8 h-8 absolute z-50 top-6 left-6' />
-          )}
+          <BackButton to='/' className='w-8 h-8 absolute z-50 top-6 left-6' />
 
           {PRODUCT(id!).discount && (
             <span className='absolute top-0 right-0 w-28 py-1 translate-y-4 translate-x-8 rotate-45 bg-blue-600 text-center text-sm text-white'>

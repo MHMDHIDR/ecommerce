@@ -1,9 +1,9 @@
-import React, { useState, createContext } from 'react'
+import React, { useState, createContext, ReactNode } from 'react'
 import { ThemeProps } from '../types'
 
 export const ThemeContext = createContext<ThemeProps>({} as ThemeProps)
 
-const ThemeContextProvider = ({ children }: { children: React.ReactNode }) => {
+const ThemeContextProvider = ({ children }: { children: ReactNode }) => {
   const [isDark, setIsDark] = useState(getLocalStorageTheme() ? true : false)
 
   setHtmlToDark(getLocalStorageTheme())

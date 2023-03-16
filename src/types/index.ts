@@ -89,6 +89,7 @@ export type AppSettingsProps = {
   isSidebarOpen: boolean
   setIsSidebarOpen: (isSidebarOpen: boolean) => void
   setSidebarOpen: (isSidebarOpen: boolean) => void
+  menuToggler: () => void
 }
 
 export type ImgsProps = {

@@ -1,9 +1,9 @@
-import React, { useState, createContext } from 'react'
+import { useState, createContext, ReactNode } from 'react'
 import { AppSettingsProps } from '../types'
 
 export const AppSettingsContext = createContext<AppSettingsProps>({} as AppSettingsProps)
 
-const AppSettingsContextProvider = ({ children }: { children: React.ReactNode }) => {
+const AppSettingsContextProvider = ({ children }: { children: ReactNode }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   function setSidebarOpen(isSidebarOpen: boolean) {
@@ -15,12 +15,18 @@ const AppSettingsContextProvider = ({ children }: { children: React.ReactNode })
     navigationToggler!.setAttribute('aria-expanded', 'false') //set to original state
   }
 
+  const menuToggler = () => {
+    setIsSidebarOpen(!isSidebarOpen)
+    setSidebarOpen(!isSidebarOpen)
+  }
+
   return (
     <AppSettingsContext.Provider
       value={{
         isSidebarOpen,
         setIsSidebarOpen,
-        setSidebarOpen
+        setSidebarOpen,
+        menuToggler
       }}
     >
       {children}

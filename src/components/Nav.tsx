@@ -3,13 +3,7 @@ import { Link } from 'react-router-dom'
 import { AppSettingsContext } from '../contexts/AppSettingsContext'
 
 const Nav = () => {
-  const { isSidebarOpen, setIsSidebarOpen, setSidebarOpen } =
-    useContext(AppSettingsContext)
-
-  const handleToggle = () => {
-    setIsSidebarOpen(!isSidebarOpen)
-    setSidebarOpen(!isSidebarOpen)
-  }
+  const { menuToggler } = useContext(AppSettingsContext)
 
   return (
     <nav className='flex-no-wrap relative flex w-full items-center justify-between py-4 lg:flex-wrap lg:justify-start container mx-auto max-w-6xl'>
@@ -20,7 +14,7 @@ const Nav = () => {
           aria-expanded='false'
           aria-label='Toggle navigation'
           id={`navigationToggler`}
-          onClick={handleToggle}
+          onClick={menuToggler}
         >
           <span className='[&>svg]:w-7'>
             <svg
@@ -41,7 +35,7 @@ const Nav = () => {
         <div className='relative flex items-center'>
           <div className='relative'>
             <Link
-              className='hidden-arrow flex items-center whitespace-nowrap transition duration-150 ease-in-out motion-reduce:transition-none'
+              className='flex items-center whitespace-nowrap transition duration-150 ease-in-out motion-reduce:transition-none'
               to='/profile'
               role='button'
               aria-expanded='false'
