@@ -1,10 +1,11 @@
 import { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useCart } from '../contexts/CartContext'
 import { AppSettingsContext } from '../contexts/AppSettingsContext'
 import HomeIcon from './Icons/HomeIcon'
 import { CartIconFilled } from './Icons/CartIcon'
 import NotificationsIcon from './Icons/NotificationsIcon'
+import { AddBtn } from './Icons/ControlBtn'
 import { isActiveLink } from '../utils/functions/isActiveLink'
 import { isSmallScreen } from '../constants'
 import Logo from './Icons/Logo'
@@ -14,8 +15,9 @@ import Overlay from './Overlay'
 const Footer = () => {
   const { isSidebarOpen, menuToggler } = useContext<AppSettingsProps>(AppSettingsContext)
   const { totalUniqueItems } = useCart()
+  const { pathname } = useLocation()
 
-  const Menus = [
+  const Menu = [
     {
       label: 'الرئيسية',
       to: '/',
@@ -48,6 +50,33 @@ const Footer = () => {
     }
   ]
 
+  const SupplierMenu = [
+    {
+      label: 'الطلبات',
+      to: '/',
+      icon: HomeIcon
+    },
+    {
+      label: 'إضافة منتج',
+      to: '/supplier/add',
+      icon: AddBtn
+    },
+    {
+      label: 'الحساب',
+      to: '/profile',
+      icon: () => (
+        <img
+          src='https://tecdn.b-cdn.net/img/new/avatars/2.jpg'
+          width={16}
+          height={16}
+          className='rounded-full w-4 h-4'
+          alt='Profile'
+          loading='lazy'
+        />
+      )
+    }
+  ]
+
   return (
     <>
       {!isSmallScreen && <Overlay />}
@@ -63,36 +92,62 @@ const Footer = () => {
       >
         <menu className='flex md:flex-col items-center gap-8 md:gap-12 w-full md:justify-start md:pt-40 justify-around'>
           {!isSmallScreen && <Logo width='24' height='20' />}
-          {Menus.map((item, idx) => (
-            <Link
-              key={idx}
-              to={item.to}
-              type='button'
-              aria-controls='navbar'
-              aria-expanded='false'
-              aria-label='Toggle navigation'
-              className={`text-sm text-black rounded-full relative flex`}
-              onClick={menuToggler}
-            >
-              {isActiveLink(item.to) ? (
-                <div className='flex items-center'>
-                  <span className='bg-black dark:bg-gray-300 p-2 rounded-full'>
-                    <item.icon className='w-4 h-4 fill-gray-50 dark:fill-neutral-900' />
-                  </span>
-                  <span className='px-2 dark:text-gray-50'>{item.label}</span>
-                </div>
-              ) : (
-                <span className='[&>svg]:w-5 inline-block py-1.5'>
-                  <item.icon className='w-5 h-5' />
-                </span>
-              )}
-              {item.totalUniqueItems ? (
-                <span className='absolute -top-2 right-2 rounded-full bg-red-700 py-0 px-1.5 text-xs text-white'>
-                  {item.totalUniqueItems}
-                </span>
-              ) : null}
-            </Link>
-          ))}
+          {pathname.includes('supplier')
+            ? SupplierMenu.map((item, idx) => (
+                <Link
+                  key={idx}
+                  to={item.to}
+                  type='button'
+                  aria-controls='navbar'
+                  aria-expanded='false'
+                  aria-label='Toggle navigation'
+                  className={`text-sm text-black rounded-full relative flex`}
+                  onClick={menuToggler}
+                >
+                  {isActiveLink(item.to) ? (
+                    <div className='flex items-center'>
+                      <span className='bg-black dark:bg-gray-300 p-2 rounded-full'>
+                        <item.icon className='w-4 h-4 fill-gray-50 dark:fill-neutral-900' />
+                      </span>
+                      <span className='px-2 dark:text-gray-50'>{item.label}</span>
+                    </div>
+                  ) : (
+                    <span className='[&>svg]:w-5 inline-block py-1.5'>
+                      <item.icon className='w-5 h-5' />
+                    </span>
+                  )}
+                </Link>
+              ))
+            : Menu.map((item, idx) => (
+                <Link
+                  key={idx}
+                  to={item.to}
+                  type='button'
+                  aria-controls='navbar'
+                  aria-expanded='false'
+                  aria-label='Toggle navigation'
+                  className={`text-sm text-black rounded-full relative flex`}
+                  onClick={menuToggler}
+                >
+                  {isActiveLink(item.to) ? (
+                    <div className='flex items-center'>
+                      <span className='bg-black dark:bg-gray-300 p-2 rounded-full'>
+                        <item.icon className='w-4 h-4 fill-gray-50 dark:fill-neutral-900' />
+                      </span>
+                      <span className='px-2 dark:text-gray-50'>{item.label}</span>
+                    </div>
+                  ) : (
+                    <span className='[&>svg]:w-5 inline-block py-1.5'>
+                      <item.icon className='w-5 h-5' />
+                    </span>
+                  )}
+                  {item.totalUniqueItems ? (
+                    <span className='absolute -top-2 right-2 rounded-full bg-red-700 py-0 px-1.5 text-xs text-white'>
+                      {item.totalUniqueItems}
+                    </span>
+                  ) : null}
+                </Link>
+              ))}
         </menu>
       </footer>
     </>
