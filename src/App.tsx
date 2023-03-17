@@ -19,6 +19,7 @@ import EditProfile from './pages/EditProfile'
 import Favourites from './pages/Favourites'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsConditions from './pages/TermsConditions'
+import SupplierDashboard from './pages/SupplierDashboard'
 //contexts
 import { CartProvider } from './contexts/CartContext'
 import FileUploadContextProvider from './contexts/FileUploadContext'
@@ -52,6 +53,8 @@ const App = () => (
                   <Route path='/terms-and-conditions' element={<TermsConditions />} />
                   <Route path='/login' element={<Login />} />
                   <Route path='/signup' element={<Signup />} />
+                  <Route path='/supplier' element={<SupplierDashboard />}></Route>
+
                   <Route path='*' element={<ModalNotFound fullscreen={true} />} />
                 </Routes>
               </Suspense>

@@ -50,7 +50,7 @@ const Footer = () => {
 
   return (
     <>
-      <Overlay />
+      {!isSmallScreen && <Overlay />}
       <footer
         className={`fixed flex-no-wrap -bottom-1 rounded-tl-3xl rounded-tr-3xl flex w-full z-50 rtl
       py-3 dark:shadow-[0_-1px_7px_0_rgb(10_10_10_/_30%)] shadow-[0_-1px_7px_0_rgb(97_97_97_/_30%)]

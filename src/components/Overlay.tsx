@@ -10,7 +10,7 @@ const Overlay = () => {
 
   return (
     <div
-      className={`fixed inset-0 z-50 transition-opacity duration-500 bg-black opacity-0 pointer-events-none ${
+      className={`fixed inset-0 z-50 transition-opacity duration-500 bg-black ${
         isSidebarOpen
           ? 'opacity-100 bg-opacity-75 pointer-events-auto'
           : 'opacity-0 bg-opacity-0 pointer-events-none'

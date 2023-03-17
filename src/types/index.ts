@@ -85,6 +85,14 @@ export type ThemeProps = {
   setLocalStorageTheme: (isDark: boolean) => void
 }
 
+export type NavMenuPros = {
+  children: React.ReactNode
+  isOptions?: boolean
+  label?: string
+  className?: string
+  src?: string
+}
+
 export type AppSettingsProps = {
   isSidebarOpen: boolean
   setIsSidebarOpen: (isSidebarOpen: boolean) => void
