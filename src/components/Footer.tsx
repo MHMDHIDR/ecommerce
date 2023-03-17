@@ -9,6 +9,7 @@ import { AddBtn } from './Icons/ControlBtn'
 import { isActiveLink } from '../utils/functions/isActiveLink'
 import { isSmallScreen } from '../constants'
 import Logo from './Icons/Logo'
+import Shop from './Icons/Shop'
 import { AppSettingsProps } from '../types'
 import Overlay from './Overlay'
 
@@ -64,7 +65,7 @@ const Footer = () => {
     {
       label: 'عرض المنتجات',
       to: '/supplier/products',
-      icon: AddBtn
+      icon: Shop
     },
     {
       label: 'الحساب',

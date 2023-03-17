@@ -58,7 +58,7 @@ const App = () => (
 
                 <Route path='supplier' element={<SupplierDashboard />} />
                 <Route path='supplier/add' element={<DashboardAddFood />} />
-                <Route path='supplier/menu' element={<DashboardMenu />} />
+                <Route path='supplier/products' element={<DashboardMenu />} />
 
                 <Route path='*' element={<ModalNotFound fullscreen={true} />} />
               </Routes>

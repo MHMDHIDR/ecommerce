@@ -11,7 +11,7 @@ const SupplierDashboard = () => {
     <Suspense fallback={<LoadingPage />}>
       <Layout>
         <section className='container px-5 mx-auto mb-20 max-w-6xl rtl'>
-          <h2 className='text-xl text-center my-16'>الطلبات الآخيرة</h2>
+          <h2 className='text-xl text-center my-16'>الطلبات</h2>
         </section>
       </Layout>
     </Suspense>
