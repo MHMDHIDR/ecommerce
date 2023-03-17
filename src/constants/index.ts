@@ -55,4 +55,4 @@ export const APP_URL =
       : `http://${url.local}:3001`
     : process.env.NEXT_PUBLIC_APP_PUBLIC_URL
 
-export const API_URL = APP_URL + '/api'
+// export const API_URL = APP_URL + '/api'

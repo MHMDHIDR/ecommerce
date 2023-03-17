@@ -32,41 +32,41 @@ import DashboardAddFood from './pages/dashboard/SupplierAddProduct'
 const App = () => (
   <ThemeContextProvider>
     <AppSettingsContextProvider>
-      <SearchContextProvider>
-        <FileUploadContextProvider>
-          <CartProvider>
-            <Router>
-              <Suspense fallback={<LoadingPage />}>
-                <Routes>
-                  <Route path='/' element={<Home />} />
-                  <Route path='/cart' element={<Cart />} />
-                  <Route path='/completed-orders' element={<CompletedOrders />} />
-                  <Route path='/order-address' element={<OrderAddress />} />
-                  <Route path='/notifications' element={<Notifications />} />
-                  <Route path='/profile' element={<Profile />} />
-                  <Route path='/profile/edit' element={<EditProfile />} />
-                  <Route path='/profile/favourites' element={<Favourites />} />
-                  <Route path='/products' element={<Products />} />
-                  <Route path='/product/:id' element={<Product />} />
-                  <Route path='/categories' element={<Categories />}>
-                    <Route path=':name' element={<Categories />} />
-                  </Route>
-                  <Route path='/privacy-policy' element={<PrivacyPolicy />} />
-                  <Route path='/terms-and-conditions' element={<TermsConditions />} />
-                  <Route path='/login' element={<Login />} />
-                  <Route path='/signup' element={<Signup />} />
+      {/* <SearchContextProvider> */}
+      <FileUploadContextProvider>
+        <CartProvider>
+          <Router>
+            <Suspense fallback={<LoadingPage />}>
+              <Routes>
+                <Route path='/' element={<Home />} />
+                <Route path='/cart' element={<Cart />} />
+                <Route path='/completed-orders' element={<CompletedOrders />} />
+                <Route path='/order-address' element={<OrderAddress />} />
+                <Route path='/notifications' element={<Notifications />} />
+                <Route path='/profile' element={<Profile />} />
+                <Route path='/profile/edit' element={<EditProfile />} />
+                <Route path='/profile/favourites' element={<Favourites />} />
+                <Route path='/products' element={<Products />} />
+                <Route path='/product/:id' element={<Product />} />
+                <Route path='/categories' element={<Categories />}>
+                  <Route path=':name' element={<Categories />} />
+                </Route>
+                <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+                <Route path='/terms-and-conditions' element={<TermsConditions />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/signup' element={<Signup />} />
 
-                  <Route path='supplier' element={<SupplierDashboard />} />
-                  <Route path='supplier/add' element={<DashboardAddFood />} />
-                  <Route path='supplier/menu' element={<DashboardMenu />} />
+                <Route path='supplier' element={<SupplierDashboard />} />
+                <Route path='supplier/add' element={<DashboardAddFood />} />
+                <Route path='supplier/menu' element={<DashboardMenu />} />
 
-                  <Route path='*' element={<ModalNotFound fullscreen={true} />} />
-                </Routes>
-              </Suspense>
-            </Router>
-          </CartProvider>
-        </FileUploadContextProvider>
-      </SearchContextProvider>
+                <Route path='*' element={<ModalNotFound fullscreen={true} />} />
+              </Routes>
+            </Suspense>
+          </Router>
+        </CartProvider>
+      </FileUploadContextProvider>
+      {/* </SearchContextProvider> */}
     </AppSettingsContextProvider>
   </ThemeContextProvider>
 )
