@@ -26,7 +26,7 @@ const FileUpload = ({ data }: any) => {
                 />
                 <label htmlFor='profileImg' className='relative cursor-pointer'>
                   <Pen className='w-5 h-5 bg-green-200 p-1 rounded-md absolute bottom-8 -right-1.5 shadow' />
-                  <span>تغيير الصورة</span>
+                  <span>{data.label || 'تغيير الصورة'}</span>
                 </label>
                 <button
                   type='button'
@@ -51,7 +51,7 @@ const FileUpload = ({ data }: any) => {
                     className='object-cover p-1 border border-gray-400 w-20 min-h-fit h-20 dark:border-gray-300 rounded-xl'
                   />
                   <Pen className='w-5 h-5 bg-green-200 p-1 rounded-md absolute bottom-16 -right-1 shadow' />
-                  تغيير الصورة
+                  <span>{data.label || 'تغيير الصورة'}</span>
                 </label>
               )
             )

@@ -40,7 +40,6 @@ const EditFood = () => {
   const [hasConfirmBtns, setHasConfirmBtn] = useState(false)
 
   //Contexts
-  const { tags, setTags } = useContext(TagsContext)
   const { file } = useContext(FileUploadContext)
 
   //Form errors messages
@@ -71,181 +70,177 @@ const EditFood = () => {
     }
   }, [foodData?.response?.response, categories?.response])
 
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    index: string | number
-  ) => {
-    const { name, value } = e.target
-    const newToppings = [...toppings]
-    newToppings[index][name] = value
-    setToppings(newToppings)
-  }
+  // const handleInputChange = (
+  //   e: ChangeEvent<HTMLInputElement>,
+  //   index: string | number
+  // ) => {
+  //   const { name, value } = e.target
+  //   const newToppings = [...toppings]
+  //   newToppings[index][name] = value
+  //   setToppings(newToppings)
+  // }
 
-  const handleAddClick = () => {
-    setToppings([...toppings, {}])
-  }
+  // const handleAddClick = () => {
+  //   setToppings([...toppings, {}])
+  // }
 
-  const handleRemoveClick = (index: number) => {
-    const list = [...toppings]
-    list.splice(index, 1)
-    setToppings(list)
-  }
+  // const handleRemoveClick = (index: number) => {
+  //   const list = [...toppings]
+  //   list.splice(index, 1)
+  //   setToppings(list)
+  // }
 
-  useEffect(() => {
-    data && setTags(data?.foodTags)
-  }, [data, setTags])
+  // const handleUpdateFood = async (e: { key: string; preventDefault: () => void }) => {
+  //   if (e.key === 'Enter') {
+  //     //don't submit the form if Enter is pressed
+  //     e.preventDefault()
+  //   } else {
+  //     e.preventDefault()
+  //     //initial form values if no value was updated taking it from [0] index
+  //     const currentFoodId = data?._id
+  //     const currentFoodName = data?.foodName
+  //     const currentFoodPrice = data?.foodPrice
+  //     const currentCategory = data?.category
+  //     const currentFoodDesc = data?.foodDesc
+  //     const prevFoodImgPathsAndNames = [
+  //       ...data?.foodImgs.map(({ foodImgDisplayPath, foodImgDisplayName }) => {
+  //         return {
+  //           foodImgDisplayPath,
+  //           foodImgDisplayName
+  //         }
+  //       })
+  //     ]
 
-  const handleUpdateFood = async (e: { key: string; preventDefault: () => void }) => {
-    if (e.key === 'Enter') {
-      //don't submit the form if Enter is pressed
-      e.preventDefault()
-    } else {
-      e.preventDefault()
-      //initial form values if no value was updated taking it from [0] index
-      const currentFoodId = data?._id
-      const currentFoodName = data?.foodName
-      const currentFoodPrice = data?.foodPrice
-      const currentCategory = data?.category
-      const currentFoodDesc = data?.foodDesc
-      const prevFoodImgPathsAndNames = [
-        ...data?.foodImgs.map(({ foodImgDisplayPath, foodImgDisplayName }) => {
-          return {
-            foodImgDisplayPath,
-            foodImgDisplayName
-          }
-        })
-      ]
+  //     //using FormData to send constructed data
+  //     const formData = new FormData()
+  //     formData.append('foodId', currentFoodId)
+  //     formData.append('foodName', foodName || currentFoodName)
+  //     formData.append('foodPrice', foodPrice || currentFoodPrice)
+  //     formData.append('category', category[0] || currentCategory)
+  //     formData.append('foodDesc', foodDesc || currentFoodDesc)
+  //     toppings[0].toppingName === ''
+  //       ? formData.append(
+  //           'foodToppings',
+  //           JSON.stringify([
+  //             {
+  //               toppingName: {},
+  //               toppingPrice: {}
+  //             }
+  //           ])
+  //         )
+  //       : typeof toppings[0].toppingName === 'string' &&
+  //         formData.append('foodToppings', JSON.stringify(toppings))
+  //     formData.append('foodTags', JSON.stringify(tags))
+  //     file.map(foodImg => formData.append('foodImg', foodImg))
+  //     formData.append(
+  //       'prevFoodImgPathsAndNames',
+  //       JSON.stringify(prevFoodImgPathsAndNames)
+  //     )
 
-      //using FormData to send constructed data
-      const formData = new FormData()
-      formData.append('foodId', currentFoodId)
-      formData.append('foodName', foodName || currentFoodName)
-      formData.append('foodPrice', foodPrice || currentFoodPrice)
-      formData.append('category', category[0] || currentCategory)
-      formData.append('foodDesc', foodDesc || currentFoodDesc)
-      toppings[0].toppingName === ''
-        ? formData.append(
-            'foodToppings',
-            JSON.stringify([
-              {
-                toppingName: {},
-                toppingPrice: {}
-              }
-            ])
-          )
-        : typeof toppings[0].toppingName === 'string' &&
-          formData.append('foodToppings', JSON.stringify(toppings))
-      formData.append('foodTags', JSON.stringify(tags))
-      file.map(foodImg => formData.append('foodImg', foodImg))
-      formData.append(
-        'prevFoodImgPathsAndNames',
-        JSON.stringify(prevFoodImgPathsAndNames)
-      )
+  //     if (
+  //       ImgErr.current.textContent === '' &&
+  //       foodNameErr.current.textContent === '' &&
+  //       priceErr.current.textContent === '' &&
+  //       descErr.current.textContent === ''
+  //     ) {
+  //       try {
+  //         setLoadingMsg(`جار تحديث ${foodName}`)
+  //         //show waiting modal
+  //         modalLoading.classList.remove('hidden')
+  //         const response = await Axios.patch(
+  //           `${API_URL}/foods/${currentFoodId}`,
+  //           formData
+  //         )
 
-      if (
-        ImgErr.current.textContent === '' &&
-        foodNameErr.current.textContent === '' &&
-        priceErr.current.textContent === '' &&
-        descErr.current.textContent === ''
-      ) {
-        try {
-          setLoadingMsg(`جار تحديث ${foodName}`)
-          //show waiting modal
-          modalLoading.classList.remove('hidden')
-          const response = await Axios.patch(
-            `${API_URL}/foods/${currentFoodId}`,
-            formData
-          )
+  //         const { foodUpdated } = response.data
 
-          const { foodUpdated } = response.data
+  //         setUpdatedFoodStatus(foodUpdated)
+  //         //Remove waiting modal
+  //         setTimeout(() => {
+  //           modalLoading.classList.add('hidden')
+  //         }, 300)
+  //       } catch (err) {
+  //         console.error(err)
+  //       }
+  //     } else {
+  //       formMsg.current.textContent =
+  //         'الرجاء إضافة البيانات بشكل صحيح لتستطيع تحديث البيانات 😃'
+  //     }
+  //   }
+  // }
 
-          setUpdatedFoodStatus(foodUpdated)
-          //Remove waiting modal
-          setTimeout(() => {
-            modalLoading.classList.add('hidden')
-          }, 300)
-        } catch (err) {
-          console.error(err)
-        }
-      } else {
-        formMsg.current.textContent =
-          'الرجاء إضافة البيانات بشكل صحيح لتستطيع تحديث البيانات 😃'
-      }
-    }
-  }
+  // const handleDeleteFood = async (foodId, foodImgs = data?.foodImgs) => {
+  //   const prevFoodImgPathsAndNames = [
+  //     ...foodImgs.map(({ foodImgDisplayPath, foodImgDisplayName }) => {
+  //       return {
+  //         foodImgDisplayPath,
+  //         foodImgDisplayName
+  //       }
+  //     })
+  //   ]
+  //   //Using FormData to send constructed data
+  //   const formData = new FormData()
+  //   formData.append('prevFoodImgPathsAndNames', JSON.stringify(prevFoodImgPathsAndNames))
+  //   try {
+  //     //You need to name the body {data} so it can be recognized in (.delete) method
+  //     const response = await Axios.delete(`${API_URL}/foods/${foodId}`, {
+  //       data: formData
+  //     })
+  //     const { foodDeleted } = response.data
+  //     setDeleteFoodStatus(foodDeleted)
+  //     //Remove waiting modal
+  //     setTimeout(() => {
+  //       modalLoading.classList.add('hidden')
+  //     }, 300)
+  //   } catch (err) {
+  //     console.error(err)
+  //   }
+  // }
 
-  const handleDeleteFood = async (foodId, foodImgs = data?.foodImgs) => {
-    const prevFoodImgPathsAndNames = [
-      ...foodImgs.map(({ foodImgDisplayPath, foodImgDisplayName }) => {
-        return {
-          foodImgDisplayPath,
-          foodImgDisplayName
-        }
-      })
-    ]
-    //Using FormData to send constructed data
-    const formData = new FormData()
-    formData.append('prevFoodImgPathsAndNames', JSON.stringify(prevFoodImgPathsAndNames))
-    try {
-      //You need to name the body {data} so it can be recognized in (.delete) method
-      const response = await Axios.delete(`${API_URL}/foods/${foodId}`, {
-        data: formData
-      })
-      const { foodDeleted } = response.data
-      setDeleteFoodStatus(foodDeleted)
-      //Remove waiting modal
-      setTimeout(() => {
-        modalLoading.classList.add('hidden')
-      }, 300)
-    } catch (err) {
-      console.error(err)
-    }
-  }
+  // const handleDeleteImg = async (foodId, foodImg) => {
+  //   try {
+  //     //You need to name the body {data} so it can be recognized in (.delete) method
+  //     const response = await Axios.delete(`${API_URL}/foods/${foodId}/${foodImg}`)
+  //     const { ImgDeleted } = response.data
+  //     setDeleteImgStatus(ImgDeleted)
+  //     //Remove waiting modal
+  //     setTimeout(() => {
+  //       modalLoading.classList.add('hidden')
+  //     }, 300)
+  //   } catch (err) {
+  //     console.error(err)
+  //   }
+  // }
 
-  const handleDeleteImg = async (foodId, foodImg) => {
-    try {
-      //You need to name the body {data} so it can be recognized in (.delete) method
-      const response = await Axios.delete(`${API_URL}/foods/${foodId}/${foodImg}`)
-      const { ImgDeleted } = response.data
-      setDeleteImgStatus(ImgDeleted)
-      //Remove waiting modal
-      setTimeout(() => {
-        modalLoading.classList.add('hidden')
-      }, 300)
-    } catch (err) {
-      console.error(err)
-    }
-  }
+  // useEventListener('click', (e: any) => {
+  //   if (e.target.id === 'deleteImg') {
+  //     setAction('deleteImg')
+  //     setHasConfirmBtn(true)
+  //     setLoadingMsg(`هل أنت متأكد من حذف الصورة لا يمكن التراجع عن هذا القرار`)
+  //     setDelFoodImg(e.target.dataset.imgName)
+  //     modalLoading.classList.remove('hidden')
+  //   }
 
-  useEventListener('click', (e: any) => {
-    if (e.target.id === 'deleteImg') {
-      setAction('deleteImg')
-      setHasConfirmBtn(true)
-      setLoadingMsg(`هل أنت متأكد من حذف الصورة لا يمكن التراجع عن هذا القرار`)
-      setDelFoodImg(e.target.dataset.imgName)
-      modalLoading.classList.remove('hidden')
-    }
+  //   if (e.target.id === 'deleteFood') {
+  //     setAction('deleteFood')
+  //     setDelFoodName(removeSlug(e.target.dataset.name))
+  //     setHasConfirmBtn(true)
+  //     setLoadingMsg(
+  //       `هل أنت متأكد من حذف المنتج ${removeSlug(
+  //         e.target.dataset.name
+  //       )} ؟ لا يمكن التراجع عن هذا القرار`
+  //     )
+  //     modalLoading.classList.remove('hidden')
+  //   }
 
-    if (e.target.id === 'deleteFood') {
-      setAction('deleteFood')
-      setDelFoodName(removeSlug(e.target.dataset.name))
-      setHasConfirmBtn(true)
-      setLoadingMsg(
-        `هل أنت متأكد من حذف المنتج ${removeSlug(
-          e.target.dataset.name
-        )} ؟ لا يمكن التراجع عن هذا القرار`
-      )
-      modalLoading.classList.remove('hidden')
-    }
-
-    if (e.target.id === 'cancel') {
-      modalLoading.classList.add('hidden')
-    } else if (e.target.id === 'confirm') {
-      action === 'deleteImg'
-        ? handleDeleteImg(data?._id, delFoodImg)
-        : handleDeleteFood(data?._id, data?.foodImgs)
-    }
-  })
+  //   if (e.target.id === 'cancel') {
+  //     modalLoading.classList.add('hidden')
+  //   } else if (e.target.id === 'confirm') {
+  //     action === 'deleteImg'
+  //       ? handleDeleteImg(data?._id, delFoodImg)
+  //       : handleDeleteFood(data?._id, data?.foodImgs)
+  //   }
+  // })
 
   return (
     <>
@@ -303,7 +298,7 @@ const EditFood = () => {
             modalHidden='hidden'
             classes='text-blue-600 dark:text-blue-400 text-lg'
             msg={loadingMsg}
-            ctaConfirmBtns={hasConfirmBtns && ['حذف', 'الغاء']}
+            // ctaConfirmBtns={hasConfirmBtns && ['حذف', 'الغاء']}
           />
 
           <h3 className='mx-0 mt-4 mb-12 text-2xl text-center md:text-3xl'>
@@ -337,19 +332,6 @@ const EditFood = () => {
                       defaultValue={removeSlug(data?.foodName)}
                       autoFocus
                       onChange={e => setFoodName(createSlug(e.target.value.trim()))}
-                      onKeyUp={(e: any) => {
-                        const target = e.target.value.trim()
-
-                        if (target.length > 0 && target.length < 5) {
-                          foodNameErr.current.textContent =
-                            'إسم الوجبة أو المشروب صغير ولا يوصف'
-                        } else if (target.length > 30) {
-                          foodNameErr.current.textContent =
-                            'الاسم لا يمكن أن يزيد عن 30 حرفاً، يمكنك إضافة وصف طويل إذا كنت تحتاج لذلك'
-                        } else {
-                          foodNameErr.current.textContent = ''
-                        }
-                      }}
                     />
                     <span className='form__label'>اسم الوجبة أو المشروب</span>
                     <span
@@ -366,24 +348,9 @@ const EditFood = () => {
                       min='5'
                       max='500'
                       onChange={e => setFoodPrice(e.target.value.trim())}
-                      onKeyUp={(e: any) => {
-                        const target = parseInt(e.target.value.trim())
-
-                        if (target > 0 && target < 5) {
-                          priceErr.current.textContent = `سعر الوجبة أو المشروب يجب أن لا يقل عن 5 ريال`
-                        } else if (target > 500) {
-                          priceErr.current.textContent = `سعر الوجبة أو المشروب يجب أن لا يزيد عن 500 ريال`
-                        } else {
-                          priceErr.current.textContent = ''
-                        }
-                      }}
                       defaultValue={data?.foodPrice}
                     />
                     <span className='form__label'>السعر (ر.ق)</span>
-                    <span
-                      className='inline-block md:text-lg text-red-600 dark:text-red-400 font-[600] pt-2 px-1'
-                      ref={priceErr}
-                    ></span>
                   </label>
 
                   <label htmlFor='category' className='form__group'>
@@ -391,12 +358,6 @@ const EditFood = () => {
                       id='category'
                       className='form__input'
                       required
-                      onChange={e =>
-                        setCategory([
-                          e.target.value.trim(),
-                          e.target.options[e.target.selectedIndex].textContent
-                        ])
-                      }
                       defaultValue={data?.category}
                     >
                       <option value=''>اختر التصنيف</option>
@@ -417,17 +378,6 @@ const EditFood = () => {
                       minLength={10}
                       maxLength={300}
                       onChange={e => setFoodDesc(e.target.value.trim())}
-                      onKeyUp={(e: any) => {
-                        const target = e.target.value.trim()
-
-                        if (target.length > 0 && target.length < 30) {
-                          descErr.current.textContent = `الوصف صغير ولا يكفي أن يصف العنصر المضاف`
-                        } else if (target.length > 300) {
-                          descErr.current.textContent = `الوصف لا يمكن أن يزيد عن 300 حرف`
-                        } else {
-                          descErr.current.textContent = ''
-                        }
-                      }}
                       defaultValue={data?.foodDesc}
                     ></textarea>
                     <span className='form__label'>وصف الوجبة</span>
@@ -438,7 +388,6 @@ const EditFood = () => {
                   </label>
 
                   <label htmlFor='foodTags' className='form__group'>
-                    <AddTags inputId='foodTags' />
                     <span className='form__label'>
                       علامات تصنيفية تساعد في عملية البحث عن الوجبة (Tags) - هذا الحقل
                       اختياري
@@ -466,7 +415,7 @@ const EditFood = () => {
                           defaultValue={
                             typeof toppingName === 'string' ? toppingName : ''
                           }
-                          onChange={e => handleInputChange(e, idx)}
+                          // onChange={e => handleInputChange(e, idx)}
                         />
                         <input
                           type='number'
@@ -479,7 +428,7 @@ const EditFood = () => {
                           defaultValue={
                             typeof toppingPrice === 'string' ? toppingPrice : ''
                           }
-                          onChange={e => handleInputChange(e, idx)}
+                          // onChange={e => handleInputChange(e, idx)}
                         />
                       </div>
                       <div className='flex gap-4 pb-6'>
@@ -488,7 +437,7 @@ const EditFood = () => {
                             type='button'
                             data-tooltip='حذف الإضافة'
                             className='px-5 py-2 text-white transition-colors bg-red-500 rounded-lg w-fit hover:bg-red-600'
-                            onClick={() => handleRemoveClick(idx)}
+                            // onClick={() => handleRemoveClick(idx)}
                           >
                             -
                           </button>
@@ -498,7 +447,7 @@ const EditFood = () => {
                             type='button'
                             data-tooltip='إضافة جديدة'
                             className='px-5 py-2 text-white transition-colors bg-blue-500 rounded-lg w-fit hover:bg-blue-600'
-                            onClick={handleAddClick}
+                            // onClick={handleAddClick}
                           >
                             +
                           </button>
@@ -516,7 +465,7 @@ const EditFood = () => {
                     <button
                       id='updateFood'
                       className='min-w-[7rem] bg-green-600 hover:bg-green-700 text-white py-1.5 px-6 rounded-md'
-                      onClick={(e: any) => handleUpdateFood(e)}
+                      // onClick={(e: any) => handleUpdateFood(e)}
                     >
                       تحديث
                     </button>

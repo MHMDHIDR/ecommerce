@@ -53,7 +53,7 @@ const Footer = () => {
   const SupplierMenu = [
     {
       label: 'الطلبات',
-      to: '/',
+      to: '/supplier',
       icon: HomeIcon
     },
     {
@@ -96,7 +96,11 @@ const Footer = () => {
     `}
       >
         <menu className='flex md:flex-col items-center gap-8 md:gap-12 w-full md:justify-start md:pt-40 justify-around'>
-          {!isSmallScreen && <Logo width='24' height='20' />}
+          {!isSmallScreen && (
+            <Link to='/' onClick={menuToggler}>
+              <Logo width='24' height='20' />
+            </Link>
+          )}
           {pathname.includes('supplier')
             ? SupplierMenu.map((item, idx) => (
                 <Link

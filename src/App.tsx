@@ -19,15 +19,15 @@ import EditProfile from './pages/EditProfile'
 import Favourites from './pages/Favourites'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsConditions from './pages/TermsConditions'
-import SupplierDashboard from './pages/dashboard/SupplierDashboard'
+import SupplierDashboard from './pages/dashboard/Supplier'
 //contexts
 import { CartProvider } from './contexts/CartContext'
 import FileUploadContextProvider from './contexts/FileUploadContext'
 import ThemeContextProvider from './contexts/ThemeContext'
 import SearchContextProvider from './contexts/SearchContext'
 import AppSettingsContextProvider from './contexts/AppSettingsContext'
-import DashboardMenu from './pages/dashboard/DashboardMenu'
-import DashboardAddFood from './pages/dashboard/DashboardAddFood'
+import DashboardMenu from './pages/dashboard/SupplierViewProducts'
+import DashboardAddFood from './pages/dashboard/SupplierAddProduct'
 
 const App = () => (
   <ThemeContextProvider>
