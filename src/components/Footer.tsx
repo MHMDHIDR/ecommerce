@@ -62,6 +62,11 @@ const Footer = () => {
       icon: AddBtn
     },
     {
+      label: 'عرض المنتجات',
+      to: '/supplier/products',
+      icon: AddBtn
+    },
+    {
       label: 'الحساب',
       to: '/profile',
       icon: () => (

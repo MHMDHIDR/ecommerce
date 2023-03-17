@@ -1,9 +1,9 @@
 import { Suspense } from 'react'
-import useDocumentTitle from '../hooks/useDocumentTitle'
-import { LoadingPage } from '../components/Loading'
-import Layout from '../components/Layout'
-import NavMenu from '../components/NavMenu'
-import { AcceptBtn, RejectBtn } from '../components/OrdersTableActions'
+import useDocumentTitle from '../../hooks/useDocumentTitle'
+import { LoadingPage } from '../../components/Loading'
+import Layout from '../../components/Layout'
+import NavMenu from '../../components/NavMenu'
+import { AcceptBtn, RejectBtn } from '../../components/OrdersTableActions'
 
 const SupplierDashboard = () => {
   useDocumentTitle('لوحة تحكم التاجر')
