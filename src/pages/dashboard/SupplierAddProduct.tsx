@@ -8,7 +8,7 @@ import Layout from '../../components/Layout'
 import { Link } from 'react-router-dom'
 import goTo from '../../utils/functions/goTo'
 
-const EditProfile = () => {
+const SupplierAddProduct = () => {
   useDocumentTitle('إضافة منتج')
 
   const [itemDesc, setItemDesc] = useState('')
@@ -100,4 +100,4 @@ const EditProfile = () => {
   )
 }
 
-export default EditProfile
+export default SupplierAddProduct

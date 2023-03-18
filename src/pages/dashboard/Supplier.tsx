@@ -2,6 +2,9 @@ import { Suspense } from 'react'
 import useDocumentTitle from '../../hooks/useDocumentTitle'
 import { LoadingPage } from '../../components/Loading'
 import Layout from '../../components/Layout'
+import { AcceptBtn, RejectBtn } from '../../components/OrdersTableActions'
+import { ORDER } from '../../constants'
+import { createLocaleDateString } from '../../utils/functions/convertDate'
 import { Link } from 'react-router-dom'
 
 const SupplierDashboard = () => {
@@ -13,339 +16,100 @@ const SupplierDashboard = () => {
         <section className='container px-5 mx-auto mb-20 max-w-6xl rtl'>
           <h2 className='text-xl text-center my-16'>الطلبات</h2>
 
-          <div className='overflow-x-auto rounded-lg border border-gray-200 shadow-md m-5'>
+          <div className='overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-900 shadow-md m-5 dark:shadow-gray-900'>
             <table className='w-full border-collapse text-center bg-white dark:bg-gray-600 text-sm text-gray-900 dark:text-white'>
               <thead className='bg-gray-50 dark:bg-gray-700'>
                 <tr>
                   <th className='py-4'>رقم الطلب</th>
-                  <th className='py-4'>الحالة</th>
                   <th className='py-4'>اسماء المنتجات</th>
+                  <th className='py-4'>الحالة</th>
                   <th className='py-4'>تاريخ الطلب</th>
-                  <th className='py-4'></th>
+                  <th className='py-4'>الإجراء</th>
                 </tr>
               </thead>
-              <tbody className='divide-y divide-gray-100 border-t border-gray-100'>
-                <tr className='hover:bg-gray-50'>
-                  <td className='px-6 py-4'>
-                    <span>Steven Jobs</span>
-                  </td>
-                  <td className='px-6 py-4'>
-                    <span className='inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600'>
-                      <span className='h-1.5 w-1.5 rounded-full bg-green-600'></span>
-                      Active
-                    </span>
-                  </td>
-                  <td className='px-6 py-4'>Product Designer</td>
-                  <td className='px-6 py-4'>
-                    <div className='flex gap-2'>
-                      <span className='inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600'>
-                        Design
-                      </span>
-                      <span className='inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600'>
-                        Product
-                      </span>
-                      <span className='inline-flex items-center gap-1 rounded-full bg-violet-50 px-2 py-1 text-xs font-semibold text-violet-600'>
-                        Develop
-                      </span>
-                    </div>
-                  </td>
-                  <td className='px-6 py-4'>
-                    <div className='flex justify-end gap-4'>
-                      <a x-data="{ tooltip: 'Delete' }" href='#'>
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                          strokeWidth='1.5'
-                          stroke='currentColor'
-                          className='h-6 w-6'
-                          x-tooltip='tooltip'
+              <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
+                {[...Array(5).keys()].map((_order: any, idx: number) => (
+                  <tr className='hover:bg-gray-50 dark:hover:bg-gray-700' key={idx}>
+                    <td>
+                      <Link
+                        to={`order-details/${ORDER._id}`}
+                        className='inline-block py-4 px-6'
+                      >
+                        <span>{ORDER._id + idx}</span>
+                      </Link>
+                    </td>
+                    <td>
+                      <Link
+                        to={`order-details/${ORDER._id}`}
+                        className='inline-block py-4 px-6'
+                      >
+                        <menu className='list-decimal'>
+                          {ORDER.orderItems.map((item: any, idx: number) => (
+                            <li key={idx}>{item.cHeading}</li>
+                          ))}
+                        </menu>
+                      </Link>
+                    </td>
+                    <td>
+                      <Link
+                        to={`order-details/${ORDER._id}`}
+                        className='inline-block py-4 px-6'
+                      >
+                        <span
+                          className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
+                            ORDER.orderStatus === 'accept'
+                              ? 'text-green-600'
+                              : ORDER.orderStatus === 'reject'
+                              ? 'text-red-600'
+                              : 'text-gray-600'
+                          }`}
                         >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0'
-                          />
-                        </svg>
-                      </a>
-                      <a x-data="{ tooltip: 'Edite' }" href='#'>
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                          strokeWidth='1.5'
-                          stroke='currentColor'
-                          className='h-6 w-6'
-                          x-tooltip='tooltip'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125'
-                          />
-                        </svg>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr className='hover:bg-gray-50'>
-                  <th className='px-6 py-4'>
-                    <span>Steven Jobs</span>
-                  </th>
-                  <td className='px-6 py-4'>
-                    <span className='inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600'>
-                      <span className='h-1.5 w-1.5 rounded-full bg-green-600'></span>
-                      Active
-                    </span>
-                  </td>
-                  <td className='px-6 py-4'>
-                    <menu>
-                      <li>Product Designer</li>
-                      <li>Product Designer</li>
-                      <li>Product Designer</li>
-                    </menu>
-                  </td>
-                  <td className='px-6 py-4'>
-                    <div className='flex gap-2'>
-                      <span className='inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600'>
-                        Design
-                      </span>
-                      <span className='inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600'>
-                        Product
-                      </span>
-                      <span className='inline-flex items-center gap-1 rounded-full bg-violet-50 px-2 py-1 text-xs font-semibold text-violet-600'>
-                        Develop
-                      </span>
-                    </div>
-                  </td>
-                  <td className='px-6 py-4'>
-                    <div className='flex justify-end gap-4'>
-                      <a x-data="{ tooltip: 'Delete' }" href='#'>
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                          strokeWidth='1.5'
-                          stroke='currentColor'
-                          className='h-6 w-6'
-                          x-tooltip='tooltip'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0'
-                          />
-                        </svg>
-                      </a>
-                      <a x-data="{ tooltip: 'Edite' }" href='#'>
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                          strokeWidth='1.5'
-                          stroke='currentColor'
-                          className='h-6 w-6'
-                          x-tooltip='tooltip'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125'
-                          />
-                        </svg>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr className='hover:bg-gray-50'>
-                  <th className='px-6 py-4'>
-                    <span>Steven Jobs</span>
-                  </th>
-                  <td className='px-6 py-4'>
-                    <span className='inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600'>
-                      <span className='h-1.5 w-1.5 rounded-full bg-green-600'></span>
-                      Active
-                    </span>
-                  </td>
-                  <td className='px-6 py-4'>Product Designer</td>
-                  <td className='px-6 py-4'>
-                    <div className='flex gap-2'>
-                      <span className='inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600'>
-                        Design
-                      </span>
-                      <span className='inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600'>
-                        Product
-                      </span>
-                      <span className='inline-flex items-center gap-1 rounded-full bg-violet-50 px-2 py-1 text-xs font-semibold text-violet-600'>
-                        Develop
-                      </span>
-                    </div>
-                  </td>
-                  <td className='px-6 py-4'>
-                    <div className='flex justify-end gap-4'>
-                      <a x-data="{ tooltip: 'Delete' }" href='#'>
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                          strokeWidth='1.5'
-                          stroke='currentColor'
-                          className='h-6 w-6'
-                          x-tooltip='tooltip'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0'
-                          />
-                        </svg>
-                      </a>
-                      <a x-data="{ tooltip: 'Edite' }" href='#'>
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                          strokeWidth='1.5'
-                          stroke='currentColor'
-                          className='h-6 w-6'
-                          x-tooltip='tooltip'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125'
-                          />
-                        </svg>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr className='hover:bg-gray-50'>
-                  <th className='px-6 py-4'>
-                    <span>Steven Jobs</span>
-                  </th>
-                  <td className='px-6 py-4'>
-                    <span className='inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600'>
-                      <span className='h-1.5 w-1.5 rounded-full bg-green-600'></span>
-                      Active
-                    </span>
-                  </td>
-                  <td className='px-6 py-4'>Product Designer</td>
-                  <td className='px-6 py-4'>
-                    <div className='flex gap-2'>
-                      <span className='inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600'>
-                        Design
-                      </span>
-                      <span className='inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600'>
-                        Product
-                      </span>
-                      <span className='inline-flex items-center gap-1 rounded-full bg-violet-50 px-2 py-1 text-xs font-semibold text-violet-600'>
-                        Develop
-                      </span>
-                    </div>
-                  </td>
-                  <td className='px-6 py-4'>
-                    <div className='flex justify-end gap-4'>
-                      <a x-data="{ tooltip: 'Delete' }" href='#'>
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                          strokeWidth='1.5'
-                          stroke='currentColor'
-                          className='h-6 w-6'
-                          x-tooltip='tooltip'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0'
-                          />
-                        </svg>
-                      </a>
-                      <a x-data="{ tooltip: 'Edite' }" href='#'>
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                          strokeWidth='1.5'
-                          stroke='currentColor'
-                          className='h-6 w-6'
-                          x-tooltip='tooltip'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125'
-                          />
-                        </svg>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr className='hover:bg-gray-50'>
-                  <th className='px-6 py-4'>
-                    <span>Steven Jobs</span>
-                  </th>
-                  <td className='px-6 py-4'>
-                    <span className='inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600'>
-                      <span className='h-1.5 w-1.5 rounded-full bg-green-600'></span>
-                      Active
-                    </span>
-                  </td>
-                  <td className='px-6 py-4'>Product Designer</td>
-                  <td className='px-6 py-4'>
-                    <div className='flex gap-2'>
-                      <span className='inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600'>
-                        Design
-                      </span>
-                      <span className='inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600'>
-                        Product
-                      </span>
-                      <span className='inline-flex items-center gap-1 rounded-full bg-violet-50 px-2 py-1 text-xs font-semibold text-violet-600'>
-                        Develop
-                      </span>
-                    </div>
-                  </td>
-                  <td className='px-6 py-4'>
-                    <div className='flex justify-end gap-4'>
-                      <a x-data="{ tooltip: 'Delete' }" href='#'>
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                          strokeWidth='1.5'
-                          stroke='currentColor'
-                          className='h-6 w-6'
-                          x-tooltip='tooltip'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0'
-                          />
-                        </svg>
-                      </a>
-                      <a x-data="{ tooltip: 'Edite' }" href='#'>
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                          strokeWidth='1.5'
-                          stroke='currentColor'
-                          className='h-6 w-6'
-                          x-tooltip='tooltip'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125'
-                          />
-                        </svg>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
+                          <span
+                            className={`h-1.5 w-1.5 rounded-full ${
+                              ORDER.orderStatus === 'accept'
+                                ? 'bg-green-600'
+                                : ORDER.orderStatus === 'reject'
+                                ? 'bg-red-600'
+                                : 'bg-gray-600'
+                            }`}
+                          ></span>
+                          {ORDER.orderStatus === 'accept'
+                            ? 'الطلب مقبول'
+                            : ORDER.orderStatus === 'reject'
+                            ? 'الطلب مرفوض'
+                            : 'بإنتظار الاجراء'}
+                        </span>
+                      </Link>
+                    </td>
+                    <td>
+                      <Link
+                        to={`order-details/${ORDER._id}`}
+                        className='inline-block py-4 px-6'
+                      >
+                        <span>{createLocaleDateString(ORDER.orderDate)}</span>
+                      </Link>
+                    </td>
+                    <td>
+                      <Link
+                        to={`order-details/${ORDER._id}`}
+                        className='inline-block py-4 px-6'
+                      >
+                        {ORDER.orderStatus === 'pending' ? (
+                          <>
+                            <AcceptBtn id={'order._id'} email={'order.userEmail'} />
+                            <RejectBtn id={'order._id'} email={'order.userEmail'} />
+                          </>
+                        ) : ORDER.orderStatus === 'accept' ? (
+                          <RejectBtn id={'order._id'} email={'order.userEmail'} />
+                        ) : ORDER.orderStatus === 'reject' ? (
+                          <AcceptBtn id={'order._id'} email={'order.userEmail'} />
+                        ) : (
+                          <span>لا يوجد إجراء</span>
+                        )}
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

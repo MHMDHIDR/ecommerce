@@ -6,7 +6,7 @@ export const AcceptBtn = ({ id, email }: any) => (
     data-id={id}
     data-status='accept'
     data-email={email}
-    className='m-1 px-2 py-2 text-sm text-white bg-green-600 rounded-md hover:bg-green-700 min-w-[7rem] relative text-center overflow-hidden'
+    className='m-1 py-2 text-xs text-white bg-green-600 rounded-md hover:bg-green-700 min-w-[7rem] relative text-center overflow-hidden'
     data-tooltip='موافقة الطلب'
   >
     <span className='py-0.5 px-1 md:pl-1 bg-green-300 rounded-md absolute right-2 top-1.5 pointer-events-none'>
@@ -20,7 +20,7 @@ export const EditBtn = ({ id }: any) => (
   <Link
     to={`/dashboard/orders/edit/${id}`}
     id='editOrder'
-    className='m-1 px-2 py-2 text-sm text-white bg-gray-600 rounded-md hover:bg-gray-700 min-w-[7rem] relative text-center overflow-hidden border'
+    className='m-1 py-2 text-xs text-white bg-gray-600 rounded-md hover:bg-gray-700 min-w-[7rem] relative text-center overflow-hidden border'
     data-tooltip='تعديل الطلب'
   >
     <span className='py-0.5 px-1 md:pl-1 bg-gray-300 rounded-md absolute right-2 top-1.5 pointer-events-none'>
@@ -36,7 +36,7 @@ export const RejectBtn = ({ id, email }: any) => (
     data-id={id}
     data-status='reject'
     data-email={email}
-    className='m-1 px-2 py-2 text-sm text-white bg-gray-600 rounded-md hover:bg-gray-700 min-w-[7rem] relative text-center overflow-hidden border'
+    className='m-1 py-2 text-xs text-white bg-gray-600 rounded-md hover:bg-gray-700 min-w-[7rem] relative text-center overflow-hidden border'
     data-tooltip='رفض الطلب'
   >
     <span className='py-0.5 px-1 md:pl-1 bg-gray-300 rounded-md absolute right-2 top-1.5 pointer-events-none'>
@@ -52,7 +52,7 @@ export const DeleteBtn = ({ id, email }: any) => (
     data-id={id}
     data-status='delete'
     data-email={email}
-    className='m-1 px-2 py-2 text-sm text-white bg-red-600 rounded-md hover:bg-red-700 min-w-[7rem] relative text-center overflow-hidden'
+    className='m-1 py-2 text-xs text-white bg-red-600 rounded-md hover:bg-red-700 min-w-[7rem] relative text-center overflow-hidden'
     data-tooltip='حذف الطلب'
   >
     <span className='py-0.5 px-1 md:pl-1 bg-red-200 rounded-md absolute right-2 top-1.5 pointer-events-none'>
@@ -68,7 +68,7 @@ export const InvoiceBtn = ({ id, email, onClick }: any) => (
     data-id={id}
     data-status='invoice'
     data-email={email}
-    className='m-1 px-1.5 py-2 text-sm text-white bg-blue-600 rounded-md hover:bg-blue-700 min-w-[5rem] text-center overflow-hidden'
+    className='m-1 px-1.5 py-2 text-xs text-white bg-blue-600 rounded-md hover:bg-blue-700 min-w-[5rem] text-center overflow-hidden'
     data-tooltip='إنشاء فاتورة للطلب'
     onClick={onClick}
   >

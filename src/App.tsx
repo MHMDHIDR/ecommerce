@@ -28,6 +28,7 @@ import SearchContextProvider from './contexts/SearchContext'
 import AppSettingsContextProvider from './contexts/AppSettingsContext'
 import DashboardMenu from './pages/dashboard/SupplierViewProducts'
 import DashboardAddFood from './pages/dashboard/SupplierAddProduct'
+import DashboardOrderDetails from './pages/dashboard/DashboardOrderDetails'
 
 const App = () => (
   <ThemeContextProvider>
@@ -59,6 +60,14 @@ const App = () => (
                 <Route path='supplier' element={<SupplierDashboard />} />
                 <Route path='supplier/add' element={<DashboardAddFood />} />
                 <Route path='supplier/products' element={<DashboardMenu />} />
+                <Route
+                  path='supplier/order-details/:id'
+                  element={<DashboardOrderDetails />}
+                />
+                <Route
+                  path='supplier/product-details/:id'
+                  element={<DashboardOrderDetails />}
+                />
 
                 <Route path='*' element={<ModalNotFound fullscreen={true} />} />
               </Routes>
