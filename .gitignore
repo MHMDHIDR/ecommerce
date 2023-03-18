@@ -21,6 +21,11 @@ lerna-debug.log*
 
 
 node_modules
+.env
+*.env
+*/*.env
+.DS_Store
+vite.config.ts
 dist
 dist-ssr
 *.local
