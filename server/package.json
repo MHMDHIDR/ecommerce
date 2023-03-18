@@ -2,7 +2,7 @@
   "name": "api",
   "version": "1.0.0",
   "description": "ecommerce App to find and order items",
-  "main": "index.ts",
+  "main": "index",
   "type": "module",
   "scripts": {
     "start": "node index.js",
