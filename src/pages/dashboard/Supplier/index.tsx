@@ -1,20 +1,21 @@
 import { Suspense } from 'react'
-import useDocumentTitle from '../../hooks/useDocumentTitle'
-import { LoadingPage } from '../../components/Loading'
-import Layout from '../../components/Layout'
-import { AcceptBtn, RejectBtn } from '../../components/OrdersTableActions'
-import { ORDER } from '../../constants'
-import { createLocaleDateString } from '../../utils/functions/convertDate'
+import useDocumentTitle from '../../../hooks/useDocumentTitle'
+import { LoadingPage } from '../../../components/Loading'
+import Layout from '../../../components/Layout'
+import { AcceptBtn, RejectBtn } from '../../../components/OrdersTableActions'
+import { ORDER } from '../../../constants'
+import { createLocaleDateString } from '../../../utils/functions/convertDate'
 import { Link } from 'react-router-dom'
 
 const SupplierDashboard = () => {
-  useDocumentTitle('لوحة تحكم التاجر')
+  const TITLE = 'الطلبــــــــات'
+  useDocumentTitle(TITLE)
 
   return (
     <Suspense fallback={<LoadingPage />}>
       <Layout>
         <section className='container px-5 mx-auto mb-20 max-w-6xl rtl'>
-          <h2 className='text-xl text-center my-16'>الطلبات</h2>
+          <h2 className='text-xl text-center my-16'>{TITLE}</h2>
 
           <div className='overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-900 shadow-md m-5 dark:shadow-gray-900'>
             <table className='w-full border-collapse text-center bg-white dark:bg-gray-600 text-sm text-gray-900 dark:text-white'>

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "client": "vite",
-    "api": "cd ./api && yarn dev",
+    "api": "cd ./server && yarn dev",
     "dev": "concurrently \"yarn client\" \"yarn api\"",
     "build": "tsc && vite build",
     "preview": "vite preview"

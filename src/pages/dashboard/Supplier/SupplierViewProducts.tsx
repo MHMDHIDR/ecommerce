@@ -1,21 +1,22 @@
 import { Suspense } from 'react'
 import { Link } from 'react-router-dom'
-import Layout from '../../components/Layout'
-import { LoadingPage } from '../../components/Loading'
-import { DeleteBtn, EditBtn } from '../../components/OrdersTableActions'
-import { PRODUCT } from '../../constants'
-import useDocumentTitle from '../../hooks/useDocumentTitle'
-import { createLocaleDateString } from '../../utils/functions/convertDate'
-import goTo from '../../utils/functions/goTo'
+import Layout from '../../../components/Layout'
+import { LoadingPage } from '../../../components/Loading'
+import { DeleteBtn, EditBtn } from '../../../components/OrdersTableActions'
+import { PRODUCT } from '../../../constants'
+import useDocumentTitle from '../../../hooks/useDocumentTitle'
+import { createLocaleDateString } from '../../../utils/functions/convertDate'
+import goTo from '../../../utils/functions/goTo'
 
 const DashboardMenu = () => {
-  useDocumentTitle('عرض المنتجات')
+  const TITLE = 'عرض المنتجات'
+  useDocumentTitle(TITLE)
 
   return (
     <Suspense fallback={<LoadingPage />}>
       <Layout>
         <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
-          <h2 className='text-xl text-center my-16'>عرض المنتجات</h2>
+          <h2 className='text-xl text-center my-16'>{TITLE}</h2>
 
           <div className='overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-900 shadow-md m-5 dark:shadow-gray-900'>
             <table className='w-full border-collapse text-center bg-white dark:bg-gray-600 text-sm text-gray-900 dark:text-white'>
@@ -106,8 +107,8 @@ const DashboardMenu = () => {
                       </Link>
                     </td>
                     <td>
-                      <DeleteBtn id={'order.id'} email={'order.userEmail'} />
-                      <EditBtn id={'order.id'} email={'order.userEmail'} />
+                      <DeleteBtn id={PRODUCT(String(idx)).id} email={'order.userEmail'} />
+                      <EditBtn id={PRODUCT(String(idx)).id} email={'order.userEmail'} />
                     </td>
                   </tr>
                 ))}

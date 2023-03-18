@@ -1,25 +1,26 @@
 import { Suspense, useState } from 'react'
-import useDocumentTitle from '../../hooks/useDocumentTitle'
-import { LoadingPage } from '../../components/Loading'
-import FileUpload from '../../components/FileUpload'
-import { isSmallScreen } from '../../constants'
-import BackButton from '../../components/Icons/BackButton'
-import Layout from '../../components/Layout'
-import { Link } from 'react-router-dom'
-import goTo from '../../utils/functions/goTo'
+import useDocumentTitle from '../../../hooks/useDocumentTitle'
+import { LoadingPage } from '../../../components/Loading'
+import FileUpload from '../../../components/FileUpload'
+import { isSmallScreen } from '../../../constants'
+import BackButton from '../../../components/Icons/BackButton'
+import Layout from '../../../components/Layout'
 
-const SupplierAddProduct = () => {
-  useDocumentTitle('إضافة منتج')
+const SupplierEditProduct = () => {
+  const TITLE = 'تعديل المنتج'
+  useDocumentTitle(TITLE)
 
   const [itemDesc, setItemDesc] = useState('')
 
   return (
     <Suspense fallback={<LoadingPage />}>
       <Layout>
-        <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl'>
+        <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
           {isSmallScreen && (
             <BackButton to='/' className='w-8 h-8 absolute z-50 top-6 left-6' />
           )}
+
+          <h2 className='text-xl text-center my-16'>{TITLE}</h2>
 
           <form className='relative flex flex-col items-center'>
             <label htmlFor='uploadImg' className='flex items-center gap-y-2 flex-col'>
@@ -84,14 +85,14 @@ const SupplierAddProduct = () => {
                 type='submit'
                 className='min-w-[7rem] bg-green-600 hover:bg-green-700 text-white py-1.5 px-6 rounded-md'
               >
-                إضافة
+                تحديث
               </button>
-              <Link
-                to={goTo('menu')}
-                className='text-gray-800 underline-hover text-bold dark:text-white'
+              <button
+                type='submit'
+                className='min-w-[7rem] bg-red-600 hover:bg-red-700 text-white py-1.5 px-6 rounded-md'
               >
-                القائمة
-              </Link>
+                حذف
+              </button>
             </div>
           </form>
         </section>
@@ -100,4 +101,4 @@ const SupplierAddProduct = () => {
   )
 }
 
-export default SupplierAddProduct
+export default SupplierEditProduct

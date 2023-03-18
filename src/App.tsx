@@ -20,15 +20,16 @@ import Favourites from './pages/Favourites'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsConditions from './pages/TermsConditions'
 import SupplierDashboard from './pages/dashboard/Supplier'
+import DashboardMenu from './pages/dashboard/Supplier/SupplierViewProducts'
+import DashboardAddFood from './pages/dashboard/Supplier/SupplierAddProduct'
+import DashboardOrderDetails from './pages/dashboard/Supplier/DashboardOrderDetails'
+import SupplierEditProduct from './pages/dashboard/Supplier/SupplierEditProduct'
 //contexts
 import { CartProvider } from './contexts/CartContext'
 import FileUploadContextProvider from './contexts/FileUploadContext'
 import ThemeContextProvider from './contexts/ThemeContext'
 import SearchContextProvider from './contexts/SearchContext'
 import AppSettingsContextProvider from './contexts/AppSettingsContext'
-import DashboardMenu from './pages/dashboard/SupplierViewProducts'
-import DashboardAddFood from './pages/dashboard/SupplierAddProduct'
-import DashboardOrderDetails from './pages/dashboard/DashboardOrderDetails'
 
 const App = () => (
   <ThemeContextProvider>
@@ -66,7 +67,7 @@ const App = () => (
                 />
                 <Route
                   path='supplier/product-details/:id'
-                  element={<DashboardOrderDetails />}
+                  element={<SupplierEditProduct />}
                 />
 
                 <Route path='*' element={<ModalNotFound fullscreen={true} />} />
