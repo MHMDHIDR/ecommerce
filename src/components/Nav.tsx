@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { AppSettingsContext } from '../contexts/AppSettingsContext'
+import ThemeToggler from './ThemeToggler'
 
 const Nav = () => {
   const { menuToggler } = useContext(AppSettingsContext)
@@ -31,6 +32,8 @@ const Nav = () => {
             </svg>
           </span>
         </button>
+
+        <ThemeToggler />
 
         <div className='relative flex items-center'>
           <div className='relative'>
