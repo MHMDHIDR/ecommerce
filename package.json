@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "client": "vite",
-    "api": "cd api/ && yarn start",
-    "dev": "concurrently \"yarn run api\" \"yarn run client\"",
+    "api": "cd ./api && yarn dev",
+    "dev": "concurrently \"yarn client\" \"yarn api\"",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
