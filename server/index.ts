@@ -1,9 +1,26 @@
-import express from 'express'
+import express, { json, urlencoded } from 'express'
 import { Request, Response } from 'express'
 import 'dotenv/config'
+import fileUpload from 'express-fileupload'
+import cors from 'cors'
 
-const { PORT } = process.env
 const app = express()
+
+//PORT
+const { PORT } = process.env
+
+//DON't SHOW EXPRESS IN RESPONSE HEADERS
+app.disable('x-powered-by')
+
+//APP Use
+app.use(json())
+app.use(urlencoded({ extended: true }))
+app.use(fileUpload())
+app.use(
+  cors({
+    origin: [`https://mhmdhidr-ecommerce.vercel.app`, `http://localhost:5173`]
+  })
+)
 
 app.get('/', (_req: Request, res: Response) =>
   res.send(
@@ -11,4 +28,4 @@ app.get('/', (_req: Request, res: Response) =>
   )
 )
 
-app.listen(PORT, () => console.log(`start listening on port : ${PORT}`))
+app.listen(PORT || 4000, () => console.log(`start listening on port : ${PORT || 4000}`))
