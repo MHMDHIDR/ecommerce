@@ -3,12 +3,25 @@ import { Request, Response } from 'express'
 import 'dotenv/config'
 import fileUpload from 'express-fileupload'
 import cors from 'cors'
-import { db } from './db'
+import mysql from 'mysql'
+// import { db } from './db'
 
 const app = express()
 
 //PORT
 const { PORT } = process.env
+
+const db = mysql.createConnection({
+  host: 'sql844.main-hosting.eu',
+  user: 'u421310157_ecommerce',
+  password: 'u421310157_eCommerce',
+  database: 'u421310157_ecommerce'
+})
+
+db.connect(function (err) {
+  if (err) throw err
+  console.log('Database is connected successfully !')
+})
 
 //DON't SHOW EXPRESS IN RESPONSE HEADERS
 app.disable('x-powered-by')
