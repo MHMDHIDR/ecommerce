@@ -90,23 +90,18 @@ const SupplierDashboard = () => {
                       </Link>
                     </td>
                     <td>
-                      <Link
-                        to={`order-details/${ORDER._id}`}
-                        className='inline-block py-4 px-6'
-                      >
-                        {ORDER.orderStatus === 'pending' ? (
-                          <>
-                            <AcceptBtn id={'order._id'} email={'order.userEmail'} />
-                            <RejectBtn id={'order._id'} email={'order.userEmail'} />
-                          </>
-                        ) : ORDER.orderStatus === 'accept' ? (
-                          <RejectBtn id={'order._id'} email={'order.userEmail'} />
-                        ) : ORDER.orderStatus === 'reject' ? (
+                      {ORDER.orderStatus === 'pending' ? (
+                        <>
                           <AcceptBtn id={'order._id'} email={'order.userEmail'} />
-                        ) : (
-                          <span>لا يوجد إجراء</span>
-                        )}
-                      </Link>
+                          <RejectBtn id={'order._id'} email={'order.userEmail'} />
+                        </>
+                      ) : ORDER.orderStatus === 'accept' ? (
+                        <RejectBtn id={'order._id'} email={'order.userEmail'} />
+                      ) : ORDER.orderStatus === 'reject' ? (
+                        <AcceptBtn id={'order._id'} email={'order.userEmail'} />
+                      ) : (
+                        <span>لا يوجد إجراء</span>
+                      )}
                     </td>
                   </tr>
                 ))}
