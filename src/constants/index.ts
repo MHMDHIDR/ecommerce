@@ -46,19 +46,17 @@ export const PRODUCT = (id: string) => {
     حذاء جديد بتصميم عصري وأنيق سيبدو رائع عليك! حذاء جديد بتصميم عصري وأنيق سيبدو رائع عليك! ... حذاء جديد بتصميم عصري وأنيق سيبدو رائع عليك! حذاء جديد بتصميم عصري وأنيق سيبدو رائع عليك!
     `,
     productStatus: 'open',
-    productCreateDate: '2023-03-01T17:46:22.908+00:00',
-    productUpdateDate: '2023-03-18T17:46:22.908+00:00'
+    productCreateDate: '2023-03-01 18:23:19.000000',
+    productUpdateDate: '2023-03-19 18:23:19.000000'
   }
 }
 
-export const APP_URL =
+export const API_URL =
   process.env.NODE_ENV === 'development'
     ? origin?.includes(url.dev)
-      ? `http://${url.dev}:3001`
-      : `http://${url.local}:3001`
+      ? `http://${url.dev}:4000`
+      : `http://${url.local}:4000`
     : process.env.NEXT_PUBLIC_APP_PUBLIC_URL
-
-// export const API_URL = APP_URL + '/api'
 
 export const ORDER = {
   _id: '63ff8ff8b',

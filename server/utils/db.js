@@ -1,13 +1,13 @@
-import mysql from 'mysql'
+import mysql from 'mysql2'
+const { DB_HOST, DB_USER, DB_PASS, DB_NAME } = process.env
 
-export const db = mysql.createConnection({
-  host: 'sql844.main-hosting.eu',
-  user: 'u421310157_ecommerce',
-  password: 'u421310157_eCommerce',
-  database: 'u421310157_ecommerce'
+const db = mysql.createPool({
+  host: DB_HOST,
+  user: DB_USER,
+  password: DB_PASS,
+  database: DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10
 })
 
-db.connect(function (err) {
-  if (err) throw err
-  console.log('DB connected')
-})
+export default db

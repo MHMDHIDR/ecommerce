@@ -1,9 +1,10 @@
-import { Suspense } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Layout from '../../../components/Layout'
-import { LoadingPage } from '../../../components/Loading'
+import { LoadingPage, LoadingSpinner } from '../../../components/Loading'
 import { DeleteBtn, EditBtn } from '../../../components/OrdersTableActions'
 import { PRODUCT } from '../../../constants'
+import useAxios from '../../../hooks/useAxios'
 import useDocumentTitle from '../../../hooks/useDocumentTitle'
 import { createLocaleDateString } from '../../../utils/functions/convertDate'
 import goTo from '../../../utils/functions/goTo'
@@ -11,6 +12,14 @@ import goTo from '../../../utils/functions/goTo'
 const DashboardMenu = () => {
   const TITLE = 'عرض المنتجات'
   useDocumentTitle(TITLE)
+
+  const { response, loading } = useAxios({ url: `/products` })
+  const [produts, setProduts] = useState<string[]>([''])
+
+  useEffect(() => {
+    response && setProduts(response)
+    return () => setProduts([''])
+  }, [response])
 
   return (
     <Suspense fallback={<LoadingPage />}>
@@ -32,86 +41,93 @@ const DashboardMenu = () => {
                 </tr>
               </thead>
               <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
-                {[...Array(5).keys()].map((_order: any, idx: number) => (
-                  <tr className='hover:bg-gray-50 dark:hover:bg-gray-700' key={idx}>
-                    <td>
-                      <Link
-                        to={goTo(`product-details/${PRODUCT(String(idx)).id}`)}
-                        className='inline-block py-4 px-6'
-                      >
-                        <span>{parseInt(PRODUCT(String(idx)).id) + 1}</span>
-                      </Link>
-                    </td>
-                    <td>
-                      <Link
-                        to={goTo(`product-details/${PRODUCT(String(idx)).id}`)}
-                        className='inline-block py-4 px-6'
-                      >
-                        <menu className='list-decimal'>{PRODUCT(String(idx)).name}</menu>
-                      </Link>
-                    </td>
-                    <td>
-                      <Link
-                        to={goTo(`product-details/${PRODUCT(String(idx)).id}`)}
-                        className='inline-block py-4 px-6'
-                      >
-                        <span
-                          className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
-                            PRODUCT(String(idx)).productStatus === 'accept'
-                              ? 'text-green-600'
-                              : PRODUCT(String(idx)).productStatus === 'reject'
-                              ? 'text-red-600'
-                              : 'text-gray-600'
-                          }`}
-                        >
-                          <span
-                            className={`h-1.5 w-1.5 rounded-full ${
-                              PRODUCT(String(idx)).productStatus === 'open'
-                                ? 'bg-green-600'
-                                : PRODUCT(String(idx)).productStatus === 'close'
-                                ? 'bg-red-600'
-                                : 'bg-gray-600'
-                            }`}
-                          ></span>
-                          {PRODUCT(String(idx)).productStatus === 'open'
-                            ? 'المنتج متوفر'
-                            : PRODUCT(String(idx)).productStatus === 'close'
-                            ? 'المنتج غير متوفر'
-                            : 'غير محدد'}
-                        </span>
-                      </Link>
-                    </td>
-                    <td>
-                      <span className='inline-block min-w-max font-bold'>
-                        {PRODUCT(String(idx)).currentPrice} ج.س
-                      </span>
-                    </td>
-                    <td>
-                      <Link
-                        to={goTo(`product-details/${PRODUCT(String(idx)).id}`)}
-                        className='inline-block py-4 px-6'
-                      >
-                        <span>
-                          {createLocaleDateString(PRODUCT(String(idx)).productCreateDate)}
-                        </span>
-                      </Link>
-                    </td>
-                    <td>
-                      <Link
-                        to={goTo(`product-details/${PRODUCT(String(idx)).id}`)}
-                        className='inline-block py-4 px-6'
-                      >
-                        <span>
-                          {createLocaleDateString(PRODUCT(String(idx)).productUpdateDate)}
-                        </span>
-                      </Link>
-                    </td>
-                    <td>
-                      <DeleteBtn id={PRODUCT(String(idx)).id} email={'order.userEmail'} />
-                      <EditBtn id={PRODUCT(String(idx)).id} email={'order.userEmail'} />
+                {loading ? (
+                  <tr>
+                    <td colSpan={7} className='p-5'>
+                      <LoadingSpinner />
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  produts?.map((product: any, idx: number) => (
+                    <tr
+                      className='hover:bg-gray-50 dark:hover:bg-gray-700'
+                      key={product.id + idx}
+                    >
+                      <td>
+                        <Link
+                          to={goTo(`product-details/${product.id}`)}
+                          className='inline-block py-4 px-6'
+                        >
+                          <span>{idx + 1}</span>
+                        </Link>
+                      </td>
+                      <td>
+                        <Link
+                          to={goTo(`product-details/${product.id}`)}
+                          className='inline-block py-4 px-6'
+                        >
+                          <menu className='list-decimal'>{product.itemName}</menu>
+                        </Link>
+                      </td>
+                      <td>
+                        <Link
+                          to={goTo(`product-details/${product.id}`)}
+                          className='inline-block py-4 px-6'
+                        >
+                          <span
+                            className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
+                              product.productStatus === 'accept'
+                                ? 'text-green-600'
+                                : product.productStatus === 'reject'
+                                ? 'text-red-600'
+                                : 'text-gray-600'
+                            }`}
+                          >
+                            <span
+                              className={`h-1.5 w-1.5 rounded-full ${
+                                product.productStatus === 'open'
+                                  ? 'bg-green-600'
+                                  : product.productStatus === 'close'
+                                  ? 'bg-red-600'
+                                  : 'bg-gray-600'
+                              }`}
+                            ></span>
+                            {product.productStatus === 'open'
+                              ? 'المنتج متوفر'
+                              : product.productStatus === 'close'
+                              ? 'المنتج غير متوفر'
+                              : 'غير محدد'}
+                          </span>
+                        </Link>
+                      </td>
+                      <td>
+                        <span className='inline-block min-w-max font-bold'>
+                          {product.currentPrice} ج.س
+                        </span>
+                      </td>
+                      <td>
+                        <Link
+                          to={goTo(`product-details/${product.id}`)}
+                          className='inline-block py-4 px-6'
+                        >
+                          <span>{createLocaleDateString(product.productCreateDate)}</span>
+                        </Link>
+                      </td>
+                      <td>
+                        <Link
+                          to={goTo(`product-details/${product.id}`)}
+                          className='inline-block py-4 px-6'
+                        >
+                          <span>{createLocaleDateString(product.productUpdateDate)}</span>
+                        </Link>
+                      </td>
+                      <td>
+                        <DeleteBtn id={product.id} email={'order.userEmail'} />
+                        <EditBtn id={product.id} email={'order.userEmail'} />
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

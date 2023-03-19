@@ -6,7 +6,7 @@ export const LoadingPage = () => (
   </div>
 )
 
-export const LoadingSpinner = ({ color = 'white', size = '6' }) => (
+export const LoadingSpinner = ({ color = 'blue', size = '6' }) => (
   <svg
     className={`fill-${color} animate-spin h-${size} w-${size} inline-block`}
     xmlns='http://www.w3.org/2000/svg'

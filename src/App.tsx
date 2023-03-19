@@ -22,7 +22,7 @@ import TermsConditions from './pages/TermsConditions'
 import SupplierDashboard from './pages/dashboard/Supplier'
 import DashboardMenu from './pages/dashboard/Supplier/SupplierViewProducts'
 import DashboardAddFood from './pages/dashboard/Supplier/SupplierAddProduct'
-import DashboardOrderDetails from './pages/dashboard/Supplier/DashboardOrderDetails'
+import DashboardOrderDetails from './pages/dashboard/Supplier/SupplierOrderDetails'
 import SupplierEditProduct from './pages/dashboard/Supplier/SupplierEditProduct'
 //contexts
 import { CartProvider } from './contexts/CartContext'
