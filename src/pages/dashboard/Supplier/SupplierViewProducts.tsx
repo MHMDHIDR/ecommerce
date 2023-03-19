@@ -14,11 +14,11 @@ const DashboardMenu = () => {
   useDocumentTitle(TITLE)
 
   const { response, loading } = useAxios({ url: `/products` })
-  const [produts, setProduts] = useState<string[]>([''])
+  const [products, setProducts] = useState<string[]>([''])
 
   useEffect(() => {
-    response && setProduts(response)
-    return () => setProduts([''])
+    response && setProducts(response)
+    return () => setProducts([''])
   }, [response])
 
   return (
@@ -48,7 +48,7 @@ const DashboardMenu = () => {
                     </td>
                   </tr>
                 ) : (
-                  produts?.map((product: any, idx: number) => (
+                  products?.map((product: any, idx: number) => (
                     <tr
                       className='hover:bg-gray-50 dark:hover:bg-gray-700'
                       key={product.id + idx}

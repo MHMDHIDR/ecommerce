@@ -9,6 +9,14 @@ export const getProducts = asyncHandler(async (_req: Request, res: Response) => 
   })
 })
 
+export const getProduct = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params
+  const query = `SELECT * FROM products WHERE id = '${id}'`
+  db.query(query, (err: any, data: any) => {
+    return err ? res.json(err) : res.json(data)
+  })
+})
+
 export const addProduct = asyncHandler(async (req: Request, res: Response) => {
   const {
     id,
