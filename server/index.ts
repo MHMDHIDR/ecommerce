@@ -29,13 +29,24 @@ app.get('/', (_req: Request, res: Response) =>
   )
 )
 
-app.post('/', (req, res) => {
+app.post('/products', (req, res) => {
   const q = 'INSERT INTO products(`name`) VALUES (?)'
 
   const values = [req.body.name]
 
   db.query(q, [values], (err, data) => {
     if (err) return res.send(err)
+    return res.json(data)
+  })
+})
+
+app.get('/products', (_req: Request, res: Response) => {
+  const q = 'SELECT * FROM products'
+  db.query(q, (err, data) => {
+    if (err) {
+      console.log(err)
+      return res.json(err)
+    }
     return res.json(data)
   })
 })
