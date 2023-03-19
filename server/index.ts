@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 import 'dotenv/config'
 import fileUpload from 'express-fileupload'
 import cors from 'cors'
-import { db } from './utils/db'
+import { db } from './utils/db.js'
 
 const app = express()
 
