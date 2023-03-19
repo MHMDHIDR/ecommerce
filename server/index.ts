@@ -3,25 +3,12 @@ import { Request, Response } from 'express'
 import 'dotenv/config'
 import fileUpload from 'express-fileupload'
 import cors from 'cors'
-import mysql from 'mysql'
-// import { db } from './db'
+import { db } from './utils/db'
 
 const app = express()
 
 //PORT
 const { PORT } = process.env
-
-const db = mysql.createConnection({
-  host: 'sql844.main-hosting.eu',
-  user: 'u421310157_ecommerce',
-  password: 'u421310157_eCommerce',
-  database: 'u421310157_ecommerce'
-})
-
-db.connect(function (err) {
-  if (err) throw err
-  console.log('Database is connected successfully !')
-})
 
 //DON't SHOW EXPRESS IN RESPONSE HEADERS
 app.disable('x-powered-by')
@@ -43,9 +30,9 @@ app.get('/', (_req: Request, res: Response) =>
 )
 
 app.post('/', (req, res) => {
-  const q = 'INSERT INTO books(`title`) VALUES (?)'
+  const q = 'INSERT INTO products(`name`) VALUES (?)'
 
-  const values = [req.body.title]
+  const values = [req.body.name]
 
   db.query(q, [values], (err, data) => {
     if (err) return res.send(err)
