@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
-import db from '../utils/db'
+import db from '../utils/db.js'
 
 export const getProducts = asyncHandler(async (_req: Request, res: Response) => {
   const query = 'SELECT * FROM products'
