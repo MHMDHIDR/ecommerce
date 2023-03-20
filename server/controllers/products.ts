@@ -23,7 +23,6 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
     id,
     itemName,
     imgUrl,
-    discount,
     currentPrice,
     oldPrice,
     quantity,
@@ -34,31 +33,39 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
   ;(id = randomUUID()),
     (imgUrl =
       'https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D'),
-    (discount = 0),
     (currentPrice = parseInt(currentPrice)),
     (oldPrice = parseInt(currentPrice)),
     (quantity = parseInt(quantity))
+
+  let discount = 0,
+    rating = 0,
+    productCreateDate = Date().toString(),
+    productUpdateDate = Date().toString()
 
   const values = [
     id,
     itemName,
     imgUrl,
+    discount,
     currentPrice,
     oldPrice,
+    rating,
     quantity,
     description,
-    productStatus
+    productStatus,
+    productCreateDate,
+    productUpdateDate
   ]
 
-  const query = `"INSERT INTO products(id ,itemName  ,currentPrice ,oldPrice ,quantity ,description ,productStatus) VALUES ${values}"`
+  const query =
+    'INSERT INTO products (id, `itemName`, `imgUrl`, `discount`, `currentPrice`, `oldPrice`, `rating`, `quantity`, `description`, `productStatus`, `productCreateDate`, `productUpdateDate`) VALUES (?)'
 
-  db.query(query, [values], (err: any, data: any) => {
+  db.query(query, [values], (err: any, _data: any) => {
     return err
       ? res.json(err)
       : res.status(201).json({
           itemAdded: 1,
-          message: 'itemAdded added successfully',
-          data
+          message: 'تم اضافة المنتج بنجاح'
         })
   })
 })

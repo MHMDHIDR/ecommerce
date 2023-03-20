@@ -50,7 +50,6 @@ const AddProduct = () => {
 
     try {
       const response = await axios.post(`${API_URL}/products`, formData)
-      console.log(response.data)
 
       const { itemAdded, message } = response.data
 
@@ -61,8 +60,6 @@ const AddProduct = () => {
     }
   }
 
-  const notify = () => toast(addItemMessage)
-
   return (
     <Suspense fallback={<LoadingPage />}>
       <Layout>
@@ -72,13 +69,9 @@ const AddProduct = () => {
           )}
 
           <h2 className='text-xl text-center my-16'>{TITLE}</h2>
+          <ToastContainer />
 
-          {addItemStatus === 1 ? (
-            <>
-              {notify()}
-              <ToastContainer />
-            </>
-          ) : null}
+          {addItemStatus === 1 ? toast.success(addItemMessage) : null}
 
           <form
             className='relative flex flex-col items-center'
