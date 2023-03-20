@@ -1,14 +1,14 @@
 import { Suspense } from 'react'
 import { Link } from 'react-router-dom'
-import useDocumentTitle from '../hooks/useDocumentTitle'
-import { LoadingPage } from '../components/Loading'
-import Layout from '../components/Layout'
-import Search from '../components/Search'
-import Filter from '../components/Icons/Filter'
-import Arrow from '../components/Icons/Arrow'
-import CategoryProducts from '../components/CategoryProducts'
-import { isSmallScreen, PRODUCT } from '../constants'
-import abstractText from '../utils/functions/abstractText'
+import useDocumentTitle from '@/hooks/useDocumentTitle'
+import { LoadingPage } from '@/components/Loading'
+import Layout from '@/components/Layout'
+import Search from '@/components/Search'
+import Filter from '@/components/Icons/Filter'
+import Arrow from '@/components/Icons/Arrow'
+import CategoryProducts from '@/components/CategoryProducts'
+import { isSmallScreen, PRODUCT } from '@/constants'
+import abstractText from '@/utils/functions/abstractText'
 
 const Home = () => {
   useDocumentTitle('المنتجات')

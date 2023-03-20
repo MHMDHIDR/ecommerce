@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Facebook, Google } from '../../components/Icons/Socials'
+import { Facebook, Google } from '@/components/Icons/Socials'
 
 const Login = () => {
   return (

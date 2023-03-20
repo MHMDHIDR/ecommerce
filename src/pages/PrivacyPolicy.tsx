@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
-import useDocumentTitle from '../hooks/useDocumentTitle'
-import { LoadingPage } from '../components/Loading'
-import Layout from '../components/Layout'
+import useDocumentTitle from '@/hooks/useDocumentTitle'
+import { LoadingPage } from '@/components/Loading'
+import Layout from '@/components/Layout'
 
 const PrivacyPolicy = () => {
   useDocumentTitle('سياسة الخصوصية')

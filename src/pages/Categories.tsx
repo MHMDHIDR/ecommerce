@@ -1,11 +1,11 @@
 import { Suspense } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import CategoryProducts from '../components/CategoryProducts'
-import BackButton from '../components/Icons/BackButton'
-import Layout from '../components/Layout'
-import { LoadingPage } from '../components/Loading'
-import Search from '../components/Search'
-import { CATEGORIES, isSmallScreen } from '../constants'
+import CategoryProducts from '@/components/CategoryProducts'
+import BackButton from '@/components/Icons/BackButton'
+import Layout from '@/components/Layout'
+import { LoadingPage } from '@/components/Loading'
+import Search from '@/components/Search'
+import { CATEGORIES, isSmallScreen } from '@/constants'
 
 const Categories = () => {
   const { name } = useParams()

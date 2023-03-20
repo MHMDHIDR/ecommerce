@@ -1,4 +1,4 @@
-import { ControlBtnProps } from '../../types'
+import { ControlBtnProps } from '@/types'
 
 export const MinusBtn = ({
   className,

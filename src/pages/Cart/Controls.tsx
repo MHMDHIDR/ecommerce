@@ -1,7 +1,7 @@
-import { MAX_QUANTITY } from '../../constants'
-import { useCart } from '../../contexts/CartContext'
-import { AddBtn, MinusBtn, TrashBtn } from '../../components/Icons/ControlBtn'
-import { Item } from '../../types'
+import { MAX_QUANTITY } from '@/constants'
+import { useCart } from '@/contexts/CartContext'
+import { AddBtn, MinusBtn, TrashBtn } from '@/components/Icons/ControlBtn'
+import { Item } from '@/types'
 
 const Controls = ({ item }: { item: Item }) => {
   const { removeItem, updateItemQuantity } = useCart()

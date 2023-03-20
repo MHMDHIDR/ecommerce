@@ -1,4 +1,4 @@
-import { ArrowProps } from '../../types'
+import { ArrowProps } from '@/types'
 
 const Arrow = ({
   width = 'clamp(15px,1.25vw,3rem)',

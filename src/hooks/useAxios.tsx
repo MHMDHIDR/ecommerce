@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import Axios from 'axios'
-import { axiosProps } from '../types'
-import { API_URL } from '../constants'
-import { parseJson } from '../utils/functions/jsonTools'
+import { axiosProps } from '@/types'
+import { API_URL } from '@/constants'
+import { parseJson } from '@/utils/functions/jsonTools'
 
 Axios.defaults.baseURL = API_URL
 

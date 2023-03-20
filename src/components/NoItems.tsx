@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import { NoItemsProps } from '../types'
-import goTo from '../utils/functions/goTo'
+import { NoItemsProps } from '@/types'
+import goTo from '@/utils/functions/goTo'
 import EmptyCart from './Icons/EmptyCart'
 
 const NoItems = ({ msg, links, className }: NoItemsProps) => (

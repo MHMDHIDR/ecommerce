@@ -56,7 +56,7 @@ export const API_URL =
     ? origin?.includes(url.dev)
       ? `http://${url.dev}:4000`
       : `http://${url.local}:4000`
-    : process.env.NEXT_PUBLIC_APP_PUBLIC_URL
+    : `https://ecommerce-server-mhmdhidr.vercel.app`
 
 export const ORDER = {
   _id: '63ff8ff8b',

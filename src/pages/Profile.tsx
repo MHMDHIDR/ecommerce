@@ -1,11 +1,11 @@
 import { Suspense } from 'react'
 import { Link } from 'react-router-dom'
-import useDocumentTitle from '../hooks/useDocumentTitle'
-import { LoadingPage } from '../components/Loading'
-import Layout from '../components/Layout'
-import BorderLink from '../components/Icons/BorderLink'
-import BackButton from '../components/Icons/BackButton'
-import { isSmallScreen, PROFILE_LINKS } from '../constants'
+import useDocumentTitle from '@/hooks/useDocumentTitle'
+import { LoadingPage } from '@/components/Loading'
+import Layout from '@/components/Layout'
+import BorderLink from '@/components/Icons/BorderLink'
+import BackButton from '@/components/Icons/BackButton'
+import { isSmallScreen, PROFILE_LINKS } from '@/constants'
 
 const Profile = () => {
   useDocumentTitle('إعدادات الحساب')

@@ -1,8 +1,8 @@
 import { Suspense } from 'react'
 import { Link } from 'react-router-dom'
-import useDocumentTitle from '../hooks/useDocumentTitle'
-import { LoadingPage } from '../components/Loading'
-import Layout from '../components/Layout'
+import useDocumentTitle from '@/hooks/useDocumentTitle'
+import { LoadingPage } from '@/components/Loading'
+import Layout from '@/components/Layout'
 
 const TermsConditions = () => {
   useDocumentTitle('شروط الاستخدام')

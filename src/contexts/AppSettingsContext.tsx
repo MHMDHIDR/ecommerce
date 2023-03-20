@@ -1,5 +1,5 @@
 import { useState, createContext, ReactNode } from 'react'
-import { AppSettingsProps } from '../types'
+import { AppSettingsProps } from '@/types'
 
 export const AppSettingsContext = createContext<AppSettingsProps>({} as AppSettingsProps)
 

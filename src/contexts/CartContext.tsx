@@ -1,6 +1,6 @@
 import { createContext, FC, ReactNode, useContext, useEffect, useReducer } from 'react'
-import useLocalStorage from '../hooks/useLocalStorage'
-import { Actions, CartProviderState, Item } from '../types'
+import useLocalStorage from '@/hooks/useLocalStorage'
+import { Actions, CartProviderState, Item } from '@/types'
 
 export const initialState: any = {
   items: [],

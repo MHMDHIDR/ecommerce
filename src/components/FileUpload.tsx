@@ -1,6 +1,6 @@
 import { Key, useContext } from 'react'
-import { FileUploadContext } from '../contexts/FileUploadContext'
-import { FileUploadProps, ImgsProps } from '../types'
+import { FileUploadContext } from '@/contexts/FileUploadContext'
+import { FileUploadProps, ImgsProps } from '@/types'
 import Pen from './Icons/Pen'
 
 const FileUpload = ({ data }: any) => {

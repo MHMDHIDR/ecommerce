@@ -1,9 +1,9 @@
 import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { isSmallScreen } from '../constants'
-import { SearchContext } from '../contexts/SearchContext'
-import useEventListener from '../hooks/useEventListener'
-import { removeSlug } from '../utils/functions/slug'
+import { isSmallScreen } from '@/constants'
+import { SearchContext } from '@/contexts/SearchContext'
+import useEventListener from '@/hooks/useEventListener'
+import { removeSlug } from '@/utils/functions/slug'
 
 const Search = ({
   small = isSmallScreen,

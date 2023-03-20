@@ -1,10 +1,10 @@
 import { Suspense } from 'react'
-import useDocumentTitle from '../../../hooks/useDocumentTitle'
-import { LoadingPage } from '../../../components/Loading'
-import Layout from '../../../components/Layout'
-import { AcceptBtn, RejectBtn } from '../../../components/OrdersTableActions'
-import { ORDER } from '../../../constants'
-import { createLocaleDateString } from '../../../utils/functions/convertDate'
+import useDocumentTitle from '@/hooks/useDocumentTitle'
+import { LoadingPage } from '@/components/Loading'
+import Layout from '@/components/Layout'
+import { AcceptBtn, RejectBtn } from '@/components/OrdersTableActions'
+import { ORDER } from '@/constants'
+import { createLocaleDateString } from '@/utils/functions/convertDate'
 import { Link } from 'react-router-dom'
 
 const SupplierDashboard = () => {

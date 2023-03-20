@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Loading } from '../Icons/Status'
-import { ModalProps } from '../../types'
+import { ModalProps } from '@/types'
 // import ThemeToggler from '../ThemeToggler'
 
 const Modal = ({

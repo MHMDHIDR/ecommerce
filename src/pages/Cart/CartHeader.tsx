@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { isActiveLink } from '../../utils/functions/isActiveLink'
+import { isActiveLink } from '@/utils/functions/isActiveLink'
 
 const CartHeader = () => (
   <header className='flex justify-between my-4'>

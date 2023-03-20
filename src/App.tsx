@@ -1,8 +1,8 @@
 import { Suspense } from 'react'
 //components
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import ModalNotFound from './components/Modal/ModalNotFound'
-import { LoadingPage } from './components/Loading'
+import ModalNotFound from '@/components/Modal/ModalNotFound'
+import { LoadingPage } from '@/components/Loading'
 //pages
 import Home from './pages/Home'
 import Login from './pages/auth/Login'
@@ -19,17 +19,17 @@ import EditProfile from './pages/EditProfile'
 import Favourites from './pages/Favourites'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsConditions from './pages/TermsConditions'
-import SupplierDashboard from './pages/dashboard/Supplier'
-import DashboardMenu from './pages/dashboard/Supplier/SupplierViewProducts'
-import DashboardAddFood from './pages/dashboard/Supplier/SupplierAddProduct'
-import DashboardOrderDetails from './pages/dashboard/Supplier/SupplierOrderDetails'
-import SupplierEditProduct from './pages/dashboard/Supplier/SupplierEditProduct'
+import DashboardAddFood from './pages/dashboard/Supplier/Products/Add'
+import SupplierEditProduct from './pages/dashboard/Supplier/Products/Edit'
+import DashboardMenu from './pages/dashboard/Supplier/Products/View'
+import SupplierDashboard from './pages/dashboard/Supplier/Orders'
+import DashboardOrderDetails from './pages/dashboard/Supplier/Orders/Details'
 //contexts
-import { CartProvider } from './contexts/CartContext'
-import FileUploadContextProvider from './contexts/FileUploadContext'
-import ThemeContextProvider from './contexts/ThemeContext'
-import SearchContextProvider from './contexts/SearchContext'
-import AppSettingsContextProvider from './contexts/AppSettingsContext'
+import { CartProvider } from '@/contexts/CartContext'
+import FileUploadContextProvider from '@/contexts/FileUploadContext'
+import ThemeContextProvider from '@/contexts/ThemeContext'
+import SearchContextProvider from '@/contexts/SearchContext'
+import AppSettingsContextProvider from '@/contexts/AppSettingsContext'
 
 const App = () => (
   <ThemeContextProvider>

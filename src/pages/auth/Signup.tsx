@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Facebook, Google } from '../../components/Icons/Socials'
-import ModalSuccess from '../../components/Modal/ModalSuccess'
+import { Facebook, Google } from '@/components/Icons/Socials'
+import ModalSuccess from '@/components/Modal/ModalSuccess'
 
 const Signup = () => {
   const [isAuth, setIsAuth] = useState(false)

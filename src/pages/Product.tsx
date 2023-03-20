@@ -1,10 +1,10 @@
 import { Link, useParams } from 'react-router-dom'
-import Footer from '../components/Footer'
-import BackButton from '../components/Icons/BackButton'
-import { CartIconLined } from '../components/Icons/CartIcon'
-import { isSmallScreen, PRODUCT } from '../constants'
-import { useCart } from '../contexts/CartContext'
-import { Item } from '../types'
+import Footer from '@/components/Footer'
+import BackButton from '@/components/Icons/BackButton'
+import { CartIconLined } from '@/components/Icons/CartIcon'
+import { isSmallScreen, PRODUCT } from '@/constants'
+import { useCart } from '@/contexts/CartContext'
+import { Item } from '@/types'
 import Controls from './Cart/Controls'
 
 const Product = () => {

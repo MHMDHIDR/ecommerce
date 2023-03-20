@@ -1,11 +1,11 @@
 import { Suspense, useState } from 'react'
 import { Link } from 'react-router-dom'
-import useDocumentTitle from '../hooks/useDocumentTitle'
-import { LoadingPage } from '../components/Loading'
-import Layout from '../components/Layout'
-import { MAX_QUANTITY } from '../constants'
-import { useCart } from '../contexts/CartContext'
-import { AddBtn, MinusBtn, TrashBtn } from '../components/Icons/ControlBtn'
+import useDocumentTitle from '@/hooks/useDocumentTitle'
+import { LoadingPage } from '@/components/Loading'
+import Layout from '@/components/Layout'
+import { MAX_QUANTITY } from '@/constants'
+import { useCart } from '@/contexts/CartContext'
+import { AddBtn, MinusBtn, TrashBtn } from '@/components/Icons/ControlBtn'
 
 const OrderAddress = () => {
   useDocumentTitle('عنوان الطلب')

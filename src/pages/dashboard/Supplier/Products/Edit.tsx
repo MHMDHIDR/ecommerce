@@ -1,14 +1,14 @@
 import { Suspense, useEffect, useState } from 'react'
-import useDocumentTitle from '../../../hooks/useDocumentTitle'
-import { LoadingPage } from '../../../components/Loading'
-import FileUpload from '../../../components/FileUpload'
-import { isSmallScreen } from '../../../constants'
-import BackButton from '../../../components/Icons/BackButton'
-import Layout from '../../../components/Layout'
+import useDocumentTitle from '@/hooks/useDocumentTitle'
+import { LoadingPage } from '@/components/Loading'
+import FileUpload from '@/components/FileUpload'
+import { isSmallScreen } from '@/constants'
+import BackButton from '@/components/Icons/BackButton'
+import Layout from '@/components/Layout'
 import { useParams } from 'react-router-dom'
-import useAxios from '../../../hooks/useAxios'
+import useAxios from '@/hooks/useAxios'
 
-const SupplierEditProduct = () => {
+const EditProduct = () => {
   const TITLE = 'تعديل المنتج'
   useDocumentTitle(TITLE)
 
@@ -112,4 +112,4 @@ const SupplierEditProduct = () => {
   )
 }
 
-export default SupplierEditProduct
+export default EditProduct

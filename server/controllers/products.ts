@@ -1,6 +1,7 @@
+import { randomUUID } from 'crypto'
 import { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
-import db from '../utils/db.js'
+import db from '../helpers/db.js'
 
 export const getProducts = asyncHandler(async (_req: Request, res: Response) => {
   const query = 'SELECT * FROM products'
@@ -18,36 +19,46 @@ export const getProduct = asyncHandler(async (req: Request, res: Response) => {
 })
 
 export const addProduct = asyncHandler(async (req: Request, res: Response) => {
-  const {
+  let {
     id,
     itemName,
     imgUrl,
     discount,
     currentPrice,
     oldPrice,
-    rating,
     quantity,
     description,
-    productStatus,
-    productUpdateDate
+    productStatus
   } = req.body
-  const query =
-    'INSERT INTO products(`id ,itemName ,imgUrl ,discount ,currentPrice ,oldPrice ,rating ,quantity ,description ,productStatus ,productUpdateDate`) VALUES (?,?,?,?,?,?,?,?,?,?,?)'
+
+  ;(id = randomUUID()),
+    (imgUrl =
+      'https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D'),
+    (discount = 0),
+    (currentPrice = parseInt(currentPrice)),
+    (oldPrice = parseInt(currentPrice)),
+    (quantity = parseInt(quantity))
+
   const values = [
     id,
     itemName,
     imgUrl,
-    discount,
     currentPrice,
     oldPrice,
-    rating,
     quantity,
     description,
-    productStatus,
-    productUpdateDate
+    productStatus
   ]
 
+  const query = `"INSERT INTO products(id ,itemName  ,currentPrice ,oldPrice ,quantity ,description ,productStatus) VALUES ${values}"`
+
   db.query(query, [values], (err: any, data: any) => {
-    return err ? res.json(err) : res.json(data)
+    return err
+      ? res.json(err)
+      : res.status(201).json({
+          itemAdded: 1,
+          message: 'itemAdded added successfully',
+          data
+        })
   })
 })

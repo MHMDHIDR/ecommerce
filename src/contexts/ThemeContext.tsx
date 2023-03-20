@@ -1,5 +1,5 @@
 import React, { useState, createContext, ReactNode } from 'react'
-import { ThemeProps } from '../types'
+import { ThemeProps } from '@/types'
 
 export const ThemeContext = createContext<ThemeProps>({} as ThemeProps)
 

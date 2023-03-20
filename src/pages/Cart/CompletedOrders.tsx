@@ -1,12 +1,12 @@
 import { Suspense } from 'react'
 import { Link } from 'react-router-dom'
-import useDocumentTitle from '../../hooks/useDocumentTitle'
-import { LoadingPage } from '../../components/Loading'
-import Layout from '../../components/Layout'
-import NoItems from '../../components/NoItems'
+import useDocumentTitle from '@/hooks/useDocumentTitle'
+import { LoadingPage } from '@/components/Loading'
+import Layout from '@/components/Layout'
+import NoItems from '@/components/NoItems'
 import CartHeader from './CartHeader'
-import abstractText from '../../utils/functions/abstractText'
-import { PRODUCT } from '../../constants'
+import abstractText from '@/utils/functions/abstractText'
+import { PRODUCT } from '@/constants'
 
 const CompletedOrders = ({ isNoPreviousOrders = false }) => {
   useDocumentTitle('طلباتي')

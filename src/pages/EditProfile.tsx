@@ -1,13 +1,13 @@
 import { Suspense } from 'react'
-import useDocumentTitle from '../hooks/useDocumentTitle'
-import { LoadingPage } from '../components/Loading'
-import FileUpload from '../components/FileUpload'
-import Footer from '../components/Footer'
-import BorderLink from '../components/Icons/BorderLink'
-import ThemeToggler from '../components/ThemeToggler'
-import { isSmallScreen } from '../constants'
-import BackButton from '../components/Icons/BackButton'
-import Layout from '../components/Layout'
+import useDocumentTitle from '@/hooks/useDocumentTitle'
+import { LoadingPage } from '@/components/Loading'
+import FileUpload from '@/components/FileUpload'
+import Footer from '@/components/Footer'
+import BorderLink from '@/components/Icons/BorderLink'
+import ThemeToggler from '@/components/ThemeToggler'
+import { isSmallScreen } from '@/constants'
+import BackButton from '@/components/Icons/BackButton'
+import Layout from '@/components/Layout'
 
 const EditProfile = () => {
   useDocumentTitle('تعديل بيانات الحساب')

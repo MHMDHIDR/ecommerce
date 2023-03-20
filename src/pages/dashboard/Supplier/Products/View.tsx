@@ -1,15 +1,15 @@
 import { Suspense, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import Layout from '../../../components/Layout'
-import { LoadingPage, LoadingSpinner } from '../../../components/Loading'
-import { DeleteBtn, EditBtn } from '../../../components/OrdersTableActions'
-import { PRODUCT } from '../../../constants'
-import useAxios from '../../../hooks/useAxios'
-import useDocumentTitle from '../../../hooks/useDocumentTitle'
-import { createLocaleDateString } from '../../../utils/functions/convertDate'
-import goTo from '../../../utils/functions/goTo'
+import Layout from '@/components/Layout'
+import { LoadingPage, LoadingSpinner } from '@/components/Loading'
+import { DeleteBtn, EditBtn } from '@/components/OrdersTableActions'
+import { PRODUCT } from '@/constants'
+import useAxios from '@/hooks/useAxios'
+import useDocumentTitle from '@/hooks/useDocumentTitle'
+import { createLocaleDateString } from '@/utils/functions/convertDate'
+import goTo from '@/utils/functions/goTo'
 
-const DashboardMenu = () => {
+const ViewProduct = () => {
   const TITLE = 'عرض المنتجات'
   useDocumentTitle(TITLE)
 
@@ -137,4 +137,4 @@ const DashboardMenu = () => {
   )
 }
 
-export default DashboardMenu
+export default ViewProduct
