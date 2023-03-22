@@ -6,7 +6,7 @@ export const MAX_QUANTITY = 100
 
 export const isSmallScreen = window.innerWidth < 768 ? true : false
 
-const url = {
+export const url = {
   local: `localhost`,
   dev: `dev.com`
 }

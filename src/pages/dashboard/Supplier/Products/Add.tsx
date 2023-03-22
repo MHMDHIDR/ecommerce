@@ -1,4 +1,4 @@
-import { Suspense, useState, useContext, useEffect } from 'react'
+import { Suspense, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -7,7 +7,7 @@ import { LoadingPage } from '@/components/Loading'
 import FileUpload from '@/components/FileUpload'
 import BackButton from '@/components/Icons/BackButton'
 import Layout from '@/components/Layout'
-import { API_URL, isSmallScreen } from '@/constants'
+import { isSmallScreen } from '@/constants'
 import goTo from '@/utils/functions/goTo'
 import { FileUploadContext } from '@/contexts/FileUploadContext'
 import axios from 'axios'
@@ -49,8 +49,14 @@ const AddProduct = () => {
     })
 
     try {
-      const response = await axios.post(`${API_URL}/products`, formData)
-
+      const response = await axios.post(
+        `${
+          process.env.NODE_ENV === 'development'
+            ? `http://localhost:4000`
+            : `https://ecommerce-server-mhmdhidr.vercel.app`
+        }/products`,
+        formData
+      )
       const { itemAdded, message } = response.data
 
       setAddItemStatus(itemAdded)

@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react'
 import Axios from 'axios'
 import { axiosProps } from '@/types'
-import { API_URL } from '@/constants'
+import { url } from '@/constants'
 import { parseJson } from '@/utils/functions/jsonTools'
 
-Axios.defaults.baseURL = API_URL
+Axios.defaults.baseURL =
+  process.env.NODE_ENV === 'development'
+    ? origin?.includes(url.dev)
+      ? `http://${url.dev}:4000`
+      : `http://${url.local}:4000`
+    : `https://ecommerce-server-mhmdhidr.vercel.app`
 
 const useAxios = ({ url, method = 'get', body = null, headers = null }: axiosProps) => {
   const [response, setResponse] = useState<any>(null)
