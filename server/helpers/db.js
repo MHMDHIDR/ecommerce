@@ -6,8 +6,7 @@ const db = mysql.createPool({
   user: DB_USER,
   password: DB_PASS,
   database: DB_NAME,
-  waitForConnections: true,
-  connectionLimit: 10
+  waitForConnections: true
 })
 
 export default db
