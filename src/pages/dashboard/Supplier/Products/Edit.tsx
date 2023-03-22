@@ -2,15 +2,19 @@ import { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
+import useEventListener from '@/hooks/useEventListener'
 import useAxios from '@/hooks/useAxios'
 import { FileUploadContext } from '@/contexts/FileUploadContext'
 import { isSmallScreen } from '@/constants'
 import BackButton from '@/components/Icons/BackButton'
 import Layout from '@/components/Layout'
+import { DeleteBtn } from '@/components/TableActions'
+import Modal from '@/components/Modal/Modal'
+import { Loading } from '@/components/Icons/Status'
 import { LoadingPage } from '@/components/Loading'
 import FileUpload from '@/components/FileUpload'
 import { useParams } from 'react-router-dom'
-import { createSlug } from '@/utils/functions/slug'
+import { createSlug, removeSlug } from '@/utils/functions/slug'
 
 const EditProduct = () => {
   const TITLE = 'تعديل المنتج'
@@ -27,6 +31,12 @@ const EditProduct = () => {
   const [category, setCategory] = useState<any>([])
   const [productStatus, setProductStatus] = useState('open')
   const [itemDesc, setItemDesc] = useState('')
+
+  const [delItemId, setDelItemId] = useState('')
+  const [delItemName, setDelItemName] = useState('')
+  const [isItemDeleted, setIsItemDeleted] = useState()
+  const [itemDeletedMsg, setItemDeletedMsg] = useState()
+  const [modalLoading, setModalLoading] = useState<boolean>(false)
   const [updateItemStatus, setUpdatedItemStatus] = useState(null)
   const [updateItemMessage, setUpdatedItemMessage] = useState('')
 
@@ -74,17 +84,81 @@ const EditProduct = () => {
     }
   }
 
+  useEventListener('click', (e: any) => {
+    switch (e.target.id) {
+      case 'deleteBtn': {
+        setDelItemId(e.target.dataset.id)
+        setDelItemName(removeSlug(e.target.dataset.name))
+        // setDelItemImg(parseJson(e.target.dataset.imgname))
+        setModalLoading(true)
+        break
+      }
+      case 'confirm': {
+        handleDeleteItem(delItemId)
+        break
+      }
+      case 'cancel': {
+        setModalLoading(false)
+        break
+      }
+
+      default: {
+        setModalLoading(false)
+        break
+      }
+    }
+  })
+
+  const handleDeleteItem = async (
+    itemId: string
+    // ,foodImgs: FoodImgsProps[] = delFoodImg
+  ) => {
+    try {
+      //You need to name the body {data} so it can be recognized in (.delete) method
+      const response = await axios.delete(
+        `${
+          process.env.NODE_ENV === 'development'
+            ? `http://localhost:4000`
+            : `https://ecommerce-server-mhmdhidr.vercel.app`
+        }/products/${itemId}` //, {data: formData}
+      )
+      const { itemDeleted, message } = response.data
+      setIsItemDeleted(itemDeleted)
+      setItemDeletedMsg(message)
+      //Remove waiting modal
+      setTimeout(() => {
+        setModalLoading(false)
+      }, 300)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return loading ? (
     <LoadingPage />
   ) : (
     <Layout>
       <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
-        <ToastContainer />
         {updateItemStatus === 1
           ? toast.success(updateItemMessage)
           : updateItemStatus === 0
           ? toast.error(updateItemMessage)
+          : isItemDeleted === 1
+          ? toast.success(itemDeletedMsg)
+          : isItemDeleted === 0
+          ? toast.error(itemDeletedMsg)
           : null}
+        <ToastContainer />
+
+        {/* Confirm Box */}
+        {modalLoading && (
+          <Modal
+            status={Loading}
+            classes='text-blue-600 dark:text-blue-400 text-lg'
+            msg={`هل أنت متأكد من حذف ${delItemName} ؟ لا يمكن التراجع عن هذا القرار`}
+            ctaConfirmBtns={['حذف', 'الغاء']}
+          />
+        )}
         {isSmallScreen && (
           <BackButton to='/' className='w-8 h-8 absolute z-50 top-6 left-6' />
         )}
@@ -203,12 +277,7 @@ const EditProduct = () => {
             >
               تحديث
             </button>
-            <button
-              type='submit'
-              className='min-w-[7rem] bg-red-600 hover:bg-red-700 text-white py-1.5 px-6 rounded-md'
-            >
-              حذف
-            </button>
+            <DeleteBtn id={product.id} itemName={product.itemName} />
           </div>
         </form>
       </section>

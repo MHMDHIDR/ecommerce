@@ -1,17 +1,29 @@
 import { Suspense, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify'
 import Layout from '@/components/Layout'
 import { LoadingPage, LoadingSpinner } from '@/components/Loading'
-import { DeleteBtn, EditBtn } from '@/components/OrdersTableActions'
-import { PRODUCT } from '@/constants'
+import { DeleteBtn, EditBtn } from '@/components/TableActions'
+import Modal from '@/components/Modal/Modal'
+import { Loading } from '@/components/Icons/Status'
 import useAxios from '@/hooks/useAxios'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
+import useEventListener from '@/hooks/useEventListener'
 import { createLocaleDateString } from '@/utils/functions/convertDate'
 import goTo from '@/utils/functions/goTo'
+import { removeSlug } from '@/utils/functions/slug'
 
 const ViewProduct = () => {
   const TITLE = 'عرض المنتجات'
   useDocumentTitle(TITLE)
+
+  const [delItemId, setDelItemId] = useState('')
+  const [delItemName, setDelItemName] = useState('')
+  // const [delFoodImg, setDelFoodImg] = useState('')
+  const [isItemDeleted, setIsItemDeleted] = useState()
+  const [itemDeletedMsg, setItemDeletedMsg] = useState()
+  const [modalLoading, setModalLoading] = useState<boolean>(false)
 
   const { response, loading } = useAxios({ url: `/products` })
   const [products, setProducts] = useState<string[]>([''])
@@ -21,12 +33,76 @@ const ViewProduct = () => {
     return () => setProducts([''])
   }, [response])
 
+  useEventListener('click', (e: any) => {
+    switch (e.target.id) {
+      case 'deleteBtn': {
+        setDelItemId(e.target.dataset.id)
+        setDelItemName(removeSlug(e.target.dataset.name))
+        // setDelItemImg(parseJson(e.target.dataset.imgname))
+        setModalLoading(true)
+        break
+      }
+      case 'confirm': {
+        handleDeleteItem(delItemId)
+        break
+      }
+      case 'cancel': {
+        setModalLoading(false)
+        break
+      }
+
+      default: {
+        setModalLoading(false)
+        break
+      }
+    }
+  })
+
+  const handleDeleteItem = async (
+    itemId: string
+    // ,foodImgs: FoodImgsProps[] = delFoodImg
+  ) => {
+    try {
+      //You need to name the body {data} so it can be recognized in (.delete) method
+      const response = await axios.delete(
+        `${
+          process.env.NODE_ENV === 'development'
+            ? `http://localhost:4000`
+            : `https://ecommerce-server-mhmdhidr.vercel.app`
+        }/products/${itemId}` //, {data: formData}
+      )
+      const { itemDeleted, message } = response.data
+      setIsItemDeleted(itemDeleted)
+      setItemDeletedMsg(message)
+      //Remove waiting modal
+      setTimeout(() => {
+        setModalLoading(false)
+      }, 300)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <Suspense fallback={<LoadingPage />}>
       <Layout>
         <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
+          {isItemDeleted === 1
+            ? toast.success(itemDeletedMsg)
+            : isItemDeleted === 0
+            ? toast.error(itemDeletedMsg)
+            : null}{' '}
+          <ToastContainer />
+          {/* Confirm Box */}
+          {modalLoading && (
+            <Modal
+              status={Loading}
+              classes='text-blue-600 dark:text-blue-400 text-lg'
+              msg={`هل أنت متأكد من حذف ${delItemName} ؟ لا يمكن التراجع عن هذا القرار`}
+              ctaConfirmBtns={['حذف', 'الغاء']}
+            />
+          )}
           <h2 className='text-xl text-center my-16'>{TITLE}</h2>
-
           <div className='overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-900 shadow-md m-5 dark:shadow-gray-900'>
             <table className='w-full border-collapse text-center bg-white dark:bg-gray-600 text-sm text-gray-900 dark:text-white'>
               <thead className='bg-gray-50 dark:bg-gray-700'>
@@ -101,9 +177,14 @@ const ViewProduct = () => {
                         </Link>
                       </td>
                       <td>
-                        <span className='inline-block min-w-max font-bold'>
-                          {product.currentPrice} ج.س
-                        </span>
+                        <Link
+                          to={goTo(`product-details/${product.id}`)}
+                          className='inline-block py-4 px-6'
+                        >
+                          <span className='inline-block min-w-max font-bold'>
+                            {product.currentPrice} ج.س
+                          </span>
+                        </Link>
                       </td>
                       <td>
                         <Link
@@ -122,8 +203,8 @@ const ViewProduct = () => {
                         </Link>
                       </td>
                       <td>
-                        <DeleteBtn id={product.id} email={'order.userEmail'} />
-                        <EditBtn id={product.id} email={'order.userEmail'} />
+                        <DeleteBtn id={product.id} itemName={product.itemName} />
+                        <EditBtn id={product.id} />
                       </td>
                     </tr>
                   ))

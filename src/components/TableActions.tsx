@@ -3,7 +3,7 @@ import goTo from '@/utils/functions/goTo'
 
 export const AcceptBtn = ({ id, email }: any) => (
   <button
-    id='acceptOrder'
+    id='acceptBtn'
     data-id={id}
     data-status='accept'
     data-email={email}
@@ -19,8 +19,8 @@ export const AcceptBtn = ({ id, email }: any) => (
 
 export const EditBtn = ({ id }: any) => (
   <Link
+    id='editBtn'
     to={goTo(`product-details/${id}`)}
-    id='editOrder'
     className='m-1 py-2 text-xs text-white bg-gray-600 rounded-md hover:bg-gray-700 min-w-[7rem] relative text-center overflow-hidden border'
     data-tooltip='تعديل الطلب'
   >
@@ -33,7 +33,7 @@ export const EditBtn = ({ id }: any) => (
 
 export const RejectBtn = ({ id, email }: any) => (
   <button
-    id='rejectOrder'
+    id='rejectBtn'
     data-id={id}
     data-status='reject'
     data-email={email}
@@ -47,12 +47,12 @@ export const RejectBtn = ({ id, email }: any) => (
   </button>
 )
 
-export const DeleteBtn = ({ id, email }: any) => (
+export const DeleteBtn = ({ id, itemName }: { id: string; itemName: string }) => (
   <button
-    id='deleteOrder'
+    id='deleteBtn'
     data-id={id}
+    data-name={itemName}
     data-status='delete'
-    data-email={email}
     className='m-1 py-2 text-xs text-white bg-red-600 rounded-md hover:bg-red-700 min-w-[7rem] relative text-center overflow-hidden'
     data-tooltip='حذف الطلب'
   >
@@ -65,7 +65,7 @@ export const DeleteBtn = ({ id, email }: any) => (
 
 export const InvoiceBtn = ({ id, email, onClick }: any) => (
   <button
-    id='invoice'
+    id='invoiceBtn'
     data-id={id}
     data-status='invoice'
     data-email={email}

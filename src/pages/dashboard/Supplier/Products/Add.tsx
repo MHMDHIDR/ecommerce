@@ -70,12 +70,12 @@ const AddProduct = () => {
     <Suspense fallback={<LoadingPage />}>
       <Layout>
         <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
-          <ToastContainer />
           {addItemStatus === 1
             ? toast.success(addItemMessage)
             : addItemStatus === 0
             ? toast.error(addItemMessage)
             : null}
+          <ToastContainer />
           {isSmallScreen && (
             <BackButton to='/' className='w-8 h-8 absolute z-50 top-6 left-6' />
           )}
