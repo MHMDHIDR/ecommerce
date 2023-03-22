@@ -195,7 +195,7 @@ const AddProduct = () => {
                 إضافة
               </button>
               <Link
-                to={goTo('menu')}
+                to={goTo('products')}
                 className='text-gray-800 underline-hover text-bold dark:text-white'
               >
                 القائمة

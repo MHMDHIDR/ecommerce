@@ -47,7 +47,7 @@ const ViewProduct = () => {
                       <LoadingSpinner />
                     </td>
                   </tr>
-                ) : (
+                ) : products.length > 0 ? (
                   products?.map((product: any, idx: number) => (
                     <tr
                       className='hover:bg-gray-50 dark:hover:bg-gray-700'
@@ -127,6 +127,22 @@ const ViewProduct = () => {
                       </td>
                     </tr>
                   ))
+                ) : (
+                  <tr>
+                    <td colSpan={7} className='p-5'>
+                      <div className='flex flex-col justify-center items-center gap-y-4'>
+                        <p className='text-red-600 dark:text-red-400'>
+                          عفواً، لم يتم العثور على منتجات
+                        </p>
+                        <Link
+                          to={goTo('add')}
+                          className='rounded-md bg-blue-600 px-5 py-1 text-center text-sm text-white hover:bg-gray-700'
+                        >
+                          أضف منتج
+                        </Link>
+                      </div>
+                    </td>
+                  </tr>
                 )}
               </tbody>
             </table>
