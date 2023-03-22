@@ -18,7 +18,11 @@ app.use(urlencoded({ extended: true }))
 app.use(fileUpload())
 app.use(
   cors({
-    origin: [`https://ecommerce-mhmdhidr.vercel.app`, `http://localhost:3000`]
+    origin: [
+      `https://ecommerce-mhmdhidr.vercel.app`,
+      `https://mhmdhidr-ecommerce.vercel.app`,
+      `http://localhost:3000`
+    ]
   })
 )
 
