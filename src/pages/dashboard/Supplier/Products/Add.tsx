@@ -70,15 +70,16 @@ const AddProduct = () => {
     <Suspense fallback={<LoadingPage />}>
       <Layout>
         <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
+          <ToastContainer />
+          {addItemStatus === 1
+            ? toast.success(addItemMessage)
+            : addItemStatus === 0
+            ? toast.error(addItemMessage)
+            : null}
           {isSmallScreen && (
             <BackButton to='/' className='w-8 h-8 absolute z-50 top-6 left-6' />
           )}
-
           <h2 className='text-xl text-center my-16'>{TITLE}</h2>
-          <ToastContainer />
-
-          {addItemStatus === 1 ? toast.success(addItemMessage) : null}
-
           <form
             className='relative flex flex-col items-center'
             onSubmit={handleAddProduct}
@@ -97,6 +98,7 @@ const AddProduct = () => {
                 }}
               />
             </label> */}
+
             <label htmlFor='username' className='form__group'>
               <span className='form__label'>اسم المنتج</span>
               <input
@@ -107,6 +109,7 @@ const AddProduct = () => {
                 onChange={e => setItemName(createSlug(e.target.value.trim()))}
               />
             </label>
+
             <label htmlFor='price' className='form__group'>
               <span className='form__label'>السعر</span>
               <input
@@ -117,6 +120,7 @@ const AddProduct = () => {
                 onChange={e => setCurrentPrice(e.target.value.trim())}
               />
             </label>
+
             <label htmlFor='quantity' className='form__group'>
               <span className='form__label'>الكمية</span>
               <input
@@ -155,6 +159,7 @@ const AddProduct = () => {
                  <span>مغلق</span>
               </label>
             </div>
+
             <label htmlFor='category' className='form__group'>
               <span className='form__label active'>التصنيف</span>
               <select
