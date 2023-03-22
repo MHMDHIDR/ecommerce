@@ -1,4 +1,6 @@
 import { Suspense } from 'react'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 //components
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
@@ -75,6 +77,7 @@ const App = () => {
                 </Routes>
               </Suspense>
             </Router>
+            <ToastContainer />
           </CartProvider>
         </FileUploadContextProvider>
         {/* </SearchContextProvider> */}

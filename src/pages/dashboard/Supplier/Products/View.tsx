@@ -1,7 +1,6 @@
 import { Suspense, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify'
 import Layout from '@/components/Layout'
 import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import { DeleteBtn, EditBtn } from '@/components/TableActions'
@@ -13,6 +12,7 @@ import useEventListener from '@/hooks/useEventListener'
 import { createLocaleDateString } from '@/utils/functions/convertDate'
 import goTo from '@/utils/functions/goTo'
 import { removeSlug } from '@/utils/functions/slug'
+import notify from '@/utils/functions/notify'
 
 const ViewProduct = () => {
   const TITLE = 'عرض المنتجات'
@@ -21,12 +21,12 @@ const ViewProduct = () => {
   const [delItemId, setDelItemId] = useState('')
   const [delItemName, setDelItemName] = useState('')
   // const [delFoodImg, setDelFoodImg] = useState('')
-  const [isItemDeleted, setIsItemDeleted] = useState()
-  const [itemDeletedMsg, setItemDeletedMsg] = useState()
+  const [isItemDeleted, setIsItemDeleted] = useState(null)
+  const [itemDeletedMsg, setItemDeletedMsg] = useState('')
   const [modalLoading, setModalLoading] = useState<boolean>(false)
+  const [products, setProducts] = useState<string[]>([''])
 
   const { response, loading } = useAxios({ url: `/products` })
-  const [products, setProducts] = useState<string[]>([''])
 
   useEffect(() => {
     response && setProducts(response)
@@ -88,11 +88,10 @@ const ViewProduct = () => {
       <Layout>
         <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
           {isItemDeleted === 1
-            ? toast.success(itemDeletedMsg)
+            ? notify({ type: 'success', msg: itemDeletedMsg })
             : isItemDeleted === 0
-            ? toast.error(itemDeletedMsg)
+            ? notify({ type: 'error', msg: itemDeletedMsg })
             : null}{' '}
-          <ToastContainer />
           {/* Confirm Box */}
           {modalLoading && (
             <Modal

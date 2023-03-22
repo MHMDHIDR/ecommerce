@@ -1,7 +1,5 @@
 import { Suspense, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import { LoadingPage } from '@/components/Loading'
 import FileUpload from '@/components/FileUpload'
@@ -12,6 +10,7 @@ import goTo from '@/utils/functions/goTo'
 import { FileUploadContext } from '@/contexts/FileUploadContext'
 import axios from 'axios'
 import { createSlug } from '@/utils/functions/slug'
+import notify from '@/utils/functions/notify'
 
 const AddProduct = () => {
   const TITLE = 'إضافة منتج جديد'
@@ -24,7 +23,7 @@ const AddProduct = () => {
   const [category, setCategory] = useState<any>([])
   const [productStatus, setProductStatus] = useState('open')
   const [itemDesc, setItemDesc] = useState('')
-  const [addItemStatus, setAddItemStatus] = useState(0)
+  const [addItemStatus, setAddItemStatus] = useState(null)
   const [addItemMessage, setAddItemMessage] = useState('')
 
   const { file } = useContext(FileUploadContext)
@@ -71,11 +70,10 @@ const AddProduct = () => {
       <Layout>
         <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
           {addItemStatus === 1
-            ? toast.success(addItemMessage)
+            ? notify({ type: 'success', msg: addItemMessage })
             : addItemStatus === 0
-            ? toast.error(addItemMessage)
+            ? notify({ type: 'error', msg: addItemMessage })
             : null}
-          <ToastContainer />
           {isSmallScreen && (
             <BackButton to='/' className='w-8 h-8 absolute z-50 top-6 left-6' />
           )}
@@ -84,7 +82,7 @@ const AddProduct = () => {
             className='relative flex flex-col items-center'
             onSubmit={handleAddProduct}
           >
-            {/* <label htmlFor='uploadImg' className='flex items-center gap-y-2 flex-col'>
+            <label htmlFor='uploadImg' className='flex items-center gap-y-2 flex-col'>
               <FileUpload
                 data={{
                   defaultImg: [
@@ -97,7 +95,7 @@ const AddProduct = () => {
                   label: 'أضف صورة'
                 }}
               />
-            </label> */}
+            </label>
 
             <label htmlFor='username' className='form__group'>
               <span className='form__label'>اسم المنتج</span>
@@ -134,7 +132,7 @@ const AddProduct = () => {
 
             <div className='form__group'>
               <span className='form__label'>حالة المنتج</span>
-              <label className='form__group' htmlFor='open'>
+              <label className='form__group cursor-pointer' htmlFor='open'>
                 <input
                   className='form__input'
                   type='radio'
@@ -146,7 +144,7 @@ const AddProduct = () => {
                 />
                  <span>مفتوح</span>
               </label>
-              <label className='form__group' htmlFor='close'>
+              <label className='form__group cursor-pointer' htmlFor='close'>
                 <input
                   className='form__input'
                   type='radio'

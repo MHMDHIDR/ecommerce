@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import useEventListener from '@/hooks/useEventListener'
 import useAxios from '@/hooks/useAxios'
@@ -13,8 +13,8 @@ import Modal from '@/components/Modal/Modal'
 import { Loading } from '@/components/Icons/Status'
 import { LoadingPage } from '@/components/Loading'
 import FileUpload from '@/components/FileUpload'
-import { useParams } from 'react-router-dom'
 import { createSlug, removeSlug } from '@/utils/functions/slug'
+import notify from '@/utils/functions/notify'
 
 const EditProduct = () => {
   const TITLE = 'تعديل المنتج'
@@ -31,14 +31,13 @@ const EditProduct = () => {
   const [category, setCategory] = useState<any>([])
   const [productStatus, setProductStatus] = useState('open')
   const [itemDesc, setItemDesc] = useState('')
-
   const [delItemId, setDelItemId] = useState('')
   const [delItemName, setDelItemName] = useState('')
-  const [isItemDeleted, setIsItemDeleted] = useState()
-  const [itemDeletedMsg, setItemDeletedMsg] = useState()
   const [modalLoading, setModalLoading] = useState<boolean>(false)
   const [updateItemStatus, setUpdatedItemStatus] = useState(null)
   const [updateItemMessage, setUpdatedItemMessage] = useState('')
+  const [isItemDeleted, setIsItemDeleted] = useState(null)
+  const [itemDeletedMsg, setItemDeletedMsg] = useState('')
 
   const { file } = useContext(FileUploadContext)
 
@@ -120,7 +119,7 @@ const EditProduct = () => {
           process.env.NODE_ENV === 'development'
             ? `http://localhost:4000`
             : `https://ecommerce-server-mhmdhidr.vercel.app`
-        }/products/${itemId}` //, {data: formData}
+        }/products/${itemId}`
       )
       const { itemDeleted, message } = response.data
       setIsItemDeleted(itemDeleted)
@@ -139,16 +138,17 @@ const EditProduct = () => {
   ) : (
     <Layout>
       <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
-        {updateItemStatus === 1
-          ? toast.success(updateItemMessage)
-          : updateItemStatus === 0
-          ? toast.error(updateItemMessage)
-          : isItemDeleted === 1
-          ? toast.success(itemDeletedMsg)
-          : isItemDeleted === 0
-          ? toast.error(itemDeletedMsg)
-          : null}
-        <ToastContainer />
+        <div className='hidden'>
+          {updateItemStatus === 1
+            ? notify({ type: 'success', msg: updateItemMessage })
+            : updateItemStatus === 0
+            ? notify({ type: 'error', msg: updateItemMessage })
+            : isItemDeleted === 1
+            ? notify({ type: 'success', msg: itemDeletedMsg })
+            : isItemDeleted === 0
+            ? notify({ type: 'error', msg: itemDeletedMsg })
+            : null}
+        </div>
 
         {/* Confirm Box */}
         {modalLoading && (
@@ -220,7 +220,7 @@ const EditProduct = () => {
 
           <div className='form__group'>
             <span className='form__label'>حالة المنتج</span>
-            <label className='form__group' htmlFor='open'>
+            <label className='form__group cursor-pointer' htmlFor='open'>
               <input
                 className='form__input'
                 type='radio'
@@ -232,7 +232,7 @@ const EditProduct = () => {
               />
                <span>مفتوح</span>
             </label>
-            <label className='form__group' htmlFor='close'>
+            <label className='form__group cursor-pointer' htmlFor='close'>
               <input
                 className='form__input'
                 type='radio'
