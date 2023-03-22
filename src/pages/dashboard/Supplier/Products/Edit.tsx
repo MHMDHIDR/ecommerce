@@ -277,7 +277,7 @@ const EditProduct = () => {
             >
               تحديث
             </button>
-            <DeleteBtn id={product.id} itemName={product.itemName} />
+            <DeleteBtn id={product?.id} itemName={product?.itemName} />
           </div>
         </form>
       </section>
