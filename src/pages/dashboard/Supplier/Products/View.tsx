@@ -130,7 +130,7 @@ const ViewProduct = () => {
                     >
                       <td>
                         <Link
-                          to={goTo(`product-details/${product.id}`)}
+                          to={goTo(`product/${product.id}`)}
                           className='inline-block py-4 px-6'
                         >
                           <span>{idx + 1}</span>
@@ -138,7 +138,7 @@ const ViewProduct = () => {
                       </td>
                       <td>
                         <Link
-                          to={goTo(`product-details/${product.id}`)}
+                          to={goTo(`product/${product.id}`)}
                           className='inline-block py-4 px-6'
                         >
                           <menu className='list-decimal'>{product.itemName}</menu>
@@ -146,7 +146,7 @@ const ViewProduct = () => {
                       </td>
                       <td>
                         <Link
-                          to={goTo(`product-details/${product.id}`)}
+                          to={goTo(`product/${product.id}`)}
                           className='inline-block py-4 px-6'
                         >
                           <span
@@ -177,7 +177,7 @@ const ViewProduct = () => {
                       </td>
                       <td>
                         <Link
-                          to={goTo(`product-details/${product.id}`)}
+                          to={goTo(`product/${product.id}`)}
                           className='inline-block py-4 px-6'
                         >
                           <span className='inline-block min-w-max font-bold'>
@@ -187,7 +187,7 @@ const ViewProduct = () => {
                       </td>
                       <td>
                         <Link
-                          to={goTo(`product-details/${product.id}`)}
+                          to={goTo(`product/${product.id}`)}
                           className='inline-block py-4 px-6'
                         >
                           <span>{createLocaleDateString(product.productCreateDate)}</span>
@@ -195,7 +195,7 @@ const ViewProduct = () => {
                       </td>
                       <td>
                         <Link
-                          to={goTo(`product-details/${product.id}`)}
+                          to={goTo(`product/${product.id}`)}
                           className='inline-block py-4 px-6'
                         >
                           <span>{createLocaleDateString(product.productUpdateDate)}</span>

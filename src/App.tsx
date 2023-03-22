@@ -64,14 +64,8 @@ const App = () => {
                   <Route path='supplier' element={<SupplierDashboard />} />
                   <Route path='supplier/add' element={<DashboardAddFood />} />
                   <Route path='supplier/products' element={<DashboardMenu />} />
-                  <Route
-                    path='supplier/order-details/:id'
-                    element={<DashboardOrderDetails />}
-                  />
-                  <Route
-                    path='supplier/product-details/:id'
-                    element={<SupplierEditProduct />}
-                  />
+                  <Route path='supplier/order/:id' element={<DashboardOrderDetails />} />
+                  <Route path='supplier/product/:id' element={<SupplierEditProduct />} />
 
                   <Route path='*' element={<ModalNotFound fullscreen={true} />} />
                 </Routes>

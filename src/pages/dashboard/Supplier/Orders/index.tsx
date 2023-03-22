@@ -32,18 +32,12 @@ const SupplierDashboard = () => {
                 {[...Array(5).keys()].map((_order: any, idx: number) => (
                   <tr className='hover:bg-gray-50 dark:hover:bg-gray-700' key={idx}>
                     <td>
-                      <Link
-                        to={`order-details/${ORDER._id}`}
-                        className='inline-block py-4 px-6'
-                      >
+                      <Link to={`order/${ORDER._id}`} className='inline-block py-4 px-6'>
                         <span>{ORDER._id + idx}</span>
                       </Link>
                     </td>
                     <td>
-                      <Link
-                        to={`order-details/${ORDER._id}`}
-                        className='inline-block py-4 px-6'
-                      >
+                      <Link to={`order/${ORDER._id}`} className='inline-block py-4 px-6'>
                         <menu className='list-decimal'>
                           {ORDER.orderItems.map((item: any, idx: number) => (
                             <li key={idx}>{item.cHeading}</li>
@@ -52,10 +46,7 @@ const SupplierDashboard = () => {
                       </Link>
                     </td>
                     <td>
-                      <Link
-                        to={`order-details/${ORDER._id}`}
-                        className='inline-block py-4 px-6'
-                      >
+                      <Link to={`order/${ORDER._id}`} className='inline-block py-4 px-6'>
                         <span
                           className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
                             ORDER.orderStatus === 'accept'
@@ -83,10 +74,7 @@ const SupplierDashboard = () => {
                       </Link>
                     </td>
                     <td>
-                      <Link
-                        to={`order-details/${ORDER._id}`}
-                        className='inline-block py-4 px-6'
-                      >
+                      <Link to={`order/${ORDER._id}`} className='inline-block py-4 px-6'>
                         <span>{createLocaleDateString(ORDER.orderDate)}</span>
                       </Link>
                     </td>

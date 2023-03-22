@@ -20,7 +20,7 @@ export const AcceptBtn = ({ id, email }: any) => (
 export const EditBtn = ({ id }: any) => (
   <Link
     id='editBtn'
-    to={goTo(`product-details/${id}`)}
+    to={goTo(`product/${id}`)}
     className='m-1 py-2 text-xs text-white bg-gray-600 rounded-md hover:bg-gray-700 min-w-[7rem] relative text-center overflow-hidden border'
     data-tooltip='تعديل الطلب'
   >
