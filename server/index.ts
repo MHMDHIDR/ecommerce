@@ -38,4 +38,4 @@ import products from './routes/products.js'
 // Use Routes
 app.use('/products', products)
 
-app.listen(PORT || 4000, () => console.log(`start listening on port : ${PORT || 4000}`))
+app.listen(PORT || 4000, () => console.log(`APP RUNNING ON=> ${PORT || 4000}`))
