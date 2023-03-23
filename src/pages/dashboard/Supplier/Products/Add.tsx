@@ -1,7 +1,7 @@
 import { Suspense, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
-import { LoadingPage } from '@/components/Loading'
+import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import FileUpload from '@/components/FileUpload'
 import BackButton from '@/components/Icons/BackButton'
 import Layout from '@/components/Layout'
@@ -25,6 +25,7 @@ const AddProduct = () => {
   const [itemDesc, setItemDesc] = useState('')
   const [addItemStatus, setAddItemStatus] = useState(null)
   const [addItemMessage, setAddItemMessage] = useState('')
+  const [isAdding, setIsAdding] = useState(false)
 
   const { file } = useContext(FileUploadContext)
 
@@ -34,6 +35,10 @@ const AddProduct = () => {
     preventDefault: () => void
   }) => {
     e.preventDefault()
+
+    e.target.reset()
+    e.target.querySelector('button').setAttribute('disabled', 'disabled')
+    setIsAdding(true)
 
     //using FormData to send constructed data
     const formData = new FormData()
@@ -62,6 +67,8 @@ const AddProduct = () => {
       setAddItemMessage(message)
     } catch (err) {
       console.log(err)
+    } finally {
+      setIsAdding(false)
     }
   }
 
@@ -84,7 +91,7 @@ const AddProduct = () => {
             className='relative flex flex-col items-center'
             onSubmit={handleAddProduct}
           >
-            <label htmlFor='uploadImg' className='flex items-center gap-y-2 flex-col'>
+            {/* <label htmlFor='uploadImg' className='flex items-center gap-y-2 flex-col'>
               <FileUpload
                 data={{
                   defaultImg: [
@@ -97,7 +104,7 @@ const AddProduct = () => {
                   label: 'أضف صورة'
                 }}
               />
-            </label>
+            </label> */}
 
             <label htmlFor='username' className='form__group'>
               <span className='form__label'>اسم المنتج</span>
@@ -195,9 +202,20 @@ const AddProduct = () => {
             <div className='flex items-center gap-x-20'>
               <button
                 type='submit'
-                className='min-w-[7rem] bg-green-600 hover:bg-green-700 text-white py-1.5 px-6 rounded-md'
+                className={`min-w-[7rem] bg-green-600 hover:bg-green-700 text-white py-1.5 px-6 rounded-md${
+                  isAdding || !isAdding
+                    ? ' disabled:opacity-30 disabled:hover:bg-green-700'
+                    : ''
+                }`}
               >
-                إضافة
+                {isAdding ? (
+                  <>
+                    <LoadingSpinner />
+                    &nbsp; جارِ اضافة المنتج...
+                  </>
+                ) : (
+                  'إضافة'
+                )}
               </button>
               <Link
                 to={goTo('products')}

@@ -8,7 +8,7 @@ export const MinusBtn = ({
   onClick?: () => void
 }) => (
   <svg
-    className={`fill-current text-gray-600 dark:text-gray-50 cursor-pointer${
+    className={`fill-current text-gray-500 dark:text-gray-50 hover:text-gray-600 dark:hover:text-gray-300 cursor-pointer${
       className ? ' ' + className : ''
     }`}
     viewBox='0 0 448 512'
@@ -26,7 +26,7 @@ export const AddBtn = ({
   onClick?: () => void
 }) => (
   <svg
-    className={`fill-current text-gray-600 dark:text-gray-50 cursor-pointer${
+    className={`fill-current text-gray-500 dark:text-gray-50 hover:text-gray-600 dark:hover:text-gray-300 cursor-pointer${
       className ? ' ' + className : ''
     }`}
     viewBox='0 0 448 512'
@@ -38,7 +38,7 @@ export const AddBtn = ({
 
 export const TrashBtn = ({ className, onClick, id, label }: ControlBtnProps) => (
   <div
-    className='flex items-center gap-x-1.5 hover:bg-gray-100 w-fit px-1.5 py-0.5 rounded-lg select-none text-sm cursor-pointer'
+    className='flex items-center gap-x-1.5 hover:bg-gray-100 hover:text-gray-800 w-fit px-1.5 py-0.5 rounded-lg select-none text-sm cursor-pointer group'
     onClick={onClick}
     id={id}
   >

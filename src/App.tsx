@@ -71,7 +71,7 @@ const App = () => {
                 </Routes>
               </Suspense>
             </Router>
-            <ToastContainer />
+            <ToastContainer rtl />
           </CartProvider>
         </FileUploadContextProvider>
         {/* </SearchContextProvider> */}

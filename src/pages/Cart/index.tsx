@@ -27,9 +27,7 @@ const Cart = () => {
       }
       case 'confirm': {
         emptyCart()
-        setTimeout(() => {
-          setModalLoading(false)
-        }, 300)
+        setModalLoading(false)
         break
       }
       case 'cancel': {
@@ -49,7 +47,9 @@ const Cart = () => {
             <Modal
               status={Loading}
               classes='text-blue-600 dark:text-blue-400 text-lg'
-              msg={`هل أنت متأكد من حذف ${totalItems} ؟ عناصر من السلة، لا يمكن التراجع عن هذا القرار`}
+              msg={`هل أنت متأكد من حذف عدد (${totalItems}) ${
+                totalItems > 1 ? 'مواد' : 'مادة'
+              } من السلة، لا يمكن التراجع عن هذا القرار `}
               ctaConfirmBtns={['حذف', 'الغاء']}
             />
           )}
@@ -58,7 +58,7 @@ const Cart = () => {
               <div className='flex flex-col gap-y-3'>
                 <TrashBtn
                   id='emptyCartBtn'
-                  className='w-5 h-5 fill-red-600 dark:fill-red-400'
+                  className='w-5 h-5 fill-red-600 dark:fill-red-400 dark:group-hover:fill-red-600'
                   label='تفريغ السلة'
                 />
                 {items.map((item: Item) => (

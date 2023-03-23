@@ -104,17 +104,17 @@ const ViewProduct = () => {
             />
           )}
           <h2 className='text-xl text-center my-16'>{TITLE}</h2>
-          <div className='overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-900 shadow-md m-5 dark:shadow-gray-900'>
-            <table className='w-full border-collapse text-center bg-white dark:bg-gray-600 text-sm text-gray-900 dark:text-white'>
+          <div className='overflow-x-auto text-center rounded-lg border border-gray-200 dark:border-gray-900 shadow-md dark:shadow-gray-900'>
+            <table className='w-full bg-white dark:bg-gray-600 text-xs text-gray-900 dark:text-white'>
               <thead className='bg-gray-50 dark:bg-gray-700'>
                 <tr>
-                  <th className='py-4'>الرقم</th>
-                  <th className='py-4'>اسم المنتج</th>
-                  <th className='py-4'>الحالة</th>
-                  <th className='py-4'>السعر</th>
-                  <th className='py-4'>تاريخ إنشاء المنتج</th>
-                  <th className='py-4'>تاريخ تحديث المنتج</th>
-                  <th className='py-4'>الإجراء</th>
+                  <th className='py-2'>الرقم</th>
+                  <th className='py-2'>اسم المنتج</th>
+                  <th className='py-2'>الحالة</th>
+                  <th className='py-2'>السعر</th>
+                  <th className='py-2'>تاريخ إنشاء المنتج</th>
+                  <th className='py-2'>تاريخ تحديث المنتج</th>
+                  <th className='py-2'>الإجراء</th>
                 </tr>
               </thead>
               <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
@@ -128,28 +128,28 @@ const ViewProduct = () => {
                   products?.map((product: any, idx: number) => (
                     <tr
                       className='hover:bg-gray-50 dark:hover:bg-gray-700'
-                      key={product.id + idx}
+                      key={product.productId + idx}
                     >
                       <td>
                         <Link
-                          to={goTo(`product/${product.id}`)}
-                          className='inline-block py-4 px-6'
+                          to={goTo(`product/${product.productId}`)}
+                          className='py-3 px-5'
                         >
                           <span>{idx + 1}</span>
                         </Link>
                       </td>
                       <td>
                         <Link
-                          to={goTo(`product/${product.id}`)}
-                          className='inline-block py-4 px-6'
+                          to={goTo(`product/${product.productId}`)}
+                          className='py-3 px-5'
                         >
-                          <menu className='list-decimal'>{product.itemName}</menu>
+                          {product.itemName}
                         </Link>
                       </td>
                       <td>
                         <Link
-                          to={goTo(`product/${product.id}`)}
-                          className='inline-block py-4 px-6'
+                          to={goTo(`product/${product.productId}`)}
+                          className='py-3 px-5'
                         >
                           <span
                             className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
@@ -179,8 +179,8 @@ const ViewProduct = () => {
                       </td>
                       <td>
                         <Link
-                          to={goTo(`product/${product.id}`)}
-                          className='inline-block py-4 px-6'
+                          to={goTo(`product/${product.productId}`)}
+                          className='py-3 px-5'
                         >
                           <span className='inline-block min-w-max font-bold'>
                             {product.currentPrice} ج.س
@@ -189,23 +189,23 @@ const ViewProduct = () => {
                       </td>
                       <td>
                         <Link
-                          to={goTo(`product/${product.id}`)}
-                          className='inline-block py-4 px-6'
+                          to={goTo(`product/${product.productId}`)}
+                          className='py-3 px-5'
                         >
                           <span>{createLocaleDateString(product.productCreateDate)}</span>
                         </Link>
                       </td>
                       <td>
                         <Link
-                          to={goTo(`product/${product.id}`)}
-                          className='inline-block py-4 px-6'
+                          to={goTo(`product/${product.productId}`)}
+                          className='py-3 px-5'
                         >
                           <span>{createLocaleDateString(product.productUpdateDate)}</span>
                         </Link>
                       </td>
                       <td>
-                        <DeleteBtn id={product.id} itemName={product.itemName} />
-                        <EditBtn id={product.id} />
+                        <DeleteBtn id={product.productId} itemName={product.itemName} />
+                        <EditBtn id={product.productId} />
                       </td>
                     </tr>
                   ))
