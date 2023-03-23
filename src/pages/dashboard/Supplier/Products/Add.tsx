@@ -69,11 +69,13 @@ const AddProduct = () => {
     <Suspense fallback={<LoadingPage />}>
       <Layout>
         <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
-          {addItemStatus === 1
-            ? notify({ type: 'success', msg: addItemMessage })
-            : addItemStatus === 0
-            ? notify({ type: 'error', msg: addItemMessage })
-            : null}
+          <div className='hidden'>
+            {addItemStatus === 1
+              ? notify({ type: 'success', msg: addItemMessage })
+              : addItemStatus === 0
+              ? notify({ type: 'error', msg: addItemMessage })
+              : null}
+          </div>
           {isSmallScreen && (
             <BackButton to='/' className='w-8 h-8 absolute z-50 top-6 left-6' />
           )}

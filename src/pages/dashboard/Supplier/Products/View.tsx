@@ -87,11 +87,13 @@ const ViewProduct = () => {
     <Suspense fallback={<LoadingPage />}>
       <Layout>
         <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
-          {isItemDeleted === 1
-            ? notify({ type: 'success', msg: itemDeletedMsg })
-            : isItemDeleted === 0
-            ? notify({ type: 'error', msg: itemDeletedMsg })
-            : null}{' '}
+          <div className='hidden'>
+            {isItemDeleted === 1
+              ? notify({ type: 'success', msg: itemDeletedMsg })
+              : isItemDeleted === 0
+              ? notify({ type: 'error', msg: itemDeletedMsg })
+              : null}
+          </div>
           {/* Confirm Box */}
           {modalLoading && (
             <Modal
