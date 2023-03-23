@@ -7,7 +7,7 @@ const Controls = ({ item }: { item: Item }) => {
   const { removeItem, updateItemQuantity } = useCart()
 
   return (
-    <div className='flex items-center gap-x-1 mt-1.5'>
+    <div className='flex items-center gap-x-1 mt-1.5 cursor-pointer'>
       <TrashBtn
         className='w-4 h-4 fill-red-600 dark:fill-red-400'
         onClick={() => removeItem(item.id)}
@@ -23,7 +23,7 @@ const Controls = ({ item }: { item: Item }) => {
           }
         />
         <input
-          className='text-center w-6 bg-gray-100 dark:bg-gray-900'
+          className='text-center w-6 m-0 bg-gray-100 dark:bg-gray-900'
           type='number'
           value={item.quantity}
           min={1}

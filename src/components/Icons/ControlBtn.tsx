@@ -8,7 +8,7 @@ export const MinusBtn = ({
   onClick?: () => void
 }) => (
   <svg
-    className={`fill-current text-gray-600 dark:text-gray-50${
+    className={`fill-current text-gray-600 dark:text-gray-50 cursor-pointer${
       className ? ' ' + className : ''
     }`}
     viewBox='0 0 448 512'
@@ -26,7 +26,7 @@ export const AddBtn = ({
   onClick?: () => void
 }) => (
   <svg
-    className={`fill-current text-gray-600 dark:text-gray-50${
+    className={`fill-current text-gray-600 dark:text-gray-50 cursor-pointer${
       className ? ' ' + className : ''
     }`}
     viewBox='0 0 448 512'
@@ -36,10 +36,11 @@ export const AddBtn = ({
   </svg>
 )
 
-export const TrashBtn = ({ className, onClick, label }: ControlBtnProps) => (
+export const TrashBtn = ({ className, onClick, id, label }: ControlBtnProps) => (
   <div
-    className='flex items-center gap-x-1.5 hover:bg-gray-100 w-fit px-1.5 py-0.5 rounded-lg select-none text-sm'
+    className='flex items-center gap-x-1.5 hover:bg-gray-100 w-fit px-1.5 py-0.5 rounded-lg select-none text-sm cursor-pointer'
     onClick={onClick}
+    id={id}
   >
     <svg
       className={`fill-current text-gray-600${className ? ' ' + className : ''}`}
@@ -47,8 +48,9 @@ export const TrashBtn = ({ className, onClick, label }: ControlBtnProps) => (
       width='108.402'
       height='135.331'
       viewBox='0 0 108.402 135.331'
+      id={id}
     >
-      <title>{label || 'TrashBtn'}</title>
+      <title id={id}>{label || 'TrashBtn'}</title>
       <path
         d='M23.8,134.331c-8.9,0-16.126-6.356-16.126-14.161V31.5H6.269C2.819,31.5,0,29.026,0,25.988s2.819-5.513,6.269-5.513h1.04c.85-4.442,5.287-7.854,10.6-7.854h17.9C35.809,5.657,42.212,0,50.128,0h7.146c7.892,0,14.32,5.657,14.32,12.62H89.5c5.316,0,9.746,3.412,10.6,7.854h1.032c3.454,0,6.269,2.472,6.269,5.513s-2.814,5.511-6.269,5.511h-.369v88.672c0,7.8-7.23,14.161-16.1,14.161ZM11.263,120.171c0,6.072,5.638,10.983,12.542,10.983H84.667c6.9,0,12.506-4.91,12.506-10.983V31.5H11.263ZM3.589,25.988a2.546,2.546,0,0,0,2.679,2.381h94.865a2.551,2.551,0,0,0,2.684-2.381,2.511,2.511,0,0,0-2.684-2.336H98.45a1.717,1.717,0,0,1-1.778-1.588c0-3.461-3.216-6.314-7.174-6.314H17.9c-3.955,0-7.142,2.853-7.142,6.314a1.746,1.746,0,0,1-1.806,1.588H6.269A2.507,2.507,0,0,0,3.589,25.988ZM39.4,12.62H68.033c0-5.234-4.836-9.442-10.759-9.442H50.128C44.205,3.178,39.4,7.385,39.4,12.62ZM78.179,125.643c-3.458,0-6.269-2.434-6.269-5.472V42.529c0-3.038,2.811-5.513,6.269-5.513h.588c3.446,0,6.264,2.476,6.264,5.513v77.642c0,3.038-2.818,5.472-6.264,5.472ZM75.5,42.529v77.642a2.542,2.542,0,0,0,2.684,2.336h.588a2.54,2.54,0,0,0,2.679-2.336V42.529a2.544,2.544,0,0,0-2.679-2.381h-.588A2.546,2.546,0,0,0,75.5,42.529ZM53.42,125.643c-3.445,0-6.264-2.434-6.264-5.472V42.529c0-3.038,2.819-5.513,6.264-5.513h.588c3.458,0,6.241,2.476,6.241,5.513v77.642c0,3.038-2.783,5.472-6.241,5.472ZM50.712,42.529v77.642a2.567,2.567,0,0,0,2.707,2.336h.588a2.532,2.532,0,0,0,2.656-2.336V42.529a2.537,2.537,0,0,0-2.656-2.381H53.42A2.571,2.571,0,0,0,50.712,42.529ZM28.639,125.643c-3.458,0-6.249-2.434-6.249-5.472V42.529c0-3.038,2.791-5.513,6.249-5.513h.58c3.453,0,6.272,2.476,6.272,5.513v77.642c0,3.038-2.819,5.472-6.272,5.472ZM25.955,42.529v77.642a2.557,2.557,0,0,0,2.684,2.336h.58a2.539,2.539,0,0,0,2.684-2.336V42.529a2.544,2.544,0,0,0-2.684-2.381h-.58A2.561,2.561,0,0,0,25.955,42.529Z'
         transform='translate(0.5 0.5)'
@@ -57,6 +59,6 @@ export const TrashBtn = ({ className, onClick, label }: ControlBtnProps) => (
         strokeWidth='1'
       />
     </svg>
-    {label && <span>{label}</span>}
+    {label && <span id={id}>{label}</span>}
   </div>
 )

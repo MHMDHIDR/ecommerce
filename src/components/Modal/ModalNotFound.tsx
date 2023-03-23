@@ -1,4 +1,4 @@
-import Modal from './Modal'
+import Modal from '.'
 import { Error } from '../Icons/Status'
 
 const ModalNotFound = ({

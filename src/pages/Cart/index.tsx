@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { Suspense, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '@/contexts/CartContext'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
@@ -6,28 +6,59 @@ import { LoadingPage } from '@/components/Loading'
 import Layout from '@/components/Layout'
 import NoItems from '@/components/NoItems'
 import { TrashBtn } from '@/components/Icons/ControlBtn'
+import Modal from '@/components/Modal'
+import { Loading } from '@/components/Icons/Status'
 import Controls from './Controls'
 import { Item } from '@/types'
 import CartHeader from './CartHeader'
+import useEventListener from '@/hooks/useEventListener'
 
 const Cart = () => {
   useDocumentTitle('السلة')
 
   const { items, isEmpty, emptyCart, cartTotal, totalItems } = useCart()
+  const [modalLoading, setModalLoading] = useState<boolean>()
+
+  useEventListener('click', (e: any) => {
+    switch (e.target.id) {
+      case 'emptyCartBtn': {
+        setModalLoading(true)
+        break
+      }
+      case 'confirm': {
+        emptyCart()
+        setTimeout(() => {
+          setModalLoading(false)
+        }, 300)
+        break
+      }
+      case 'cancel': {
+        setModalLoading(false)
+        break
+      }
+    }
+  })
 
   return (
     <Suspense fallback={<LoadingPage />}>
       <Layout>
         <section className='container px-5 mx-auto rtl mb-24'>
           <CartHeader />
+          {/* Confirm Box */}
+          {modalLoading && (
+            <Modal
+              status={Loading}
+              classes='text-blue-600 dark:text-blue-400 text-lg'
+              msg={`هل أنت متأكد من حذف ${totalItems} ؟ عناصر من السلة، لا يمكن التراجع عن هذا القرار`}
+              ctaConfirmBtns={['حذف', 'الغاء']}
+            />
+          )}
           {!isEmpty ? (
             <>
               <div className='flex flex-col gap-y-3'>
                 <TrashBtn
+                  id='emptyCartBtn'
                   className='w-5 h-5 fill-red-600 dark:fill-red-400'
-                  onClick={() =>
-                    confirm(`هل تريد حذف المنتج من سلة المشتريات؟`) ? emptyCart() : null
-                  }
                   label='تفريغ السلة'
                 />
                 {items.map((item: Item) => (

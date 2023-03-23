@@ -1,4 +1,4 @@
-import Modal from './Modal'
+import Modal from '.'
 import { Success } from '../Icons/Status'
 
 const ModalSuccess = ({

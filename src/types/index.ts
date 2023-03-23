@@ -180,4 +180,5 @@ export type ControlBtnProps = {
   className?: string
   label?: string
   onClick?: () => void
+  id?: string
 }
