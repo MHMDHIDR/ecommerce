@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
 import db from '../../helpers/db.js'
 
-export const addProduct = asyncHandler(async (req: Request, res: Response) => {
+export const addOrder = asyncHandler(async (req: Request, res: Response) => {
   let {
     id,
     itemName,

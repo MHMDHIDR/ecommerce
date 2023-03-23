@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
 import db from '../../helpers/db.js'
 
-export const updateProduct = asyncHandler(async (req: Request, res: Response) => {
+export const updateOrder = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params
   let { itemName, imgUrl, currentPrice, oldPrice, quantity, description, productStatus } =
     req.body
