@@ -1,6 +1,12 @@
 import { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
-import { getStorage, ref, uploadBytes, getDownloadURL } from '@firebase/storage'
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject
+} from '@firebase/storage'
 import db from '../../helpers/db.js'
 import { firebaseApp } from '../../helpers/firebase.js'
 
@@ -37,6 +43,12 @@ export const updateProduct = asyncHandler(async (req: Request, res: Response) =>
     const productImgData = Array.isArray(productImg)
       ? productImg[0].data
       : productImg.data
+
+    // Delete the old image if it exists
+    if (currentProductImg) {
+      const oldImageRef = ref(storage, currentProductImg)
+      await deleteObject(oldImageRef)
+    }
 
     const imageRef = ref(storage, `products/${id}/${id}_${productImgName}`)
     await uploadBytes(imageRef, productImgData)

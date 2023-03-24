@@ -8,7 +8,7 @@ export const AcceptBtn = ({ id, email }: any) => (
     data-status='accept'
     data-email={email}
     className='m-1 py-2 text-xs text-white bg-green-600 rounded-md hover:bg-green-700 min-w-[7rem] relative text-center overflow-hidden'
-    data-tooltip='موافقة الطلب'
+    data-tooltip='موافقة'
   >
     <span className='py-0.5 px-1 md:pl-1 bg-green-300 rounded-md absolute right-2 top-1.5 pointer-events-none'>
       &#9989;
@@ -38,7 +38,7 @@ export const RejectBtn = ({ id, email }: any) => (
     data-status='reject'
     data-email={email}
     className='m-1 py-2 text-xs text-white bg-gray-600 rounded-md hover:bg-gray-700 min-w-[7rem] relative text-center overflow-hidden border'
-    data-tooltip='رفض الطلب'
+    data-tooltip='رفض'
   >
     <span className='py-0.5 px-1 md:pl-1 bg-gray-300 rounded-md absolute right-2 top-1.5 pointer-events-none'>
       &#10060;
@@ -47,14 +47,24 @@ export const RejectBtn = ({ id, email }: any) => (
   </button>
 )
 
-export const DeleteBtn = ({ id, itemName }: { id: string; itemName: string }) => (
+export const DeleteBtn = ({
+  id,
+  itemName,
+  imgUrl
+}: {
+  id: string
+  itemName: string
+  imgUrl?: string
+}) => (
   <button
     id='deleteBtn'
+    type='button'
     data-id={id}
     data-name={itemName}
+    data-img-url={imgUrl}
     data-status='delete'
     className='m-1 py-2 text-xs text-white bg-red-600 rounded-md hover:bg-red-700 min-w-[7rem] relative text-center overflow-hidden'
-    data-tooltip='حذف الطلب'
+    data-tooltip='حذف'
   >
     <span className='py-0.5 px-1 md:pl-1 bg-red-200 rounded-md absolute right-2 top-1.5 pointer-events-none'>
       &#128465;

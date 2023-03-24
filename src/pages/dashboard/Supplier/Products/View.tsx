@@ -18,9 +18,9 @@ const ViewProduct = () => {
   const TITLE = 'عرض المنتجات'
   useDocumentTitle(TITLE)
 
-  const [delItemId, setDelItemId] = useState('')
-  const [delItemName, setDelItemName] = useState('')
-  // const [delFoodImg, setDelFoodImg] = useState('')
+  const [delProductId, setDelProductId] = useState('')
+  const [delProductName, setDelProductName] = useState('')
+  const [delProductImg, setDelProductImg] = useState('')
   const [isItemDeleted, setIsItemDeleted] = useState(null)
   const [itemDeletedMsg, setItemDeletedMsg] = useState('')
   const [modalLoading, setModalLoading] = useState<boolean>(false)
@@ -36,13 +36,14 @@ const ViewProduct = () => {
   useEventListener('click', (e: any) => {
     switch (e.target.id) {
       case 'deleteBtn': {
-        setDelItemId(e.target.dataset.id)
-        setDelItemName(removeSlug(e.target.dataset.name))
+        setDelProductId(e.target.dataset.id)
+        setDelProductName(removeSlug(e.target.dataset.name))
+        setDelProductImg(e.target.dataset.imgUrl)
         setModalLoading(true)
         break
       }
       case 'confirm': {
-        handleDeleteItem(delItemId)
+        handleDeleteProduct(delProductId, delProductImg)
         break
       }
       case 'cancel': {
@@ -57,18 +58,14 @@ const ViewProduct = () => {
     }
   })
 
-  const handleDeleteItem = async (
-    itemId: string
-    // ,foodImgs: FoodImgsProps[] = delFoodImg
-  ) => {
+  const handleDeleteProduct = async (itemId: string, imgUrl: string) => {
     try {
-      //You need to name the body {data} so it can be recognized in (.delete) method
       const response = await axios.delete(
         `${
           process.env.NODE_ENV === 'development'
             ? `http://localhost:4000`
             : `https://ecommerce-server-mhmdhidr.vercel.app`
-        }/products/${itemId}` //, {data: formData}
+        }/products/${itemId}?imgUrl=${imgUrl}`
       )
       const { itemDeleted, message } = response.data
       setIsItemDeleted(itemDeleted)
@@ -103,7 +100,7 @@ const ViewProduct = () => {
             <Modal
               status={Loading}
               classes='text-blue-600 dark:text-blue-400 text-lg'
-              msg={`هل أنت متأكد من حذف ${delItemName} ؟ لا يمكن التراجع عن هذا القرار`}
+              msg={`هل أنت متأكد من حذف ${delProductName} ؟ لا يمكن التراجع عن هذا القرار`}
               ctaConfirmBtns={['حذف', 'الغاء']}
             />
           )}
@@ -203,7 +200,11 @@ const ViewProduct = () => {
                         </Link>
                       </td>
                       <td>
-                        <DeleteBtn id={product.id} itemName={product.itemName} />
+                        <DeleteBtn
+                          id={product.id}
+                          itemName={product.itemName}
+                          imgUrl={product.imgUrl}
+                        />
                         <EditBtn id={product.id} />
                       </td>
                     </tr>

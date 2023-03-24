@@ -70,6 +70,7 @@ const FileUpload = ({ data }: any) => {
         className='hidden'
         accept='image/*'
         onChange={onFileAdd}
+        required
       />
     </>
   )

@@ -38,8 +38,8 @@ const EditProduct = () => {
   ])
   const [productStatus, setProductStatus] = useState('')
   const [itemDesc, setItemDesc] = useState('')
-  const [delItemId, setDelItemId] = useState('')
-  const [delItemName, setDelItemName] = useState('')
+  const [delProductId, setDelProductId] = useState('')
+  const [delProductName, setDelProductName] = useState('')
   const [modalLoading, setModalLoading] = useState<boolean>(false)
   const [updateItemStatus, setUpdatedItemStatus] = useState<number | null>(null)
   const [updateItemMessage, setUpdatedItemMessage] = useState('')
@@ -108,13 +108,13 @@ const EditProduct = () => {
   useEventListener('click', (e: any) => {
     switch (e.target.id) {
       case 'deleteBtn': {
-        setDelItemId(e.target.dataset.id)
-        setDelItemName(removeSlug(e.target.dataset.name))
+        setDelProductId(e.target.dataset.id)
+        setDelProductName(removeSlug(e.target.dataset.name))
         setModalLoading(true)
         break
       }
       case 'confirm': {
-        handleDeleteItem(delItemId)
+        handleDeleteProduct(delProductId)
         break
       }
       case 'cancel': {
@@ -129,14 +129,15 @@ const EditProduct = () => {
     }
   })
 
-  const handleDeleteItem = async (itemId: string) => {
+  const handleDeleteProduct = async (itemId: string) => {
+    const imgUrl = product?.imgUrl!
     try {
       const response = await axios.delete(
         `${
           process.env.NODE_ENV === 'development'
             ? `http://localhost:4000`
             : `https://ecommerce-server-mhmdhidr.vercel.app`
-        }/products/${itemId}`
+        }/products/${itemId}?imgUrl=${imgUrl}`
       )
       const { itemDeleted, message } = response.data
       setIsItemDeleted(itemDeleted)
@@ -166,7 +167,12 @@ const EditProduct = () => {
             : updateItemStatus === 0
             ? notify({ type: 'error', msg: updateItemMessage })
             : isItemDeleted === 1
-            ? notify({ type: 'success', msg: itemDeletedMsg })
+            ? notify({
+                type: 'success',
+                msg: itemDeletedMsg,
+                reloadIn: 5000,
+                reloadTo: goTo('products')
+              })
             : isItemDeleted === 0
             ? notify({ type: 'error', msg: itemDeletedMsg })
             : null}
@@ -177,7 +183,7 @@ const EditProduct = () => {
           <Modal
             status={Loading}
             classes='text-blue-600 dark:text-blue-400 text-lg'
-            msg={`هل أنت متأكد من حذف ${delItemName} ؟ لا يمكن التراجع عن هذا القرار`}
+            msg={`هل أنت متأكد من حذف ${delProductName} ؟ لا يمكن التراجع عن هذا القرار`}
             ctaConfirmBtns={['حذف', 'الغاء']}
           />
         )}
