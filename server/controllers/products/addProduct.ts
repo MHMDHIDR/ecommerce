@@ -8,7 +8,6 @@ import { firebaseApp } from '../../helpers/firebase.js'
 export const addProduct = asyncHandler(async (req: Request, res: Response) => {
   let { itemName, currentPrice, quantity, category, description, productStatus } =
     req.body
-  let { productImg } = req.files!
 
   const productId = randomUUID()
   const values = [
@@ -23,8 +22,9 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
     productStatus
   ]
 
-  if (productImg) {
+  if (req.files) {
     firebaseApp
+    let { productImg } = req.files
     const storage = getStorage()
     const productImgName = Array.isArray(productImg)
       ? productImg[0].name

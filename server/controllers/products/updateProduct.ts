@@ -1,4 +1,3 @@
-import { randomUUID } from 'crypto'
 import { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
 import { getStorage, ref, uploadBytes, getDownloadURL } from '@firebase/storage'
@@ -17,7 +16,6 @@ export const updateProduct = asyncHandler(async (req: Request, res: Response) =>
     currentProductImg
   } = req.body
 
-  const productId = randomUUID()
   const values = [
     itemName,
     currentProductImg,
@@ -40,14 +38,14 @@ export const updateProduct = asyncHandler(async (req: Request, res: Response) =>
       ? productImg[0].data
       : productImg.data
 
-    const imageRef = ref(storage, `products/${productId}/${productId}_${productImgName}`)
+    const imageRef = ref(storage, `products/${id}/${id}_${productImgName}`)
     await uploadBytes(imageRef, productImgData)
     const downloadURL = await getDownloadURL(imageRef)
-    values[2] = downloadURL
+    values[1] = downloadURL
   }
 
   const query =
-    'UPDATE products SET `itemName`= ?, `imgUrl`= ?, `discount`= ?, `currentPrice`= ?, `oldPrice`= ?, `rating`= ?, `quantity`= ?, `category`= ?, `description`= ?, `productStatus`= ?, `productUpdateDate`= CURRENT_TIMESTAMP WHERE productId = ?'
+    'UPDATE products SET `itemName`= ?, `imgUrl`= ?, `currentPrice`= ?, `oldPrice`= ?, `quantity`= ?, `category`= ?, `description`= ?, `productStatus`= ?, `productUpdateDate`= CURRENT_TIMESTAMP WHERE productId = ?'
 
   db.query(query, [...values, id], (error: any, _data: any) => {
     return error

@@ -11,25 +11,30 @@ import Layout from '@/components/Layout'
 import { DeleteBtn } from '@/components/TableActions'
 import Modal from '@/components/Modal'
 import { Loading } from '@/components/Icons/Status'
-import { LoadingPage, LoadingSpinner } from '@/components/Loading'
+import { LoadingPage } from '@/components/Loading'
 import FileUpload from '@/components/FileUpload'
 import { createSlug, removeSlug } from '@/utils/functions/slug'
 import notify from '@/utils/functions/notify'
+import goTo from '@/utils/functions/goTo'
 
 const EditProduct = () => {
   const TITLE = 'تعديل المنتج'
   useDocumentTitle(TITLE)
 
   const { id } = useParams()
-  const { response, loading } = useAxios({ url: `/products/${id}` })
-  const [product, setProduct] = useState<any>()
 
   //Form States
+  const [product, setProduct] = useState<any>()
   const [itemName, setItemName] = useState('')
   const [currentPrice, setCurrentPrice] = useState('')
   const [quantity, setQuantity] = useState('')
   const [category, setCategory] = useState<any>([])
-  const [productStatus, setProductStatus] = useState('open')
+  const [categoryList, setCategoryList] = useState([
+    ['clothes', 'ملابس'],
+    ['bags', 'حقائب'],
+    ['accessories', 'إكسسوارات']
+  ])
+  const [productStatus, setProductStatus] = useState('')
   const [itemDesc, setItemDesc] = useState('')
   const [delItemId, setDelItemId] = useState('')
   const [delItemName, setDelItemName] = useState('')
@@ -41,8 +46,10 @@ const EditProduct = () => {
 
   const { file } = useContext(FileUploadContext)
 
+  const { response, loading } = useAxios({ url: `/products/${id}` })
   useEffect(() => {
     response && setProduct(response[0])
+    setCategory(response && response[0]?.category)
     return () => setProduct([''])
   }, [response])
 
@@ -87,7 +94,6 @@ const EditProduct = () => {
       setUpdatedItemStatus(itemUpdated)
       setUpdatedItemMessage(message)
     } catch (error: any) {
-      console.error(error)
       setUpdatedItemStatus(0)
       setUpdatedItemMessage(`عفواً، حدث خطأ ما: ${error.message}`)
     }
@@ -98,7 +104,6 @@ const EditProduct = () => {
       case 'deleteBtn': {
         setDelItemId(e.target.dataset.id)
         setDelItemName(removeSlug(e.target.dataset.name))
-        // setDelItemImg(parseJson(e.target.dataset.imgname))
         setModalLoading(true)
         break
       }
@@ -118,12 +123,8 @@ const EditProduct = () => {
     }
   })
 
-  const handleDeleteItem = async (
-    itemId: string
-    // ,foodImgs: FoodImgsProps[] = delFoodImg
-  ) => {
+  const handleDeleteItem = async (itemId: string) => {
     try {
-      //You need to name the body {data} so it can be recognized in (.delete) method
       const response = await axios.delete(
         `${
           process.env.NODE_ENV === 'development'
@@ -150,7 +151,12 @@ const EditProduct = () => {
       <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
         <div className='hidden'>
           {updateItemStatus === 1
-            ? notify({ type: 'success', msg: updateItemMessage })
+            ? notify({
+                type: 'success',
+                msg: updateItemMessage,
+                reloadIn: 5000,
+                reloadTo: goTo('products')
+              })
             : updateItemStatus === 0
             ? notify({ type: 'error', msg: updateItemMessage })
             : isItemDeleted === 1
@@ -237,10 +243,14 @@ const EditProduct = () => {
                 id='open'
                 name='type'
                 value='open'
-                checked={productStatus === 'open'}
-                onChange={e => setProductStatus(e.target.value)}
+                checked={
+                  productStatus
+                    ? productStatus === 'open'
+                    : product?.productStatus === 'open'
+                }
+                onChange={() => setProductStatus('open')}
               />
-               <span>مفتوح</span>
+              <span>مفتوح</span>
             </label>
             <label className='form__group cursor-pointer' htmlFor='close'>
               <input
@@ -249,20 +259,37 @@ const EditProduct = () => {
                 id='close'
                 name='type'
                 value='close'
-                checked={productStatus === 'close'}
-                onChange={e => setProductStatus(e.target.value)}
+                checked={
+                  productStatus
+                    ? productStatus === 'close'
+                    : product?.productStatus === 'close'
+                }
+                onChange={() => setProductStatus('close')}
               />
-               <span>مغلق</span>
+              <span>مغلق</span>
             </label>
           </div>
 
           <label htmlFor='category' className='form__group'>
-            <span className='form__label active'>التصنيف</span>
-            <select id='category' className='form__input'>
+            <span className='form__label'>التصنيف</span>
+            <select
+              id='category'
+              className='form__input'
+              onChange={e =>
+                setCategory([
+                  e.target.value.trim(),
+                  e.target.options[e.target.selectedIndex].textContent
+                ])
+              }
+              defaultValue={category}
+              required
+            >
               <option value=''>اختر التصنيف</option>
-              {/* {categoryList?.map((category, idx) => ( */}
-              <option value={'category[0]'}>{'category[1]'}</option>
-              {/* ))} */}
+              {categoryList?.map((category, idx) => (
+                <option key={idx} value={category[0]}>
+                  {category[1]}
+                </option>
+              ))}
             </select>
           </label>
 

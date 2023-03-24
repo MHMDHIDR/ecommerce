@@ -66,7 +66,6 @@ const AddProduct = () => {
       setAddItemStatus(itemAdded)
       setAddItemMessage(message)
     } catch (error: any) {
-      console.error(error)
       setAddItemStatus(0)
       setAddItemMessage(`عفواً، حدث خطأ ما: ${error.message}`)
     } finally {
