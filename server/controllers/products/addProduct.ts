@@ -6,27 +6,33 @@ import db from '../../helpers/db.js'
 import { firebaseApp } from '../../helpers/firebase.js'
 
 export const addProduct = asyncHandler(async (req: Request, res: Response) => {
-  let { itemName, currentPrice, quantity, description, productStatus } = req.body
+  let { itemName, currentPrice, quantity, category, description, productStatus } =
+    req.body
   let { productImg } = req.files!
-
-  firebaseApp
-  const storage = getStorage()
-  const productImgName = Array.isArray(productImg) ? productImg[0].name : productImg.name
-  const productImgData = Array.isArray(productImg) ? productImg[0].data : productImg.data
 
   const productId = randomUUID()
   const values = [
     productId,
     itemName,
-    'https://source.unsplash.com/random?product',
+    '/assets/img/logo.png',
     parseInt(currentPrice),
     parseInt(currentPrice),
     parseInt(quantity),
+    category,
     description,
     productStatus
   ]
 
   if (productImg) {
+    firebaseApp
+    const storage = getStorage()
+    const productImgName = Array.isArray(productImg)
+      ? productImg[0].name
+      : productImg.name
+    const productImgData = Array.isArray(productImg)
+      ? productImg[0].data
+      : productImg.data
+
     const imageRef = ref(storage, `products/${productId}/${productId}_${productImgName}`)
     await uploadBytes(imageRef, productImgData)
     const downloadURL = await getDownloadURL(imageRef)
@@ -40,11 +46,12 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
     currentPrice,
     oldPrice,
     quantity,
+    category,
     description,
     productStatus,
     productCreateDate,
     productUpdateDate
-  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`
 
   db.query(query, values, (error: any, _data: any) => {
     return error

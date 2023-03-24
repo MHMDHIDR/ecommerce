@@ -38,7 +38,6 @@ const ViewProduct = () => {
       case 'deleteBtn': {
         setDelItemId(e.target.dataset.id)
         setDelItemName(removeSlug(e.target.dataset.name))
-        // setDelItemImg(parseJson(e.target.dataset.imgname))
         setModalLoading(true)
         break
       }
@@ -126,7 +125,7 @@ const ViewProduct = () => {
               <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
                 {loading ? (
                   <tr>
-                    <td colSpan={7} className='p-5'>
+                    <td colSpan={100} className='p-5'>
                       <LoadingSpinner title='جار البحث عن المنتجات...' />
                     </td>
                   </tr>
@@ -153,7 +152,9 @@ const ViewProduct = () => {
                             loading='lazy'
                             src={product.imgUrl}
                             alt={product.itemName}
-                            className='object-cover rounded-lg shadow-md h-14 w-14'
+                            height={36}
+                            width={36}
+                            className='object-cover rounded-lg shadow-md h-9 w-9'
                           />
                         </Link>
                       </td>

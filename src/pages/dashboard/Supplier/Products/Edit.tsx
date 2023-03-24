@@ -34,9 +34,9 @@ const EditProduct = () => {
   const [delItemId, setDelItemId] = useState('')
   const [delItemName, setDelItemName] = useState('')
   const [modalLoading, setModalLoading] = useState<boolean>(false)
-  const [updateItemStatus, setUpdatedItemStatus] = useState(null)
+  const [updateItemStatus, setUpdatedItemStatus] = useState<number | null>(null)
   const [updateItemMessage, setUpdatedItemMessage] = useState('')
-  const [isItemDeleted, setIsItemDeleted] = useState(null)
+  const [isItemDeleted, setIsItemDeleted] = useState<number | null>(null)
   const [itemDeletedMsg, setItemDeletedMsg] = useState('')
 
   const { file } = useContext(FileUploadContext)
@@ -52,17 +52,25 @@ const EditProduct = () => {
     preventDefault: () => void
   }) => {
     e.preventDefault()
+    const currentProductName = product?.itemName
+    const currentProductPrice = product?.currentPrice
+    const currentProductQuantity = product?.quantity
+    const currentProductCategory = product?.category
+    const currentProductStatus = product?.productStatus
+    const currentProductDesc = product?.description
+    const currentProductImg = product?.imgUrl
 
     //using FormData to send constructed data
     const formData = new FormData()
-    formData.append('itemName', itemName)
-    formData.append('currentPrice', currentPrice)
-    formData.append('quantity', quantity)
-    formData.append('category', category[0])
-    formData.append('productStatus', productStatus)
-    formData.append('description', itemDesc)
-    file.map((itemImg: any) => {
-      formData.append('foodImg', itemImg)
+    formData.append('itemName', itemName || currentProductName)
+    formData.append('currentPrice', currentPrice || currentProductPrice)
+    formData.append('quantity', quantity || currentProductQuantity)
+    formData.append('category', category[0] || currentProductCategory)
+    formData.append('productStatus', productStatus || currentProductStatus)
+    formData.append('description', itemDesc || currentProductDesc)
+    formData.append('currentProductImg', currentProductImg)
+    file.map((img: any) => {
+      formData.append('productImg', img)
     })
 
     try {
@@ -78,8 +86,10 @@ const EditProduct = () => {
 
       setUpdatedItemStatus(itemUpdated)
       setUpdatedItemMessage(message)
-    } catch (err) {
-      console.log(err)
+    } catch (error: any) {
+      console.error(error)
+      setUpdatedItemStatus(0)
+      setUpdatedItemMessage(`عفواً، حدث خطأ ما: ${error.message}`)
     }
   }
 

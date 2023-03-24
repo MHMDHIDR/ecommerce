@@ -23,7 +23,7 @@ const AddProduct = () => {
   const [category, setCategory] = useState<any>([])
   const [productStatus, setProductStatus] = useState('open')
   const [itemDesc, setItemDesc] = useState('')
-  const [addItemStatus, setAddItemStatus] = useState(null)
+  const [addItemStatus, setAddItemStatus] = useState<number | null>(null)
   const [addItemMessage, setAddItemMessage] = useState('')
   const [isAdding, setIsAdding] = useState(false)
 
@@ -65,8 +65,10 @@ const AddProduct = () => {
 
       setAddItemStatus(itemAdded)
       setAddItemMessage(message)
-    } catch (err) {
-      console.log(err)
+    } catch (error: any) {
+      console.error(error)
+      setAddItemStatus(0)
+      setAddItemMessage(`عفواً، حدث خطأ ما: ${error.message}`)
     } finally {
       setIsAdding(false)
     }
@@ -102,7 +104,7 @@ const AddProduct = () => {
                   defaultImg: [
                     {
                       ImgDisplayName: 'product image',
-                      ImgDisplayPath: 'https://source.unsplash.com/random?product'
+                      ImgDisplayPath: '/assets/img/logo.png'
                     }
                   ],
                   imgName: 'product image',
