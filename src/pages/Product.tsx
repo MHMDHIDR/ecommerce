@@ -28,14 +28,14 @@ const Product = () => {
             <img
               className='h-full w-full object-cover object-right'
               src={PRODUCT(id!).imgUrl}
-              alt={PRODUCT(id).itemName}
+              alt={PRODUCT(id!).itemName}
             />
           </Link>
         </div>
 
         <div className='px-5 py-6 pb-12 bg-white dark:bg-gray-800 rounded-tl-[2rem] rounded-tr-[2rem] -translate-y-10 flex-1 min-h-full'>
           <h5 className='flex justify-between text-xl font-semibold tracking-tight'>
-            <Link to={`/product/${id}`}>{PRODUCT(id).itemName}</Link>
+            <Link to={`/product/${id}`}>{PRODUCT(id!).itemName}</Link>
           </h5>
 
           <div className='mt-2.5 mb-5 flex items-center'>
@@ -86,7 +86,7 @@ const Product = () => {
             ) : (
               <button
                 type='button'
-                onClick={() => addItem(PRODUCT(id))}
+                onClick={() => addItem(PRODUCT(id!))}
                 className='flex items-center rounded-md bg-blue-600 px-5 py-2.5 text-center text-sm text-white hover:bg-blue-700 focus:outline-none'
               >
                 <CartIconLined className='ml-2' />
