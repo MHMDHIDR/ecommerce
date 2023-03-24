@@ -48,8 +48,8 @@ const AddProduct = () => {
     formData.append('category', category[0])
     formData.append('productStatus', productStatus)
     formData.append('description', itemDesc)
-    file.map((itemImg: any) => {
-      formData.append('foodImg', itemImg)
+    file.map((img: any) => {
+      formData.append('productImg', img)
     })
 
     try {
@@ -78,7 +78,12 @@ const AddProduct = () => {
         <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
           <div className='hidden'>
             {addItemStatus === 1
-              ? notify({ type: 'success', msg: addItemMessage })
+              ? notify({
+                  type: 'success',
+                  msg: addItemMessage,
+                  reloadIn: 5000,
+                  reloadTo: goTo('products')
+                })
               : addItemStatus === 0
               ? notify({ type: 'error', msg: addItemMessage })
               : null}
@@ -91,20 +96,20 @@ const AddProduct = () => {
             className='relative flex flex-col items-center'
             onSubmit={handleAddProduct}
           >
-            {/* <label htmlFor='uploadImg' className='flex items-center gap-y-2 flex-col'>
+            <label htmlFor='uploadImg' className='flex items-center gap-y-2 flex-col'>
               <FileUpload
                 data={{
                   defaultImg: [
                     {
-                      ImgDisplayName: 'profile',
+                      ImgDisplayName: 'product image',
                       ImgDisplayPath: 'https://tecdn.b-cdn.net/img/new/avatars/2.jpg'
                     }
                   ],
-                  imgName: 'profile',
+                  imgName: 'product image',
                   label: 'أضف صورة'
                 }}
               />
-            </label> */}
+            </label>
 
             <label htmlFor='username' className='form__group'>
               <span className='form__label'>اسم المنتج</span>

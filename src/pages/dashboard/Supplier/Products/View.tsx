@@ -89,7 +89,12 @@ const ViewProduct = () => {
         <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
           <div className='hidden'>
             {isItemDeleted === 1
-              ? notify({ type: 'success', msg: itemDeletedMsg })
+              ? notify({
+                  type: 'success',
+                  msg: itemDeletedMsg,
+                  reloadIn: 5000,
+                  reloadTo: goTo('products')
+                })
               : isItemDeleted === 0
               ? notify({ type: 'error', msg: itemDeletedMsg })
               : null}
@@ -121,7 +126,7 @@ const ViewProduct = () => {
                 {loading ? (
                   <tr>
                     <td colSpan={7} className='p-5'>
-                      <LoadingSpinner />
+                      <LoadingSpinner title='جار البحث عن المنتجات...' />
                     </td>
                   </tr>
                 ) : products.length > 0 ? (

@@ -1,44 +1,67 @@
 import { randomUUID } from 'crypto'
 import { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  StorageReference,
+  getMetadata
+} from '@firebase/storage'
 import db from '../../helpers/db.js'
+import { firebaseApp } from '../../helpers/firebase.js'
 
 export const addProduct = asyncHandler(async (req: Request, res: Response) => {
-  let { itemName, imgUrl, currentPrice, oldPrice, quantity, description, productStatus } =
-    req.body
+  let { itemName, currentPrice, quantity, description, productStatus } = req.body
+  let { productImg } = req.files!
 
-  const values = {
-    productId: randomUUID(),
+  firebaseApp
+  const storage = getStorage()
+  const productImgName = Array.isArray(productImg) ? productImg[0].name : productImg.name
+  const productImgData = Array.isArray(productImg) ? productImg[0].data : productImg.data
+
+  const productId = randomUUID()
+  const values = [
+    productId,
     itemName,
-    imgUrl:
-      'https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D',
-    currentPrice: parseInt(currentPrice),
-    oldPrice: parseInt(currentPrice),
-    quantity: parseInt(quantity),
+    'https://source.unsplash.com/random?product',
+    parseInt(currentPrice),
+    parseInt(currentPrice),
+    parseInt(quantity),
     description,
     productStatus
+  ]
+
+  if (productImg) {
+    const imageRef = ref(storage, `products/${productId}/${productId}_${productImgName}`)
+    await uploadBytes(imageRef, productImgData)
+    const metadata = (await getMetadata(imageRef)) as any
+    const displayURL = metadata.fullPath
+    values[2] = displayURL
   }
 
-  const query =
-    'INSERT INTO products (`productId`, `itemName`, `imgUrl`, `currentPrice`, `oldPrice`, `quantity`, `description`, `productStatus`) VALUES (?)'
+  const query = `INSERT INTO products (
+    productId,
+    itemName,
+    imgUrl,
+    currentPrice,
+    oldPrice,
+    quantity,
+    description,
+    productStatus,
+    productCreateDate,
+    productUpdateDate
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`
 
-  db.query(
-    query,
-    {
-      values: Object.values(values),
-      productCreateDate: 'CURRENT_TIMESTAMP',
-      productUpdateDate: 'CURRENT_TIMESTAMP'
-    },
-    (error: any, _data: any) => {
-      return error
-        ? res.status(500).json({
-            itemAdded: 0,
-            message: `عفواً حدث خطأ! ${error}`
-          })
-        : res.status(201).json({
-            itemAdded: 1,
-            message: 'تم اضافة المنتج بنجاح'
-          })
-    }
-  )
+  db.query(query, values, (error: any, _data: any) => {
+    return error
+      ? res.status(500).json({
+          itemAdded: 0,
+          message: `عفواً حدث خطأ! ${error}`
+        })
+      : res.status(201).json({
+          itemAdded: 1,
+          message: 'تم اضافة المنتج بنجاح'
+        })
+  })
 })
