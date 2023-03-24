@@ -35,11 +35,11 @@ const Home = () => {
                 <img
                   className='h-16 w-16 rounded-lg object-cover'
                   src={PRODUCT('1').imgUrl}
-                  alt={PRODUCT('1').name}
+                  alt={PRODUCT('1').itemName}
                 />
                 <div className='py-2'>
                   <h5 className='text-md font-semibold text-gray-800 dark:text-gray-50'>
-                    {PRODUCT('1').name}
+                    {PRODUCT('1').itemName}
                   </h5>
                   <p className='text-sm text-gray-600 dark:text-gray-50'>
                     {abstractText(PRODUCT('1').description, isSmallScreen ? 45 : 200)}

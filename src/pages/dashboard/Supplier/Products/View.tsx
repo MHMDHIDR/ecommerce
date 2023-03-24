@@ -133,21 +133,15 @@ const ViewProduct = () => {
                   products?.map((product: any, idx: number) => (
                     <tr
                       className='hover:bg-gray-50 dark:hover:bg-gray-700'
-                      key={product.productId + idx}
+                      key={product.id + idx}
                     >
                       <td>
-                        <Link
-                          to={goTo(`product/${product.productId}`)}
-                          className='py-3 px-5'
-                        >
+                        <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
                           <span>{idx + 1}</span>
                         </Link>
                       </td>
                       <td>
-                        <Link
-                          to={goTo(`product/${product.productId}`)}
-                          className='py-3 px-5'
-                        >
+                        <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
                           <img
                             loading='lazy'
                             src={product.imgUrl}
@@ -159,18 +153,12 @@ const ViewProduct = () => {
                         </Link>
                       </td>
                       <td>
-                        <Link
-                          to={goTo(`product/${product.productId}`)}
-                          className='py-3 px-5'
-                        >
+                        <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
                           {removeSlug(product.itemName)}
                         </Link>
                       </td>
                       <td>
-                        <Link
-                          to={goTo(`product/${product.productId}`)}
-                          className='py-3 px-5'
-                        >
+                        <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
                           <span
                             className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
                               product.productStatus === 'accept'
@@ -198,34 +186,25 @@ const ViewProduct = () => {
                         </Link>
                       </td>
                       <td>
-                        <Link
-                          to={goTo(`product/${product.productId}`)}
-                          className='py-3 px-5'
-                        >
+                        <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
                           <span className='inline-block min-w-max font-bold'>
                             {product.currentPrice} ج.س
                           </span>
                         </Link>
                       </td>
                       <td>
-                        <Link
-                          to={goTo(`product/${product.productId}`)}
-                          className='py-3 px-5'
-                        >
+                        <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
                           <span>{createLocaleDateString(product.productCreateDate)}</span>
                         </Link>
                       </td>
                       <td>
-                        <Link
-                          to={goTo(`product/${product.productId}`)}
-                          className='py-3 px-5'
-                        >
+                        <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
                           <span>{createLocaleDateString(product.productUpdateDate)}</span>
                         </Link>
                       </td>
                       <td>
-                        <DeleteBtn id={product.productId} itemName={product.itemName} />
-                        <EditBtn id={product.productId} />
+                        <DeleteBtn id={product.id} itemName={product.itemName} />
+                        <EditBtn id={product.id} />
                       </td>
                     </tr>
                   ))

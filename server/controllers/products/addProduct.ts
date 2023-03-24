@@ -9,9 +9,9 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
   let { itemName, currentPrice, quantity, category, description, productStatus } =
     req.body
 
-  const productId = randomUUID()
+  const id = randomUUID()
   const values = [
-    productId,
+    id,
     itemName,
     '/assets/img/logo.png',
     parseInt(currentPrice),
@@ -33,14 +33,14 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
       ? productImg[0].data
       : productImg.data
 
-    const imageRef = ref(storage, `products/${productId}/${productId}_${productImgName}`)
+    const imageRef = ref(storage, `products/${id}/${id}_${productImgName}`)
     await uploadBytes(imageRef, productImgData)
     const downloadURL = await getDownloadURL(imageRef)
     values[2] = downloadURL
   }
 
   const query = `INSERT INTO products (
-    productId,
+    id,
     itemName,
     imgUrl,
     currentPrice,

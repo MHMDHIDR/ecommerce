@@ -5,17 +5,18 @@ import useDocumentTitle from '@/hooks/useDocumentTitle'
 import useEventListener from '@/hooks/useEventListener'
 import useAxios from '@/hooks/useAxios'
 import { FileUploadContext } from '@/contexts/FileUploadContext'
-import { isSmallScreen } from '@/constants'
+import { isSmallScreen, PRODUCT } from '@/constants'
 import BackButton from '@/components/Icons/BackButton'
 import Layout from '@/components/Layout'
 import { DeleteBtn } from '@/components/TableActions'
 import Modal from '@/components/Modal'
 import { Loading } from '@/components/Icons/Status'
-import { LoadingPage } from '@/components/Loading'
+import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import FileUpload from '@/components/FileUpload'
 import { createSlug, removeSlug } from '@/utils/functions/slug'
 import notify from '@/utils/functions/notify'
 import goTo from '@/utils/functions/goTo'
+import { ProductProps } from '@/types'
 
 const EditProduct = () => {
   const TITLE = 'تعديل المنتج'
@@ -24,15 +25,16 @@ const EditProduct = () => {
   const { id } = useParams()
 
   //Form States
-  const [product, setProduct] = useState<any>()
+  const [product, setProduct] = useState<ProductProps | null>(null)
   const [itemName, setItemName] = useState('')
   const [currentPrice, setCurrentPrice] = useState('')
   const [quantity, setQuantity] = useState('')
   const [category, setCategory] = useState<any>([])
   const [categoryList, setCategoryList] = useState([
-    ['clothes', 'ملابس'],
-    ['bags', 'حقائب'],
-    ['accessories', 'إكسسوارات']
+    { value: 'clothes', label: 'ملابس' },
+    { value: 'bags', label: 'حقائب' },
+    { value: 'accessories', label: 'إكسسوارات' },
+    { value: 'electronics', label: 'الكترونيات' }
   ])
   const [productStatus, setProductStatus] = useState('')
   const [itemDesc, setItemDesc] = useState('')
@@ -43,15 +45,14 @@ const EditProduct = () => {
   const [updateItemMessage, setUpdatedItemMessage] = useState('')
   const [isItemDeleted, setIsItemDeleted] = useState<number | null>(null)
   const [itemDeletedMsg, setItemDeletedMsg] = useState('')
+  const [isUpdating, setIsUpdating] = useState(false)
 
   const { file } = useContext(FileUploadContext)
 
   const { response, loading } = useAxios({ url: `/products/${id}` })
   useEffect(() => {
-    response && setProduct(response[0])
-    setCategory(response && response[0]?.category)
-    return () => setProduct([''])
-  }, [response])
+    if (response) setProduct(response[0])
+  }, [response && response[0]])
 
   const handleUpdateProduct = async (e: {
     target: any
@@ -59,22 +60,25 @@ const EditProduct = () => {
     preventDefault: () => void
   }) => {
     e.preventDefault()
-    const currentProductName = product?.itemName
-    const currentProductPrice = product?.currentPrice
-    const currentProductQuantity = product?.quantity
-    const currentProductCategory = product?.category
-    const currentProductStatus = product?.productStatus
-    const currentProductDesc = product?.description
-    const currentProductImg = product?.imgUrl
+    e.target.querySelector('button').setAttribute('disabled', 'disabled')
+    setIsUpdating(true)
+
+    const currentProductName = itemName || product?.itemName!
+    const currentProductPrice = currentPrice || String(product?.currentPrice)
+    const currentProductQuantity = quantity || String(product?.quantity)
+    const currentProductCategory = category[0] || product?.category
+    const currentProductStatus = productStatus || product?.productStatus!
+    const currentProductDesc = itemDesc || product?.description!
+    const currentProductImg = product?.imgUrl!
 
     //using FormData to send constructed data
     const formData = new FormData()
-    formData.append('itemName', itemName || currentProductName)
-    formData.append('currentPrice', currentPrice || currentProductPrice)
-    formData.append('quantity', quantity || currentProductQuantity)
-    formData.append('category', category[0] || currentProductCategory)
-    formData.append('productStatus', productStatus || currentProductStatus)
-    formData.append('description', itemDesc || currentProductDesc)
+    formData.append('itemName', currentProductName)
+    formData.append('currentPrice', currentProductPrice)
+    formData.append('quantity', currentProductQuantity)
+    formData.append('category', currentProductCategory)
+    formData.append('productStatus', currentProductStatus)
+    formData.append('description', currentProductDesc)
     formData.append('currentProductImg', currentProductImg)
     file.map((img: any) => {
       formData.append('productImg', img)
@@ -96,6 +100,8 @@ const EditProduct = () => {
     } catch (error: any) {
       setUpdatedItemStatus(0)
       setUpdatedItemMessage(`عفواً، حدث خطأ ما: ${error.message}`)
+    } finally {
+      setIsUpdating(false)
     }
   }
 
@@ -205,7 +211,7 @@ const EditProduct = () => {
               id='username'
               className='form__input'
               onChange={e => setItemName(createSlug(e.target.value.trim()))}
-              defaultValue={removeSlug(product?.itemName)}
+              defaultValue={removeSlug(product?.itemName!)}
               required
             />
           </label>
@@ -281,13 +287,13 @@ const EditProduct = () => {
                   e.target.options[e.target.selectedIndex].textContent
                 ])
               }
-              defaultValue={category}
+              defaultValue={response[0]?.category}
               required
             >
               <option value=''>اختر التصنيف</option>
-              {categoryList?.map((category, idx) => (
-                <option key={idx} value={category[0]}>
-                  {category[1]}
+              {categoryList?.map(({ value, label }, idx) => (
+                <option key={idx} value={value}>
+                  {label}
                 </option>
               ))}
             </select>
@@ -310,11 +316,22 @@ const EditProduct = () => {
           <div className='flex items-center gap-x-20'>
             <button
               type='submit'
-              className='min-w-[7rem] bg-green-600 hover:bg-green-700 text-white py-1.5 px-6 rounded-md'
+              className={`min-w-[7rem] bg-green-600 hover:bg-green-700 text-white py-1.5 px-6 rounded-md${
+                isUpdating || !isUpdating
+                  ? ' disabled:opacity-30 disabled:hover:bg-green-700'
+                  : ''
+              }`}
             >
-              تحديث
+              {isUpdating ? (
+                <>
+                  <LoadingSpinner />
+                  &nbsp; جارِ تحديث المنتج...
+                </>
+              ) : (
+                'تحديث'
+              )}
             </button>
-            <DeleteBtn id={product?.id} itemName={product?.itemName} />
+            <DeleteBtn id={product?.id!} itemName={product?.itemName!} />
           </div>
         </form>
       </section>

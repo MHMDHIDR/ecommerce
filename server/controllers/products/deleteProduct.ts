@@ -4,7 +4,7 @@ import db from '../../helpers/db.js'
 
 export const deleteProduct = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params
-  const query = 'DELETE FROM products WHERE productId = ?'
+  const query = 'DELETE FROM products WHERE id = ?'
 
   db.query(query, [id], (error: any, _data: any) => {
     return error

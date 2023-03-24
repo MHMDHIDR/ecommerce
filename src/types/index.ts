@@ -121,14 +121,25 @@ export type axiosProps = {
   headers?: string | null
 }
 
-export type fileRequestProps = {
-  key: string
-  type: string
-}
-
 export type ButtonProps = {
   children: JSX.Element
   color?: string
+}
+
+export type ProductProps = {
+  id: string
+  itemName: string
+  imgUrl: string
+  discount: boolean
+  currentPrice: number
+  oldPrice: number
+  rating: number
+  quantity: number
+  category: string
+  description: string
+  productStatus: string
+  productCreateDate: string
+  productUpdateDate: string
 }
 
 export type Item = {
@@ -136,7 +147,7 @@ export type Item = {
   id: string
   currentPrice: number
   oldPrice: number
-  name: string
+  itemName: string
   imgUrl: string
   description: string
   quantity: number

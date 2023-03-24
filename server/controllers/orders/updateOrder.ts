@@ -7,13 +7,12 @@ export const updateOrder = asyncHandler(async (req: Request, res: Response) => {
   let { itemName, imgUrl, currentPrice, oldPrice, quantity, description, productStatus } =
     req.body
 
-  ;(imgUrl =
-    'https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D'),
+  ;(imgUrl = '/assets/img/logo.png'),
     (currentPrice = parseInt(currentPrice)),
     (oldPrice = parseInt(currentPrice)),
     (quantity = parseInt(quantity))
 
-  let discount = 0,
+  let discount = true,
     rating = 0,
     productCreateDate = Date().toString(),
     productUpdateDate = Date().toString()
@@ -33,7 +32,7 @@ export const updateOrder = asyncHandler(async (req: Request, res: Response) => {
   ]
 
   const query =
-    'UPDATE products SET `itemName`= ?, `imgUrl`= ?, `discount`= ?, `currentPrice`= ?, `oldPrice`= ?, `rating`= ?, `quantity`= ?, `description`= ?, `productStatus`= ?, `productCreateDate`= ?, `productUpdateDate`= ? WHERE productId = ?'
+    'UPDATE products SET `itemName`= ?, `imgUrl`= ?, `discount`= ?, `currentPrice`= ?, `oldPrice`= ?, `rating`= ?, `quantity`= ?, `description`= ?, `productStatus`= ?, `productCreateDate`= ?, `productUpdateDate`= ? WHERE id = ?'
 
   db.query(query, [...values, id], (error: any, _data: any) => {
     return error
