@@ -11,7 +11,7 @@ import Layout from '@/components/Layout'
 import { DeleteBtn } from '@/components/TableActions'
 import Modal from '@/components/Modal'
 import { Loading } from '@/components/Icons/Status'
-import { LoadingPage } from '@/components/Loading'
+import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import FileUpload from '@/components/FileUpload'
 import { createSlug, removeSlug } from '@/utils/functions/slug'
 import notify from '@/utils/functions/notify'
@@ -167,7 +167,7 @@ const EditProduct = () => {
           className='relative flex flex-col items-center'
           onSubmit={handleUpdateProduct}
         >
-          {/* <label htmlFor='uploadImg' className='flex items-center gap-y-2 flex-col'>
+          <label htmlFor='uploadImg' className='flex items-center gap-y-2 flex-col'>
             <FileUpload
               data={{
                 defaultImg: [
@@ -180,7 +180,7 @@ const EditProduct = () => {
                 label: 'تغيير صورة'
               }}
             />
-          </label> */}
+          </label>
 
           <label htmlFor='username' className='form__group'>
             <span className='form__label'>اسم المنتج</span>
@@ -189,7 +189,7 @@ const EditProduct = () => {
               id='username'
               className='form__input'
               onChange={e => setItemName(createSlug(e.target.value.trim()))}
-              defaultValue={product?.itemName}
+              defaultValue={removeSlug(product?.itemName)}
               required
             />
           </label>

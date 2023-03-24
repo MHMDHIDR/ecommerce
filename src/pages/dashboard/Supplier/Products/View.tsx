@@ -114,11 +114,12 @@ const ViewProduct = () => {
               <thead className='bg-gray-50 dark:bg-gray-700'>
                 <tr>
                   <th className='py-2'>الرقم</th>
-                  <th className='py-2'>اسم المنتج</th>
+                  <th className='py-2'>الصورة</th>
+                  <th className='py-2'>اسم</th>
                   <th className='py-2'>الحالة</th>
                   <th className='py-2'>السعر</th>
-                  <th className='py-2'>تاريخ إنشاء المنتج</th>
-                  <th className='py-2'>تاريخ تحديث المنتج</th>
+                  <th className='py-2'>تاريخ الإنشاء</th>
+                  <th className='py-2'>تاريخ تحديث</th>
                   <th className='py-2'>الإجراء</th>
                 </tr>
               </thead>
@@ -148,7 +149,20 @@ const ViewProduct = () => {
                           to={goTo(`product/${product.productId}`)}
                           className='py-3 px-5'
                         >
-                          {product.itemName}
+                          <img
+                            loading='lazy'
+                            src={product.imgUrl}
+                            alt={product.itemName}
+                            className='object-cover rounded-lg shadow-md h-14 w-14'
+                          />
+                        </Link>
+                      </td>
+                      <td>
+                        <Link
+                          to={goTo(`product/${product.productId}`)}
+                          className='py-3 px-5'
+                        >
+                          {removeSlug(product.itemName)}
                         </Link>
                       </td>
                       <td>
@@ -216,7 +230,7 @@ const ViewProduct = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={7} className='p-5'>
+                    <td colSpan={100} className='p-5'>
                       <div className='flex flex-col justify-center items-center gap-y-4'>
                         <p className='text-red-600 dark:text-red-400'>
                           عفواً، لم يتم العثور على منتجات

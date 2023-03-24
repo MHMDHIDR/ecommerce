@@ -102,7 +102,7 @@ const AddProduct = () => {
                   defaultImg: [
                     {
                       ImgDisplayName: 'product image',
-                      ImgDisplayPath: 'https://tecdn.b-cdn.net/img/new/avatars/2.jpg'
+                      ImgDisplayPath: 'https://source.unsplash.com/random?product'
                     }
                   ],
                   imgName: 'product image',
@@ -117,8 +117,8 @@ const AddProduct = () => {
                 type='text'
                 id='username'
                 className='form__input'
-                required
                 onChange={e => setItemName(createSlug(e.target.value.trim()))}
+                required
               />
             </label>
 
@@ -128,8 +128,8 @@ const AddProduct = () => {
                 type='number'
                 id='price'
                 className='form__input'
-                required
                 onChange={e => setCurrentPrice(e.target.value.trim())}
+                required
               />
             </label>
 
@@ -139,8 +139,8 @@ const AddProduct = () => {
                 type='number'
                 id='quantity'
                 className='form__input'
-                required
                 onChange={e => setQuantity(e.target.value.trim())}
+                required
               />
             </label>
 
