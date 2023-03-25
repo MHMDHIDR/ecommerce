@@ -3,7 +3,7 @@ import { FileUploadContext } from '@/contexts/FileUploadContext'
 import { FileUploadProps, ImgsProps } from '@/types'
 import Pen from './Icons/Pen'
 
-const FileUpload = ({ data }: any) => {
+const FileUpload = ({ data, required = true }: { data: any; required?: boolean }) => {
   const { file, fileURLs, onFileRemove, onFileAdd } =
     useContext<FileUploadProps>(FileUploadContext)
 
@@ -70,7 +70,7 @@ const FileUpload = ({ data }: any) => {
         className='hidden'
         accept='image/*'
         onChange={onFileAdd}
-        required
+        required={required}
       />
     </>
   )

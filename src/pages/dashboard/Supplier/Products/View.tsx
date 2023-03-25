@@ -13,6 +13,8 @@ import { createLocaleDateString } from '@/utils/functions/convertDate'
 import goTo from '@/utils/functions/goTo'
 import { removeSlug } from '@/utils/functions/slug'
 import notify from '@/utils/functions/notify'
+import { ProductProps } from '@/types'
+import { PRODUCT } from '@/constants'
 
 const ViewProduct = () => {
   const TITLE = 'عرض المنتجات'
@@ -24,13 +26,12 @@ const ViewProduct = () => {
   const [isItemDeleted, setIsItemDeleted] = useState(null)
   const [itemDeletedMsg, setItemDeletedMsg] = useState('')
   const [modalLoading, setModalLoading] = useState<boolean>(false)
-  const [products, setProducts] = useState<string[]>([''])
+  const [products, setProducts] = useState<ProductProps[]>([PRODUCT('1')])
 
   const { response, loading } = useAxios({ url: `/products` })
 
   useEffect(() => {
     response && setProducts(response)
-    return () => setProducts([''])
   }, [response])
 
   useEventListener('click', (e: any) => {
@@ -127,7 +128,7 @@ const ViewProduct = () => {
                     </td>
                   </tr>
                 ) : products.length > 0 ? (
-                  products?.map((product: any, idx: number) => (
+                  products?.map((product: ProductProps, idx: number) => (
                     <tr
                       className='hover:bg-gray-50 dark:hover:bg-gray-700'
                       key={product.id}

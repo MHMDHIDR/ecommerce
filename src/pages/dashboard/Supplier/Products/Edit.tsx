@@ -201,6 +201,7 @@ const EditProduct = () => {
                 imgName: product?.itemName,
                 label: 'تغيير صورة'
               }}
+              required={false}
             />
           </label>
 
