@@ -47,7 +47,13 @@ export const updateProduct = asyncHandler(async (req: Request, res: Response) =>
     // Delete the old image if it exists
     if (currentProductImg) {
       const oldImageRef = ref(storage, currentProductImg)
-      await deleteObject(oldImageRef)
+      // Check if the file exists before deleting it
+      try {
+        await getDownloadURL(oldImageRef)
+        await deleteObject(oldImageRef)
+      } catch (error) {
+        // If the file doesn't exist, just skip deleting it
+      }
     }
 
     const imageRef = ref(storage, `products/${id}/${id}_${productImgName}`)

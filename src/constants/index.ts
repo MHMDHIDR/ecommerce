@@ -20,14 +20,6 @@ export const PROFILE_LINKS = [
   { label: 'سياسة الاستخدام', to: '/terms-and-conditions' }
 ]
 
-export const CATEGORIES = [
-  { label: 'الملابس', to: 'clothes', itemCount: 200 },
-  { label: 'الجاكيتات', to: 'jakets', itemCount: 150 },
-  { label: 'الجينز', to: 'jeans', itemCount: 300 },
-  { label: 'الأحذية', to: 'shoes', itemCount: 50 },
-  { label: 'النظارات', to: 'sunglasses', itemCount: 60 }
-]
-
 export const PRODUCT = (id: string) => {
   return {
     id,
@@ -99,3 +91,14 @@ export const ORDER = {
   orderStatus: 'accept',
   orderDate: '2023-03-01T17:46:22.908+00:00'
 }
+
+export const CATEGORIES = [
+  { ar_label: 'الملابس', en_label: 'clothes', itemCount: 200 },
+  { ar_label: 'الجاكيتات', en_label: 'jakets', itemCount: 150 },
+  { ar_label: 'الجينز', en_label: 'jeans', itemCount: 300 },
+  { ar_label: 'الأحذية', en_label: 'shoes', itemCount: 50 },
+  { ar_label: 'النظارات', en_label: 'sunglasses', itemCount: 60 },
+  { ar_label: 'حقائب', en_label: 'bags', itemCount: 60 },
+  { ar_label: 'إكسسوارات', en_label: 'accessories', itemCount: 100 },
+  { ar_label: 'الكترونيات', en_label: 'electronics', itemCount: 100 }
+]

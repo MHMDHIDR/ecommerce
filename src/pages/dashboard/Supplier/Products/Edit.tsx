@@ -5,7 +5,7 @@ import useDocumentTitle from '@/hooks/useDocumentTitle'
 import useEventListener from '@/hooks/useEventListener'
 import useAxios from '@/hooks/useAxios'
 import { FileUploadContext } from '@/contexts/FileUploadContext'
-import { isSmallScreen, PRODUCT } from '@/constants'
+import { isSmallScreen, CATEGORIES } from '@/constants'
 import BackButton from '@/components/Icons/BackButton'
 import Layout from '@/components/Layout'
 import { DeleteBtn } from '@/components/TableActions'
@@ -30,12 +30,6 @@ const EditProduct = () => {
   const [currentPrice, setCurrentPrice] = useState('')
   const [quantity, setQuantity] = useState('')
   const [category, setCategory] = useState<any>([])
-  const [categoryList, setCategoryList] = useState([
-    { value: 'clothes', label: 'ملابس' },
-    { value: 'bags', label: 'حقائب' },
-    { value: 'accessories', label: 'إكسسوارات' },
-    { value: 'electronics', label: 'الكترونيات' }
-  ])
   const [productStatus, setProductStatus] = useState('')
   const [itemDesc, setItemDesc] = useState('')
   const [delProductId, setDelProductId] = useState('')
@@ -297,9 +291,9 @@ const EditProduct = () => {
               required
             >
               <option value=''>اختر التصنيف</option>
-              {categoryList?.map(({ value, label }, idx) => (
-                <option key={idx} value={value}>
-                  {label}
+              {CATEGORIES?.map(({ en_label, ar_label }, idx) => (
+                <option key={idx} value={en_label}>
+                  {ar_label}
                 </option>
               ))}
             </select>

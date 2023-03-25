@@ -27,22 +27,22 @@ const Categories = () => {
               {CATEGORIES.map(
                 (
                   {
-                    label,
-                    to,
+                    ar_label,
+                    en_label,
                     itemCount
-                  }: { label: string; to: string; itemCount: number },
+                  }: { ar_label: string; en_label: string; itemCount: number },
                   idx: number
                 ) => (
                   <Link
                     key={idx}
-                    to={to}
+                    to={en_label}
                     className='block overflow-hidden transition-transform duration-300 bg-cover w-80 h-24 md:h-60 rounded-2xl hover:-translate-y-2'
                   >
                     <div
                       className={`flex items-center pr-3 justify-left h-full text-sm font-bold bg-gray-800 md:text-base 2xl:text-xl bg-opacity-70 bg-[url("/assets/img/logo.png")] bg-cover bg-[left]`}
                     >
                       <div className='flex flex-col bg-black bg-opacity-60 px-2 py-0.5 text-white rounded'>
-                        <span>{label}</span>
+                        <span>{ar_label}</span>
                         <span>{itemCount} منتج</span>
                       </div>
                     </div>

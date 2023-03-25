@@ -13,6 +13,7 @@ import abstractText from '@/utils/functions/abstractText'
 const Home = () => {
   useDocumentTitle('الرئيسية')
   const [selectedCategory, setSelectedCategory] = useState<string>('')
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
 
   return (
     <Suspense fallback={<LoadingPage />}>
@@ -27,7 +28,7 @@ const Home = () => {
               <Search />
               <Filter
                 className='w-6 h-6 min-w-fit dark:fill-white hover:cursor-pointer'
-                onClick={() => console.log('hi')}
+                onClick={() => setIsFilterOpen(prev => !prev)}
               />
             </div>
 
@@ -66,7 +67,7 @@ const Home = () => {
                 التصنيفات
               </Link>
               <ul className='flex gap-x-3 overflow-x-auto'>
-                {CATEGORIES.map(({ label }: { label: string }, idx: number) => (
+                {CATEGORIES.map(({ ar_label }: { ar_label: string }, idx: number) => (
                   <li
                     key={idx}
                     className={`border text-sm rounded-full py-0.5 px-3
@@ -82,7 +83,7 @@ const Home = () => {
                       setSelectedCategory((e.target as HTMLElement).textContent!)
                     }
                   >
-                    {label}
+                    {ar_label}
                   </li>
                 ))}
               </ul>

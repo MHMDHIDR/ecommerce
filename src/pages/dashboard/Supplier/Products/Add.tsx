@@ -5,7 +5,7 @@ import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import FileUpload from '@/components/FileUpload'
 import BackButton from '@/components/Icons/BackButton'
 import Layout from '@/components/Layout'
-import { isSmallScreen } from '@/constants'
+import { isSmallScreen, CATEGORIES } from '@/constants'
 import goTo from '@/utils/functions/goTo'
 import { FileUploadContext } from '@/contexts/FileUploadContext'
 import axios from 'axios'
@@ -21,12 +21,6 @@ const AddProduct = () => {
   const [currentPrice, setCurrentPrice] = useState('')
   const [quantity, setQuantity] = useState('')
   const [category, setCategory] = useState<any>([])
-  const [categoryList, setCategoryList] = useState([
-    { value: 'clothes', label: 'ملابس' },
-    { value: 'bags', label: 'حقائب' },
-    { value: 'accessories', label: 'إكسسوارات' },
-    { value: 'electronics', label: 'الكترونيات' }
-  ])
   const [productStatus, setProductStatus] = useState('open')
   const [itemDesc, setItemDesc] = useState('')
   const [addItemStatus, setAddItemStatus] = useState<number | null>(null)
@@ -192,9 +186,9 @@ const AddProduct = () => {
                 }
               >
                 <option value=''>اختر التصنيف</option>
-                {categoryList?.map(({ value, label }, idx) => (
-                  <option key={idx} value={value}>
-                    {label}
+                {CATEGORIES?.map(({ en_label, ar_label }, idx) => (
+                  <option key={idx} value={en_label}>
+                    {ar_label}
                   </option>
                 ))}
               </select>
