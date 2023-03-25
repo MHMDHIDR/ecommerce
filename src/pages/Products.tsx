@@ -16,7 +16,7 @@ const Home = () => {
   return (
     <Suspense fallback={<LoadingPage />}>
       <Layout>
-        <section className='container px-5 mx-auto h-full'>
+        <section className='container px-5 mx-auto h-full max-w-6xl'>
           <main className='rtl'>
             <div className='flex justify-between gap-x-5 items-center'>
               <Search />
@@ -54,7 +54,7 @@ const Home = () => {
               </Link>
             </div>
 
-            <CategoryProducts category={'جميع المنتجات'} quantity={100} />
+            <CategoryProducts category={'جميع المنتجات'} />
           </main>
         </section>
       </Layout>

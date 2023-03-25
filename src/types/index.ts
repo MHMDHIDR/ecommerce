@@ -106,8 +106,9 @@ export type ImgsProps = {
 }
 
 export type NoItemsProps = {
+  icon?: JSX.Element
   msg?: string
-  links: {
+  links?: {
     to: string
     label: string
   }[]

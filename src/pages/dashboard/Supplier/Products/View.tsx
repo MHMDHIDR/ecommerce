@@ -130,7 +130,7 @@ const ViewProduct = () => {
                   products?.map((product: any, idx: number) => (
                     <tr
                       className='hover:bg-gray-50 dark:hover:bg-gray-700'
-                      key={product.id + idx}
+                      key={product.id}
                     >
                       <td>
                         <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>

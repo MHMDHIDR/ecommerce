@@ -1,0 +1,26 @@
+const Icon404 = ({ className }: { className?: string }) => (
+  <svg
+    width='100'
+    height='100'
+    viewBox='0 0 100 100'
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
+    xmlnsXlink='http://www.w3.org/1999/xlink'
+    className={className}
+  >
+    <rect width='100' height='100' fill='url(#pattern0)' />
+    <defs>
+      <pattern id='pattern0' patternContentUnits='objectBoundingBox' width='1' height='1'>
+        <use xlinkHref='#image0_608_2' transform='scale(0.015625)' />
+      </pattern>
+      <image
+        id='image0_608_2'
+        width='64'
+        height='64'
+        xlinkHref='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAKTElEQVR4nO2ba1BTZx7G090P+2G/7Kd+2c7uzB7tZe3a3eGmWwuCiICEQEIC5G4CmkCAhJCQgBRWUBQURCpWsSgFi1YgiGWFgq2XYqeDoBWv1bUULWlrqygtHNvqs/Oeg22QS6KWW5v/zDOTOe//Pe/7/PLeTuBwOO5whzumKJ7y885YoAzSFqmDtN1xQavs6hDNDTVPcyMucpVdzdecUfASNpEcksv5tYTfS9l/ki7VbVMu1fZvFgh+PJa4CPbieaBrKdC2YR2g8EXDPBzbtQglVv4PqkjNLUmYrozU5czeyP4df7E+WxKgG2iSBWAwZw7otxxMj6cmCoMfzsGhcn/IuAnfRgXps8m9OLMp/LzNz8QEJH1SHRN6f8A4F/R2F4w/rDYKA51zUbUh9H5sqO5SwIKMP3NmQyzytPxNHJB04yPVQtBmCnT1Y5h3GA30KQpddT6QhCV+4++5+jnOTA7/hZl/FQck3v5UMx+0hQJd8wTmH+gdFsJnR+ZDGpbY/7JH+l84MzGWzjf+UbQ46Xp3vCdoAwW6isLnVfOwM5mPHUlR6N39D5dNk1xSpzxZgL6qF0H/lwJ9hkJ3kydiQnTXSVucmRbypQl1zQr/+7SeAl1G4cs9f4cmJBlHhSa0i8zQBqfg3DYPp+ZJDsltjzbjqMgMTUgKvtrzAujDFOhuCs3l/vcVXO3+STckFAp/7++d/pKfpyXQqbwtsSkhqruM+WzWiC0rCI1RJnyrYvWZ3ARNsB5X3vjnuOZJGckhuQ/qNQhMaMgOYnM6WAgpMhVN2nSlb4t8rPOJl0cyH+yfGSQIy72ZGF9812zY+n2mufxOlqWiP8tScWsshS223mOGPgFQwZppXheAqsi0n4wQXZaamG/0WuXo6UCukTKS41iH3KNlrT+b18ICIFMhbIn13nj9IX3Nyay8k7+m5vtM0667MZEbboYvyQ10ybyvz+q5YkH+UE3NfthsjXi35Rha3z0+ruprW2GNVLHmX/3Z0Ld1c5DETcSp2JGGzonN0C5PYqbIg1zymVwjZY65pC65B7nXT7BOshCsK1VM2xP1jejixcu4cOEy1JLiIX+PTMr50Ofmvfd6WTWKit5ESEgRIqP3IEpZjdikqjEVzl2H95WvsABKRn6rxFjC8iScl4w01hlrhjZMhxs1L+Cbvc9Dx9WhI3okqEsSM7ShSbBXzxs5Wo6wAA7v9kV4eP7Y/UquQpSxGpHpexAaXYzGgyfw/uGTiOUXtDkFEBW2tq+urh5i6VbIky9CnW6Hus4OddvYihNZ0Z/0LAtgjD2/t3I+VgUn43+ykQbbo00wRGhhiNAwnx3LSC6pQ+qOWivIjtBN4dbJ56BWZIzbL/UHdqh77ZB3XEScvgKfftpDAPS5ACDvS5vNBlHMa1Aae1gA9WM3omrtgzZcx5o3jb+yX975L2Zxu+awuBEdiU5j5HiN5JBcUmfc3eJjFoJWqoO6tW9sAMdZAMrzPZAn7kRvby/EgoIvf1EAyvoryBIoWQCrJ97ezm/3QGKwHnbFyOngqK8UJuiC9egu85x4u+xkAaxOWAGl7cr0AZDtOYuiaBELYI3zA86pUh+kBBvwtXK0eXJNH2xAR8kC54elj1gAm8zRkNdcmD4A0l2nUBoTxQJY69op71WJEoeiRo8Cco2UuXRa/JAFULpaCGnlx9MHQF5zAYWiGDgegCZSZSoPG8NTx50CJbxUVBp5zgEMH4gK0sSQ75vGEbCi6TOYI+NYABkTd/pA9jKsCUvFnRVjmycaUJmQzzWgNjNkYgBdLACjeiVWHLo2fQDUbXbEh6ewAIwU6PqxO9ycuwQZoam485DhUl4qI8drJIfkkjpjmm9gH4wIgJVi/fjb4JQBUOTAnjCPhbBrdIdPbFoEY4gBNx/65rdHGlGWKERZggg7IkdCuLXCBHOoAccK/EYDGD4Of378RcStWjP9ACQbDqFOGsQC2Ojaqr9XYMRahQxD9RSjApUEVfzUsXeFzQtHAjjOAthXHAxJYfP0A1hx6Bo04ToMEQDpP0+DL6rnQTvGvt8oTEOORInB+p/P9+QzudYYNfJQ9IXCxDwak3sxuQco0KcpDJ2hoJHooBpv/k8lADUZBfpytCj92VGwlTVVn7UMB/kjzbeJ0mARxo98uHF4eCJlJGcEMIEZtqxlbN77w78J7PSHMm3bhH2aUgDKgz1QhBowkDyXHQV1FJrX+mN3RNpDZ38Nbu9/dtzVnZQ9/GzwRoQRbev92MXvFIWBU3OhjEqB8sDVmQNATc4E+Y0oiho+FW6gMFA7Fyb+KhRxU1HCM0AfoWWe/Jzt8STHyNdgM8+AIp6BGRXfkRHTzn77G9OjoSg86LQ/Uw5ATY7Gq0pQJxteELexC1xXqQ8jxznvTCT39FZvRuQe9Hus+YNlgZAmFLvUl2kBoGq5Dml0DloVi9kfRstdMzyhWtmnv3ffWAypPIdpY8YCUBMIzdchVRXiNZEAg/o5zA+kj23+MLvi784Pgyxu/finvpkEQE3U2gd5eiUM3Hicj/fA0DoK9NuPYPwgBfoEhXNNHtAr4yHPfHP85/4ZCaBteE3YewEyUTZyImQ4r/UAXeoERCO71Z17xwPZOhkU8tXMPR6n7RkBQP0ARNUZqFdugHp5CgqFMWjQBuLkmgU4u9kDZ8s90FHug4biQBSYYqGKSUFccgGk1d1P1OaMAqB2mBqymnOIKWhFnKUcycm5jOKydiCmsBWymvOPPtRnFYC2KZQbgN09AtTuKWB3rwFK9yLY494F5I+zDcZKtkKh/8Tp3wZnrNrZXUDR9QlUyRWPDmBj4ZsIDS0BX1ILYXwtxKb9EJvfniXaD+GrteDn1iJUXIK6huOPDsBms+HokXY0NhyeNO3f18JoMtto/+AjxrzLAPhhufb6+noGQEdHB7q6uiZFpHMiXh6jxgPvTVo7p0+fZsz39Lj453EhN+/Y9m3VDID29vZJ69jG9W8h01KCzPQSbNpQM2ntnD17lgFw7EgnxPyCI04B+PqYX5AK8+l9+2rR1NSEzs7OSenY0aMnEK8oYkQ+TxaAq1ev4tKlK1ip2EL7eVif57gSvKA1EUJuXr8+oeSHLOvrP+bl7Kbzc6sGn0BDD7Q+r3rQVT1ue6RuYX4NvaWo7l5uVvUPYn5BP3fZf3icR4ngOUl/8PWyLHTp3+Qm0Cve1sQ4+cZ7JUW7sb1sL/buOeSSNKott0ndJ22feCBeONMVvp4WL2Pylh/JmtLS0uLy0M1IK/+a1OXM9vB1A7C4R4DxtzgFgnyt17hBGbfDAjNuC3l530mE+YNiQf6AWLD+piuKCs+7yV2a3Ru+LLtn6SuZFzmzLZYHZtzR6/VITU1FRUXFE4mAmOz+PuXnZXnNz8u6/ZfSkpetg8Jwy11RRAatiFnX9yQK+HdG/y/ZN18va+moN9P8vM3PkNddfguaNe8fTWU85etlsfl6W1sfyM/L2rJwofFpUujnbd3rWDYr5GWpIX0nHoiXh8psv6qXM93hDs5jx/8B0jEd4QuwvZIAAAAASUVORK5CYII='
+      />
+    </defs>
+  </svg>
+)
+
+export default Icon404
