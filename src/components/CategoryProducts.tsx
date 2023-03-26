@@ -21,7 +21,7 @@ const CategoryProducts = ({ name, category }: { name?: string; category?: string
     <>
       <h2 className='my-5'>{name || category}</h2>
 
-      {loading ? (
+      {!loading ? (
         <LoadingPage />
       ) : products.length > 0 ? (
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-10 gap-x-4'>

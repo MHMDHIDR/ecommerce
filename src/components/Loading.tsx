@@ -4,7 +4,7 @@ export const LoadingPage = () => (
     [--hue:223]
     [--bg:hsl(var(--hue),_10%,_90%)]
     [--fg:hsl(var(--hue),_10%,_10%)]
-    [--primary:hsl(var(--hue),_90%,_55%)]
+    [--primary:hsl(var(--hue),_90%,_55%)] dark:[--primary:hsl(var(--hue),_50%,_75%)]
     [--trans-dur:0.3s]
   '
   >
