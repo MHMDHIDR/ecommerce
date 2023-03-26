@@ -10,7 +10,7 @@ const Notifications = () => {
   return (
     <Suspense fallback={<LoadingPage />}>
       <Layout>
-        <section className='container px-5 mx-auto rtl mb-20'>
+        <section className='container px-5 mx-auto rtl mb-20 max-w-6xl'>
           <h1 className='font-bold mb-3'>الاشعارات</h1>
           <div className='flex flex-col gap-y-3'>
             {[...Array(Math.round(20)).keys()].map((_, idx) => (

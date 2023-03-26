@@ -73,7 +73,7 @@ const CategoryProducts = ({ name, category }: { name?: string; category?: string
         <NoItems
           icon={<Icon404 className='md:w-48 md:h-48' />}
           msg='عفواً، لم يتم العثور على منتجات في المتجر'
-          links={[{ to: '../', label: 'الصفحة الرئيسية' }]}
+          links={[{ to: '/', label: 'الصفحة الرئيسية' }]}
         />
       )}
     </>

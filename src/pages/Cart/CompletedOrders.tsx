@@ -55,8 +55,8 @@ const CompletedOrders = ({ isNoPreviousOrders = false }) => {
             <NoItems
               className='mt-40'
               links={[
-                { to: `../`, label: 'تصفح المنتجات' },
-                { to: `../`, label: 'الصفحة الرئيسية' }
+                { to: `/products`, label: 'تصفح المنتجات' },
+                { to: `/`, label: 'الصفحة الرئيسية' }
               ]}
             />
           )}
