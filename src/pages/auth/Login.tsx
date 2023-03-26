@@ -45,7 +45,7 @@ const Login = () => {
 
             <button
               type='submit'
-              className='inline-block w-full rounded px-7 py-2.5 text-sm leading-normal text-white dark:text-gray-800 shadow-[0_4px_9px_-4px_#3b71ca] transition ease-in-out bg-gray-600'
+              className='inline-block w-full rounded px-7 py-2.5 text-sm leading-normal text-white dark:text-black shadow-[0_4px_9px_-4px_#3b71ca] transition ease-in-out bg-gray-700 dark:bg-white'
             >
               تسجيل الدخول
             </button>
@@ -65,7 +65,7 @@ const Login = () => {
               to={'facebookLogin'}
               aria-label='Continue with facebook'
               role='button'
-              className='focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5'
+              className='focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5 dark:bg-white'
             >
               <Google />
               <p className='text-base font-medium mr-4 text-gray-700'>
@@ -76,7 +76,7 @@ const Login = () => {
               to={'facebookLogin'}
               aria-label='Continue with facebook'
               role='button'
-              className='focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5'
+              className='focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5 dark:bg-white'
             >
               <Facebook />
               <p className='text-base font-medium mr-4 text-gray-700'>

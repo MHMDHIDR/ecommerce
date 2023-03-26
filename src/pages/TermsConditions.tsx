@@ -10,7 +10,7 @@ const TermsConditions = () => {
   return (
     <Suspense fallback={<LoadingPage />}>
       <Layout>
-        <section className='container px-5 mx-auto rtl mb-20'>
+        <section className='container px-5 mx-auto rtl mb-20 max-w-6xl'>
           <h1 className='font-bold text-xl text-center mb-10'>شروط الاستخدام</h1>
           <div className='flex flex-col text-justify'>
             <div className='py-3'>
