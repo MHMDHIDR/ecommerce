@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { Suspense, useState } from 'react'
 import { Link } from 'react-router-dom'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import { LoadingPage } from '@/components/Loading'
@@ -12,6 +12,7 @@ import abstractText from '@/utils/functions/abstractText'
 
 const Home = () => {
   useDocumentTitle('المنتجات')
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
 
   return (
     <Suspense fallback={<LoadingPage />}>
@@ -22,7 +23,7 @@ const Home = () => {
               <Search />
               <Filter
                 className='w-6 h-6 min-w-fit dark:fill-white hover:cursor-pointer'
-                onClick={() => console.log('hi')}
+                onClick={() => setIsFilterOpen(prev => !prev)}
               />
             </div>
 
