@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import useEventListener from '@/hooks/useEventListener'
-import useAxios from '@/hooks/useAxios'
+import { useAxios } from '@/hooks/useAxios'
 import { FileUploadContext } from '@/contexts/FileUploadContext'
 import { isSmallScreen, CATEGORIES } from '@/constants'
 import BackButton from '@/components/Icons/BackButton'
@@ -318,8 +318,8 @@ const EditProduct = () => {
             <button
               type='submit'
               className={`min-w-[7rem] bg-green-600 hover:bg-green-700 text-white py-1.5 px-6 rounded-md${
-                isUpdating || !isUpdating
-                  ? ' disabled:opacity-30 disabled:hover:bg-green-700'
+                isUpdating || updateItemStatus === 1
+                  ? ' disabled:opacity-30 disabled:hover:bg-green-700 disabled:cursor-not-allowed'
                   : ''
               }`}
             >

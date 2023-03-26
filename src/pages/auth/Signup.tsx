@@ -96,34 +96,32 @@ const Signup = () => {
               لديك حساب بالفعل؟ سجل الدخول من هنا
             </Link>
 
-            <div className='my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300'>
-              <span className='mx-4 mb-0 text-center font-semibold dark:text-neutral-200'>
-                أو
-              </span>
+            <div className='flex relative justify-center items-center m-4 before:[background:linear-gradient(90deg,transparent,#000,transparent)] before:absolute before:left-0 before:top-1/2 before:w-full before:h-px'>
+              <span className='dark:text-neutral-200 bg-white z-10 px-2'>أو</span>
             </div>
 
-            <Link
-              to={'facebookLogin'}
+            <button
+              type='button'
               aria-label='Continue with facebook'
-              role='button'
               className='focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5 dark:bg-white'
+              role='button'
             >
               <Google />
-              <p className='text-base font-medium mr-4 text-gray-700'>
+              <span className='text-base font-medium mr-4 text-gray-700'>
                 تسجيل حساب جديد مع جوجل
-              </p>
-            </Link>
-            <Link
-              to={'facebookLogin'}
+              </span>
+            </button>
+            <button
+              type='button'
               aria-label='Continue with facebook'
-              role='button'
               className='focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5 dark:bg-white'
+              role='button'
             >
               <Facebook />
-              <p className='text-base font-medium mr-4 text-gray-700'>
+              <span className='text-base font-medium mr-4 text-gray-700'>
                 تسجيل حساب جديد مع فيسبوك
-              </p>
-            </Link>
+              </span>
+            </button>
           </form>
         </div>
       </div>

@@ -5,6 +5,13 @@ import 'react-toastify/dist/ReactToastify.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
 import { LoadingPage } from '@/components/Loading'
+//contexts
+import { CartProvider } from '@/contexts/CartContext'
+import FileUploadContextProvider from '@/contexts/FileUploadContext'
+import ThemeContextProvider from '@/contexts/ThemeContext'
+import SearchContextProvider from '@/contexts/SearchContext'
+import AppSettingsContextProvider from '@/contexts/AppSettingsContext'
+
 //pages
 import Home from './pages/Home'
 import Login from './pages/auth/Login'
@@ -26,12 +33,6 @@ import SupplierEditProduct from './pages/dashboard/Supplier/Products/Edit'
 import DashboardMenu from './pages/dashboard/Supplier/Products/View'
 import SupplierDashboard from './pages/dashboard/Supplier/Orders'
 import DashboardOrderDetails from './pages/dashboard/Supplier/Orders/Details'
-//contexts
-import { CartProvider } from '@/contexts/CartContext'
-import FileUploadContextProvider from '@/contexts/FileUploadContext'
-import ThemeContextProvider from '@/contexts/ThemeContext'
-import SearchContextProvider from '@/contexts/SearchContext'
-import AppSettingsContextProvider from '@/contexts/AppSettingsContext'
 
 const App = () => {
   return (

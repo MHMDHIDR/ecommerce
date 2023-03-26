@@ -40,8 +40,7 @@
     text-sm xl:text-base
     inline-block
     outline-offset-8 before:bottom-0 before:right-0 before:transition-all hover:before:w-full
-    bg-transparent bg-opacity-0 py-0 rounded-none hover:bg-opacity-0 text-gray-800 dark:text-gray-200 before:bg-blue-500
-    /* bg-gray-100 hover:bg-opacity-50 bg-opacity-30 py-2 px-6 rounded-lg  */;
+    bg-transparent bg-opacity-0 py-0 rounded-none hover:bg-opacity-0 text-gray-800 dark:text-gray-200 before:bg-blue-500;
   }
 
   .form__group {
@@ -147,26 +146,12 @@ input[type='search']::-webkit-search-results-decoration {
   animation: fly-in 3s cubic-bezier(0.25, 0.75, 0.75, 0.25) infinite;
 }
 /* Loading component animation */
-@keyframes fly-in {
-  0% {
-    left: -10%;
-    top: 45%;
-  }
-  30% {
-    top: 50%;
-  }
-  75%,
-  100% {
-    left: 110%;
-  }
-}
 .animate-delay-100 {
   animation-delay: 0.5s;
 }
 .animate-delay-200 {
   animation-delay: 1s;
 }
-
 /* Status Icon with Anitmation */
 .status__icon--success-circle {
   stroke-dasharray: 260.752190248px, 260.752190248px;
@@ -217,6 +202,20 @@ input[type='search']::-webkit-search-results-decoration {
   animation: status-icon-circle 2s linear both infinite;
 }
 
+/* Animation */
+@keyframes fly-in {
+  0% {
+    left: -10%;
+    top: 45%;
+  }
+  30% {
+    top: 50%;
+  }
+  75%,
+  100% {
+    left: 110%;
+  }
+}
 @keyframes status-icon-circle {
   0% {
     stroke-dasharray: 0, 260.752190248px;
@@ -235,13 +234,11 @@ input[type='search']::-webkit-search-results-decoration {
     stroke-dashoffset: -260.752190248px;
   }
 }
-
 @keyframes ani-error-line {
   to {
     stroke-dashoffset: 0;
   }
 }
-
 @keyframes status-icon-path {
   0% {
     stroke-dashoffset: 62px;
@@ -254,5 +251,65 @@ input[type='search']::-webkit-search-results-decoration {
   }
   100% {
     stroke-dashoffset: -2px;
+  }
+}
+@keyframes cartLines {
+  from,
+  to {
+    opacity: 0;
+  }
+  8%,
+  92% {
+    opacity: 1;
+  }
+}
+@keyframes cartTop {
+  from {
+    stroke-dashoffset: -338;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 338;
+  }
+}
+@keyframes cartWheel1 {
+  from {
+    transform: rotate(-0.25turn);
+  }
+  to {
+    transform: rotate(2.75turn);
+  }
+}
+@keyframes cartWheel2 {
+  from {
+    transform: rotate(0.25turn);
+  }
+  to {
+    transform: rotate(3.25turn);
+  }
+}
+@keyframes cartWheelStroke {
+  from,
+  to {
+    stroke-dashoffset: 81.68;
+  }
+  50% {
+    stroke-dashoffset: 40.84;
+  }
+}
+@keyframes slide {
+  0% {
+    left: -100px;
+  }
+  30% {
+    left: calc(50% - 64px);
+  }
+  70% {
+    left: calc(50% - 64px);
+  }
+  100% {
+    left: 100%;
   }
 }

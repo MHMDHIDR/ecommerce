@@ -55,10 +55,8 @@ const Login = () => {
               <Link to='/signup'>تسجيل حساب جديد</Link>
             </div>
 
-            <div className='my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300'>
-              <span className='mx-4 mb-0 text-center font-semibold dark:text-neutral-200'>
-                أو
-              </span>
+            <div className='flex relative justify-center items-center m-4 before:[background:linear-gradient(90deg,transparent,#000,transparent)] before:absolute before:left-0 before:top-1/2 before:w-full before:h-px select-none'>
+              <span className='dark:text-neutral-200 bg-white z-10 px-2'>أو</span>
             </div>
 
             <Link

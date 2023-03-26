@@ -200,7 +200,7 @@ const AddProduct = () => {
                 name='description'
                 id='description'
                 minLength={10}
-                maxLength={300}
+                maxLength={1000}
                 className='form__input'
                 required
                 onChange={e => setItemDesc(e.target.value.trim())}
@@ -211,8 +211,8 @@ const AddProduct = () => {
               <button
                 type='submit'
                 className={`min-w-[7rem] bg-green-600 hover:bg-green-700 text-white py-1.5 px-6 rounded-md${
-                  isAdding || !isAdding
-                    ? ' disabled:opacity-30 disabled:hover:bg-green-700'
+                  isAdding || addItemStatus === 1
+                    ? ' disabled:opacity-30 disabled:hover:bg-green-700 disabled:cursor-not-allowed'
                     : ''
                 }`}
               >

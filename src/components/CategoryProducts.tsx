@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import useAxios from '@/hooks/useAxios'
+import { useAxios } from '@/hooks/useAxios'
 import { LoadingPage } from './Loading'
 import NoItems from './NoItems'
 import Icon404 from './Icons/Icon404'
