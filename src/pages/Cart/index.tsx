@@ -12,6 +12,8 @@ import Controls from './Controls'
 import { Item } from '@/types'
 import CartHeader from './CartHeader'
 import useEventListener from '@/hooks/useEventListener'
+import { isSmallScreen } from '@/constants'
+import abstractText from '@/utils/functions/abstractText'
 
 const Cart = () => {
   useDocumentTitle('السلة')
@@ -40,7 +42,7 @@ const Cart = () => {
   return (
     <Suspense fallback={<LoadingPage />}>
       <Layout>
-        <section className='container px-5 mx-auto rtl mb-24'>
+        <section className='container px-5 mx-auto rtl mb-24 max-w-6xl'>
           <CartHeader />
           {/* Confirm Box */}
           {modalLoading && (
@@ -76,8 +78,10 @@ const Cart = () => {
                         <h5 className='text-md font-semibold text-gray-800 dark:text-gray-50'>
                           {item.name}
                         </h5>
-                        <p className='text-sm text-gray-600 truncate max-w-[25%] dark:text-gray-50'>
-                          {item.description}
+                        <p className={`text-sm text-gray-600 dark:text-gray-50`}>
+                          {isSmallScreen
+                            ? abstractText(item.description, 50)
+                            : item.description}
                         </p>
                         <span className='text-md font-bold text-gray-800 dark:text-gray-50'>
                           {item.currentPrice} ج.س

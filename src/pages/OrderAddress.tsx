@@ -3,19 +3,24 @@ import { Link } from 'react-router-dom'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import { LoadingPage } from '@/components/Loading'
 import Layout from '@/components/Layout'
-import { MAX_QUANTITY } from '@/constants'
 import { useCart } from '@/contexts/CartContext'
-import { AddBtn, MinusBtn, TrashBtn } from '@/components/Icons/ControlBtn'
+import ModalSuccess from '@/components/Modal/ModalSuccess'
 
 const OrderAddress = () => {
   useDocumentTitle('عنوان الطلب')
 
-  const { items, cartTotal } = useCart()
+  const { items, cartTotal, emptyCart } = useCart()
+  const [isOrderSuccess, setIsOrderSuccess] = useState(false)
 
   return (
     <Suspense fallback={<LoadingPage />}>
       <Layout>
         <section className='container px-5 mx-auto rtl mb-20 flex flex-col gap-y-7'>
+          {isOrderSuccess && (
+            <ModalSuccess
+              msg={`مبروك تم الشراء بنجاح! بإمكانك العودة بالضغط على الزر أدناه`}
+            />
+          )}
           <div>
             <h1 className='font-bold mb-2'>عنوان التوصيل</h1>
             <ul className='flex flex-col justify-center border gap-x-3 p-5 rounded-xl shadow-xl overflow-hidden space-y-3'>
@@ -82,12 +87,16 @@ const OrderAddress = () => {
                 {cartTotal + parseInt((cartTotal * 0.1).toFixed())} ج.س
               </span>
             </span>
-            <Link
-              to='/payment'
+            <button
+              type='button'
+              onClick={() => {
+                setIsOrderSuccess(true)
+                emptyCart()
+              }}
               className='flex items-center justify-center rounded-full bg-blue-600 py-2.5 px-5 text-sm text-white hover:bg-gray-700 focus:outline-none'
             >
               إكمال عملية الشراء
-            </Link>
+            </button>
           </div>
         </section>
       </Layout>

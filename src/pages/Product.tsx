@@ -12,6 +12,7 @@ import { LoadingPage } from '@/components/Loading'
 import NoItems from '@/components/NoItems'
 import Icon404 from '@/components/Icons/Icon404'
 import { removeSlug } from '@/utils/functions/slug'
+import Layout from '@/components/Layout'
 
 const Product = () => {
   const { id } = useParams()
@@ -32,14 +33,14 @@ const Product = () => {
           <LoadingPage />
         ) : product ? (
           <>
-            <div className='flex'>
+            <header className='flex'>
               <BackButton to='/' className='w-8 h-8 absolute z-50 top-6 left-6' />
 
-              {product.discount && (
+              {product.discount ? (
                 <span className='absolute top-0 right-0 w-28 py-1 translate-y-4 translate-x-8 rotate-45 bg-blue-600 text-center text-sm text-white'>
                   تخفيض
                 </span>
-              )}
+              ) : null}
 
               <Link to='#' className='block h-[25rem] w-full'>
                 <img
@@ -48,8 +49,8 @@ const Product = () => {
                   alt={product.itemName}
                 />
               </Link>
-            </div>
-            <div className='px-5 py-6 pb-12 bg-white dark:bg-gray-800 rounded-tl-[2rem] rounded-tr-[2rem] -translate-y-10 flex-1 min-h-full'>
+            </header>
+            <main className='px-5 py-6 mt-20 pb-12 bg-white dark:bg-gray-800 rounded-tl-[2rem] rounded-tr-[2rem] -translate-y-10 flex-1 min-h-full md:max-w-6xl mx-auto w-full'>
               <h5 className='flex justify-between text-xl font-semibold tracking-tight'>
                 <Link to={`/product/${id}`}>{removeSlug(product.itemName)}</Link>
               </h5>
@@ -106,14 +107,17 @@ const Product = () => {
                   </button>
                 )}
               </div>
-            </div>
+            </main>
           </>
         ) : (
-          <NoItems
-            icon={<Icon404 />}
-            msg={'عفواً! ... لم يتم العثور على المنتج الذي تبحث عنه'}
-            links={[{ to: '../', label: 'الصفحة الرئيسية' }]}
-          />
+          <Layout>
+            <NoItems
+              className='mt-24'
+              icon={<Icon404 />}
+              msg={'عفواً! ... لم يتم العثور على المنتج الذي تبحث عنه'}
+              links={[{ to: '../', label: 'الصفحة الرئيسية' }]}
+            />
+          </Layout>
         )}
       </div>
       <Footer />

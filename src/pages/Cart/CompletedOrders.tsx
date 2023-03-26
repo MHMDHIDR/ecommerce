@@ -14,7 +14,7 @@ const CompletedOrders = ({ isNoPreviousOrders = false }) => {
   return (
     <Suspense fallback={<LoadingPage />}>
       <Layout>
-        <section className='container px-5 mx-auto rtl mb-24'>
+        <section className='container px-5 mx-auto rtl mb-24 max-w-6xl'>
           <CartHeader />
           {!isNoPreviousOrders ? (
             <div className='flex flex-col gap-y-3'>
