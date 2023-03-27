@@ -37,7 +37,11 @@ const Login = () => {
               <input
                 type='checkbox'
                 id='rememberMe'
-                onChange={e => console.log(e.target.checked)}
+                onChange={e =>
+                  console.log(
+                    `Remember me is: ${e.target.checked ? 'checked' : 'Unchecked'}`
+                  )
+                }
                 defaultChecked={true}
               />
               <span className='inline-block pr-2 hover:cursor-pointer'>تذكرني</span>
@@ -56,7 +60,9 @@ const Login = () => {
             </div>
 
             <div className='flex relative justify-center items-center m-4 before:[background:linear-gradient(90deg,transparent,#000,transparent)] before:absolute before:left-0 before:top-1/2 before:w-full before:h-px select-none'>
-              <span className='dark:text-neutral-200 bg-white z-10 px-2'>أو</span>
+              <span className='dark:text-neutral-200 bg-white dark:bg-gray-800 z-10 px-2'>
+                أو
+              </span>
             </div>
 
             <Link
