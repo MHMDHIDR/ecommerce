@@ -1,10 +1,11 @@
-export const EyeIconOpen = () => (
+export const EyeIconOpen = ({ className }: { className?: string }) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     width='24'
     height='24'
     enableBackground='new 0 0 512 512'
     viewBox='0 0 512 512'
+    className={`dark:fill-white${className ? ' ' + className : ''}`}
   >
     <path
       d='M256,406c-30.6,0-62.2-7.6-94-22.5c-24.9-11.7-50-27.9-74.6-48.2C45.9,301,20.3,267,19.2,265.6
@@ -20,7 +21,7 @@ export const EyeIconOpen = () => (
   </svg>
 )
 
-export const EyeIconClose = () => (
+export const EyeIconClose = ({ className }: { className?: string }) => (
   <svg
     width='24'
     height='24'
@@ -34,6 +35,7 @@ export const EyeIconClose = () => (
         stroke='black'
         strokeLinecap='round'
         strokeLinejoin='round'
+        className={`dark:stroke-white${className ? ' ' + className : ''}`}
       />
     </g>
     <defs>

@@ -5,7 +5,6 @@ import { API_URL } from '@/constants'
 import axios from 'axios'
 import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
 import notify from '@/utils/functions/notify'
-import goTo from '@/utils/functions/goTo'
 import { LoadingSpinner } from '@/components/Loading'
 
 const Signup = () => {
@@ -17,7 +16,7 @@ const Signup = () => {
   const [regMsg, setRegMsg] = useState('')
   const [isRegistering, setIsRegistering] = useState(false)
 
-  const handleSignup = async (e: { preventDefault: () => void }) => {
+  const handleRegister = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
     setIsRegistering(true)
 
@@ -40,24 +39,24 @@ const Signup = () => {
 
   return (
     <section className='h-screen'>
-      <div className='hidden'>
-        {regStatus === 1
-          ? notify({
-              type: 'success',
-              msg: regMsg,
-              reloadIn: 5000,
-              reloadTo: goTo('products')
-            })
-          : regStatus === 0
-          ? notify({ type: 'error', msg: regMsg })
-          : null}
-      </div>
-
       <div className='container px-6 py-16 mx-auto max-w-6xl'>
+        <div className='hidden'>
+          {regStatus === 1
+            ? notify({
+                type: 'success',
+                msg: regMsg,
+                reloadIn: 5000,
+                reloadTo: '/login'
+              })
+            : regStatus === 0
+            ? notify({ type: 'error', msg: regMsg })
+            : null}
+        </div>
+
         <div className='flex h-full flex-wrap items-center justify-center'>
           <img src='assets/img/logo.png' className='w-40 h-32 mb-10' alt='Logo image' />
 
-          <form className='w-full rtl' onSubmit={handleSignup}>
+          <form className='w-full rtl' onSubmit={handleRegister}>
             <label htmlFor='username' className='relative flex mb-6'>
               <input
                 type='text'
@@ -86,14 +85,14 @@ const Signup = () => {
 
             <label htmlFor='password' className='relative flex mb-6'>
               <input
-                type='password'
+                type={isPassVisible ? 'text' : 'password'}
                 className='peer border-b block min-h-[auto] w-full rounded bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0'
                 id='password'
                 placeholder='كلمة المرور'
                 onChange={e => setPassword(e.target.value)}
               />
               <span
-                className='absolute cursor-pointer px-2 text-xs text-black capitalize transition-all bg-gray-200 select-none left-1 sm:text-sm md:text-lg dark:text-gray-100 dark:bg-gray-800 opacity-60;'
+                className='absolute cursor-pointer p-3 text-xs text-black capitalize transition-all select-none left-10 sm:text-sm md:text-lg dark:text-gray-100 opacity-60;'
                 onClick={() => setIsPassVisible(prevState => !prevState)}
               >
                 {isPassVisible ? <EyeIconClose /> : <EyeIconOpen />}
