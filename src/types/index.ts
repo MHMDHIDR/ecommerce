@@ -194,3 +194,17 @@ export type ControlBtnProps = {
   onClick?: () => void
   id?: string
 }
+
+export type NotifyProps = {
+  type: 'success' | 'info' | 'error'
+  msg: string
+  reloadIn?: number
+  reloadTo?: string
+  position?:
+    | 'top-right'
+    | 'top-center'
+    | 'top-left'
+    | 'bottom-right'
+    | 'bottom-center'
+    | 'bottom-left'
+}

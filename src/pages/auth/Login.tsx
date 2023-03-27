@@ -5,13 +5,14 @@ import { Facebook, Google } from '@/components/Icons/Socials'
 import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
 import { API_URL } from '@/constants'
 import notify from '@/utils/functions/notify'
+import { LoadingSpinner } from '@/components/Loading'
 
 const Login = () => {
   const [tel, setTel] = useState('')
   const [password, setPassword] = useState('')
   const [isPassVisible, setIsPassVisible] = useState(false)
-  const [loginStatus, setLoginStatus] = useState<number | null>(null)
-  const [loginMsg, setLoginMsg] = useState('')
+  const [loginStatus, setLoginStatus] = useState<any>(null)
+  const [loginMsg, setLoginMsg] = useState<any>('')
   const [isLoginIn, setIsLoginIn] = useState(false)
 
   const handleLogin = async (e: { preventDefault: () => void }) => {
@@ -28,9 +29,13 @@ const Login = () => {
 
       setLoginStatus(userLoggedIn)
       setLoginMsg(message)
-    } catch (error) {
-      setLoginStatus(0)
-      setLoginMsg(`عفواً!، حدث خطأ ما: ${error}`)
+    } catch ({
+      response: {
+        data: { message, userLoggedIn }
+      }
+    }) {
+      setLoginStatus(userLoggedIn)
+      setLoginMsg(message)
     } finally {
       setIsLoginIn(false)
     }
@@ -45,10 +50,11 @@ const Login = () => {
                 type: 'success',
                 msg: loginMsg,
                 reloadIn: 5000,
-                reloadTo: '/login'
+                reloadTo: '/',
+                position: 'top-center'
               })
             : loginStatus === 0
-            ? notify({ type: 'error', msg: loginMsg })
+            ? notify({ type: 'error', msg: loginMsg, position: 'top-center' })
             : null}
         </div>
 
@@ -59,13 +65,13 @@ const Login = () => {
             <label htmlFor='userTel' className='relative flex mb-6'>
               <input
                 type='text'
-                className='peer border-b block min-h-[auto] w-full rounded bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-gray-200'
+                className='peer border-b block min-h-[auto] pl-24 mt-5 w-full rounded bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-blue-300 transition-all duration-200 ease-linear data-[te-input-state-active]:placeholder:opacity-100 dark:text-gray-200'
                 id='userTel'
                 min={5}
                 onChange={e => setTel(e.target.value)}
                 required
               />
-              <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] motion-reduce:transition-none dark:text-gray-200 dark:peer-focus:text-gray-200'>
+              <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] dark:text-gray-200 dark:peer-focus:text-gray-200'>
                 رقم الهاتف
               </span>
             </label>
@@ -73,19 +79,19 @@ const Login = () => {
             <label htmlFor='password' className='relative flex mb-6'>
               <input
                 type={isPassVisible ? 'text' : 'password'}
-                className='peer border-b block min-h-[auto] w-full rounded bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-gray-200'
+                className='peer border-b block min-h-[auto] mt-5 pl-24 w-full rounded bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-blue-300 transition-all duration-200 ease-linear dark:text-gray-200'
                 id='password'
                 min={5}
                 onChange={e => setPassword(e.target.value)}
                 required
               />
               <span
-                className='absolute cursor-pointer p-3 text-xs text-black capitalize transition-all select-none left-10 sm:text-sm md:text-lg dark:text-gray-100 opacity-60;'
+                className='absolute cursor-pointer p-3 text-xs text-black capitalize transition-all select-none left-5 top-5 sm:text-sm md:text-lg dark:text-gray-100 opacity-60;'
                 onClick={() => setIsPassVisible((prevState: boolean) => !prevState)}
               >
                 {isPassVisible ? <EyeIconClose /> : <EyeIconOpen />}
               </span>
-              <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] motion-reduce:transition-none dark:text-gray-200 dark:peer-focus:text-gray-200'>
+              <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] dark:text-gray-200 dark:peer-focus:text-gray-200'>
                 كلمة المرور
               </span>
             </label>
@@ -106,9 +112,18 @@ const Login = () => {
 
             <button
               type='submit'
-              className='inline-block w-full rounded px-7 py-2.5 text-sm leading-normal text-white dark:text-black shadow-[0_4px_9px_-4px_#3b71ca] transition ease-in-out bg-gray-700 dark:bg-white'
+              className={`inline-block w-full rounded px-7 py-2.5 text-sm leading-normal text-white dark:text-black shadow-[0_4px_9px_-4px_#3b71ca] transition ease-in-out bg-gray-700 dark:bg-white${
+                isLoginIn ? ' disabled:opacity-30 disabled:cursor-not-allowed' : ''
+              }`}
             >
-              تسجيل الدخول
+              {isLoginIn ? (
+                <span className='flex items-center w-full gap-x-2 justify-center'>
+                  <LoadingSpinner />
+                  تسجيل الدخول
+                </span>
+              ) : (
+                'تسجيل الدخول'
+              )}
             </button>
 
             <div className='my-6 flex justify-between gap-x-6'>
@@ -126,7 +141,7 @@ const Login = () => {
               to={'facebookLogin'}
               aria-label='Continue with facebook'
               role='button'
-              className='focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5 dark:bg-white'
+              className='focus:outline-blue-300 focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5 dark:bg-white'
             >
               <Google />
               <p className='text-base font-medium mr-4 text-gray-700'>
@@ -137,7 +152,7 @@ const Login = () => {
               to={'facebookLogin'}
               aria-label='Continue with facebook'
               role='button'
-              className='focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5 dark:bg-white'
+              className='focus:outline-blue-300 focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5 dark:bg-white'
             >
               <Facebook />
               <p className='text-base font-medium mr-4 text-gray-700'>

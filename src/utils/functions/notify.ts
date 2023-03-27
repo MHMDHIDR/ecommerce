@@ -1,16 +1,13 @@
+import { NotifyProps } from '@/types'
 import { toast } from 'react-toastify'
 
 export default function notify({
   type = 'success',
   msg,
   reloadIn,
-  reloadTo
-}: {
-  type: 'success' | 'info' | 'error'
-  msg: string
-  reloadIn?: number
-  reloadTo?: string
-}) {
+  reloadTo,
+  position
+}: NotifyProps) {
   reloadIn &&
     setTimeout(() => {
       reloadTo ? location.replace(reloadTo) : location.reload()
@@ -31,7 +28,8 @@ export default function notify({
           ? toast.TYPE.INFO
           : type === 'error'
           ? toast.TYPE.ERROR
-          : toast.TYPE.DEFAULT
+          : toast.TYPE.DEFAULT,
+      position
     }
   )
 }
