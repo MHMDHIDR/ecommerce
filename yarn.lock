@@ -352,6 +352,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/bcryptjs@npm:^2.4.2":
+  version: 2.4.2
+  resolution: "@types/bcryptjs@npm:2.4.2"
+  checksum: 220dade7b0312b41e23ccfb15f2ddde7804eb3c7ef41db41a6c49054be1e19a15eb3dd8c8ef196494f0866307cce22ad6f3f272941387124707d81dc66155bbc
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:^18.15.10":
   version: 18.15.10
   resolution: "@types/node@npm:18.15.10"
@@ -882,6 +889,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "ecommerce@workspace:."
   dependencies:
+    "@types/bcryptjs": ^2.4.2
     "@types/node": ^18.15.10
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
@@ -895,7 +903,9 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-router-dom: ^6.8.2
+    react-social-login-buttons: ^3.6.1
     react-toastify: ^9.1.1
+    reactjs-social-login: ^2.6.2
     tailwindcss: ^3.2.7
     typescript: ^4.9.3
     vite: ^4.1.0
@@ -1973,6 +1983,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-social-login-buttons@npm:^3.6.1":
+  version: 3.6.1
+  resolution: "react-social-login-buttons@npm:3.6.1"
+  peerDependencies:
+    react: ^15.0.0 || ^16.0.0 || ^17.x || ^18.x
+  checksum: c3b33afed5666354acc40e35159fe432ab946ab1ebc2336ff17c0298c89ac7e445963455be865a7d75ea7ac3583bf892b0ae0879b50cbc73dcb31b057eedbce6
+  languageName: node
+  linkType: hard
+
 "react-toastify@npm:^9.1.1":
   version: 9.1.2
   resolution: "react-toastify@npm:9.1.2"
@@ -1991,6 +2010,16 @@ __metadata:
   dependencies:
     loose-envify: ^1.1.0
   checksum: 88e38092da8839b830cda6feef2e8505dec8ace60579e46aa5490fc3dc9bba0bd50336507dc166f43e3afc1c42939c09fe33b25fae889d6f402721dcd78fca1b
+  languageName: node
+  linkType: hard
+
+"reactjs-social-login@npm:^2.6.2":
+  version: 2.6.2
+  resolution: "reactjs-social-login@npm:2.6.2"
+  peerDependencies:
+    react: ^16 || ^17 || ^18
+    react-dom: ^16 || ^17 || ^18
+  checksum: f0707bbe518a69fb5f8d0a869dbbb82d389262e10d650e95320429dfd6e8ff7585b5471c701ac76256a5205d18ece05e2317045daf21f4dfc4de2d4381a1997a
   languageName: node
   linkType: hard
 

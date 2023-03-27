@@ -34,8 +34,12 @@ app.get('/', (_req: Request, res: Response) =>
 
 //Routes
 import products from './routes/products.js'
+// import orders from './routes/orders.js'
+import users from './routes/users.js'
 
 // Use Routes
 app.use('/products', products)
+// app.use('/orders', orders)
+app.use('/users', users)
 
 app.listen(PORT || 4000, () => console.log(`APP RUNNING ON=> ${PORT || 4000}`))
