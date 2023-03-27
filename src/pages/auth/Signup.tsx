@@ -12,13 +12,12 @@ const Signup = () => {
   const [tel, setTel] = useState('')
   const [password, setPassword] = useState('')
   const [isPassVisible, setIsPassVisible] = useState(false)
-  const [regStatus, setRegStatus] = useState(null)
+  const [regStatus, setRegStatus] = useState<number | null>(null)
   const [regMsg, setRegMsg] = useState('')
   const [isRegistering, setIsRegistering] = useState(false)
 
   const handleRegister = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
-    setIsRegistering(true)
 
     const formData = new FormData()
     formData.append('username', username)
@@ -26,12 +25,15 @@ const Signup = () => {
     formData.append('password', password)
 
     try {
+      setIsRegistering(true)
       const { data } = await axios.post(`${API_URL}/users/register`, formData)
       const { userAdded, message } = data
 
       setRegStatus(userAdded)
       setRegMsg(message)
-    } catch ({ response }) {
+    } catch (error) {
+      setRegStatus(0)
+      setRegMsg(`عفواً!، حدث خطأ ما: ${error}`)
     } finally {
       setIsRegistering(false)
     }
@@ -77,6 +79,7 @@ const Signup = () => {
                 id='tel'
                 placeholder='رقم الهاتف'
                 onChange={e => setTel(e.target.value)}
+                required
               />
               <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] motion-reduce:transition-none dark:text-gray-200 dark:peer-focus:text-gray-200'>
                 رقم الهاتف
@@ -90,10 +93,11 @@ const Signup = () => {
                 id='password'
                 placeholder='كلمة المرور'
                 onChange={e => setPassword(e.target.value)}
+                required
               />
               <span
                 className='absolute cursor-pointer p-3 text-xs text-black capitalize transition-all select-none left-10 sm:text-sm md:text-lg dark:text-gray-100 opacity-60;'
-                onClick={() => setIsPassVisible(prevState => !prevState)}
+                onClick={() => setIsPassVisible((prevState: boolean) => !prevState)}
               >
                 {isPassVisible ? <EyeIconClose /> : <EyeIconOpen />}
               </span>
@@ -115,6 +119,7 @@ const Signup = () => {
                     )
                   }
                   defaultChecked={true}
+                  required
                 />
                 <label className='hover:cursor-pointer' htmlFor='terms&condCheckbox'>
                   بالضغط هنا فأنت توافق على

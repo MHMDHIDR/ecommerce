@@ -1,20 +1,69 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 import { Facebook, Google } from '@/components/Icons/Socials'
+import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
+import { API_URL } from '@/constants'
+import notify from '@/utils/functions/notify'
 
 const Login = () => {
+  const [tel, setTel] = useState('')
+  const [password, setPassword] = useState('')
+  const [isPassVisible, setIsPassVisible] = useState(false)
+  const [loginStatus, setLoginStatus] = useState<number | null>(null)
+  const [loginMsg, setLoginMsg] = useState('')
+  const [isLoginIn, setIsLoginIn] = useState(false)
+
+  const handleLogin = async (e: { preventDefault: () => void }) => {
+    e.preventDefault()
+
+    const formData = new FormData()
+    formData.append('tel', tel)
+    formData.append('password', password)
+
+    try {
+      setIsLoginIn(true)
+      const { data } = await axios.post(`${API_URL}/users/login`, formData)
+      const { userLoggedIn, message } = data
+
+      setLoginStatus(userLoggedIn)
+      setLoginMsg(message)
+    } catch (error) {
+      setLoginStatus(0)
+      setLoginMsg(`عفواً!، حدث خطأ ما: ${error}`)
+    } finally {
+      setIsLoginIn(false)
+    }
+  }
+
   return (
     <section className='h-screen'>
       <div className='container px-6 py-16 mx-auto max-w-6xl'>
+        <div className='hidden'>
+          {loginStatus === 1
+            ? notify({
+                type: 'success',
+                msg: loginMsg,
+                reloadIn: 5000,
+                reloadTo: '/login'
+              })
+            : loginStatus === 0
+            ? notify({ type: 'error', msg: loginMsg })
+            : null}
+        </div>
+
         <div className='flex h-full flex-wrap items-center justify-center'>
           <img src='assets/img/logo.png' className='w-40 h-32 mb-10' alt='Logo image' />
 
-          <form className='w-full rtl'>
+          <form className='w-full rtl' onSubmit={handleLogin}>
             <label htmlFor='userTel' className='relative flex mb-6'>
               <input
                 type='text'
                 className='peer border-b block min-h-[auto] w-full rounded bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-gray-200'
                 id='userTel'
                 min={5}
+                onChange={e => setTel(e.target.value)}
+                required
               />
               <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] motion-reduce:transition-none dark:text-gray-200 dark:peer-focus:text-gray-200'>
                 رقم الهاتف
@@ -23,11 +72,19 @@ const Login = () => {
 
             <label htmlFor='password' className='relative flex mb-6'>
               <input
-                type='password'
+                type={isPassVisible ? 'text' : 'password'}
                 className='peer border-b block min-h-[auto] w-full rounded bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-gray-200'
                 id='password'
                 min={5}
+                onChange={e => setPassword(e.target.value)}
+                required
               />
+              <span
+                className='absolute cursor-pointer p-3 text-xs text-black capitalize transition-all select-none left-10 sm:text-sm md:text-lg dark:text-gray-100 opacity-60;'
+                onClick={() => setIsPassVisible((prevState: boolean) => !prevState)}
+              >
+                {isPassVisible ? <EyeIconClose /> : <EyeIconOpen />}
+              </span>
               <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] motion-reduce:transition-none dark:text-gray-200 dark:peer-focus:text-gray-200'>
                 كلمة المرور
               </span>

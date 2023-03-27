@@ -7,8 +7,8 @@ import db from '../../helpers/db.js'
 
 export const registerUser = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {
-    const { username, tel, password } = req.body
     const { genSalt, hash } = bcryptjs
+    const { username, tel, password } = req.body
 
     if (username === '' || tel === '' || password === '') {
       return res.status(400).json({ userAdded: 0, message: 'يجب تعبئة جميع البيانات!' })
