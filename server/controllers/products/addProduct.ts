@@ -41,6 +41,7 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
 
   const query = `INSERT INTO products (
     id,
+    addedById,
     itemName,
     imgUrl,
     currentPrice,
@@ -51,7 +52,7 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
     productStatus,
     productCreateDate,
     productUpdateDate
-  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`
 
   db.query(query, values, (error: any, _data: any) => {
     return error
