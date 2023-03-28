@@ -139,8 +139,8 @@ export type ProductProps = {
   category: string
   description: string
   productStatus: string
-  productCreateDate: string
-  productUpdateDate: string
+  CreateDate: string
+  UpdateDate: string
 }
 
 export type Item = {

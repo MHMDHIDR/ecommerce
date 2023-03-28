@@ -1,10 +1,9 @@
-import { Request, Response } from 'express'
+import { Request } from 'express'
 import asyncHandler from 'express-async-handler'
-import db from '../../helpers/db.js'
+import { CustomPaginateResponse } from '../../types'
 
-export const getProducts = asyncHandler(async (_req: Request, res: Response) => {
-  const query = 'SELECT * FROM products'
-  db.query(query, (err: any, data: any) => {
-    return err ? res.json(err) : res.json(data)
-  })
-})
+export const getProducts = asyncHandler(
+  async (_req: Request, res: CustomPaginateResponse) => {
+    res.json(res.paginatedResults)
+  }
+)

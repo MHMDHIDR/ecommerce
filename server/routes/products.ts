@@ -1,4 +1,6 @@
 import express from 'express'
+import { authMiddleware } from '../middleware/authMiddleware'
+import { paginatedResults } from '../middleware/paginatedResults'
 import {
   getProduct,
   getProducts,
@@ -10,9 +12,9 @@ import {
 const router = express.Router()
 
 router.get('/:id', getProduct)
-router.get('/', getProducts)
-router.patch('/:id', updateProduct)
-router.delete('/:id', deleteProduct)
-router.post('/', addProduct)
+router.get('/:page?/:limit?', paginatedResults('products'), getProducts)
+router.patch('/:id', authMiddleware, updateProduct)
+router.delete('/:id', authMiddleware, deleteProduct)
+router.post('/', authMiddleware, addProduct)
 
 export default router

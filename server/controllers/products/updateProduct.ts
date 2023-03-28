@@ -63,7 +63,7 @@ export const updateProduct = asyncHandler(async (req: Request, res: Response) =>
   }
 
   const query =
-    'UPDATE products SET `itemName`= ?, `imgUrl`= ?, `currentPrice`= ?, `oldPrice`= ?, `quantity`= ?, `category`= ?, `description`= ?, `productStatus`= ?, `productUpdateDate`= CURRENT_TIMESTAMP WHERE id = ?'
+    'UPDATE products SET `itemName`= ?, `imgUrl`= ?, `currentPrice`= ?, `oldPrice`= ?, `quantity`= ?, `category`= ?, `description`= ?, `productStatus`= ?, `UpdateDate`= CURRENT_TIMESTAMP WHERE id = ?'
 
   db.query(query, [...values, id], (error: any, _data: any) => {
     return error

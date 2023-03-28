@@ -50,8 +50,8 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
     category,
     description,
     productStatus,
-    productCreateDate,
-    productUpdateDate
+    CreateDate,
+    UpdateDate
   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`
 
   db.query(query, values, (error: any, _data: any) => {
