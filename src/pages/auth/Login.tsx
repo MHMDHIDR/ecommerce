@@ -4,7 +4,7 @@ import axios from 'axios'
 import { Facebook, Google } from '@/components/Icons/Socials'
 import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
 import { API_URL } from '@/constants'
-import notify from '@/utils/functions/notify'
+import notify from '@/utils/notify'
 import { LoadingSpinner } from '@/components/Loading'
 
 const Login = () => {
@@ -49,9 +49,9 @@ const Login = () => {
             ? notify({
                 type: 'success',
                 msg: loginMsg,
+                position: 'top-center',
                 reloadIn: 5000,
-                reloadTo: '/',
-                position: 'top-center'
+                reloadTo: '/'
               })
             : loginStatus === 0
             ? notify({ type: 'error', msg: loginMsg, position: 'top-center' })
@@ -89,7 +89,7 @@ const Login = () => {
                 className='absolute cursor-pointer p-3 text-xs text-black capitalize transition-all select-none left-5 top-5 sm:text-sm md:text-lg dark:text-gray-100 opacity-60;'
                 onClick={() => setIsPassVisible((prevState: boolean) => !prevState)}
               >
-                {isPassVisible ? <EyeIconClose /> : <EyeIconOpen />}
+                {isPassVisible ? <EyeIconOpen /> : <EyeIconClose />}
               </span>
               <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] dark:text-gray-200 dark:peer-focus:text-gray-200'>
                 كلمة المرور

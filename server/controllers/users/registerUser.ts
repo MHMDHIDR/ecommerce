@@ -3,6 +3,7 @@ import { randomUUID } from 'crypto'
 import asyncHandler from 'express-async-handler'
 import bcryptjs from 'bcryptjs'
 import db from '../../helpers/db.js'
+import { signJwt } from '../../helpers/jwt.js'
 // import generateToken from '../../helpers/generateToken.js'
 
 export const registerUser = asyncHandler(
@@ -39,16 +40,33 @@ export const registerUser = asyncHandler(
         password: hashedPassword,
         registerDate: 'CURRENT_TIMESTAMP'
       },
-      (error, _results) => {
+      (error, results: any) => {
         if (error) {
-          return res
-            .status(500)
-            .json({ userAdded: 0, message: `لم يتم تسجيل المستخدم!: ${error}` })
-        } else {
-          return res.status(201).json({
-            userAdded: 1,
-            message: 'تم التسجيل بنجاح 👍🏼 يمكنك تسجيل الدخول الآن'
+          return res.status(500).json({
+            userAdded: 0,
+            message: `لم يتم تسجيل المستخدم!: ${error}`
           })
+        } else {
+          db.query(
+            'SELECT * FROM users WHERE id = ?',
+            [results.insertId],
+            (error, results: any) => {
+              if (error) {
+                return res.status(500).json({
+                  userAdded: 0,
+                  message: `خطأ في جلب بيانات المستخدم!: ${error}`
+                })
+              } else {
+                const user = results[0]
+                const token = signJwt({ userId: user.id })
+                return res.status(201).json({
+                  userAdded: 1,
+                  message: 'تم التسجيل بنجاح 👍🏼 يمكنك تسجيل الدخول الآن',
+                  token
+                })
+              }
+            }
+          )
         }
       }
     )

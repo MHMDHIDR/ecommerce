@@ -13,9 +13,9 @@ import Modal from '@/components/Modal'
 import { Loading } from '@/components/Icons/Status'
 import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import FileUpload from '@/components/FileUpload'
-import { createSlug, removeSlug } from '@/utils/functions/slug'
-import notify from '@/utils/functions/notify'
-import goTo from '@/utils/functions/goTo'
+import { createSlug, removeSlug } from '@/utils/slug'
+import notify from '@/utils/notify'
+import goTo from '@/utils/goTo'
 import { ProductProps } from '@/types'
 
 const EditProduct = () => {
@@ -43,7 +43,7 @@ const EditProduct = () => {
 
   const { file } = useContext(FileUploadContext)
 
-  const { response, loading } = useAxios({ url: `/products/${id}` })
+  const { response, loading } = getData({ url: `/products/${id}` })
   useEffect(() => {
     if (response) setProduct(response[0])
   }, [response && response[0]])

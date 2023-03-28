@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { isSmallScreen } from '@/constants'
 import { SearchContext } from '@/contexts/SearchContext'
 import useEventListener from '@/hooks/useEventListener'
-import { removeSlug } from '@/utils/functions/slug'
+import { removeSlug } from '@/utils/slug'
 
 const Search = ({
   small = isSmallScreen,

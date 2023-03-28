@@ -22,7 +22,6 @@
       "types/*": ["types/*"],
       "contexts/*": ["contexts/*"],
       "utils/*": ["utils/*"],
-      "functions/*": ["utils/functions/*"],
       "components/*": ["components/*"],
       "hooks/*": ["hooks/*"]
     }

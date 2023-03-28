@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import { LoadingPage } from '@/components/Loading'
 import Layout from '@/components/Layout'
-import abstractText from '@/utils/functions/abstractText'
+import abstractText from '@/utils/abstractText'
 
 const Notifications = () => {
   useDocumentTitle('الاشعارات')

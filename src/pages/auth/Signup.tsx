@@ -4,7 +4,7 @@ import { Facebook, Google } from '@/components/Icons/Socials'
 import { API_URL } from '@/constants'
 import axios from 'axios'
 import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
-import notify from '@/utils/functions/notify'
+import notify from '@/utils/notify'
 import { LoadingSpinner } from '@/components/Loading'
 
 const Signup = () => {
@@ -99,7 +99,7 @@ const Signup = () => {
                 className='absolute cursor-pointer p-3 text-xs text-black capitalize transition-all select-none left-10 sm:text-sm md:text-lg dark:text-gray-100 opacity-60;'
                 onClick={() => setIsPassVisible((prevState: boolean) => !prevState)}
               >
-                {isPassVisible ? <EyeIconClose /> : <EyeIconOpen />}
+                {isPassVisible ? <EyeIconOpen /> : <EyeIconClose />}
               </span>
               <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] motion-reduce:transition-none dark:text-gray-200 dark:peer-focus:text-gray-200'>
                 كلمة المرور

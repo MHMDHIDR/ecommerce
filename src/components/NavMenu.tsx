@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { NavMenuPros } from '@/types'
-import abstractText from '@/utils/functions/abstractText'
+import abstractText from '@/utils/abstractText'
 
 const NavMenu: React.FC<NavMenuPros> = ({
   children,

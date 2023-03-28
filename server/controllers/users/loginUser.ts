@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
 import bcryptjs from 'bcryptjs'
 import db from '../../helpers/db.js'
+import { signJwt } from '../../helpers/jwt.js'
 
 export const loginUser = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {
@@ -21,9 +22,11 @@ export const loginUser = asyncHandler(
         const user = results[0]
 
         if (await compare(password, user.password)) {
-          return res
-            .status(200)
-            .json({ userLoggedIn: 1, message: 'تم تسجيل الدخول بنجاح', user })
+          return res.status(200).json({
+            userLoggedIn: 1,
+            message: 'تم تسجيل الدخول بنجاح',
+            token: signJwt({ userId: user.id })
+          })
         } else {
           return res
             .status(401)

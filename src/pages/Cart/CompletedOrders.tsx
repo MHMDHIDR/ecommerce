@@ -5,7 +5,7 @@ import { LoadingPage } from '@/components/Loading'
 import Layout from '@/components/Layout'
 import NoItems from '@/components/NoItems'
 import CartHeader from './CartHeader'
-import abstractText from '@/utils/functions/abstractText'
+import abstractText from '@/utils/abstractText'
 import { PRODUCT } from '@/constants'
 
 const CompletedOrders = ({ isNoPreviousOrders = false }) => {

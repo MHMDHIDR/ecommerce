@@ -8,7 +8,7 @@ import Filter from '@/components/Icons/Filter'
 import Arrow from '@/components/Icons/Arrow'
 import CategoryProducts from '@/components/CategoryProducts'
 import { CATEGORIES, isSmallScreen, PRODUCT } from '@/constants'
-import abstractText from '@/utils/functions/abstractText'
+import abstractText from '@/utils/abstractText'
 
 const Home = () => {
   useDocumentTitle('الرئيسية')

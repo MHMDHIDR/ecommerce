@@ -7,7 +7,7 @@ import Layout from '@/components/Layout'
 import { AcceptBtn, RejectBtn } from '@/components/TableActions'
 import { isSmallScreen, ORDER } from '@/constants'
 import { Link } from 'react-router-dom'
-import goTo from '@/utils/functions/goTo'
+import goTo from '@/utils/goTo'
 
 const DashboardOrderDetails = () => {
   const TITLE = 'تفاصيل الطلب'

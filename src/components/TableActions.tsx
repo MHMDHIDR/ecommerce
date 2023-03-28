@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import goTo from '@/utils/functions/goTo'
+import goTo from '@/utils/goTo'
 
 export const AcceptBtn = ({ id, email }: any) => (
   <button

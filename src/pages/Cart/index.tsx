@@ -13,7 +13,7 @@ import { Item } from '@/types'
 import CartHeader from './CartHeader'
 import useEventListener from '@/hooks/useEventListener'
 import { isSmallScreen } from '@/constants'
-import abstractText from '@/utils/functions/abstractText'
+import abstractText from '@/utils/abstractText'
 
 const Cart = () => {
   useDocumentTitle('السلة')

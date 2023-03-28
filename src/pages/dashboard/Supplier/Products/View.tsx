@@ -9,10 +9,10 @@ import { Loading } from '@/components/Icons/Status'
 import { useAxios } from '@/hooks/useAxios'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import useEventListener from '@/hooks/useEventListener'
-import { createLocaleDateString } from '@/utils/functions/convertDate'
-import goTo from '@/utils/functions/goTo'
-import { removeSlug } from '@/utils/functions/slug'
-import notify from '@/utils/functions/notify'
+import { createLocaleDateString } from '@/utils/convertDate'
+import goTo from '@/utils/goTo'
+import { removeSlug } from '@/utils/slug'
+import notify from '@/utils/notify'
 import { ProductProps } from '@/types'
 import { PRODUCT } from '@/constants'
 
@@ -28,7 +28,7 @@ const ViewProduct = () => {
   const [modalLoading, setModalLoading] = useState<boolean>(false)
   const [products, setProducts] = useState<ProductProps[]>([PRODUCT('1')])
 
-  const { response, loading } = useAxios({ url: `/products` })
+  const { response, loading } = getData({ url: `/products` })
 
   useEffect(() => {
     response && setProducts(response)

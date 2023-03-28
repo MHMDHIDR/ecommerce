@@ -6,7 +6,7 @@ import { LoadingPage } from './Loading'
 import NoItems from './NoItems'
 import Icon404 from './Icons/Icon404'
 import { ProductProps } from '@/types'
-import { removeSlug } from '@/utils/functions/slug'
+import { removeSlug } from '@/utils/slug'
 import { PRODUCT } from '@/constants'
 
 const CategoryProducts = ({ name, category }: { name?: string; category?: string }) => {

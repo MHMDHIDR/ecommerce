@@ -11,7 +11,7 @@ import { useAxios } from '@/hooks/useAxios'
 import { LoadingPage } from '@/components/Loading'
 import NoItems from '@/components/NoItems'
 import Icon404 from '@/components/Icons/Icon404'
-import { removeSlug } from '@/utils/functions/slug'
+import { removeSlug } from '@/utils/slug'
 import Layout from '@/components/Layout'
 
 const Product = () => {
@@ -20,7 +20,7 @@ const Product = () => {
   const alreadyAdded = inCart(id!)
 
   const [product, setProduct] = useState<ProductProps>(PRODUCT('1'))
-  const { response, loading } = useAxios({ url: `/products/${id}` })
+  const { response, loading } = getData({ url: `/products/${id}` })
 
   useEffect(() => {
     response && setProduct(response[0])

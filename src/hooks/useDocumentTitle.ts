@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
-// import useAxios from './useAxios'
+// import getData from './getData'
 
 const useDocumentTitle = (title: string) => {
-  // const { response } = useAxios({ url: '/settings' })
+  // const { response } = getData({ url: '/settings' })
   const appName = /*response?.appName ||*/ 'eCommerce'
 
   useEffect(() => {

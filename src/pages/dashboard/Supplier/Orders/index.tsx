@@ -5,7 +5,7 @@ import { LoadingPage } from '@/components/Loading'
 import Layout from '@/components/Layout'
 import { AcceptBtn, RejectBtn } from '@/components/TableActions'
 import { ORDER } from '@/constants'
-import { createLocaleDateString } from '@/utils/functions/convertDate'
+import { createLocaleDateString } from '@/utils/convertDate'
 
 const SupplierDashboard = () => {
   const TITLE = 'الطلبــــــــات'
