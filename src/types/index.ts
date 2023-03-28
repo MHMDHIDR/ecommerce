@@ -208,3 +208,12 @@ export type NotifyProps = {
     | 'bottom-center'
     | 'bottom-left'
 }
+
+export type UserType = {
+  id: string
+  username: string
+  avatarUrl: string
+  phone: string
+  status: string
+  type: string
+} | null

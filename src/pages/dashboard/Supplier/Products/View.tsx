@@ -28,7 +28,7 @@ const ViewProduct = () => {
   const [modalLoading, setModalLoading] = useState<boolean>(false)
   const [products, setProducts] = useState<ProductProps[]>([PRODUCT('1')])
 
-  const { response, loading } = getData({ url: `/products` })
+  const { response, loading } = useAxios({ url: `/products` })
 
   useEffect(() => {
     response && setProducts(response)

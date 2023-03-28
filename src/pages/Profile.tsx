@@ -1,18 +1,22 @@
-import { Suspense } from 'react'
 import { Link } from 'react-router-dom'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
+import useAuth from '@/hooks/useAuth'
 import { LoadingPage } from '@/components/Loading'
 import Layout from '@/components/Layout'
 import BorderLink from '@/components/Icons/BorderLink'
 import BackButton from '@/components/Icons/BackButton'
-import { isSmallScreen, PROFILE_LINKS } from '@/constants'
+import { isSmallScreen, PROFILE_LINKS, USER_DATA } from '@/constants'
 
 const Profile = () => {
   useDocumentTitle('إعدادات الحساب')
+  const { loading, userData } = useAuth()
+  const { username, avatarUrl, phone } = userData || USER_DATA
 
   return (
-    <Suspense fallback={<LoadingPage />}>
-      <Layout>
+    <Layout>
+      {loading ? (
+        <LoadingPage />
+      ) : (
         <section className='container px-5 py-20 mx-auto rtl flex justify-center items-center max-w-6xl'>
           {isSmallScreen && (
             <BackButton to='/' className='w-8 h-8 absolute z-50 top-6 left-6' />
@@ -25,15 +29,15 @@ const Profile = () => {
             >
               <img
                 className='h-16 w-16 rounded-lg object-cover'
-                src='https://tecdn.b-cdn.net/img/new/avatars/2.jpg'
-                alt='profile image'
+                src={avatarUrl}
+                alt={`${username} Avatar`}
               />
               <div className='py-2'>
                 <h5 className='text-md font-semibold text-gray-800 dark:text-gray-100'>
-                  اسم المستخدم
+                  {username}
                 </h5>
-                <p className='text-sm text-gray-600 dark:text-gray-100'>
-                  mr.hamood277@gmail.com
+                <p className='text-sm text-gray-600 dark:text-gray-100 ltr text-right'>
+                  {phone}
                 </p>
               </div>
             </Link>
@@ -61,8 +65,8 @@ const Profile = () => {
             </div>
           </div>
         </section>
-      </Layout>
-    </Suspense>
+      )}
+    </Layout>
   )
 }
 

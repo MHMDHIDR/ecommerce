@@ -43,7 +43,7 @@ const EditProduct = () => {
 
   const { file } = useContext(FileUploadContext)
 
-  const { response, loading } = getData({ url: `/products/${id}` })
+  const { response, loading } = useAxios({ url: `/products/${id}` })
   useEffect(() => {
     if (response) setProduct(response[0])
   }, [response && response[0]])

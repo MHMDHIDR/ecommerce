@@ -43,6 +43,15 @@ export const PRODUCT = (id: string) => {
   }
 }
 
+export const USER_DATA = {
+  id: '',
+  username: 'اسم المستخدم',
+  avatarUrl: '/assets/img/profile.jpg',
+  phone: '0123 456 789',
+  status: '',
+  type: ''
+}
+
 export const API_URL =
   process.env.NODE_ENV === 'development'
     ? origin?.includes(url.dev)

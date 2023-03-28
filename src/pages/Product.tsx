@@ -20,7 +20,7 @@ const Product = () => {
   const alreadyAdded = inCart(id!)
 
   const [product, setProduct] = useState<ProductProps>(PRODUCT('1'))
-  const { response, loading } = getData({ url: `/products/${id}` })
+  const { response, loading } = useAxios({ url: `/products/${id}` })
 
   useEffect(() => {
     response && setProduct(response[0])

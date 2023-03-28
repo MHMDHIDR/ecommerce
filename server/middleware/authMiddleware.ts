@@ -6,7 +6,7 @@ import db from '../helpers/db'
 import { JwtObject } from '../types'
 
 export const authMiddleware = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: any, res: Response, next: NextFunction) => {
     const { TokenExpiredError } = jwt
     const token = req.headers.authorization?.split(' ')[1]
     if (!token) {
@@ -30,12 +30,16 @@ export const authMiddleware = asyncHandler(
     db.query(
       'SELECT id FROM users WHERE id = ?',
       [payload.userId],
-      (err: any, _data: any) => {
+      (err: any, results: any) => {
         if (err) {
           res.status(401).send({ error: 'USER_NOT_FOUND' })
           return
         }
-        next()
+        if (results.length > 0) {
+          const user = results[0]
+          req.user = user
+          next()
+        }
       }
     )
   }

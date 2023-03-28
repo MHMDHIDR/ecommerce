@@ -7,6 +7,7 @@ import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
 import { API_URL } from '@/constants'
 import notify from '@/utils/notify'
 import { LoadingSpinner } from '@/components/Loading'
+import { setCookies } from '@/utils/cookies'
 
 const Login = () => {
   const [tel, setTel] = useState('')
@@ -27,7 +28,7 @@ const Login = () => {
       setIsLoginIn(true)
       const { data } = await axios.post(`${API_URL}/users/login`, formData)
       const { userLoggedIn, message, token } = data
-      Cookies.set('eCommerce', token, { expires: 7 })
+      setCookies(token)
 
       setLoginStatus(userLoggedIn)
       setLoginMsg(message)
