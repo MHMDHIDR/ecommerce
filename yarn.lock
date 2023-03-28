@@ -359,6 +359,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/js-cookie@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "@types/js-cookie@npm:3.0.3"
+  checksum: 927254ec37ce4fbe4d9d54f53a446b4351259799d9933db5808ddb7c430396aa2496bdd0a4e47e1b56048ffbec98645cbd4daa9e3ed9a6fff55e25eb640fcb15
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:^18.15.10":
   version: 18.15.10
   resolution: "@types/node@npm:18.15.10"
@@ -890,6 +897,7 @@ __metadata:
   resolution: "ecommerce@workspace:."
   dependencies:
     "@types/bcryptjs": ^2.4.2
+    "@types/js-cookie": ^3.0.3
     "@types/node": ^18.15.10
     "@types/react": ^18.0.27
     "@types/react-dom": ^18.0.10
@@ -898,6 +906,7 @@ __metadata:
     axios: ^1.3.4
     concurrently: ^7.6.0
     framer-motion: ^10.0.1
+    js-cookie: ^3.0.1
     nodemon: ^2.0.21
     postcss: ^8.4.21
     react: ^18.2.0
@@ -1417,6 +1426,13 @@ __metadata:
   version: 2.0.0
   resolution: "isexe@npm:2.0.0"
   checksum: 26bf6c5480dda5161c820c5b5c751ae1e766c587b1f951ea3fcfc973bafb7831ae5b54a31a69bd670220e42e99ec154475025a468eae58ea262f813fdc8d1c62
+  languageName: node
+  linkType: hard
+
+"js-cookie@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "js-cookie@npm:3.0.1"
+  checksum: bb48de67e2a6bd1ae3dfd6b2d5a167c33dd0c5a37e909206161eb0358c98f17cb55acd55827a58e9eea3630d89444e7479f7938ef4420dda443218b8c434a4c3
   languageName: node
   linkType: hard
 

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 import { Facebook, Google } from '@/components/Icons/Socials'
 import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
 import { API_URL } from '@/constants'
@@ -25,7 +26,8 @@ const Login = () => {
     try {
       setIsLoginIn(true)
       const { data } = await axios.post(`${API_URL}/users/login`, formData)
-      const { userLoggedIn, message } = data
+      const { userLoggedIn, message, token } = data
+      Cookies.set('eCommerce', token, { expires: 7 })
 
       setLoginStatus(userLoggedIn)
       setLoginMsg(message)
