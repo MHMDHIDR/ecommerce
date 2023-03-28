@@ -36,15 +36,16 @@ const Nav = () => {
           <div className='relative'>
             <Link
               className='flex items-center whitespace-nowrap transition duration-150 ease-in-out motion-reduce:transition-none'
-              to='/profile'
-              role='button'
+              // to={!id || id.length === 0 ? '/login' : '/profile'}
+              to='profile'
+              role='link'
               aria-expanded='false'
             >
               <img
-                src='https://tecdn.b-cdn.net/img/new/avatars/2.jpg'
+                src={'avatarUrl'}
                 className='rounded-full w-8 h-8'
                 style={{ height: '32px', width: '32px' }}
-                alt=''
+                alt={'username' + ' Avatar'}
                 loading='lazy'
               />
             </Link>
