@@ -42,7 +42,7 @@ const useAxios = ({ url, method = 'get', body = null, headers = null }: axiosPro
     const fetchDataAsync = async () => {
       try {
         const responseData = await fetchData({ url, method, body, headers })
-        setResponse(responseData)
+        setResponse(responseData?.response ? responseData.response : responseData)
         setLoading(false)
       } catch (error) {
         setError({ error, response: error })
