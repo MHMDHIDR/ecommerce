@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { Facebook, Google } from '@/components/Icons/Socials'
@@ -16,6 +16,7 @@ const Login = () => {
   const [loginStatus, setLoginStatus] = useState<any>(null)
   const [loginMsg, setLoginMsg] = useState<any>('')
   const [isLoginIn, setIsLoginIn] = useState(false)
+  const redirectTo = useLocation().search.split('=')[1]
 
   const handleLogin = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
@@ -54,7 +55,7 @@ const Login = () => {
                 msg: loginMsg,
                 position: 'top-center',
                 reloadIn: 5000,
-                reloadTo: '/'
+                reloadTo: redirectTo ? redirectTo : '/'
               })
             : loginStatus === 0
             ? notify({ type: 'error', msg: loginMsg, position: 'top-center' })

@@ -1,1 +1,6 @@
-export const handleLogout = (to: string) => location.replace(to)
+import { removeCookies } from './cookies'
+
+export const handleLogout = (to: string) => {
+  removeCookies()
+  location.replace(to)
+}
