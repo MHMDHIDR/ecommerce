@@ -4,10 +4,12 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import { Facebook, Google } from '@/components/Icons/Socials'
 import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
-import { API_URL } from '@/constants'
+import { API_URL, USER_DATA } from '@/constants'
 import notify from '@/utils/notify'
-import { LoadingSpinner } from '@/components/Loading'
+import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import { setCookies } from '@/utils/cookies'
+import useAuth from '@/hooks/useAuth'
+import ModalNotFound from '@/components/Modal/ModalNotFound'
 
 const Login = () => {
   const [tel, setTel] = useState('')
@@ -16,6 +18,10 @@ const Login = () => {
   const [loginStatus, setLoginStatus] = useState<any>(null)
   const [loginMsg, setLoginMsg] = useState<any>('')
   const [isLoginIn, setIsLoginIn] = useState(false)
+
+  const { loading, userData } = useAuth()
+  const { id } = userData || USER_DATA
+
   const redirectTo = useLocation().search.split('=')[1]
 
   const handleLogin = async (e: { preventDefault: () => void }) => {
@@ -45,7 +51,11 @@ const Login = () => {
     }
   }
 
-  return (
+  return loading ? (
+    <LoadingPage />
+  ) : id ? (
+    window.location.replace('/')
+  ) : (
     <section className='h-screen'>
       <div className='container px-6 py-16 mx-auto max-w-6xl'>
         <div className='hidden'>

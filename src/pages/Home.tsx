@@ -70,14 +70,14 @@ const Home = () => {
                 {CATEGORIES.map(({ ar_label }: { ar_label: string }, idx: number) => (
                   <li
                     key={idx}
-                    className={`border text-sm rounded-full py-0.5 px-3
-                    bg-gray-100 dark:bg-gray-800
-                    border-gray-800 dark:border-gray-100
-                    text-gray-800 dark:text-gray-100
-                    focus:bg-gray-800 dark:focus:bg-gray-100
-                    focus:text-gray-100 dark:focus:text-gray-800
-                    hover:bg-gray-800 dark:hover:bg-gray-100
-                    hover:text-gray-100 dark:hover:text-gray-800
+                    className={`border text-sm rounded-full py-0.5 px-3 cursor-pointer
+                              bg-gray-100 dark:bg-gray-800
+                              border-gray-800 dark:border-gray-100
+                              text-gray-800 dark:text-gray-100
+                              focus:bg-gray-800 dark:focus:bg-gray-100
+                              focus:text-gray-100 dark:focus:text-gray-800
+                              hover:bg-gray-800 dark:hover:bg-gray-100
+                              hover:text-gray-100 dark:hover:text-gray-800
                     `}
                     onClick={e =>
                       setSelectedCategory((e.target as HTMLElement).textContent!)

@@ -13,7 +13,7 @@ const Search = ({
   className?: string
 }) => {
   const [smallSearch, setSmallSearch] = useState(small)
-  const { setSearch, search, searchResults } = useContext(SearchContext)
+  // const { setSearch, search, searchResults } = useContext(SearchContext)
   const navigate = useNavigate()
 
   const searchWrapper = document.querySelector('.search__wrapper')
@@ -25,7 +25,7 @@ const Search = ({
 
   const handleSearch = (e: { preventDefault: () => void }) => {
     e.preventDefault()
-    navigate(`/search/${search}`)
+    // navigate(`/search/${search}`)
   }
 
   return (
@@ -81,14 +81,13 @@ const Search = ({
 
       <div className='absolute w-[inherit] bg-neutral-200 dark:bg-neutral-300 opacity-0 pointer-events-none search__wrapper rtl border-2 border-b-blue-400 border-r-blue-400 border-l-blue-400 hidden'>
         <ul className='overflow-y-auto rtl:text-right max-h-60'>
-          {search &&
+          {/* {search &&
             searchResults?.map(({ _id, itemName, itemImgs }, idx) => (
               <Link
                 key={idx}
                 to={`/view/item/${_id}`}
                 className={`w-full flex px-4 py-2 justify-start items-center gap-x-5 transition-colors font-[600] text-blue-600 dark:text-blue-700 text-xl hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-neutral-400 border-b border-b-gray-300 dark:border-b-gray-400`}
               >
-                {/* item img */}
                 <img
                   loading='lazy'
                   src={itemImgs[0].ImgDisplayPath}
@@ -97,7 +96,7 @@ const Search = ({
                 />
                 <p>{removeSlug(itemName)}</p>
               </Link>
-            ))}
+            ))} */}
         </ul>
       </div>
     </form>

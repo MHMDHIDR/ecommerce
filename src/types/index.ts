@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode } from 'react'
+import { Dispatch, MouseEventHandler, ReactNode, SetStateAction } from 'react'
 
 export type ModalProps = {
   msg?: string
@@ -68,8 +68,8 @@ export type SearchContextProps = {
   searchResults: any[]
   setSearchFor: (searchFor: string) => void
   setCategory: (itemCategory: string) => void
-  loading: boolean
-  error: any
+  // loading: boolean
+  // error: any
 }
 
 export type SearchResultsProps = {
@@ -98,6 +98,10 @@ export type AppSettingsProps = {
   setIsSidebarOpen: (isSidebarOpen: boolean) => void
   setSidebarOpen: (isSidebarOpen: boolean) => void
   menuToggler: () => void
+  user: UserType
+  setUser: Dispatch<SetStateAction<UserType>>
+  setLocalStorageUser: (user: UserType) => void
+  getLocalStorageUser: () => string
 }
 
 export type ImgsProps = {

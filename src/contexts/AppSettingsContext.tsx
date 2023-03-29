@@ -1,10 +1,13 @@
 import { useState, createContext, ReactNode } from 'react'
-import { AppSettingsProps } from '@/types'
+import { AppSettingsProps, UserType } from '@/types'
+import { USER_DATA } from '@/constants'
+import { stringJson } from '@/utils/jsonTools'
 
 export const AppSettingsContext = createContext<AppSettingsProps>({} as AppSettingsProps)
 
 const AppSettingsContextProvider = ({ children }: { children: ReactNode }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [user, setUser] = useState<UserType>(USER_DATA)
 
   function setSidebarOpen(isSidebarOpen: boolean) {
     const navigationToggler = document.querySelector('#navigationToggler')
@@ -20,13 +23,24 @@ const AppSettingsContextProvider = ({ children }: { children: ReactNode }) => {
     setSidebarOpen(!isSidebarOpen)
   }
 
+  function setLocalStorageUser(user: UserType) {
+    return localStorage.setItem('user', stringJson(user ?? USER_DATA))
+  }
+  function getLocalStorageUser() {
+    return localStorage.getItem('user') || ''
+  }
+
   return (
     <AppSettingsContext.Provider
       value={{
         isSidebarOpen,
         setIsSidebarOpen,
         setSidebarOpen,
-        menuToggler
+        menuToggler,
+        user,
+        setUser,
+        setLocalStorageUser,
+        getLocalStorageUser
       }}
     >
       {children}
