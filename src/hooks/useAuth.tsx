@@ -13,8 +13,14 @@ const useAuth = () => {
   const [userData, setUserData] = useState<UserType>(null)
   const [loading, setLoading] = useState<boolean>(true)
 
+  const token = getCookies()
+
+  const { response, loading: axiosLoading } = useAxios({
+    url: `/users`,
+    headers: stringJson({ Authorization: `Bearer ${token}` })
+  })
+
   useEffect(() => {
-    const token = getCookies()
     if (!token) {
       setIsAuth(false)
       setUserData(null)
@@ -22,23 +28,14 @@ const useAuth = () => {
       return
     }
 
-    const { response, loading } = useAxios({
-      url: `/users`,
-      headers: stringJson({ Authorization: `Bearer ${token}` })
-    })
-
-    if (response && !loading) {
+    if (response && !axiosLoading) {
       setIsAuth(true)
       setUserData(response)
       setLoading(false)
+    } else {
+      setLoading(true)
     }
-
-    return (): void => {
-      setIsAuth(false)
-      setUserData(null)
-      setLoading(false)
-    }
-  }, [])
+  }, [token, response, axiosLoading])
 
   return { isAuth, userData, loading }
 }

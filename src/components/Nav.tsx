@@ -1,9 +1,13 @@
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { AppSettingsContext } from '@/contexts/AppSettingsContext'
+import useAuth from '@/hooks/useAuth'
+import { USER_DATA } from '@/constants'
 
 const Nav = () => {
   const { menuToggler } = useContext(AppSettingsContext)
+  const { userData } = useAuth()
+  const { id, username, avatarUrl } = userData || USER_DATA
 
   return (
     <nav className='flex-no-wrap relative flex w-full items-center justify-between py-4 lg:flex-wrap lg:justify-start container mx-auto max-w-6xl'>
@@ -36,16 +40,15 @@ const Nav = () => {
           <div className='relative'>
             <Link
               className='flex items-center whitespace-nowrap transition duration-150 ease-in-out motion-reduce:transition-none'
-              // to={!id || id.length === 0 ? '/login' : '/profile'}
-              to='profile'
+              to={!id ? '/login' : '/profile'}
               role='link'
               aria-expanded='false'
             >
               <img
-                src={'avatarUrl'}
+                src={avatarUrl}
                 className='rounded-full w-8 h-8'
                 style={{ height: '32px', width: '32px' }}
-                alt={'username' + ' Avatar'}
+                alt={username + ' Avatar'}
                 loading='lazy'
               />
             </Link>
