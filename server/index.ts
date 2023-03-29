@@ -1,8 +1,8 @@
 import express, { json, urlencoded } from 'express'
 import { Request, Response } from 'express'
-import 'dotenv/config'
 import fileUpload from 'express-fileupload'
 import cors from 'cors'
+import 'dotenv/config'
 
 const app = express()
 

@@ -1,6 +1,6 @@
 import express from 'express'
-import { authMiddleware } from '../middleware/authMiddleware'
-import { paginatedResults } from '../middleware/paginatedResults'
+import { authMiddleware } from '../middleware/authMiddleware.js'
+import { paginatedResults } from '../middleware/paginatedResults.js'
 import {
   getProduct,
   getProducts,
