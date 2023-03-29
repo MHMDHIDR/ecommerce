@@ -24,9 +24,7 @@ const Profile = () => {
   ) : (
     <Layout>
       <section className='container px-5 py-20 mx-auto rtl flex justify-center items-center max-w-6xl'>
-        {isSmallScreen && (
-          <BackButton to='/' className='w-8 h-8 absolute z-50 top-6 left-6' />
-        )}
+        {isSmallScreen && <BackButton to='/' className='absolute z-50 top-6 left-6' />}
 
         <div className='flex flex-col w-full'>
           <Link

@@ -181,9 +181,7 @@ const EditProduct = () => {
             ctaConfirmBtns={['حذف', 'الغاء']}
           />
         )}
-        {isSmallScreen && (
-          <BackButton to='/' className='w-8 h-8 absolute z-50 top-6 left-6' />
-        )}
+        {isSmallScreen && <BackButton to='/' className='absolute z-50 top-6 left-6' />}
         <h2 className='text-xl text-center my-16'>{TITLE}</h2>
         <form
           className='relative flex flex-col items-center'

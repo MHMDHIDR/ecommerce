@@ -20,9 +20,7 @@ const EditProfile = () => {
         <LoadingPage />
       ) : (
         <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl'>
-          {isSmallScreen && (
-            <BackButton to='/' className='w-8 h-8 absolute z-50 top-6 left-6' />
-          )}
+          {isSmallScreen && <BackButton to='/' className='absolute z-50 top-6 left-6' />}
 
           <form className='relative flex flex-col items-center'>
             <label htmlFor='uploadImg' className='flex items-center gap-y-2 flex-col'>
