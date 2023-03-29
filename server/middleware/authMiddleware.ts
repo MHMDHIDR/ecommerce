@@ -1,8 +1,8 @@
 import jwt, { VerifyErrors } from 'jsonwebtoken'
 import asyncHandler from 'express-async-handler'
-import { verifyJwt } from '../helpers/jwt'
-import { Response, Request, NextFunction } from 'express'
-import db from '../helpers/db'
+import { verifyJwt } from '../helpers/jwt.js'
+import { Response, NextFunction } from 'express'
+import db from '../helpers/db.js'
 import { JwtObject } from '../types'
 
 export const authMiddleware = asyncHandler(

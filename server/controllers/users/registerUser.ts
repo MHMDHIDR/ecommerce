@@ -4,7 +4,6 @@ import asyncHandler from 'express-async-handler'
 import bcryptjs from 'bcryptjs'
 import db from '../../helpers/db.js'
 import { signJwt } from '../../helpers/jwt.js'
-// import generateToken from '../../helpers/generateToken.js'
 
 export const registerUser = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {

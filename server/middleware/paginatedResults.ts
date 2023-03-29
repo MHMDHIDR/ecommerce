@@ -1,5 +1,5 @@
 import { Request, NextFunction } from 'express'
-import db from '../helpers/db'
+import db from '../helpers/db.js'
 import { CustomPaginateResponse } from '../types'
 
 export const paginatedResults = (table: string) => {
