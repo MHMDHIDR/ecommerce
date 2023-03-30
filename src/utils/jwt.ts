@@ -10,7 +10,9 @@ const parseJwt = (token: string) => {
 /**
  *
  * @param token string
- * @returns true if token is valid, false if token is expired
+ * @returns true if token is valid, false if token is invalid or expired
  */
-export const isValidJwt = (token: string): boolean =>
-  parseJwt(token)!.exp * 1000 < Date.now()
+export const isValidJwt = (token: string): boolean => {
+  const decodedToken = parseJwt(token)
+  return decodedToken && decodedToken.exp * 1000 >= Date.now()
+}

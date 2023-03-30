@@ -24,10 +24,10 @@ const AppSettingsContextProvider = ({ children }: { children: ReactNode }) => {
   }
 
   function setLocalStorageUser(user: UserType) {
-    return localStorage.setItem('user', stringJson(user ?? USER_DATA))
+    return localStorage.setItem('user', stringJson(user!))
   }
   function getLocalStorageUser() {
-    return localStorage.getItem('user') || ''
+    return localStorage.getItem('user')!
   }
 
   return (

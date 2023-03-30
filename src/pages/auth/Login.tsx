@@ -51,7 +51,7 @@ const Login = () => {
 
   return loading ? (
     <LoadingPage />
-  ) : id ? (
+  ) : loginStatus === 0 && id ? (
     window.location.replace('/')
   ) : (
     <section className='h-screen'>
