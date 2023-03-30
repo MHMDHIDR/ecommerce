@@ -11,12 +11,7 @@ import useAuth from '@/hooks/useAuth'
 
 const Login = () => {
   const { loading, userData } = useAuth()
-  const { id } = userData || USER_DATA
-
-  useEffect(() => {
-    //this will ensure I can't access login page if i'm already logged in
-    if (id !== '') navigate('/')
-  }, [id])
+  const { id } = userData || { id: USER_DATA.id }
 
   const [tel, setTel] = useState('')
   const [password, setPassword] = useState('')
@@ -55,11 +50,17 @@ const Login = () => {
     }
   }
 
+  //this will ensure I can't access login page if i'm already logged in
   useEffect(() => {
     if (id && loginStatus === 1) {
-      setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         navigate('/')
       }, TIME_TO_EXECUTE)
+      return () => {
+        clearTimeout(timeoutId)
+      }
+    } else if (id !== '' && loginStatus === null) {
+      navigate('/')
     }
   }, [id, loginStatus])
 
