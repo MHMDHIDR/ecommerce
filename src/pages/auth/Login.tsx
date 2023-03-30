@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { Facebook, Google } from '@/components/Icons/Socials'
 import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
-import { API_URL, USER_DATA } from '@/constants'
+import { API_URL, TIME_TO_EXECUTE, USER_DATA } from '@/constants'
 import notify from '@/utils/notify'
 import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import { setCookies } from '@/utils/cookies'
@@ -21,6 +21,7 @@ const Login = () => {
   const { id } = userData || USER_DATA
 
   const redirectTo = useLocation().search.split('=')[1]
+  const navigate = useNavigate()
 
   const handleLogin = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
@@ -49,10 +50,16 @@ const Login = () => {
     }
   }
 
+  useEffect(() => {
+    if (id && loginStatus === 1) {
+      setTimeout(() => {
+        navigate('/')
+      }, TIME_TO_EXECUTE)
+    }
+  }, [id, loginStatus])
+
   return loading ? (
     <LoadingPage />
-  ) : loginStatus === 0 && id ? (
-    window.location.replace('/')
   ) : (
     <section className='h-screen'>
       <div className='container px-6 py-16 mx-auto max-w-6xl'>
@@ -62,7 +69,7 @@ const Login = () => {
                 type: 'success',
                 msg: loginMsg,
                 position: 'top-center',
-                reloadIn: 5000,
+                reloadIn: TIME_TO_EXECUTE,
                 reloadTo: redirectTo ? redirectTo : '/'
               })
             : loginStatus === 0
@@ -177,4 +184,5 @@ const Login = () => {
     </section>
   )
 }
+
 export default Login

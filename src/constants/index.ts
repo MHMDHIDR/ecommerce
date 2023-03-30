@@ -6,6 +6,8 @@ export const ITEMS_PER_PAGE = 10
 
 export const MAX_QUANTITY = 100
 
+export const TIME_TO_EXECUTE = 5000
+
 export const isSmallScreen = window.innerWidth < 768 ? true : false
 
 export const url = {

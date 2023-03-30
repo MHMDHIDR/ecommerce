@@ -8,7 +8,7 @@ import Search from '@/components/Search'
 import { useCart } from '@/contexts/CartContext'
 import abstractText from '@/utils/abstractText'
 import { Item } from '@/types'
-import Controls from './Cart/Controls'
+import Controls from '../Cart/Controls'
 import { isSmallScreen, PRODUCT } from '@/constants'
 import BackButton from '@/components/Icons/BackButton'
 

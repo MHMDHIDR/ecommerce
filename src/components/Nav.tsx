@@ -7,7 +7,6 @@ import { USER_DATA } from '@/constants'
 const Nav = () => {
   const { menuToggler } = useContext(AppSettingsContext)
   const { userData } = useAuth()
-
   const { id, username, avatarUrl } = userData || USER_DATA
 
   return (

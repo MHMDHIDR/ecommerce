@@ -7,16 +7,19 @@ import { CartIconFilled } from './Icons/CartIcon'
 import NotificationsIcon from './Icons/NotificationsIcon'
 import { AddBtn } from './Icons/ControlBtn'
 import { isActiveLink } from '@/utils/isActiveLink'
-import { isSmallScreen } from '@/constants'
+import { isSmallScreen, USER_DATA } from '@/constants'
 import Logo from './Icons/Logo'
 import Shop from './Icons/Shop'
 import { AppSettingsProps } from '@/types'
 import Overlay from './Overlay'
+import useAuth from '@/hooks/useAuth'
 
 const Footer = () => {
   const { isSidebarOpen, menuToggler } = useContext<AppSettingsProps>(AppSettingsContext)
   const { totalUniqueItems } = useCart()
   const { pathname } = useLocation()
+  const { userData } = useAuth()
+  const { id, username, avatarUrl } = userData || USER_DATA
 
   const Menu = [
     {
@@ -37,14 +40,14 @@ const Footer = () => {
     },
     {
       label: 'الحساب',
-      to: '/profile',
+      to: !id ? '/login' : '/profile',
       icon: () => (
         <img
-          src='https://tecdn.b-cdn.net/img/new/avatars/2.jpg'
+          src={avatarUrl}
           width={16}
           height={16}
           className='rounded-full w-4 h-4'
-          alt='Profile'
+          alt={`${username} Profile`}
           loading='lazy'
         />
       )
@@ -69,14 +72,14 @@ const Footer = () => {
     },
     {
       label: 'الحساب',
-      to: '/profile',
+      to: !id ? '/login' : '/profile',
       icon: () => (
         <img
-          src='https://tecdn.b-cdn.net/img/new/avatars/2.jpg'
+          src={avatarUrl}
           width={16}
           height={16}
           className='rounded-full w-4 h-4'
-          alt='Profile'
+          alt={`${username} Profile`}
           loading='lazy'
         />
       )
