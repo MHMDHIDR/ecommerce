@@ -36,6 +36,10 @@ const SupplierSignup = () => {
     const formData = new FormData()
     formData.append('firstname', firstname)
     formData.append('lastname', lastname)
+    formData.append('houseNumber', String(houseNumber))
+    formData.append('streetName', streetName)
+    formData.append('neighborhoodName', neighborhoodName)
+    formData.append('cityName', cityName)
     formData.append('username', username)
     formData.append('tel', tel)
     formData.append('password', password)
@@ -43,9 +47,9 @@ const SupplierSignup = () => {
     try {
       setIsRegistering(true)
       const { data } = await axios.post(`${API_URL}/users/signup-supplier`, formData)
-      const { userAdded, message } = data
+      const { supplierAdded, message } = data
 
-      setRegStatus(userAdded)
+      setRegStatus(supplierAdded)
       setRegMsg(message)
     } catch (error) {
       setRegStatus(0)

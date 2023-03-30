@@ -4,14 +4,38 @@ import asyncHandler from 'express-async-handler'
 import bcryptjs from 'bcryptjs'
 import db from '../../helpers/db.js'
 import { signJwt } from '../../helpers/jwt.js'
+import { checkUserExists } from '../../helpers/checkUserExists.js'
 
 export const signupSupplier = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {
     const { genSalt, hash } = bcryptjs
-    const { username, tel, password } = req.body
+    const {
+      username,
+      tel,
+      password,
+      firstname,
+      lastname,
+      houseNumber,
+      streetName,
+      neighborhoodName,
+      cityName
+    } = req.body
 
-    if (username === '' || tel === '' || password === '') {
-      return res.status(400).json({ userAdded: 0, message: 'يجب تعبئة جميع البيانات!' })
+    if (
+      username === '' ||
+      tel === '' ||
+      password === '' ||
+      firstname === '' ||
+      lastname === '' ||
+      houseNumber === '' ||
+      houseNumber === '0' ||
+      streetName === '' ||
+      neighborhoodName === '' ||
+      cityName === ''
+    ) {
+      return res
+        .status(400)
+        .json({ supplierAdded: 0, message: 'يجب تعبئة جميع البيانات!' })
     }
 
     // Check if user exists
@@ -22,7 +46,7 @@ export const signupSupplier = asyncHandler(
     if (userExists) {
       return res
         .status(409)
-        .json({ userAdded: 0, message: 'عفواً، هذا المستخدم مسجل مسبقاً' })
+        .json({ supplierAdded: 0, message: 'عفواً، هذا المستخدم مسجل مسبقاً' })
     }
 
     // Hash password
@@ -31,9 +55,15 @@ export const signupSupplier = asyncHandler(
 
     //create user
     db.query(
-      'INSERT INTO users SET ?',
+      'INSERT INTO suppliers SET ?',
       {
         id: randomUUID(),
+        firstname,
+        lastname,
+        houseNumber,
+        streetName,
+        neighborhoodName,
+        cityName,
         username,
         phone: tel,
         password: hashedPassword,
@@ -42,24 +72,24 @@ export const signupSupplier = asyncHandler(
       (error, results: any) => {
         if (error) {
           return res.status(500).json({
-            userAdded: 0,
-            message: `لم يتم تسجيل المستخدم!: ${error}`
+            supplierAdded: 0,
+            message: `لم يتم تسجيل التاجر!: ${error}`
           })
         } else {
           db.query(
-            'SELECT * FROM users WHERE id = ?',
+            'SELECT * FROM suppliers WHERE id = ?',
             [results.insertId],
             (error, results: any) => {
               if (error) {
                 return res.status(500).json({
-                  userAdded: 0,
-                  message: `خطأ في جلب بيانات المستخدم!: ${error}`
+                  supplierAdded: 0,
+                  message: `خطأ في جلب بيانات التاجر!: ${error}`
                 })
               } else {
-                const user = results[0]
-                const token = signJwt({ userId: user.id })
+                const supplier = results[0]
+                const token = signJwt({ userId: supplier.id })
                 return res.status(201).json({
-                  userAdded: 1,
+                  supplierAdded: 1,
                   message: 'تم التسجيل بنجاح 👍🏼 يمكنك تسجيل الدخول الآن',
                   token
                 })
@@ -71,13 +101,3 @@ export const signupSupplier = asyncHandler(
     )
   }
 )
-
-async function checkUserExists(identifier: string, identifierType: string) {
-  return new Promise<boolean>((resolve, reject) => {
-    const sql = `SELECT * FROM users WHERE ${identifierType} = ?`
-    db.query(sql, [identifier], (error, results: any[]) => {
-      if (error) reject(error)
-      else resolve(results.length > 0)
-    })
-  })
-}

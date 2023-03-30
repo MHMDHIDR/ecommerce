@@ -4,6 +4,7 @@ import asyncHandler from 'express-async-handler'
 import bcryptjs from 'bcryptjs'
 import db from '../../helpers/db.js'
 import { signJwt } from '../../helpers/jwt.js'
+import { checkUserExists } from '../../helpers/checkUserExists.js'
 
 export const signupUser = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {
@@ -71,13 +72,3 @@ export const signupUser = asyncHandler(
     )
   }
 )
-
-async function checkUserExists(identifier: string, identifierType: string) {
-  return new Promise<boolean>((resolve, reject) => {
-    const sql = `SELECT * FROM users WHERE ${identifierType} = ?`
-    db.query(sql, [identifier], (error, results: any[]) => {
-      if (error) reject(error)
-      else resolve(results.length > 0)
-    })
-  })
-}
