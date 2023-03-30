@@ -6,8 +6,12 @@ import axios from 'axios'
 import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
 import notify from '@/utils/notify'
 import { LoadingSpinner } from '@/components/Loading'
+import useDocumentTitle from '@/hooks/useDocumentTitle'
 
 const Signup = () => {
+  const DOCUMENT_TITLE = 'تسجيل حساب جديد'
+  useDocumentTitle(DOCUMENT_TITLE)
+
   const [username, setUsername] = useState('')
   const [tel, setTel] = useState('')
   const [password, setPassword] = useState('')

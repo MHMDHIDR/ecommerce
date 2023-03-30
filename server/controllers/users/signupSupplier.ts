@@ -5,7 +5,7 @@ import bcryptjs from 'bcryptjs'
 import db from '../../helpers/db.js'
 import { signJwt } from '../../helpers/jwt.js'
 
-export const registerUser = asyncHandler(
+export const signupSupplier = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {
     const { genSalt, hash } = bcryptjs
     const { username, tel, password } = req.body

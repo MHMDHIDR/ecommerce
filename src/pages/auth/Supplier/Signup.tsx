@@ -6,11 +6,25 @@ import axios from 'axios'
 import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
 import notify from '@/utils/notify'
 import { LoadingSpinner } from '@/components/Loading'
+import useDocumentTitle from '@/hooks/useDocumentTitle'
 
-const Signup = () => {
+const SupplierSignup = () => {
+  const DOCUMENT_TITLE = 'تسجيل حساب التاجر'
+  useDocumentTitle(DOCUMENT_TITLE)
+
+  //Personal Info States
+  const [firstname, setFirstname] = useState('')
+  const [lastname, setLastname] = useState('')
+  //Address Info States
+  const [houseNumber, setHouseNumber] = useState<number>(0)
+  const [streetName, setStreetName] = useState<string>('')
+  const [neighborhoodName, setNeighborhoodName] = useState<string>('')
+  const [cityName, setCityName] = useState('')
+  //Account Info States
   const [username, setUsername] = useState('')
   const [tel, setTel] = useState('')
   const [password, setPassword] = useState('')
+  //Form States
   const [isPassVisible, setIsPassVisible] = useState(false)
   const [regStatus, setRegStatus] = useState<number | null>(null)
   const [regMsg, setRegMsg] = useState('')
@@ -20,13 +34,15 @@ const Signup = () => {
     e.preventDefault()
 
     const formData = new FormData()
+    formData.append('firstname', firstname)
+    formData.append('lastname', lastname)
     formData.append('username', username)
     formData.append('tel', tel)
     formData.append('password', password)
 
     try {
       setIsRegistering(true)
-      const { data } = await axios.post(`${API_URL}/users/register`, formData)
+      const { data } = await axios.post(`${API_URL}/users/signup-supplier`, formData)
       const { userAdded, message } = data
 
       setRegStatus(userAdded)
@@ -48,7 +64,7 @@ const Signup = () => {
                 type: 'success',
                 msg: regMsg,
                 reloadIn: 5000,
-                reloadTo: '/login'
+                reloadTo: '/supplier-login'
               })
             : regStatus === 0
             ? notify({ type: 'error', msg: regMsg })
@@ -59,6 +75,93 @@ const Signup = () => {
           <img src='assets/img/logo.png' className='w-40 h-32 mb-10' alt='Logo image' />
 
           <form className='w-full rtl' onSubmit={handleRegister}>
+            <h2 className='font-bold my-10 select-none'>معلومات شخصية:</h2>
+            <label htmlFor='firstname' className='relative flex mb-6'>
+              <input
+                type='text'
+                className='peer border-b block min-h-[auto] w-full rounded bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0'
+                id='firstname'
+                placeholder='الاســم الأول، مثال: (محمد)'
+                onChange={e => setFirstname(e.target.value)}
+              />
+              <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] motion-reduce:transition-none dark:text-gray-200 dark:peer-focus:text-gray-200'>
+                الاســــــم الأول
+              </span>
+            </label>
+
+            <label htmlFor='lastname' className='relative flex mb-6'>
+              <input
+                type='text'
+                className='peer border-b block min-h-[auto] w-full rounded bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0'
+                id='lastname'
+                placeholder='الاســم الثاني مثال: (أحمد)'
+                onChange={e => setLastname(e.target.value)}
+              />
+              <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] motion-reduce:transition-none dark:text-gray-200 dark:peer-focus:text-gray-200'>
+                الاســــــم الثاني
+              </span>
+            </label>
+
+            <h2 className='font-bold my-10 select-none'>معلومات العنوان:</h2>
+
+            <label htmlFor='houseNumber' className='relative flex mb-6'>
+              <input
+                type='number'
+                id='houseNumber'
+                className='peer border-b block min-h-[auto] w-full rounded bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0'
+                onChange={e => setHouseNumber(parseInt(e.target.value.trim()))}
+                defaultValue={houseNumber}
+                required
+              />
+              <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] motion-reduce:transition-none dark:text-gray-200 dark:peer-focus:text-gray-200'>
+                رقم المنزل
+              </span>
+            </label>
+
+            <label htmlFor='streetName' className='relative flex mb-6'>
+              <input
+                type='text'
+                id='streetName'
+                className='peer border-b block min-h-[auto] w-full rounded bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0'
+                onChange={e => setStreetName(e.target.value.trim())}
+                defaultValue={streetName}
+                required
+              />
+              <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] motion-reduce:transition-none dark:text-gray-200 dark:peer-focus:text-gray-200'>
+                اسم الشارع
+              </span>
+            </label>
+
+            <label htmlFor='neighborhoodName' className='relative flex mb-6'>
+              <input
+                type='text'
+                id='neighborhoodName'
+                className='peer border-b block min-h-[auto] w-full rounded bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0'
+                onChange={e => setNeighborhoodName(e.target.value.trim())}
+                defaultValue={neighborhoodName}
+                required
+              />
+              <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] motion-reduce:transition-none dark:text-gray-200 dark:peer-focus:text-gray-200'>
+                اسم الحي
+              </span>
+            </label>
+
+            <label htmlFor='cityName' className='relative flex mb-6'>
+              <input
+                type='text'
+                id='cityName'
+                className='peer border-b block min-h-[auto] w-full rounded bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0'
+                onChange={e => setCityName(e.target.value.trim())}
+                defaultValue={cityName}
+                required
+              />
+              <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] motion-reduce:transition-none dark:text-gray-200 dark:peer-focus:text-gray-200'>
+                اسم المدينة
+              </span>
+            </label>
+
+            <h2 className='font-bold my-10 select-none'>معلومات الحساب:</h2>
+
             <label htmlFor='username' className='relative flex mb-6'>
               <input
                 type='text'
@@ -153,43 +256,10 @@ const Signup = () => {
                 'تسجيل'
               )}
             </button>
-
-            <Link to='/login' className='transition ease-in-out inline-block mt-4'>
-              لديك حساب بالفعل؟ سجل الدخول من هنا
-            </Link>
-
-            <div className='flex relative justify-center items-center m-4 before:[background:linear-gradient(90deg,transparent,#000,transparent)] before:absolute before:left-0 before:top-1/2 before:w-full before:h-px'>
-              <span className='dark:text-neutral-200 bg-white dark:bg-gray-800 z-10 px-2'>
-                أو
-              </span>
-            </div>
-
-            <button
-              type='button'
-              aria-label='Continue with facebook'
-              className='focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5 dark:bg-white'
-              role='button'
-            >
-              <Google />
-              <span className='text-base font-medium mr-4 text-gray-700'>
-                تسجيل حساب جديد مع جوجل
-              </span>
-            </button>
-            <button
-              type='button'
-              aria-label='Continue with facebook'
-              className='focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5 dark:bg-white'
-              role='button'
-            >
-              <Facebook />
-              <span className='text-base font-medium mr-4 text-gray-700'>
-                تسجيل حساب جديد مع فيسبوك
-              </span>
-            </button>
           </form>
         </div>
       </div>
     </section>
   )
 }
-export default Signup
+export default SupplierSignup

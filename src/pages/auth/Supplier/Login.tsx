@@ -8,8 +8,12 @@ import notify from '@/utils/notify'
 import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import { setCookies } from '@/utils/cookies'
 import useAuth from '@/hooks/useAuth'
+import useDocumentTitle from '@/hooks/useDocumentTitle'
 
-const Login = () => {
+const SupplierLogin = () => {
+  const DOCUMENT_TITLE = 'الدخول للوحة تحكم التاجر'
+  useDocumentTitle(DOCUMENT_TITLE)
+
   const [tel, setTel] = useState('')
   const [password, setPassword] = useState('')
   const [isPassVisible, setIsPassVisible] = useState(false)
@@ -31,7 +35,7 @@ const Login = () => {
 
     try {
       setIsLoginIn(true)
-      const { data } = await axios.post(`${API_URL}/users/login`, formData)
+      const { data } = await axios.post(`${API_URL}/users/login-supplier`, formData)
       const { userLoggedIn, message, token } = data
       setCookies(token)
 
@@ -51,8 +55,6 @@ const Login = () => {
 
   return loading ? (
     <LoadingPage />
-  ) : id ? (
-    window.location.replace('/')
   ) : (
     <section className='h-screen'>
       <div className='container px-6 py-16 mx-auto max-w-6xl'>
@@ -63,7 +65,7 @@ const Login = () => {
                 msg: loginMsg,
                 position: 'top-center',
                 reloadIn: 5000,
-                reloadTo: redirectTo ? redirectTo : '/'
+                reloadTo: redirectTo ? redirectTo : '/supplier'
               })
             : loginStatus === 0
             ? notify({ type: 'error', msg: loginMsg, position: 'top-center' })
@@ -140,7 +142,7 @@ const Login = () => {
 
             <div className='my-6 flex justify-between gap-x-6'>
               <Link to='forgot'>نسيت كلمة المرور؟</Link>
-              <Link to='/signup'>تسجيل حساب جديد</Link>
+              <Link to='/supplier-signup'>تسجيل حساب جديد</Link>
             </div>
 
             <div className='flex relative justify-center items-center m-4 before:[background:linear-gradient(90deg,transparent,#000,transparent)] before:absolute before:left-0 before:top-1/2 before:w-full before:h-px select-none'>
@@ -177,4 +179,4 @@ const Login = () => {
     </section>
   )
 }
-export default Login
+export default SupplierLogin

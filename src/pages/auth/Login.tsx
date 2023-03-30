@@ -8,8 +8,12 @@ import notify from '@/utils/notify'
 import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import { setCookies } from '@/utils/cookies'
 import useAuth from '@/hooks/useAuth'
+import useDocumentTitle from '@/hooks/useDocumentTitle'
 
 const Login = () => {
+  const DOCUMENT_TITLE = 'تسجيل الدخول'
+  useDocumentTitle(DOCUMENT_TITLE)
+
   const { loading, userData } = useAuth()
   const { id } = userData || { id: USER_DATA.id }
 

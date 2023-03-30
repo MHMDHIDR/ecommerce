@@ -2,8 +2,10 @@ import express from 'express'
 import { authMiddleware } from '../middleware/authMiddleware.js'
 import {
   getUsers,
-  registerUser,
+  signupUser,
   loginUser,
+  signupSupplier,
+  loginSupplier,
   forgotPass,
   resetPass,
   updateUser,
@@ -13,8 +15,10 @@ import {
 const router = express.Router()
 
 router.get('/:id?', authMiddleware, getUsers)
-router.post('/register', registerUser)
+router.post('/signup', signupUser)
 router.post('/login', loginUser)
+router.post('/signup-supplier', signupSupplier)
+router.post('/login-supplier', loginSupplier)
 router.post('/forgotpass', forgotPass)
 router.post('/resetpass', resetPass)
 router.patch('/:id', authMiddleware, updateUser)

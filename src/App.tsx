@@ -14,9 +14,6 @@ import AppSettingsContextProvider from '@/contexts/AppSettingsContext'
 
 //pages
 import Home from './pages/Home'
-
-import Signup from './pages/auth/Signup'
-import Login from './pages/auth/Login'
 import Products from './pages/Products'
 import Product from './pages/Product'
 import Categories from './pages/Categories'
@@ -35,6 +32,11 @@ import Profile from './pages/Profile'
 import EditProfile from './pages/Profile/EditProfile'
 import Favourites from './pages/Profile/Favourites'
 import ShippingAddress from './pages/Profile/ShippingAddress'
+//Auth routes
+import Signup from './pages/auth/Signup'
+import Login from './pages/auth/Login'
+import SupplierLogin from './pages/auth/Supplier/Login'
+import SupplierSignup from './pages/auth/Supplier/Signup'
 
 const App = () => {
   return (
@@ -58,8 +60,12 @@ const App = () => {
                     </Route>
                     <Route path='/privacy-policy' element={<PrivacyPolicy />} />
                     <Route path='/terms-and-conditions' element={<TermsConditions />} />
+
+                    {/* Auth Routes */}
                     <Route path='/login' element={<Login />} />
                     <Route path='/signup' element={<Signup />} />
+                    <Route path='/supplier-login' element={<SupplierLogin />} />
+                    <Route path='/supplier-signup' element={<SupplierSignup />} />
 
                     <Route path='/profile' element={<Profile />} />
                     <Route path='/profile/edit' element={<EditProfile />} />

@@ -11,7 +11,8 @@ import { CATEGORIES, isSmallScreen, PRODUCT } from '@/constants'
 import abstractText from '@/utils/abstractText'
 
 const Home = () => {
-  useDocumentTitle('الرئيسية')
+  const DOCUMENT_TITLE = 'الرئيسية'
+  useDocumentTitle(DOCUMENT_TITLE)
   const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
 
