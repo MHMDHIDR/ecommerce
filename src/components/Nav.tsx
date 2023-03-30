@@ -10,7 +10,7 @@ const Nav = () => {
   const { id, username, avatarUrl } = userData || USER_DATA
 
   return (
-    <nav className='flex-no-wrap relative flex w-full items-center justify-between py-4 lg:flex-wrap lg:justify-start container mx-auto max-w-6xl'>
+    <nav className='flex-no-wrap relative flex w-full items-center justify-between py-4 px-5 lg:flex-wrap lg:justify-start container mx-auto max-w-6xl'>
       <div className='flex w-full flex-wrap items-center justify-end md:justify-between'>
         <button
           className='hidden md:block border-0 bg-transparent py-2 px-2.5 text-neutral-500 hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200'

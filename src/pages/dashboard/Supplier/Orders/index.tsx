@@ -8,14 +8,14 @@ import { ORDER } from '@/constants'
 import { createLocaleDateString } from '@/utils/convertDate'
 
 const SupplierDashboard = () => {
-  const TITLE = 'الطلبــــــــات'
-  useDocumentTitle(TITLE)
+  const DOCUMENT_TITLE = 'الطلبــــــــات'
+  useDocumentTitle(DOCUMENT_TITLE)
 
   return (
     <Suspense fallback={<LoadingPage />}>
       <Layout>
         <section className='container px-5 mx-auto mb-20 max-w-6xl rtl'>
-          <h2 className='text-xl text-center my-16'>{TITLE}</h2>
+          <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>
 
           <div className='overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-900 shadow-md m-5 dark:shadow-gray-900'>
             <table className='w-full border-collapse text-center bg-white dark:bg-gray-600 text-sm text-gray-900 dark:text-white'>

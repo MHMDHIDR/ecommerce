@@ -7,7 +7,8 @@ import BackButton from '@/components/Icons/BackButton'
 import Layout from '@/components/Layout'
 
 const ShippingAddress = () => {
-  useDocumentTitle('عنوان التوصيل')
+  const DOCUMENT_TITLE = 'عنوان التوصيل'
+  useDocumentTitle(DOCUMENT_TITLE)
   const { loading, userData } = useAuth()
   const { phone } = userData || USER_DATA
 
@@ -37,6 +38,8 @@ const ShippingAddress = () => {
       ) : (
         <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl mt-28 md:mt-40'>
           {isSmallScreen && <BackButton to='/' className='absolute z-50 top-6 left-6' />}
+
+          <h1 className='font-bold mb-10 text-center'>{DOCUMENT_TITLE}</h1>
 
           <form
             className='relative flex flex-col items-center'

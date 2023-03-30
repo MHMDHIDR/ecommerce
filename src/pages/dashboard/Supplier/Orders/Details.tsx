@@ -10,8 +10,8 @@ import { Link } from 'react-router-dom'
 import goTo from '@/utils/goTo'
 
 const DashboardOrderDetails = () => {
-  const TITLE = 'تفاصيل الطلب'
-  useDocumentTitle(TITLE)
+  const DOCUMENT_TITLE = 'تفاصيل الطلب'
+  useDocumentTitle(DOCUMENT_TITLE)
 
   const [itemDesc, setItemDesc] = useState('')
 
@@ -21,7 +21,7 @@ const DashboardOrderDetails = () => {
         <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
           {isSmallScreen && <BackButton to='/' className='absolute z-50 top-6 left-6' />}
 
-          <h2 className='text-xl text-center my-16'>{TITLE}</h2>
+          <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>
 
           <label htmlFor='uploadImg' className='flex items-center gap-y-2 flex-col'>
             <FileUpload

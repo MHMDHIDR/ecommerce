@@ -13,8 +13,8 @@ import { createSlug } from '@/utils/slug'
 import notify from '@/utils/notify'
 
 const AddProduct = () => {
-  const TITLE = 'إضافة منتج جديد'
-  useDocumentTitle(TITLE)
+  const DOCUMENT_TITLE = 'إضافة منتج جديد'
+  useDocumentTitle(DOCUMENT_TITLE)
 
   //Form States
   const [itemName, setItemName] = useState('')
@@ -83,7 +83,7 @@ const AddProduct = () => {
               : null}
           </div>
           {isSmallScreen && <BackButton to='/' className='absolute z-50 top-6 left-6' />}
-          <h2 className='text-xl text-center my-16'>{TITLE}</h2>
+          <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>
           <form
             className='relative flex flex-col items-center'
             onSubmit={handleAddProduct}

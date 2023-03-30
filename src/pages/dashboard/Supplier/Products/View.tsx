@@ -17,8 +17,8 @@ import { ProductProps } from '@/types'
 import { API_URL, PRODUCT } from '@/constants'
 
 const ViewProduct = () => {
-  const TITLE = 'عرض المنتجات'
-  useDocumentTitle(TITLE)
+  const DOCUMENT_TITLE = 'عرض المنتجات'
+  useDocumentTitle(DOCUMENT_TITLE)
 
   const [delProductId, setDelProductId] = useState('')
   const [delProductName, setDelProductName] = useState('')
@@ -101,7 +101,7 @@ const ViewProduct = () => {
               ctaConfirmBtns={['حذف', 'الغاء']}
             />
           )}
-          <h2 className='text-xl text-center my-16'>{TITLE}</h2>
+          <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>
           <div className='overflow-x-auto text-center rounded-lg border border-gray-200 dark:border-gray-900 shadow-md dark:shadow-gray-900'>
             <table className='w-full bg-white dark:bg-gray-600 text-xs text-gray-900 dark:text-white'>
               <thead className='bg-gray-50 dark:bg-gray-700'>
