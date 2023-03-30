@@ -24,9 +24,6 @@ import Cart from './pages/Cart'
 import CompletedOrders from './pages/Cart/CompletedOrders'
 import OrderAddress from './pages/OrderAddress'
 import Notifications from './pages/Notifications'
-import Profile from './pages/Profile'
-import EditProfile from './pages/Profile/EditProfile'
-import Favourites from './pages/Profile/Favourites'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsConditions from './pages/TermsConditions'
 import DashboardAddFood from './pages/dashboard/Supplier/Products/Add'
@@ -34,6 +31,10 @@ import SupplierEditProduct from './pages/dashboard/Supplier/Products/Edit'
 import DashboardMenu from './pages/dashboard/Supplier/Products/View'
 import SupplierDashboard from './pages/dashboard/Supplier/Orders'
 import DashboardOrderDetails from './pages/dashboard/Supplier/Orders/Details'
+import Profile from './pages/Profile'
+import EditProfile from './pages/Profile/EditProfile'
+import Favourites from './pages/Profile/Favourites'
+import ShippingAddress from './pages/Profile/ShippingAddress'
 
 const App = () => {
   return (
@@ -50,9 +51,6 @@ const App = () => {
                     <Route path='/completed-orders' element={<CompletedOrders />} />
                     <Route path='/order-address' element={<OrderAddress />} />
                     <Route path='/notifications' element={<Notifications />} />
-                    <Route path='/profile' element={<Profile />} />
-                    <Route path='/profile/edit' element={<EditProfile />} />
-                    <Route path='/profile/favourites' element={<Favourites />} />
                     <Route path='/products' element={<Products />} />
                     <Route path='/product/:id' element={<Product />} />
                     <Route path='/categories' element={<Categories />}>
@@ -62,6 +60,14 @@ const App = () => {
                     <Route path='/terms-and-conditions' element={<TermsConditions />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/signup' element={<Signup />} />
+
+                    <Route path='/profile' element={<Profile />} />
+                    <Route path='/profile/edit' element={<EditProfile />} />
+                    <Route path='/profile/favourites' element={<Favourites />} />
+                    <Route
+                      path='/profile/shipping-address'
+                      element={<ShippingAddress />}
+                    />
 
                     <Route path='supplier' element={<SupplierDashboard />} />
                     <Route path='supplier/add' element={<DashboardAddFood />} />

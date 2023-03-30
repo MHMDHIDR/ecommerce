@@ -14,7 +14,7 @@ import goTo from '@/utils/goTo'
 import { removeSlug } from '@/utils/slug'
 import notify from '@/utils/notify'
 import { ProductProps } from '@/types'
-import { PRODUCT } from '@/constants'
+import { API_URL, PRODUCT } from '@/constants'
 
 const ViewProduct = () => {
   const TITLE = 'عرض المنتجات'
@@ -62,11 +62,7 @@ const ViewProduct = () => {
   const handleDeleteProduct = async (itemId: string, imgUrl: string) => {
     try {
       const response = await axios.delete(
-        `${
-          process.env.NODE_ENV === 'development'
-            ? `http://localhost:4000`
-            : `https://ecommerce-server-mhmdhidr.vercel.app`
-        }/products/${itemId}?imgUrl=${imgUrl}`
+        `${API_URL}/products/${itemId}?imgUrl=${imgUrl}`
       )
       const { itemDeleted, message } = response.data
       setIsItemDeleted(itemDeleted)

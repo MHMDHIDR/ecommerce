@@ -5,7 +5,7 @@ import useDocumentTitle from '@/hooks/useDocumentTitle'
 import useEventListener from '@/hooks/useEventListener'
 import { useAxios } from '@/hooks/useAxios'
 import { FileUploadContext } from '@/contexts/FileUploadContext'
-import { isSmallScreen, CATEGORIES } from '@/constants'
+import { isSmallScreen, CATEGORIES, API_URL } from '@/constants'
 import BackButton from '@/components/Icons/BackButton'
 import Layout from '@/components/Layout'
 import { DeleteBtn } from '@/components/TableActions'
@@ -79,14 +79,7 @@ const EditProduct = () => {
     })
 
     try {
-      const response = await axios.patch(
-        `${
-          process.env.NODE_ENV === 'development'
-            ? `http://localhost:4000`
-            : `https://ecommerce-server-mhmdhidr.vercel.app`
-        }/products/${id}`,
-        formData
-      )
+      const response = await axios.patch(`${API_URL}/products/${id}`, formData)
       const { itemUpdated, message } = response.data
 
       setUpdatedItemStatus(itemUpdated)
@@ -127,11 +120,7 @@ const EditProduct = () => {
     const imgUrl = product?.imgUrl!
     try {
       const response = await axios.delete(
-        `${
-          process.env.NODE_ENV === 'development'
-            ? `http://localhost:4000`
-            : `https://ecommerce-server-mhmdhidr.vercel.app`
-        }/products/${itemId}?imgUrl=${imgUrl}`
+        `${API_URL}/products/${itemId}?imgUrl=${imgUrl}`
       )
       const { itemDeleted, message } = response.data
       setIsItemDeleted(itemDeleted)

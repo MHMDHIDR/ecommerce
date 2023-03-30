@@ -10,15 +10,20 @@ import { setCookies } from '@/utils/cookies'
 import useAuth from '@/hooks/useAuth'
 
 const Login = () => {
+  const { loading, userData } = useAuth()
+  const { id } = userData || USER_DATA
+
+  useEffect(() => {
+    //this will ensure I can't access login page if i'm already logged in
+    if (id !== '') navigate('/')
+  }, [id])
+
   const [tel, setTel] = useState('')
   const [password, setPassword] = useState('')
   const [isPassVisible, setIsPassVisible] = useState(false)
   const [loginStatus, setLoginStatus] = useState<any>(null)
   const [loginMsg, setLoginMsg] = useState<any>('')
   const [isLoginIn, setIsLoginIn] = useState(false)
-
-  const { loading, userData } = useAuth()
-  const { id } = userData || USER_DATA
 
   const redirectTo = useLocation().search.split('=')[1]
   const navigate = useNavigate()
@@ -138,7 +143,7 @@ const Login = () => {
               {isLoginIn ? (
                 <span className='flex items-center w-full gap-x-2 justify-center'>
                   <LoadingSpinner />
-                  تسجيل الدخول
+                  جار تسجيل الدخول
                 </span>
               ) : (
                 'تسجيل الدخول'
