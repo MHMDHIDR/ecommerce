@@ -16,7 +16,7 @@ const SupplierSignup = () => {
   const [firstname, setFirstname] = useState('')
   const [lastname, setLastname] = useState('')
   //Address Info States
-  const [houseNumber, setHouseNumber] = useState<number>(0)
+  const [houseNumber, setHouseNumber] = useState<number>()
   const [streetName, setStreetName] = useState<string>('')
   const [neighborhoodName, setNeighborhoodName] = useState<string>('')
   const [cityName, setCityName] = useState('')
@@ -27,7 +27,7 @@ const SupplierSignup = () => {
   //Form States
   const [isPassVisible, setIsPassVisible] = useState(false)
   const [regStatus, setRegStatus] = useState<number | null>(null)
-  const [regMsg, setRegMsg] = useState('')
+  const [regMsg, setRegMsg] = useState<any>('')
   const [isRegistering, setIsRegistering] = useState(false)
 
   const handleRegister = async (e: { preventDefault: () => void }) => {
@@ -51,9 +51,13 @@ const SupplierSignup = () => {
 
       setRegStatus(supplierAdded)
       setRegMsg(message)
-    } catch (error) {
+    } catch ({
+      response: {
+        data: { message, supplierAdded }
+      }
+    }) {
       setRegStatus(0)
-      setRegMsg(`عفواً!، حدث خطأ ما: ${error}`)
+      setRegMsg(message)
     } finally {
       setIsRegistering(false)
     }

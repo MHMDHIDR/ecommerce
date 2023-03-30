@@ -10,28 +10,27 @@ export const signupSupplier = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {
     const { genSalt, hash } = bcryptjs
     const {
-      username,
-      tel,
-      password,
       firstname,
       lastname,
       houseNumber,
       streetName,
       neighborhoodName,
-      cityName
+      cityName,
+      username,
+      password,
+      tel
     } = req.body
 
     if (
-      username === '' ||
-      tel === '' ||
-      password === '' ||
       firstname === '' ||
       lastname === '' ||
       houseNumber === '' ||
-      houseNumber === '0' ||
       streetName === '' ||
       neighborhoodName === '' ||
-      cityName === ''
+      cityName === '' ||
+      username === '' ||
+      password === '' ||
+      tel === ''
     ) {
       return res
         .status(400)
@@ -40,13 +39,15 @@ export const signupSupplier = asyncHandler(
 
     // Check if user exists
     const identifier = username || tel
-    const identifierType = username ? 'username' : 'tel'
 
-    const userExists = await checkUserExists(identifier, identifierType)
+    const userExists = await checkUserExists(identifier)
     if (userExists) {
       return res
         .status(409)
-        .json({ supplierAdded: 0, message: 'عفواً، هذا المستخدم مسجل مسبقاً' })
+        .json({
+          supplierAdded: 0,
+          message: 'عفواً، هذا المستخدم مسجل مسبقاً، عليك تغيير اسم المستخدم ورقم الهاتف'
+        })
     }
 
     // Hash password
@@ -55,9 +56,9 @@ export const signupSupplier = asyncHandler(
 
     //create user
     db.query(
-      'INSERT INTO suppliers SET ?',
-      {
-        id: randomUUID(),
+      'INSERT INTO suppliers (id, firstname, lastname, houseNumber, streetName, neighborhoodName, cityName, username, password, phone, registerDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)',
+      [
+        randomUUID(),
         firstname,
         lastname,
         houseNumber,
@@ -65,11 +66,10 @@ export const signupSupplier = asyncHandler(
         neighborhoodName,
         cityName,
         username,
-        phone: tel,
-        password: hashedPassword,
-        registerDate: 'CURRENT_TIMESTAMP'
-      },
-      (error, results: any) => {
+        hashedPassword,
+        tel
+      ],
+      (error, _results: any) => {
         if (error) {
           return res.status(500).json({
             supplierAdded: 0,
@@ -77,15 +77,21 @@ export const signupSupplier = asyncHandler(
           })
         } else {
           db.query(
-            'SELECT * FROM suppliers WHERE id = ?',
-            [results.insertId],
+            'SELECT id, firstname, lastname, houseNumber, streetName, neighborhoodName, cityName, username, phone FROM suppliers WHERE phone = ?',
+            [tel],
             (error, results: any) => {
               if (error) {
                 return res.status(500).json({
                   supplierAdded: 0,
                   message: `خطأ في جلب بيانات التاجر!: ${error}`
                 })
+              } else if (results.length === 0) {
+                return res.status(500).json({
+                  supplierAdded: 0,
+                  message: 'خطأ في جلب بيانات التاجر!'
+                })
               } else {
+                console.log(results)
                 const supplier = results[0]
                 const token = signJwt({ userId: supplier.id })
                 return res.status(201).json({

@@ -12,7 +12,7 @@ const ShippingAddress = () => {
   const { loading, userData } = useAuth()
   const { phone } = userData || USER_DATA
 
-  const [houseNumber, setHouseNumber] = useState<number>(0)
+  const [houseNumber, setHouseNumber] = useState<number>()
   const [streetName, setStreetName] = useState<string>('')
   const [neighborhoodName, setNeighborhoodName] = useState<string>('')
   const [cityName, setCityName] = useState('')

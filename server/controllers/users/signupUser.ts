@@ -17,9 +17,8 @@ export const signupUser = asyncHandler(
 
     // Check if user exists
     const identifier = username || tel
-    const identifierType = username ? 'username' : 'tel'
 
-    const userExists = await checkUserExists(identifier, identifierType)
+    const userExists = await checkUserExists(identifier)
     if (userExists) {
       return res
         .status(409)
