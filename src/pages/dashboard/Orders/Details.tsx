@@ -83,13 +83,13 @@ const DashboardOrderDetails = () => {
           <div className='flex items-center justify-center gap-x-20'>
             {ORDER.orderStatus === 'pending' ? (
               <>
-                <AcceptBtn id={'order._id'} email={'order.userEmail'} />
-                <RejectBtn id={'order._id'} email={'order.userEmail'} />
+                <AcceptBtn id={'order._id'} phone={'order.userEmail'} />
+                <RejectBtn id={'order._id'} phone={'order.userEmail'} />
               </>
             ) : ORDER.orderStatus === 'accept' ? (
-              <RejectBtn id={'order._id'} email={'order.userEmail'} />
+              <RejectBtn id={'order._id'} phone={'order.userEmail'} />
             ) : ORDER.orderStatus === 'reject' ? (
-              <AcceptBtn id={'order._id'} email={'order.userEmail'} />
+              <AcceptBtn id={'order._id'} phone={'order.userEmail'} />
             ) : (
               <Link
                 to={goTo('supplier')}

@@ -241,3 +241,11 @@ export type UserType = {
   isAuth?: boolean
   dataFrom?: string
 }
+
+export type ActionBtnsProps = {
+  id: string
+  phone: string
+  itemName?: string
+  type?: string
+  label?: string
+}

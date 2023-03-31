@@ -1,19 +1,8 @@
 import { Link } from 'react-router-dom'
 import goTo from '@/utils/goTo'
+import { ActionBtnsProps } from '@/types'
 
-export const AcceptBtn = ({
-  id,
-  phone,
-  itemName,
-  type,
-  label
-}: {
-  id: string
-  phone?: string
-  itemName: string
-  type: string
-  label?: string
-}) => (
+export const AcceptBtn = ({ id, phone, itemName, type, label }: ActionBtnsProps) => (
   <button
     id='acceptBtn'
     data-id={id}
@@ -45,19 +34,7 @@ export const EditBtn = ({ id }: any) => (
   </Link>
 )
 
-export const RejectBtn = ({
-  id,
-  phone,
-  itemName,
-  type,
-  label
-}: {
-  id: string
-  phone?: string
-  itemName: string
-  type: string
-  label?: string
-}) => (
+export const RejectBtn = ({ id, phone, itemName, type, label }: ActionBtnsProps) => (
   <button
     id='rejectBtn'
     data-id={id}
