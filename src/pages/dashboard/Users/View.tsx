@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import Layout from '@/components/Layout'
 import { LoadingPage, LoadingSpinner } from '@/components/Loading'
@@ -6,6 +6,7 @@ import { DeleteBtn, RejectBtn } from '@/components/TableActions'
 import Modal from '@/components/Modal'
 import { Loading } from '@/components/Icons/Status'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
+import { AppSettingsContext } from '@/contexts/AppSettingsContext'
 import { useAxios } from '@/hooks/useAxios'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import useEventListener from '@/hooks/useEventListener'
@@ -14,17 +15,21 @@ import { createLocaleDateString } from '@/utils/convertDate'
 import goTo from '@/utils/goTo'
 import { removeSlug } from '@/utils/slug'
 import notify from '@/utils/notify'
-import { UserType } from '@/types'
+import { AppSettingsProps, UserType } from '@/types'
 import { API_URL, TIME_TO_EXECUTE, USER_DATA } from '@/constants'
 import { getCookies } from '@/utils/cookies'
-import { stringJson } from '@/utils/jsonTools'
+import { parseJson, stringJson } from '@/utils/jsonTools'
 
 const ViewUsers = () => {
   const DOCUMENT_TITLE = 'المستخدمين'
   useDocumentTitle(DOCUMENT_TITLE)
+  const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
 
-  const { loading: loadingAuth, userData } = useAuth()
-  const { id, type } = userData || { id: USER_DATA.type, type: USER_DATA.type }
+  const { loading: loadingAuth, userData, isAuth } = useAuth()
+  const { type } = !loadingAuth ? userData : parseJson(getLocalStorageUser())[0]
+
+  const accountType = parseJson(getLocalStorageUser())[0].type ?? type
+
   const token = getCookies()
 
   const [actionUserId, setActionUserId] = useState('')
@@ -123,7 +128,7 @@ const ViewUsers = () => {
 
   return loadingAuth ? (
     <LoadingPage />
-  ) : !id || (type !== 'admin' && type !== 'supplier') ? (
+  ) : isAuth && accountType !== 'admin' ? (
     <ModalNotFound />
   ) : (
     <Layout>

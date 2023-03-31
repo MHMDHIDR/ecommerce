@@ -98,10 +98,10 @@ export type AppSettingsProps = {
   setIsSidebarOpen: (isSidebarOpen: boolean) => void
   setSidebarOpen: (isSidebarOpen: boolean) => void
   menuToggler: () => void
-  user: UserType
-  setUser: Dispatch<SetStateAction<UserType>>
   setLocalStorageUser: (user: UserType) => void
   getLocalStorageUser: () => string
+  user: UserType
+  setUser: Dispatch<SetStateAction<UserType>>
 }
 
 export type ImgsProps = {
@@ -238,4 +238,6 @@ export type UserType = {
   neighborhoodName?: string
   cityName?: string
   registerDate: string
+  isAuth?: boolean
+  dataFrom?: string
 }

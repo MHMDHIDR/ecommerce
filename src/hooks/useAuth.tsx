@@ -26,7 +26,7 @@ const useAuth = () => {
         const localUser = getLocalStorageUser()
         if (localUser) {
           setIsAuth(true)
-          setUserData(parseJson(localUser))
+          setUserData(parseJson(localUser)[0])
           setDataFrom('LocalStorage')
           setLoading(false)
         } else {
@@ -52,7 +52,7 @@ const useAuth = () => {
     }
 
     fetchData()
-  }, [token, setLocalStorageUser, getLocalStorageUser])
+  }, [token, setLocalStorageUser, getLocalStorageUser, loading])
 
   return { isAuth, userData, dataFrom, loading }
 }

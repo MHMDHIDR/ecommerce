@@ -79,9 +79,9 @@ const AdminLogin = () => {
             ? notify({
                 type: 'success',
                 msg: loginMsg,
-                position: 'top-center'
-                // ,reloadIn: TIME_TO_EXECUTE,
-                // reloadTo: '/dashboard'
+                position: 'top-center',
+                reloadIn: TIME_TO_EXECUTE,
+                reloadTo: '/dashboard'
               })
             : loginStatus === 0
             ? notify({ type: 'error', msg: loginMsg, position: 'top-center' })

@@ -26,11 +26,11 @@ const ViewProduct = () => {
   useDocumentTitle(DOCUMENT_TITLE)
 
   const { loading: loadingAuth, userData } = useAuth()
-  const { id, type } = userData || { id: USER_DATA.type, type: USER_DATA.type }
+  const { id, type } = userData || { id: USER_DATA.id, type: USER_DATA.type }
   const token = getCookies()
 
   const { getLocalStorageUser } = useContext(AppSettingsContext)
-  const addedById = parseJson(getLocalStorageUser()).id
+  const addedById = parseJson(getLocalStorageUser())[0].id
 
   const [delProductId, setDelProductId] = useState('')
   const [delProductName, setDelProductName] = useState('')
@@ -40,7 +40,7 @@ const ViewProduct = () => {
   const [modalLoading, setModalLoading] = useState<boolean>(false)
   const [products, setProducts] = useState<ProductProps[]>([PRODUCT('1')])
 
-  const { response, loading } = useAxios({ url: `/products` })
+  const { response, loading } = useAxios({ url: `/products?addedById=${addedById}` })
 
   useEffect(() => {
     response && setProducts(response)
