@@ -12,7 +12,7 @@ export const loginAdmin = asyncHandler(
     if (tel === '' || password === '') {
       return res
         .status(400)
-        .json({ supplierLoggedIn: 0, message: 'يجب تعبئة جميع البيانات!' })
+        .json({ adminLoggedIn: 0, message: 'يجب تعبئة جميع البيانات!' })
     }
 
     db.query(`SELECT * FROM admins WHERE phone = ?`, [tel], async (err, results: any) => {
@@ -23,19 +23,19 @@ export const loginAdmin = asyncHandler(
 
         if (await compare(password, supplier.password)) {
           return res.status(200).json({
-            supplierLoggedIn: 1,
+            adminLoggedIn: 1,
             message: 'تم تسجيل الدخول بنجاح',
             token: signJwt({ userId: supplier.id })
           })
         } else {
           return res.status(401).json({
-            supplierLoggedIn: 0,
+            adminLoggedIn: 0,
             message: 'عفواً، اسم المستخدم او كلمة السر خطأ'
           })
         }
       } else {
         return res.status(404).json({
-          supplierLoggedIn: 0,
+          adminLoggedIn: 0,
           message: 'عفواً، اسم المستخدم او كلمة السر خطأ'
         }) // User not found
       }

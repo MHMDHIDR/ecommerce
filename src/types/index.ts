@@ -126,6 +126,17 @@ export type axiosProps = {
   headers?: string | null
 }
 
+export type catchResponse = {
+  response: {
+    data: {
+      message: string
+      userLoggedIn?: number
+      supplierLoggedIn?: number
+      adminLoggedIn?: number
+    }
+  }
+}
+
 export type ButtonProps = {
   children: JSX.Element
   color?: string

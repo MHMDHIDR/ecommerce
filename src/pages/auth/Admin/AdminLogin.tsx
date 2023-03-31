@@ -9,6 +9,7 @@ import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import { setCookies } from '@/utils/cookies'
 import useAuth from '@/hooks/useAuth'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
+import { catchResponse } from '@/types'
 
 const AdminLogin = () => {
   const DOCUMENT_TITLE = 'الدخول للوحة تحكم الإدارة'
@@ -36,17 +37,18 @@ const AdminLogin = () => {
     try {
       setIsLoginIn(true)
       const { data } = await axios.post(`${API_URL}/users/login-admin`, formData)
-      const { supplierLoggedIn, message, token } = data
+      const { adminLoggedIn, message, token } = data
       setCookies(token)
 
-      setLoginStatus(supplierLoggedIn)
+      setLoginStatus(adminLoggedIn)
       setLoginMsg(message)
-    } catch ({
-      response: {
-        data: { message, supplierLoggedIn }
-      }
-    }) {
-      setLoginStatus(supplierLoggedIn)
+    } catch (error: any) {
+      const {
+        response: {
+          data: { message, adminLoggedIn }
+        }
+      }: catchResponse = error
+      setLoginStatus(adminLoggedIn)
       setLoginMsg(message)
     } finally {
       setIsLoginIn(false)
@@ -77,9 +79,9 @@ const AdminLogin = () => {
             ? notify({
                 type: 'success',
                 msg: loginMsg,
-                position: 'top-center',
-                reloadIn: TIME_TO_EXECUTE,
-                reloadTo: '/dashboard'
+                position: 'top-center'
+                // ,reloadIn: TIME_TO_EXECUTE,
+                // reloadTo: '/dashboard'
               })
             : loginStatus === 0
             ? notify({ type: 'error', msg: loginMsg, position: 'top-center' })

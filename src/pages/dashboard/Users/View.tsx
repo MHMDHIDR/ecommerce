@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Layout from '@/components/Layout'
 import { LoadingPage, LoadingSpinner } from '@/components/Loading'
-import { DeleteBtn, EditBtn, RejectBtn } from '@/components/TableActions'
+import { DeleteBtn, RejectBtn } from '@/components/TableActions'
 import Modal from '@/components/Modal'
 import { Loading } from '@/components/Icons/Status'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
@@ -31,8 +30,9 @@ const ViewUsers = () => {
   const [actionUserId, setActionUserId] = useState('')
   const [actionUserName, setActionUserName] = useState('')
   const [actionUserType, setActionUserType] = useState('')
-  const [isItemDeleted, setIsDeleted] = useState(null)
-  const [itemDeletedMsg, setDeletedMsg] = useState('')
+  const [eventState, setEventState] = useState('')
+  const [isActionDone, setIsActionDone] = useState(null)
+  const [actionMsg, setActionMsg] = useState('')
   const [modalLoading, setModalLoading] = useState<boolean>(false)
   const [users, setUsers] = useState<UserType[]>([USER_DATA])
 
@@ -50,16 +50,21 @@ const ViewUsers = () => {
 
   useEventListener('click', (e: any) => {
     switch (e.target.id) {
-      // case 'rejectBtn':
+      case 'rejectBtn':
       case 'deleteBtn': {
         setActionUserId(e.target.dataset.id)
         setActionUserName(removeSlug(e.target.dataset.name))
-        setActionUserType(removeSlug(e.target.dataset.type))
+        setActionUserType(e.target.dataset.type)
+        setEventState(e.target.dataset.status)
         setModalLoading(true)
         break
       }
       case 'confirm': {
-        handleDeleteUser(actionUserId, actionUserType)
+        eventState === 'reject'
+          ? handleBlockUser(actionUserId, actionUserType)
+          : eventState === 'delete'
+          ? handleDeleteUser(actionUserId, actionUserType)
+          : setModalLoading(false)
         break
       }
       case 'cancel': {
@@ -84,8 +89,29 @@ const ViewUsers = () => {
         }
       })
       const { userDeleted, message } = response.data
-      setIsDeleted(userDeleted)
-      setDeletedMsg(message)
+      setIsActionDone(userDeleted)
+      setActionMsg(message)
+      //Remove waiting modal
+      setTimeout(() => {
+        setModalLoading(false)
+      }, 300)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const handleBlockUser = async (id: string, type: string) => {
+    try {
+      const response = await axios.patch(`${API_URL}/users/${id}`, {
+        data: { type, status: eventState },
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`
+        }
+      })
+      const { userUpdated, message } = response.data
+      setIsActionDone(userUpdated)
+      setActionMsg(message)
       //Remove waiting modal
       setTimeout(() => {
         setModalLoading(false)
@@ -103,15 +129,15 @@ const ViewUsers = () => {
     <Layout>
       <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
         <div className='hidden'>
-          {isItemDeleted === 1
+          {isActionDone === 1
             ? notify({
                 type: 'success',
-                msg: itemDeletedMsg,
-                reloadIn: TIME_TO_EXECUTE,
-                reloadTo: goTo('products')
+                msg: actionMsg
+                // ,reloadIn: TIME_TO_EXECUTE,
+                // reloadTo: goTo('users')
               })
-            : isItemDeleted === 0
-            ? notify({ type: 'error', msg: itemDeletedMsg })
+            : isActionDone === 0
+            ? notify({ type: 'error', msg: actionMsg })
             : null}
         </div>
         {/* Confirm Box */}
@@ -119,8 +145,13 @@ const ViewUsers = () => {
           <Modal
             status={Loading}
             classes='text-blue-600 dark:text-blue-400 text-lg'
-            msg={`هل أنت متأكد من حذف ${actionUserName} ؟ لا يمكن التراجع عن هذا القرار`}
-            ctaConfirmBtns={['حذف', 'الغاء']}
+            msg={`هل أنت متأكد من ${
+              eventState === 'reject' ? 'حظر' : eventState === 'delete' ? 'حذف' : 'تفعيل'
+            } ${actionUserName} ؟ لا يمكن التراجع عن هذا القرار`}
+            ctaConfirmBtns={[
+              eventState === 'reject' ? 'حظر' : eventState === 'delete' ? 'حذف' : 'تفعيل',
+              'الغاء'
+            ]}
           />
         )}
         <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>

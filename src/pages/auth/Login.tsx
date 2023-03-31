@@ -9,6 +9,7 @@ import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import { setCookies } from '@/utils/cookies'
 import useAuth from '@/hooks/useAuth'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
+import { catchResponse } from '@/types'
 
 const Login = () => {
   const DOCUMENT_TITLE = 'تسجيل الدخول'
@@ -42,11 +43,12 @@ const Login = () => {
 
       setLoginStatus(userLoggedIn)
       setLoginMsg(message)
-    } catch ({
-      response: {
-        data: { message, userLoggedIn }
-      }
-    }) {
+    } catch (error: any) {
+      const {
+        response: {
+          data: { message, userLoggedIn }
+        }
+      }: catchResponse = error
       setLoginStatus(userLoggedIn)
       setLoginMsg(message)
     } finally {

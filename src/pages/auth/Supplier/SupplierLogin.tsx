@@ -9,6 +9,7 @@ import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import { setCookies } from '@/utils/cookies'
 import useAuth from '@/hooks/useAuth'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
+import { catchResponse } from '@/types'
 
 const SupplierLogin = () => {
   const DOCUMENT_TITLE = 'الدخول للوحة تحكم التاجر'
@@ -41,11 +42,12 @@ const SupplierLogin = () => {
 
       setLoginStatus(supplierLoggedIn)
       setLoginMsg(message)
-    } catch ({
-      response: {
-        data: { message, supplierLoggedIn }
-      }
-    }) {
+    } catch (error: any) {
+      const {
+        response: {
+          data: { message, supplierLoggedIn }
+        }
+      }: catchResponse = error
       setLoginStatus(supplierLoggedIn)
       setLoginMsg(message)
     } finally {

@@ -4,7 +4,7 @@ import { AppSettingsContext } from '@/contexts/AppSettingsContext'
 import { UserType } from '@/types'
 import { parseJson } from '@/utils/jsonTools'
 import { getCookies } from '@/utils/cookies'
-import { isValidJwt } from '@/utils/jwt'
+import { isValidJwt, parseJwt } from '@/utils/jwt'
 import { API_URL } from '@/constants'
 
 const useAuth = () => {
@@ -19,6 +19,7 @@ const useAuth = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (token && isValidJwt(token)) {
+        const { userId } = parseJwt(token)
         setLoading(true)
 
         // check if user is already in local storage
@@ -29,9 +30,12 @@ const useAuth = () => {
           setDataFrom('LocalStorage')
           setLoading(false)
         } else {
-          const { data } = await axios.get(`${API_URL}/users`, {
-            headers: { Authorization: `Bearer ${token}` }
-          })
+          const { data } = await axios.get(
+            `${API_URL}/users${userId ? '/' + userId : ''}`,
+            {
+              headers: { Authorization: `Bearer ${token}` }
+            }
+          )
 
           setIsAuth(true)
           setUserData(data)
