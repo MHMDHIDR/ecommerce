@@ -79,8 +79,8 @@ const ViewUsers = () => {
           Authorization: `Bearer ${token}`
         }
       })
-      const { itemDeleted, message } = response.data
-      setIsDeleted(itemDeleted)
+      const { userDeleted, message } = response.data
+      setIsDeleted(userDeleted)
       setDeletedMsg(message)
       //Remove waiting modal
       setTimeout(() => {
