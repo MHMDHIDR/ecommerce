@@ -12,31 +12,37 @@ export const loginSupplier = asyncHandler(
     if (tel === '' || password === '') {
       return res
         .status(400)
-        .json({ userLoggedIn: 0, message: 'يجب تعبئة جميع البيانات!' })
+        .json({ supplierLoggedIn: 0, message: 'يجب تعبئة جميع البيانات!' })
     }
 
-    db.query(`SELECT * FROM users WHERE phone = ?`, [tel], async (err, results: any) => {
-      if (err) throw err
+    db.query(
+      `SELECT * FROM suppliers WHERE phone = ?`,
+      [tel],
+      async (err, results: any) => {
+        if (err) throw err
 
-      if (results.length > 0) {
-        const user = results[0]
+        if (results.length > 0) {
+          const supplier = results[0]
 
-        if (await compare(password, user.password)) {
-          return res.status(200).json({
-            userLoggedIn: 1,
-            message: 'تم تسجيل الدخول بنجاح',
-            token: signJwt({ userId: user.id })
-          })
+          if (await compare(password, supplier.password)) {
+            return res.status(200).json({
+              supplierLoggedIn: 1,
+              message: 'تم تسجيل الدخول بنجاح',
+              token: signJwt({ userId: supplier.id })
+            })
+          } else {
+            return res.status(401).json({
+              supplierLoggedIn: 0,
+              message: 'عفواً، اسم المستخدم او كلمة السر خطأ'
+            })
+          }
         } else {
-          return res
-            .status(401)
-            .json({ userLoggedIn: 0, message: 'عفواً، اسم المستخدم او كلمة السر خطأ' })
+          return res.status(404).json({
+            supplierLoggedIn: 0,
+            message: 'عفواً، اسم المستخدم او كلمة السر خطأ'
+          }) // User not found
         }
-      } else {
-        return res
-          .status(404)
-          .json({ userLoggedIn: 0, message: 'عفواً، اسم المستخدم او كلمة السر خطأ' }) // User not found
       }
-    })
+    )
   }
 )

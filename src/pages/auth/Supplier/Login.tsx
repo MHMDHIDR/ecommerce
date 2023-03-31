@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { Facebook, Google } from '@/components/Icons/Socials'
 import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
-import { API_URL, USER_DATA } from '@/constants'
+import { API_URL, TIME_TO_EXECUTE, USER_DATA } from '@/constants'
 import notify from '@/utils/notify'
 import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import { setCookies } from '@/utils/cookies'
@@ -14,6 +14,9 @@ const SupplierLogin = () => {
   const DOCUMENT_TITLE = 'الدخول للوحة تحكم التاجر'
   useDocumentTitle(DOCUMENT_TITLE)
 
+  const { loading, userData } = useAuth()
+  const { id } = userData || USER_DATA
+
   const [tel, setTel] = useState('')
   const [password, setPassword] = useState('')
   const [isPassVisible, setIsPassVisible] = useState(false)
@@ -21,10 +24,7 @@ const SupplierLogin = () => {
   const [loginMsg, setLoginMsg] = useState<any>('')
   const [isLoginIn, setIsLoginIn] = useState(false)
 
-  const { loading, userData } = useAuth()
-  const { id } = userData || USER_DATA
-
-  const redirectTo = useLocation().search.split('=')[1]
+  const navigate = useNavigate()
 
   const handleLogin = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
@@ -36,22 +36,36 @@ const SupplierLogin = () => {
     try {
       setIsLoginIn(true)
       const { data } = await axios.post(`${API_URL}/users/login-supplier`, formData)
-      const { userLoggedIn, message, token } = data
+      const { supplierLoggedIn, message, token } = data
       setCookies(token)
 
-      setLoginStatus(userLoggedIn)
+      setLoginStatus(supplierLoggedIn)
       setLoginMsg(message)
     } catch ({
       response: {
-        data: { message, userLoggedIn }
+        data: { message, supplierLoggedIn }
       }
     }) {
-      setLoginStatus(userLoggedIn)
+      setLoginStatus(supplierLoggedIn)
       setLoginMsg(message)
     } finally {
       setIsLoginIn(false)
     }
   }
+
+  //this will ensure I can't access login page if i'm already logged in
+  useEffect(() => {
+    if (id && loginStatus === 1) {
+      const timeoutId = setTimeout(() => {
+        navigate('/')
+      }, TIME_TO_EXECUTE)
+      return () => {
+        clearTimeout(timeoutId)
+      }
+    } else if (id !== '' && loginStatus === null) {
+      navigate('/')
+    }
+  }, [id, loginStatus])
 
   return loading ? (
     <LoadingPage />
@@ -64,8 +78,8 @@ const SupplierLogin = () => {
                 type: 'success',
                 msg: loginMsg,
                 position: 'top-center',
-                reloadIn: 5000,
-                reloadTo: redirectTo ? redirectTo : '/supplier'
+                reloadIn: TIME_TO_EXECUTE,
+                reloadTo: '/supplier'
               })
             : loginStatus === 0
             ? notify({ type: 'error', msg: loginMsg, position: 'top-center' })
