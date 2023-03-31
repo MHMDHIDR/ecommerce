@@ -28,8 +28,9 @@ const ViewUsers = () => {
   const { id, type } = userData || { id: USER_DATA.type, type: USER_DATA.type }
   const token = getCookies()
 
-  const [delUserId, setDelUserId] = useState('')
-  const [delUserName, setDelUserName] = useState('')
+  const [actionUserId, setActionUserId] = useState('')
+  const [actionUserName, setActionUserName] = useState('')
+  const [actionUserType, setActionUserType] = useState('')
   const [isItemDeleted, setIsDeleted] = useState(null)
   const [itemDeletedMsg, setDeletedMsg] = useState('')
   const [modalLoading, setModalLoading] = useState<boolean>(false)
@@ -49,14 +50,16 @@ const ViewUsers = () => {
 
   useEventListener('click', (e: any) => {
     switch (e.target.id) {
+      // case 'rejectBtn':
       case 'deleteBtn': {
-        setDelUserId(e.target.dataset.id)
-        setDelUserName(removeSlug(e.target.dataset.name))
+        setActionUserId(e.target.dataset.id)
+        setActionUserName(removeSlug(e.target.dataset.name))
+        setActionUserType(removeSlug(e.target.dataset.type))
         setModalLoading(true)
         break
       }
       case 'confirm': {
-        handleDeleteUser(delUserId)
+        handleDeleteUser(actionUserId, actionUserType)
         break
       }
       case 'cancel': {
@@ -71,9 +74,10 @@ const ViewUsers = () => {
     }
   })
 
-  const handleDeleteUser = async (itemId: string) => {
+  const handleDeleteUser = async (id: string, type: string) => {
     try {
-      const response = await axios.delete(`${API_URL}/users/${itemId}`, {
+      const response = await axios.delete(`${API_URL}/users/${id}`, {
+        data: { type },
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`
@@ -115,7 +119,7 @@ const ViewUsers = () => {
           <Modal
             status={Loading}
             classes='text-blue-600 dark:text-blue-400 text-lg'
-            msg={`هل أنت متأكد من حذف ${delUserName} ؟ لا يمكن التراجع عن هذا القرار`}
+            msg={`هل أنت متأكد من حذف ${actionUserName} ؟ لا يمكن التراجع عن هذا القرار`}
             ctaConfirmBtns={['حذف', 'الغاء']}
           />
         )}
@@ -204,7 +208,7 @@ const ViewUsers = () => {
                       <span>{createLocaleDateString(user.registerDate)}</span>
                     </td>
                     <td>
-                      <DeleteBtn id={user.id} itemName={user.username} />
+                      <DeleteBtn id={user.id} itemName={user.username} type={user.type} />
                       <RejectBtn id={user.id} itemName={user.username} label='حظر' />
                     </td>
                   </tr>

@@ -51,17 +51,20 @@ export const RejectBtn = ({ id, phone, itemName, label }: any) => (
 export const DeleteBtn = ({
   id,
   itemName,
-  imgUrl
+  imgUrl,
+  type
 }: {
   id: string
   itemName: string
   imgUrl?: string
+  type?: string
 }) => (
   <button
     id='deleteBtn'
     type='button'
     data-id={id}
     data-name={itemName}
+    data-type={type}
     data-img-url={imgUrl}
     data-status='delete'
     className='m-1 py-2 text-xs text-white bg-red-600 rounded-md hover:bg-red-700 min-w-[7rem] relative text-center overflow-hidden'
