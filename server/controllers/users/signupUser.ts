@@ -29,16 +29,18 @@ export const signupUser = asyncHandler(
     const salt = await genSalt(10)
     const hashedPassword = await hash(password, salt)
 
+    const values = [randomUUID(), username, tel, hashedPassword]
+
     //create user
     db.query(
-      'INSERT INTO users SET ?',
-      {
-        id: randomUUID(),
+      `INSERT INTO users (
+        id,
         username,
-        phone: tel,
-        password: hashedPassword,
-        registerDate: 'CURRENT_TIMESTAMP'
-      },
+        phone,
+        password,
+        registerDate
+      ) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)`,
+      values,
       (error, results: any) => {
         if (error) {
           return res.status(500).json({

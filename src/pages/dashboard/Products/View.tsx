@@ -26,11 +26,22 @@ const ViewProduct = () => {
   useDocumentTitle(DOCUMENT_TITLE)
 
   const { loading: loadingAuth, userData } = useAuth()
-  const { id, type } = userData || { id: USER_DATA.id, type: USER_DATA.type }
+  const { id, type: authType } = userData || { id: USER_DATA.id, type: USER_DATA.type }
   const token = getCookies()
 
   const { getLocalStorageUser } = useContext(AppSettingsContext)
   const addedById = parseJson(getLocalStorageUser())[0].id
+  const type = parseJson(getLocalStorageUser())[0].type ?? authType
+
+  const { response, loading } = useAxios({
+    url: `/products${type !== 'admin' ? `?addedById=${addedById}` : ''}`
+  })
+
+  useEffect(() => {
+    if (response !== null) {
+      setProducts(response)
+    }
+  }, [loading, response])
 
   const [delProductId, setDelProductId] = useState('')
   const [delProductName, setDelProductName] = useState('')
@@ -39,12 +50,6 @@ const ViewProduct = () => {
   const [itemDeletedMsg, setItemDeletedMsg] = useState('')
   const [modalLoading, setModalLoading] = useState<boolean>(false)
   const [products, setProducts] = useState<ProductProps[]>([PRODUCT('1')])
-
-  const { response, loading } = useAxios({ url: `/products?addedById=${addedById}` })
-
-  useEffect(() => {
-    response && setProducts(response)
-  }, [response])
 
   useEventListener('click', (e: any) => {
     switch (e.target.id) {
@@ -94,7 +99,7 @@ const ViewProduct = () => {
     }
   }
 
-  return loadingAuth ? (
+  return loading ? (
     <LoadingPage />
   ) : !id || (type !== 'admin' && type !== 'supplier') ? (
     <ModalNotFound />
@@ -138,7 +143,7 @@ const ViewProduct = () => {
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
-              {loading ? (
+              {loadingAuth || loading ? (
                 <tr>
                   <td colSpan={100} className='p-5'>
                     <LoadingSpinner title='جار البحث عن المنتجات...' />

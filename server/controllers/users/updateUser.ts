@@ -9,15 +9,19 @@ export const updateUser = asyncHandler(async (req: Request, res: Response) => {
 
   const query = `UPDATE ${fromTable(type)} SET status = ? WHERE id = ?`
 
-  db.query(query, [status, id], (error: any, _data: any) => {
-    return error
-      ? res.status(500).json({
-          userUpdated: 0,
-          message: `عفواً حدث خطأ!: ${error}`
-        })
-      : res.status(201).json({
-          userUpdated: 1,
-          message: 'تم تحديث حالة الحساب بنجاح'
-        })
-  })
+  db.query(
+    query,
+    [status === 'reject' ? 'block' : 'active', id],
+    (error: any, _data: any) => {
+      return error
+        ? res.status(500).json({
+            userUpdated: 0,
+            message: `عفواً حدث خطأ!: ${error}`
+          })
+        : res.status(201).json({
+            userUpdated: 1,
+            message: 'تم تحديث حالة الحساب بنجاح'
+          })
+    }
+  )
 })

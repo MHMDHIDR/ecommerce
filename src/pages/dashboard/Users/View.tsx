@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import Layout from '@/components/Layout'
 import { LoadingPage, LoadingSpinner } from '@/components/Loading'
-import { DeleteBtn, RejectBtn } from '@/components/TableActions'
+import { AcceptBtn, DeleteBtn, RejectBtn } from '@/components/TableActions'
 import Modal from '@/components/Modal'
 import { Loading } from '@/components/Icons/Status'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
@@ -55,6 +55,7 @@ const ViewUsers = () => {
 
   useEventListener('click', (e: any) => {
     switch (e.target.id) {
+      case 'acceptBtn':
       case 'rejectBtn':
       case 'deleteBtn': {
         setActionUserId(e.target.dataset.id)
@@ -65,8 +66,8 @@ const ViewUsers = () => {
         break
       }
       case 'confirm': {
-        eventState === 'reject'
-          ? handleBlockUser(actionUserId, actionUserType)
+        eventState === 'reject' || eventState === 'accept'
+          ? handleUserStatus(actionUserId, actionUserType)
           : eventState === 'delete'
           ? handleDeleteUser(actionUserId, actionUserType)
           : setModalLoading(false)
@@ -89,7 +90,7 @@ const ViewUsers = () => {
       const response = await axios.delete(`${API_URL}/users/${id}`, {
         data: { type },
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         }
       })
@@ -105,15 +106,19 @@ const ViewUsers = () => {
     }
   }
 
-  const handleBlockUser = async (id: string, type: string) => {
+  const handleUserStatus = async (id: string, type: string) => {
     try {
-      const response = await axios.patch(`${API_URL}/users/${id}`, {
-        data: { type, status: eventState },
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`
-        }
-      })
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+
+      const response = await axios.patch(
+        `${API_URL}/users/${id}`,
+        { type, status: eventState },
+        { headers }
+      )
+
       const { userUpdated, message } = response.data
       setIsActionDone(userUpdated)
       setActionMsg(message)
@@ -137,9 +142,9 @@ const ViewUsers = () => {
           {isActionDone === 1
             ? notify({
                 type: 'success',
-                msg: actionMsg
-                // ,reloadIn: TIME_TO_EXECUTE,
-                // reloadTo: goTo('users')
+                msg: actionMsg,
+                reloadIn: TIME_TO_EXECUTE,
+                reloadTo: goTo('users')
               })
             : isActionDone === 0
             ? notify({ type: 'error', msg: actionMsg })
@@ -216,12 +221,12 @@ const ViewUsers = () => {
                     </td>
                     <td>
                       <span
-                        className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
+                        className={`inline-flex items-center gap-1 min-w-max rounded-full px-2 py-1 text-xs ${
                           user.status === 'active'
-                            ? 'text-green-600'
+                            ? 'text-green-600 bg-green-50'
                             : user.status === 'block'
-                            ? 'text-red-600'
-                            : 'text-gray-600'
+                            ? 'text-red-600 bg-red-50'
+                            : 'text-gray-600 bg-gray-50'
                         }`}
                       >
                         <span
@@ -245,7 +250,21 @@ const ViewUsers = () => {
                     </td>
                     <td>
                       <DeleteBtn id={user.id} itemName={user.username} type={user.type} />
-                      <RejectBtn id={user.id} itemName={user.username} label='حظر' />
+                      {user.status === 'block' ? (
+                        <AcceptBtn
+                          id={user.id}
+                          itemName={user.username}
+                          type={user.type}
+                          label='تفعيل'
+                        />
+                      ) : (
+                        <RejectBtn
+                          id={user.id}
+                          itemName={user.username}
+                          type={user.type}
+                          label='حظر'
+                        />
+                      )}
                     </td>
                   </tr>
                 ))

@@ -30,7 +30,7 @@ const Signup = () => {
 
     try {
       setIsRegistering(true)
-      const { data } = await axios.post(`${API_URL}/users/register`, formData)
+      const { data } = await axios.post(`${API_URL}/users/signup`, formData)
       const { userAdded, message } = data
 
       setRegStatus(userAdded)
