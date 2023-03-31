@@ -2,24 +2,28 @@ import { useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useCart } from '@/contexts/CartContext'
 import { AppSettingsContext } from '@/contexts/AppSettingsContext'
+import useAuth from '@/hooks/useAuth'
 import HomeIcon from './Icons/HomeIcon'
 import { CartIconFilled } from './Icons/CartIcon'
 import NotificationsIcon from './Icons/NotificationsIcon'
 import { AddBtn } from './Icons/ControlBtn'
-import { isActiveLink } from '@/utils/isActiveLink'
-import { isSmallScreen, USER_DATA } from '@/constants'
 import Logo from './Icons/Logo'
 import Shop from './Icons/Shop'
 import { AppSettingsProps } from '@/types'
+import { isSmallScreen, USER_DATA } from '@/constants'
 import Overlay from './Overlay'
-import useAuth from '@/hooks/useAuth'
+import { isActiveLink } from '@/utils/isActiveLink'
+import { parseJson } from '@/utils/jsonTools'
 
 const Footer = () => {
-  const { isSidebarOpen, menuToggler } = useContext<AppSettingsProps>(AppSettingsContext)
+  const { isSidebarOpen, menuToggler, getLocalStorageUser } =
+    useContext<AppSettingsProps>(AppSettingsContext)
   const { totalUniqueItems } = useCart()
-  const { pathname } = useLocation()
+  const pathname = useLocation().pathname.split('/')[1]
+
   const { userData } = useAuth()
   const { id, username, avatarUrl } = userData || USER_DATA
+  const accountType = parseJson(getLocalStorageUser()).type
 
   const Menu = [
     {
@@ -54,20 +58,20 @@ const Footer = () => {
     }
   ]
 
-  const SupplierMenu = [
+  const MenuWithDashboard = [
     {
       label: 'الطلبات',
-      to: '/supplier',
+      to: `${accountType === 'admin' ? '/dashboard' : '/supplier'}`,
       icon: HomeIcon
     },
     {
       label: 'إضافة منتج',
-      to: '/supplier/add',
+      to: `${accountType === 'admin' ? '/dashboard/add' : '/supplier/add'}`,
       icon: AddBtn
     },
     {
       label: 'عرض المنتجات',
-      to: '/supplier/products',
+      to: `${accountType === 'admin' ? '/dashboard/products' : '/supplier/products'}`,
       icon: Shop
     },
     {
@@ -85,6 +89,8 @@ const Footer = () => {
       )
     }
   ]
+
+  const routes = ['dashboard', 'supplier']
 
   return (
     <>
@@ -105,8 +111,8 @@ const Footer = () => {
               <Logo width='24' height='20' />
             </Link>
           )}
-          {pathname.includes('supplier')
-            ? SupplierMenu.map((item, idx) => (
+          {routes.some(route => route.includes(pathname))
+            ? MenuWithDashboard.map((item, idx) => (
                 <Link
                   key={idx}
                   to={item.to}

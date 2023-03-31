@@ -82,10 +82,13 @@ const EditProduct = () => {
       type === 'supplier'
         ? product?.productStatus!
         : type === 'admin'
-        ? product?.productStatus || productStatus
+        ? productStatus || product?.productStatus
         : 'close'
     const currentProductDesc = itemDesc || product?.description!
     const currentProductImg = product?.imgUrl!
+
+    console.log('type', type)
+    console.log('currentProductStatus', currentProductStatus)
 
     //using FormData to send constructed data
     const formData = new FormData()
@@ -93,7 +96,7 @@ const EditProduct = () => {
     formData.append('currentPrice', currentProductPrice)
     formData.append('quantity', currentProductQuantity)
     formData.append('category', currentProductCategory)
-    formData.append('productStatus', currentProductStatus)
+    formData.append('productStatus', currentProductStatus ?? 'close')
     formData.append('description', currentProductDesc)
     formData.append('currentProductImg', currentProductImg)
     file.map((img: any) => {
@@ -179,9 +182,9 @@ const EditProduct = () => {
           {updateItemStatus === 1
             ? notify({
                 type: 'success',
-                msg: updateItemMessage,
-                reloadIn: TIME_TO_EXECUTE,
-                reloadTo: goTo('products')
+                msg: updateItemMessage
+                // ,reloadIn: TIME_TO_EXECUTE,
+                // reloadTo: goTo('products')
               })
             : updateItemStatus === 0
             ? notify({ type: 'error', msg: updateItemMessage })

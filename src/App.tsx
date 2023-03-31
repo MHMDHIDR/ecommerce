@@ -23,11 +23,11 @@ import OrderAddress from './pages/OrderAddress'
 import Notifications from './pages/Notifications'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsConditions from './pages/TermsConditions'
-import DashboardAddFood from './pages/dashboard/Supplier/Products/Add'
-import SupplierEditProduct from './pages/dashboard/Supplier/Products/Edit'
-import DashboardMenu from './pages/dashboard/Supplier/Products/View'
-import SupplierDashboard from './pages/dashboard/Supplier/Orders'
-import DashboardOrderDetails from './pages/dashboard/Supplier/Orders/Details'
+import DashboardAddItem from './pages/dashboard/Products/Add'
+import SupplierEditProduct from './pages/dashboard/Products/Edit'
+import DashboardViewProduct from './pages/dashboard/Products/View'
+import SupplierDashboard from './pages/dashboard/Orders'
+import DashboardOrderDetails from './pages/dashboard/Orders/Details'
 import Profile from './pages/Profile'
 import EditProfile from './pages/Profile/EditProfile'
 import Favourites from './pages/Profile/Favourites'
@@ -35,8 +35,10 @@ import ShippingAddress from './pages/Profile/ShippingAddress'
 //Auth routes
 import Signup from './pages/auth/Signup'
 import Login from './pages/auth/Login'
-import SupplierLogin from './pages/auth/Supplier/Login'
-import SupplierSignup from './pages/auth/Supplier/Signup'
+import SupplierLogin from './pages/auth/Supplier/SupplierLogin'
+import SupplierSignup from './pages/auth/Supplier/SupplierSignup'
+import AdminLogin from './pages/auth/Admin/AdminLogin'
+import AdminSignup from './pages/auth/Admin/AdminSignup'
 
 const App = () => {
   return (
@@ -61,12 +63,7 @@ const App = () => {
                     <Route path='/privacy-policy' element={<PrivacyPolicy />} />
                     <Route path='/terms-and-conditions' element={<TermsConditions />} />
 
-                    {/* Auth Routes */}
-                    <Route path='/login' element={<Login />} />
-                    <Route path='/signup' element={<Signup />} />
-                    <Route path='/supplier-login' element={<SupplierLogin />} />
-                    <Route path='/supplier-signup' element={<SupplierSignup />} />
-
+                    {/* Profile Routes */}
                     <Route path='/profile' element={<Profile />} />
                     <Route path='/profile/edit' element={<EditProfile />} />
                     <Route path='/profile/favourites' element={<Favourites />} />
@@ -75,15 +72,36 @@ const App = () => {
                       element={<ShippingAddress />}
                     />
 
+                    {/* Auth Routes */}
+                    <Route path='/login' element={<Login />} />
+                    <Route path='/signup' element={<Signup />} />
+                    <Route path='/supplier-login' element={<SupplierLogin />} />
+                    <Route path='/supplier-signup' element={<SupplierSignup />} />
+                    <Route path='/admin-login' element={<AdminLogin />} />
+                    <Route path='/admin-signup' element={<AdminSignup />} />
+
+                    {/* Supplier Dashboard Routes */}
                     <Route path='supplier' element={<SupplierDashboard />} />
-                    <Route path='supplier/add' element={<DashboardAddFood />} />
-                    <Route path='supplier/products' element={<DashboardMenu />} />
+                    <Route path='supplier/add' element={<DashboardAddItem />} />
+                    <Route path='supplier/products' element={<DashboardViewProduct />} />
                     <Route
                       path='supplier/order/:id'
                       element={<DashboardOrderDetails />}
                     />
                     <Route
                       path='supplier/product/:id'
+                      element={<SupplierEditProduct />}
+                    />
+                    {/* Admin Dashboard Routes */}
+                    <Route path='dashboard' element={<SupplierDashboard />} />
+                    <Route path='dashboard/add' element={<DashboardAddItem />} />
+                    <Route path='dashboard/products' element={<DashboardViewProduct />} />
+                    <Route
+                      path='dashboard/order/:id'
+                      element={<DashboardOrderDetails />}
+                    />
+                    <Route
+                      path='dashboard/product/:id'
                       element={<SupplierEditProduct />}
                     />
 

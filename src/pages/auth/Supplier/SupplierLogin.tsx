@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { Facebook, Google } from '@/components/Icons/Socials'
 import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
@@ -10,12 +10,12 @@ import { setCookies } from '@/utils/cookies'
 import useAuth from '@/hooks/useAuth'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 
-const Login = () => {
-  const DOCUMENT_TITLE = 'تسجيل الدخول'
+const SupplierLogin = () => {
+  const DOCUMENT_TITLE = 'الدخول للوحة تحكم التاجر'
   useDocumentTitle(DOCUMENT_TITLE)
 
   const { loading, userData } = useAuth()
-  const { id } = userData || { id: USER_DATA.id }
+  const { id } = userData || USER_DATA
 
   const [tel, setTel] = useState('')
   const [password, setPassword] = useState('')
@@ -24,7 +24,6 @@ const Login = () => {
   const [loginMsg, setLoginMsg] = useState<any>('')
   const [isLoginIn, setIsLoginIn] = useState(false)
 
-  const redirectTo = useLocation().search.split('=')[1]
   const navigate = useNavigate()
 
   const handleLogin = async (e: { preventDefault: () => void }) => {
@@ -36,18 +35,18 @@ const Login = () => {
 
     try {
       setIsLoginIn(true)
-      const { data } = await axios.post(`${API_URL}/users/login`, formData)
-      const { userLoggedIn, message, token } = data
+      const { data } = await axios.post(`${API_URL}/users/login-supplier`, formData)
+      const { supplierLoggedIn, message, token } = data
       setCookies(token)
 
-      setLoginStatus(userLoggedIn)
+      setLoginStatus(supplierLoggedIn)
       setLoginMsg(message)
     } catch ({
       response: {
-        data: { message, userLoggedIn }
+        data: { message, supplierLoggedIn }
       }
     }) {
-      setLoginStatus(userLoggedIn)
+      setLoginStatus(supplierLoggedIn)
       setLoginMsg(message)
     } finally {
       setIsLoginIn(false)
@@ -80,7 +79,7 @@ const Login = () => {
                 msg: loginMsg,
                 position: 'top-center',
                 reloadIn: TIME_TO_EXECUTE,
-                reloadTo: redirectTo ? redirectTo : '/'
+                reloadTo: '/supplier'
               })
             : loginStatus === 0
             ? notify({ type: 'error', msg: loginMsg, position: 'top-center' })
@@ -148,7 +147,7 @@ const Login = () => {
               {isLoginIn ? (
                 <span className='flex items-center w-full gap-x-2 justify-center'>
                   <LoadingSpinner />
-                  جار تسجيل الدخول
+                  تسجيل الدخول
                 </span>
               ) : (
                 'تسجيل الدخول'
@@ -157,42 +156,12 @@ const Login = () => {
 
             <div className='my-6 flex justify-between gap-x-6'>
               <Link to='forgot'>نسيت كلمة المرور؟</Link>
-              <Link to='/signup'>تسجيل حساب جديد</Link>
+              <Link to='/supplier-signup'>تسجيل حساب جديد</Link>
             </div>
-
-            <div className='flex relative justify-center items-center m-4 before:[background:linear-gradient(90deg,transparent,#000,transparent)] before:absolute before:left-0 before:top-1/2 before:w-full before:h-px select-none'>
-              <span className='dark:text-neutral-200 bg-white dark:bg-gray-800 z-10 px-2'>
-                أو
-              </span>
-            </div>
-
-            <Link
-              to={'facebookLogin'}
-              aria-label='Continue with facebook'
-              role='button'
-              className='focus:outline-blue-300 focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5 dark:bg-white'
-            >
-              <Google />
-              <p className='text-base font-medium mr-4 text-gray-700'>
-                تسجيل الدخول مع جوجل
-              </p>
-            </Link>
-            <Link
-              to={'facebookLogin'}
-              aria-label='Continue with facebook'
-              role='button'
-              className='focus:outline-blue-300 focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5 dark:bg-white'
-            >
-              <Facebook />
-              <p className='text-base font-medium mr-4 text-gray-700'>
-                تسجيل الدخول مع فيسبوك
-              </p>
-            </Link>
           </form>
         </div>
       </div>
     </section>
   )
 }
-
-export default Login
+export default SupplierLogin

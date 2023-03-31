@@ -6,6 +6,8 @@ import {
   loginUser,
   signupSupplier,
   loginSupplier,
+  signupAdmin,
+  loginAdmin,
   forgotPass,
   resetPass,
   updateUser,
@@ -19,6 +21,8 @@ router.post('/signup', signupUser)
 router.post('/login', loginUser)
 router.post('/signup-supplier', signupSupplier)
 router.post('/login-supplier', loginSupplier)
+router.post('/signup-admin', signupAdmin)
+router.post('/login-admin', loginAdmin)
 router.post('/forgotpass', forgotPass)
 router.post('/resetpass', resetPass)
 router.patch('/:id', authMiddleware, updateUser)
