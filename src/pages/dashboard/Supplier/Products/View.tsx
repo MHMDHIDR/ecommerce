@@ -17,8 +17,9 @@ import goTo from '@/utils/goTo'
 import { removeSlug } from '@/utils/slug'
 import notify from '@/utils/notify'
 import { ProductProps } from '@/types'
-import { API_URL, PRODUCT, USER_DATA } from '@/constants'
+import { API_URL, PRODUCT, TIME_TO_EXECUTE, USER_DATA } from '@/constants'
 import { parseJson } from '@/utils/jsonTools'
+import { getCookies } from '@/utils/cookies'
 
 const ViewProduct = () => {
   const DOCUMENT_TITLE = 'عرض المنتجات'
@@ -26,6 +27,8 @@ const ViewProduct = () => {
 
   const { loading: loadingAuth, userData } = useAuth()
   const { id, type } = userData || { id: USER_DATA.type, type: USER_DATA.type }
+  const token = getCookies()
+
   const { getLocalStorageUser } = useContext(AppSettingsContext)
   const addedById = parseJson(getLocalStorageUser()).id
 
@@ -71,7 +74,13 @@ const ViewProduct = () => {
   const handleDeleteProduct = async (itemId: string, imgUrl: string) => {
     try {
       const response = await axios.delete(
-        `${API_URL}/products/${itemId}?imgUrl=${imgUrl}`
+        `${API_URL}/products/${itemId}?imgUrl=${imgUrl}`,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`
+          }
+        }
       )
       const { itemDeleted, message } = response.data
       setIsItemDeleted(itemDeleted)
@@ -97,7 +106,7 @@ const ViewProduct = () => {
             ? notify({
                 type: 'success',
                 msg: itemDeletedMsg,
-                reloadIn: 5000,
+                reloadIn: TIME_TO_EXECUTE,
                 reloadTo: goTo('products')
               })
             : isItemDeleted === 0
@@ -184,10 +193,10 @@ const ViewProduct = () => {
                             }`}
                           ></span>
                           {product.productStatus === 'open'
-                            ? 'المنتج متوفر'
+                            ? 'تم الموافقة'
                             : product.productStatus === 'close'
-                            ? 'المنتج غير متوفر'
-                            : 'غير محدد'}
+                            ? 'تم الرفض'
+                            : 'في انتظار الادارة'}
                         </span>
                       </Link>
                     </td>

@@ -6,7 +6,13 @@ import useEventListener from '@/hooks/useEventListener'
 import { useAxios } from '@/hooks/useAxios'
 import useAuth from '@/hooks/useAuth'
 import { FileUploadContext } from '@/contexts/FileUploadContext'
-import { isSmallScreen, CATEGORIES, API_URL, USER_DATA } from '@/constants'
+import {
+  isSmallScreen,
+  CATEGORIES,
+  API_URL,
+  USER_DATA,
+  TIME_TO_EXECUTE
+} from '@/constants'
 import BackButton from '@/components/Icons/BackButton'
 import Layout from '@/components/Layout'
 import { DeleteBtn } from '@/components/TableActions'
@@ -18,14 +24,20 @@ import ModalNotFound from '@/components/Modal/ModalNotFound'
 import { createSlug, removeSlug } from '@/utils/slug'
 import notify from '@/utils/notify'
 import goTo from '@/utils/goTo'
-import { ProductProps } from '@/types'
+import { ProductProps, UserType } from '@/types'
+import { getCookies } from '@/utils/cookies'
 
 const EditProduct = () => {
   const DOCUMENT_TITLE = 'تعديل المنتج'
   useDocumentTitle(DOCUMENT_TITLE)
 
   const { loading: loadingAuth, userData } = useAuth()
-  const { id: userId, type } = userData || { id: USER_DATA.type, type: USER_DATA.type }
+  const { id: userId, type }: { id: UserType['id']; type: UserType['type'] } =
+    userData || {
+      id: USER_DATA.type,
+      type: USER_DATA.type
+    }
+  const token = getCookies()
 
   const { id } = useParams()
 
@@ -66,7 +78,12 @@ const EditProduct = () => {
     const currentProductPrice = currentPrice || String(product?.currentPrice)
     const currentProductQuantity = quantity || String(product?.quantity)
     const currentProductCategory = category[0] || product?.category
-    const currentProductStatus = productStatus || product?.productStatus!
+    const currentProductStatus =
+      type === 'supplier'
+        ? product?.productStatus!
+        : type === 'admin'
+        ? product?.productStatus || productStatus
+        : 'close'
     const currentProductDesc = itemDesc || product?.description!
     const currentProductImg = product?.imgUrl!
 
@@ -84,14 +101,23 @@ const EditProduct = () => {
     })
 
     try {
-      const response = await axios.patch(`${API_URL}/products/${id}`, formData)
+      const response = await axios.patch(`${API_URL}/products/${id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`
+        }
+      })
       const { itemUpdated, message } = response.data
 
       setUpdatedItemStatus(itemUpdated)
       setUpdatedItemMessage(message)
-    } catch (error: any) {
+    } catch ({
+      response: {
+        data: { error }
+      }
+    }) {
       setUpdatedItemStatus(0)
-      setUpdatedItemMessage(`عفواً، حدث خطأ ما: ${error.message}`)
+      setUpdatedItemMessage(`عفواً، حدث خطأ ما: ${error}`)
     } finally {
       setIsUpdating(false)
     }
@@ -125,7 +151,10 @@ const EditProduct = () => {
     const imgUrl = product?.imgUrl!
     try {
       const response = await axios.delete(
-        `${API_URL}/products/${itemId}?imgUrl=${imgUrl}`
+        `${API_URL}/products/${itemId}?imgUrl=${imgUrl}`,
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
       )
       const { itemDeleted, message } = response.data
       setIsItemDeleted(itemDeleted)
@@ -151,7 +180,7 @@ const EditProduct = () => {
             ? notify({
                 type: 'success',
                 msg: updateItemMessage,
-                reloadIn: 5000,
+                reloadIn: TIME_TO_EXECUTE,
                 reloadTo: goTo('products')
               })
             : updateItemStatus === 0
@@ -160,7 +189,7 @@ const EditProduct = () => {
             ? notify({
                 type: 'success',
                 msg: itemDeletedMsg,
-                reloadIn: 5000,
+                reloadIn: TIME_TO_EXECUTE,
                 reloadTo: goTo('products')
               })
             : isItemDeleted === 0
@@ -179,7 +208,7 @@ const EditProduct = () => {
         )}
         {isSmallScreen && <BackButton to='/' className='absolute z-50 top-6 left-6' />}
 
-        {!loading ? (
+        {loading ? (
           <div className='flex justify-center items-center my-48'>
             <LoadingSpinner title='جار البحث عن المنتج...' />
           </div>
@@ -242,41 +271,43 @@ const EditProduct = () => {
                 />
               </label>
 
-              <div className='form__group'>
-                <span className='form__label'>حالة المنتج</span>
-                <label className='form__group cursor-pointer' htmlFor='open'>
-                  <input
-                    className='form__input'
-                    type='radio'
-                    id='open'
-                    name='type'
-                    value='open'
-                    checked={
-                      productStatus
-                        ? productStatus === 'open'
-                        : product?.productStatus === 'open'
-                    }
-                    onChange={() => setProductStatus('open')}
-                  />
-                  <span>مفتوح</span>
-                </label>
-                <label className='form__group cursor-pointer' htmlFor='close'>
-                  <input
-                    className='form__input'
-                    type='radio'
-                    id='close'
-                    name='type'
-                    value='close'
-                    checked={
-                      productStatus
-                        ? productStatus === 'close'
-                        : product?.productStatus === 'close'
-                    }
-                    onChange={() => setProductStatus('close')}
-                  />
-                  <span>مغلق</span>
-                </label>
-              </div>
+              {type === 'admin' && (
+                <div className='form__group'>
+                  <span className='form__label'>حالة المنتج</span>
+                  <label className='form__group cursor-pointer' htmlFor='open'>
+                    <input
+                      className='form__input'
+                      type='radio'
+                      id='open'
+                      name='type'
+                      value='open'
+                      checked={
+                        productStatus
+                          ? productStatus === 'open'
+                          : product?.productStatus === 'open'
+                      }
+                      onChange={() => setProductStatus('open')}
+                    />
+                    <span>مفتوح</span>
+                  </label>
+                  <label className='form__group cursor-pointer' htmlFor='close'>
+                    <input
+                      className='form__input'
+                      type='radio'
+                      id='close'
+                      name='type'
+                      value='close'
+                      checked={
+                        productStatus
+                          ? productStatus === 'close'
+                          : product?.productStatus === 'close'
+                      }
+                      onChange={() => setProductStatus('close')}
+                    />
+                    <span>مغلق</span>
+                  </label>
+                </div>
+              )}
 
               <label htmlFor='category' className='form__group'>
                 <span className='form__label'>التصنيف</span>

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Facebook, Google } from '@/components/Icons/Socials'
-import { API_URL } from '@/constants'
+import { API_URL, TIME_TO_EXECUTE } from '@/constants'
 import axios from 'axios'
 import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
 import notify from '@/utils/notify'
@@ -51,7 +51,7 @@ const Signup = () => {
             ? notify({
                 type: 'success',
                 msg: regMsg,
-                reloadIn: 5000,
+                reloadIn: TIME_TO_EXECUTE,
                 reloadTo: '/login'
               })
             : regStatus === 0

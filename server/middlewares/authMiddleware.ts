@@ -11,7 +11,7 @@ export const authMiddleware = asyncHandler(
     const token = req.headers.authorization?.split(' ')[1]
 
     if (!token) {
-      res.sendStatus(401)
+      res.status(401).send({ error: 'غير مصرح لك' })
       return
     }
 
@@ -21,9 +21,9 @@ export const authMiddleware = asyncHandler(
     } catch (e) {
       const verifyErr = e as VerifyErrors
       if (verifyErr instanceof TokenExpiredError) {
-        res.status(401).send({ error: 'TOKEN_EXPIRED' })
+        res.status(401).send({ error: 'انتهت صلاحية جلستك، يجب عليك إعادة تسجيل الدخول' })
       } else {
-        res.status(401).send({ error: 'BAD_TOKEN' })
+        res.status(401).send({ error: 'حدثت مشكلة أثناء المصادقة' })
       }
       return
     }
@@ -33,7 +33,7 @@ export const authMiddleware = asyncHandler(
       [payload.userId, payload.userId, payload.userId],
       (err: any, results: any) => {
         if (err) {
-          res.status(401).send({ error: 'USER_NOT_FOUND' })
+          res.status(401).send({ error: 'لم يتم العثور على حسابك' })
           return
         }
         if (results.length > 0) {

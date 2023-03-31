@@ -220,4 +220,4 @@ export type UserType = {
   phone: string
   status: string
   type: string
-} | null
+}
