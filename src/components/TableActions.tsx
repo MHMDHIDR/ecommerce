@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom'
 import goTo from '@/utils/goTo'
 
-export const AcceptBtn = ({ id, email }: any) => (
+export const AcceptBtn = ({ id, phone }: any) => (
   <button
     id='acceptBtn'
     data-id={id}
     data-status='accept'
-    data-email={email}
+    data-phone={phone}
     className='m-1 py-2 text-xs text-white bg-green-600 rounded-md hover:bg-green-700 min-w-[7rem] relative text-center overflow-hidden'
     data-tooltip='موافقة'
   >
@@ -31,19 +31,20 @@ export const EditBtn = ({ id }: any) => (
   </Link>
 )
 
-export const RejectBtn = ({ id, email }: any) => (
+export const RejectBtn = ({ id, phone, itemName, label }: any) => (
   <button
     id='rejectBtn'
     data-id={id}
+    data-name={itemName}
+    data-phone={phone}
     data-status='reject'
-    data-email={email}
     className='m-1 py-2 text-xs text-white bg-gray-600 rounded-md hover:bg-gray-700 min-w-[7rem] relative text-center overflow-hidden border'
     data-tooltip='رفض'
   >
     <span className='py-0.5 px-1 md:pl-1 bg-gray-300 rounded-md absolute right-2 top-1.5 pointer-events-none'>
       &#10060;
     </span>
-    <span className='mr-4 pointer-events-none'>رفض</span>
+    <span className='mr-4 pointer-events-none'>{label ?? 'رفض'}</span>
   </button>
 )
 
@@ -73,12 +74,12 @@ export const DeleteBtn = ({
   </button>
 )
 
-export const InvoiceBtn = ({ id, email, onClick }: any) => (
+export const InvoiceBtn = ({ id, phone, onClick }: any) => (
   <button
     id='invoiceBtn'
     data-id={id}
     data-status='invoice'
-    data-email={email}
+    data-phone={phone}
     className='m-1 px-1.5 py-2 text-xs text-white bg-blue-600 rounded-md hover:bg-blue-700 min-w-[5rem] text-center overflow-hidden'
     data-tooltip='إنشاء فاتورة للطلب'
     onClick={onClick}

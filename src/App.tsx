@@ -23,11 +23,12 @@ import OrderAddress from './pages/OrderAddress'
 import Notifications from './pages/Notifications'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsConditions from './pages/TermsConditions'
-import DashboardAddItem from './pages/dashboard/Products/Add'
+import DashboardAddProduct from './pages/dashboard/Products/Add'
 import SupplierEditProduct from './pages/dashboard/Products/Edit'
 import DashboardViewProduct from './pages/dashboard/Products/View'
 import SupplierDashboard from './pages/dashboard/Orders'
 import DashboardOrderDetails from './pages/dashboard/Orders/Details'
+import DashboardViewUsers from './pages/dashboard/Users/View'
 import Profile from './pages/Profile'
 import EditProfile from './pages/Profile/EditProfile'
 import Favourites from './pages/Profile/Favourites'
@@ -82,7 +83,7 @@ const App = () => {
 
                     {/* Supplier Dashboard Routes */}
                     <Route path='supplier' element={<SupplierDashboard />} />
-                    <Route path='supplier/add' element={<DashboardAddItem />} />
+                    <Route path='supplier/add' element={<DashboardAddProduct />} />
                     <Route path='supplier/products' element={<DashboardViewProduct />} />
                     <Route
                       path='supplier/order/:id'
@@ -94,7 +95,7 @@ const App = () => {
                     />
                     {/* Admin Dashboard Routes */}
                     <Route path='dashboard' element={<SupplierDashboard />} />
-                    <Route path='dashboard/add' element={<DashboardAddItem />} />
+                    <Route path='dashboard/add' element={<DashboardAddProduct />} />
                     <Route path='dashboard/products' element={<DashboardViewProduct />} />
                     <Route
                       path='dashboard/order/:id'
@@ -104,6 +105,7 @@ const App = () => {
                       path='dashboard/product/:id'
                       element={<SupplierEditProduct />}
                     />
+                    <Route path='dashboard/users' element={<DashboardViewUsers />} />
 
                     <Route path='*' element={<ModalNotFound fullscreen={true} />} />
                   </Routes>

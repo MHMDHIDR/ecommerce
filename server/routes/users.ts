@@ -2,6 +2,7 @@ import express from 'express'
 import { authMiddleware } from '../middlewares/authMiddleware.js'
 import {
   getUsers,
+  getUser,
   signupUser,
   loginUser,
   signupSupplier,
@@ -16,7 +17,8 @@ import {
 
 const router = express.Router()
 
-router.get('/:id?', authMiddleware, getUsers)
+router.get('/', authMiddleware, getUsers)
+router.get('/:id?', authMiddleware, getUser)
 router.post('/signup', signupUser)
 router.post('/login', loginUser)
 router.post('/signup-supplier', signupSupplier)

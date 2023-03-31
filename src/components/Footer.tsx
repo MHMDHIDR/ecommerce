@@ -6,6 +6,7 @@ import useAuth from '@/hooks/useAuth'
 import HomeIcon from './Icons/HomeIcon'
 import { CartIconFilled } from './Icons/CartIcon'
 import NotificationsIcon from './Icons/NotificationsIcon'
+import UsersIcon from './Icons/UsersIcon'
 import { AddBtn } from './Icons/ControlBtn'
 import Logo from './Icons/Logo'
 import Shop from './Icons/Shop'
@@ -74,6 +75,13 @@ const Footer = () => {
       to: `${accountType === 'admin' ? '/dashboard/products' : '/supplier/products'}`,
       icon: Shop
     },
+    accountType === 'admin'
+      ? {
+          label: 'المستخدمين',
+          to: '/dashboard/users',
+          icon: UsersIcon
+        }
+      : null,
     {
       label: 'الحساب',
       to: !id ? '/login' : '/profile',
@@ -112,10 +120,10 @@ const Footer = () => {
             </Link>
           )}
           {routes.some(route => route.includes(pathname))
-            ? MenuWithDashboard.map((item, idx) => (
+            ? MenuWithDashboard.filter(item => item !== null).map((item, idx) => (
                 <Link
                   key={idx}
-                  to={item.to}
+                  to={item?.to ?? ''}
                   type='button'
                   aria-controls='navbar'
                   aria-expanded='false'
@@ -123,18 +131,20 @@ const Footer = () => {
                   className={`text-sm text-black rounded-full relative flex`}
                   onClick={menuToggler}
                 >
-                  {isActiveLink(item.to) ? (
+                  {isActiveLink(item?.to ?? '') ? (
                     <div className='flex items-center'>
-                      <span className='bg-black dark:bg-gray-300 p-2 rounded-full'>
-                        <item.icon className='w-4 h-4 fill-gray-50 dark:fill-neutral-900' />
-                      </span>
-                      <span className='px-2 dark:text-gray-50'>{item.label}</span>
+                      {item !== null ? (
+                        <span className='bg-black dark:bg-gray-300 p-2 rounded-full'>
+                          <item.icon className='w-4 h-4 fill-gray-50 dark:fill-neutral-900' />
+                        </span>
+                      ) : null}
+                      <span className='px-2 dark:text-gray-50'>{item?.label}</span>
                     </div>
-                  ) : (
+                  ) : item !== null ? (
                     <span className='[&>svg]:w-5 inline-block py-1.5'>
                       <item.icon className='w-5 h-5' />
                     </span>
-                  )}
+                  ) : null}
                 </Link>
               ))
             : Menu.map((item, idx) => (

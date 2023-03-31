@@ -53,7 +53,8 @@ export const USER_DATA = {
   avatarUrl: '/assets/img/profile.jpg',
   phone: '0123 456 789',
   status: '',
-  type: ''
+  type: 'user',
+  registerDate: ''
 }
 
 export const API_URL =

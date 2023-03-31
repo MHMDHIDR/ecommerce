@@ -191,7 +191,7 @@ const ViewProduct = () => {
                                 ? 'bg-red-600'
                                 : 'bg-gray-600'
                             }`}
-                          ></span>
+                          />
                           {product.productStatus === 'open'
                             ? 'تم الموافقة'
                             : product.productStatus === 'close'

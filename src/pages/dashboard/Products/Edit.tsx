@@ -87,9 +87,6 @@ const EditProduct = () => {
     const currentProductDesc = itemDesc || product?.description!
     const currentProductImg = product?.imgUrl!
 
-    console.log('type', type)
-    console.log('currentProductStatus', currentProductStatus)
-
     //using FormData to send constructed data
     const formData = new FormData()
     formData.append('itemName', currentProductName)
@@ -182,9 +179,9 @@ const EditProduct = () => {
           {updateItemStatus === 1
             ? notify({
                 type: 'success',
-                msg: updateItemMessage
-                // ,reloadIn: TIME_TO_EXECUTE,
-                // reloadTo: goTo('products')
+                msg: updateItemMessage,
+                reloadIn: TIME_TO_EXECUTE,
+                reloadTo: goTo('products')
               })
             : updateItemStatus === 0
             ? notify({ type: 'error', msg: updateItemMessage })

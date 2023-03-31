@@ -220,4 +220,11 @@ export type UserType = {
   phone: string
   status: string
   type: string
+  firstname?: string
+  lastname?: string
+  houseNumber?: number
+  streetName?: string
+  neighborhoodName?: string
+  cityName?: string
+  registerDate: string
 }
