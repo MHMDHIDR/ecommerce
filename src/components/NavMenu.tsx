@@ -13,7 +13,7 @@ const NavMenu: React.FC<NavMenuPros> = ({
 
   return (
     <div
-      className={`relative sm:mx-auto mx-2 px-3 py-2 text-sm leading-relaxed transition-colors duration-150 bg-white dark:bg-gray-700 border border-gray-400 rounded-lg dropdown:block focus:outline-none hover:border-gray-600 focus:shadow-outline focus:border-gray-900 cursor-pointer${
+      className={`relative sm:mx-auto max-w-fit mx-2 px-3 py-2 text-sm leading-relaxed transition-colors duration-150 bg-white dark:bg-gray-700 border border-gray-400 rounded-lg dropdown:block focus:outline-none hover:border-gray-600 focus:shadow-outline focus:border-gray-900 cursor-pointer${
         isOptions ? ' 3xl:max-w-fit' : ''
       }`}
       role='menuitem'

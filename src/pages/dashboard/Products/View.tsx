@@ -20,6 +20,7 @@ import { ProductProps } from '@/types'
 import { API_URL, PRODUCT, TIME_TO_EXECUTE, USER_DATA } from '@/constants'
 import { parseJson } from '@/utils/jsonTools'
 import { getCookies } from '@/utils/cookies'
+import NavMenu from '@/components/NavMenu'
 
 const ViewProduct = () => {
   const DOCUMENT_TITLE = 'عرض المنتجات'
@@ -105,7 +106,7 @@ const ViewProduct = () => {
     <ModalNotFound />
   ) : (
     <Layout>
-      <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
+      <section className='container overflow-x-auto px-5 rtl mx-auto max-w-6xl h-full'>
         <div className='hidden'>
           {isItemDeleted === 1
             ? notify({
@@ -128,130 +129,127 @@ const ViewProduct = () => {
           />
         )}
         <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>
-        <div className='overflow-x-auto text-center rounded-lg border border-gray-200 dark:border-gray-900 shadow-md dark:shadow-gray-900'>
-          <table className='w-full bg-white dark:bg-gray-600 text-xs text-gray-900 dark:text-white'>
-            <thead className='bg-gray-50 dark:bg-gray-700'>
+        <table className='w-full bg-white dark:bg-gray-600 text-xs text-gray-900 dark:text-white text-center rounded-lg border border-gray-200 dark:border-gray-900 shadow-md dark:shadow-gray-900'>
+          <thead className='bg-gray-50 dark:bg-gray-700'>
+            <tr>
+              <th className='py-2'>الرقم</th>
+              <th className='py-2'>الصورة</th>
+              <th className='py-2'>اسم</th>
+              <th className='py-2'>الحالة</th>
+              <th className='py-2'>السعر</th>
+              <th className='py-2'>تاريخ الإنشاء</th>
+              <th className='py-2'>تاريخ تحديث</th>
+              <th className='py-2'>الإجراء</th>
+            </tr>
+          </thead>
+          <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
+            {loadingAuth || loading ? (
               <tr>
-                <th className='py-2'>الرقم</th>
-                <th className='py-2'>الصورة</th>
-                <th className='py-2'>اسم</th>
-                <th className='py-2'>الحالة</th>
-                <th className='py-2'>السعر</th>
-                <th className='py-2'>تاريخ الإنشاء</th>
-                <th className='py-2'>تاريخ تحديث</th>
-                <th className='py-2'>الإجراء</th>
+                <td colSpan={100} className='p-5'>
+                  <LoadingSpinner title='جار البحث عن المنتجات...' />
+                </td>
               </tr>
-            </thead>
-            <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
-              {loadingAuth || loading ? (
-                <tr>
-                  <td colSpan={100} className='p-5'>
-                    <LoadingSpinner title='جار البحث عن المنتجات...' />
+            ) : products.length > 0 ? (
+              products?.map((product: ProductProps, idx: number) => (
+                <tr className='hover:bg-gray-50 dark:hover:bg-gray-700' key={product.id}>
+                  <td>
+                    <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
+                      <span>{idx + 1}</span>
+                    </Link>
                   </td>
-                </tr>
-              ) : products.length > 0 ? (
-                products?.map((product: ProductProps, idx: number) => (
-                  <tr
-                    className='hover:bg-gray-50 dark:hover:bg-gray-700'
-                    key={product.id}
-                  >
-                    <td>
-                      <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
-                        <span>{idx + 1}</span>
-                      </Link>
-                    </td>
-                    <td>
-                      <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
-                        <img
-                          loading='lazy'
-                          src={product.imgUrl}
-                          alt={product.itemName}
-                          height={36}
-                          width={36}
-                          className='object-cover rounded-lg shadow-md h-9 w-9'
-                        />
-                      </Link>
-                    </td>
-                    <td>
-                      <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
-                        {removeSlug(product.itemName)}
-                      </Link>
-                    </td>
-                    <td>
-                      <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
+                  <td>
+                    <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
+                      <img
+                        loading='lazy'
+                        src={product.imgUrl}
+                        alt={product.itemName}
+                        height={36}
+                        width={36}
+                        className='object-cover rounded-lg shadow-md h-9 w-9'
+                      />
+                    </Link>
+                  </td>
+                  <td className='min-w-[12rem]'>
+                    <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
+                      {removeSlug(product.itemName)}
+                    </Link>
+                  </td>
+                  <td>
+                    <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
+                      <span
+                        className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
+                          product.productStatus === 'accept'
+                            ? 'text-green-600'
+                            : product.productStatus === 'reject'
+                            ? 'text-red-600'
+                            : 'text-gray-600'
+                        }`}
+                      >
                         <span
-                          className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
-                            product.productStatus === 'accept'
-                              ? 'text-green-600'
-                              : product.productStatus === 'reject'
-                              ? 'text-red-600'
-                              : 'text-gray-600'
+                          className={`h-1.5 w-1.5 rounded-full ${
+                            product.productStatus === 'open'
+                              ? 'bg-green-600'
+                              : product.productStatus === 'close'
+                              ? 'bg-red-600'
+                              : 'bg-gray-600'
                           }`}
-                        >
-                          <span
-                            className={`h-1.5 w-1.5 rounded-full ${
-                              product.productStatus === 'open'
-                                ? 'bg-green-600'
-                                : product.productStatus === 'close'
-                                ? 'bg-red-600'
-                                : 'bg-gray-600'
-                            }`}
-                          />
-                          {product.productStatus === 'open'
-                            ? 'تم الموافقة'
-                            : product.productStatus === 'close'
-                            ? 'تم الرفض'
-                            : 'في انتظار الادارة'}
-                        </span>
-                      </Link>
-                    </td>
-                    <td>
-                      <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
-                        <span className='inline-block min-w-max font-bold'>
-                          {product.currentPrice} ج.س
-                        </span>
-                      </Link>
-                    </td>
-                    <td>
-                      <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
-                        <span>{createLocaleDateString(product.CreateDate)}</span>
-                      </Link>
-                    </td>
-                    <td>
-                      <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
-                        <span>{createLocaleDateString(product.UpdateDate)}</span>
-                      </Link>
-                    </td>
-                    <td>
+                        />
+                        {product.productStatus === 'open'
+                          ? 'تم الموافقة'
+                          : product.productStatus === 'close'
+                          ? 'تم الرفض'
+                          : 'في انتظار الادارة'}
+                      </span>
+                    </Link>
+                  </td>
+                  <td>
+                    <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
+                      <span className='inline-block min-w-max font-bold'>
+                        {product.currentPrice} ج.س
+                      </span>
+                    </Link>
+                  </td>
+                  <td className='min-w-[14rem]'>
+                    <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
+                      <span>{createLocaleDateString(product.CreateDate)}</span>
+                    </Link>
+                  </td>
+                  <td className='min-w-[14rem]'>
+                    <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
+                      <span>{createLocaleDateString(product.UpdateDate)}</span>
+                    </Link>
+                  </td>
+                  <td>
+                    <NavMenu>
                       <DeleteBtn
                         id={product.id}
                         itemName={product.itemName}
                         imgUrl={product.imgUrl}
                       />
                       <EditBtn id={product.id} />
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={100} className='p-5'>
-                    <div className='flex flex-col justify-center items-center gap-y-4'>
-                      <p className='text-red-600 dark:text-red-400'>
-                        عفواً، لم يتم العثور على منتجات
-                      </p>
-                      <Link
-                        to={goTo('add')}
-                        className='rounded-md bg-blue-600 px-5 py-1 text-center text-sm text-white hover:bg-gray-700'
-                      >
-                        أضف منتج
-                      </Link>
-                    </div>
+                    </NavMenu>
                   </td>
                 </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={100} className='p-5'>
+                  <div className='flex flex-col justify-center items-center gap-y-4'>
+                    <p className='text-red-600 dark:text-red-400'>
+                      عفواً، لم يتم العثور على منتجات
+                    </p>
+                    <Link
+                      to={goTo('add')}
+                      className='rounded-md bg-blue-600 px-5 py-1 text-center text-sm text-white hover:bg-gray-700'
+                    >
+                      أضف منتج
+                    </Link>
+                  </div>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </section>
     </Layout>
   )
