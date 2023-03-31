@@ -42,12 +42,10 @@ export const signupSupplier = asyncHandler(
 
     const userExists = await checkUserExists(identifier)
     if (userExists) {
-      return res
-        .status(409)
-        .json({
-          supplierAdded: 0,
-          message: 'عفواً، هذا المستخدم مسجل مسبقاً، عليك تغيير اسم المستخدم ورقم الهاتف'
-        })
+      return res.status(409).json({
+        supplierAdded: 0,
+        message: 'عفواً، هذا المستخدم مسجل مسبقاً، عليك تغيير اسم المستخدم ورقم الهاتف'
+      })
     }
 
     // Hash password
@@ -91,7 +89,6 @@ export const signupSupplier = asyncHandler(
                   message: 'خطأ في جلب بيانات التاجر!'
                 })
               } else {
-                console.log(results)
                 const supplier = results[0]
                 const token = signJwt({ userId: supplier.id })
                 return res.status(201).json({

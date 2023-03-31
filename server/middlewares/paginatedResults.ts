@@ -5,7 +5,7 @@ import { CustomPaginateResponse } from '../types'
 export const paginatedResults = (table: string) => {
   return async (req: Request, res: CustomPaginateResponse, next: NextFunction) => {
     const { page, limit } = req.params
-    const { category, orderBy } = req.query
+    const { category, orderBy, addedById } = req.query
     const reqPage = parseInt(page) || 1
     const reqLimit = parseInt(limit) || 1
 
@@ -45,10 +45,10 @@ export const paginatedResults = (table: string) => {
       let query = `SELECT * FROM ${table}`
 
       if (!page) {
-        query = `SELECT * FROM ${table} ORDER BY ${
-          orderBy ? `${orderBy} DESC` : `UpdateDate DESC`
-        }`
-        response.response = await db.promise().query(query)
+        query = `SELECT * FROM ${table} ${
+          addedById ? 'WHERE addedById = ?' : ''
+        }  ORDER BY ${orderBy ? `${orderBy} DESC` : `UpdateDate DESC`}`
+        response.response = await db.promise().query(query, [addedById])
         response.response = response.response[0]
       } else if (category) {
         query = `SELECT * FROM ${table} WHERE category = ? ORDER BY ${
@@ -59,10 +59,12 @@ export const paginatedResults = (table: string) => {
           .query(query, [category, reqLimit, startIndex])
         response.response = response.response[0]
       } else {
-        query = `SELECT * FROM ${table} ORDER BY ${
-          orderBy ? `${orderBy} DESC` : `UpdateDate DESC`
-        } LIMIT ? OFFSET ?`
-        response.response = await db.promise().query(query, [reqLimit, startIndex])
+        query = `SELECT * FROM ${table} ${
+          addedById ? 'WHERE addedById = ?' : ''
+        } ORDER BY ${orderBy ? `${orderBy} DESC` : `UpdateDate DESC`} LIMIT ? OFFSET ?`
+        response.response = await db
+          .promise()
+          .query(query, [addedById, reqLimit, startIndex])
         response.response = response.response[0]
       }
 

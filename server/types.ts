@@ -1,4 +1,4 @@
-import { Response } from 'express'
+import { Request, Response } from 'express'
 
 export type authUserRequestProps = Response & {
   user: {
@@ -10,4 +10,10 @@ export type JwtObject = { userId: string }
 
 export type CustomPaginateResponse = Response & {
   paginatedResults?: Record<string, any>
+}
+
+export type AuthenticatedRequest = Request & {
+  user?: {
+    id: string
+  }
 }

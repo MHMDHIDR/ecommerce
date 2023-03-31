@@ -1,15 +1,26 @@
-import { Request, Response } from 'express'
+import { Response } from 'express'
 import asyncHandler from 'express-async-handler'
 import db from '../../helpers/db.js'
+import { AuthenticatedRequest } from '../../types.js'
 
-export const getUsers = asyncHandler(async (req: any, res: Response) => {
+export const getUsers = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
   const { id } = req.user ? req.user : req.params
 
-  const query = `SELECT * FROM users${id ? ` WHERE id = ?` : ''}`
+  const query = `SELECT id, username, avatarUrl, phone, status, type FROM users${
+    id ? ` WHERE id = ?` : ''
+  }
+  UNION 
+  SELECT id, username, avatarUrl, phone, status, type FROM admins${
+    id ? ` WHERE id = ?` : ''
+  }
+  UNION 
+  SELECT id, username, avatarUrl, phone, status, type FROM suppliers${
+    id ? ` WHERE id = ?` : ''
+  }`
 
-  db.query(query, [id], (err: any, user: any) => {
+  db.query(query, [id, id, id], (err: any, user: any) => {
     return err
-      ? res.status(500).json(err)
+      ? res.status(500).json({ err })
       : req.user
       ? res.json({
           id: user[0].id,

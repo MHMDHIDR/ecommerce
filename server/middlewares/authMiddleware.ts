@@ -3,12 +3,13 @@ import asyncHandler from 'express-async-handler'
 import { verifyJwt } from '../helpers/jwt.js'
 import { Response, NextFunction } from 'express'
 import db from '../helpers/db.js'
-import { JwtObject } from '../types'
+import { AuthenticatedRequest, JwtObject } from '../types'
 
 export const authMiddleware = asyncHandler(
-  async (req: any, res: Response, next: NextFunction) => {
+  async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     const { TokenExpiredError } = jwt
     const token = req.headers.authorization?.split(' ')[1]
+
     if (!token) {
       res.sendStatus(401)
       return
@@ -28,8 +29,8 @@ export const authMiddleware = asyncHandler(
     }
 
     db.query(
-      'SELECT id FROM users WHERE id = ?',
-      [payload.userId],
+      'SELECT id FROM users WHERE id = ? UNION SELECT id FROM admins WHERE id = ? UNION SELECT id FROM suppliers WHERE id = ?',
+      [payload.userId, payload.userId, payload.userId],
       (err: any, results: any) => {
         if (err) {
           res.status(401).send({ error: 'USER_NOT_FOUND' })

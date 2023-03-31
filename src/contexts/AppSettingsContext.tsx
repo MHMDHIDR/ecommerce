@@ -1,6 +1,7 @@
 import { useState, createContext, ReactNode } from 'react'
 import { AppSettingsProps, UserType } from '@/types'
 import { USER_DATA } from '@/constants'
+import useLocalStorage from '@/hooks/useLocalStorage'
 import { stringJson } from '@/utils/jsonTools'
 
 export const AppSettingsContext = createContext<AppSettingsProps>({} as AppSettingsProps)
@@ -26,6 +27,7 @@ const AppSettingsContextProvider = ({ children }: { children: ReactNode }) => {
   function setLocalStorageUser(user: UserType) {
     return localStorage.setItem('user', stringJson(user!))
   }
+
   function getLocalStorageUser() {
     return localStorage.getItem('user')!
   }
