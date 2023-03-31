@@ -244,7 +244,7 @@ export type UserType = {
 
 export type ActionBtnsProps = {
   id: string
-  phone: string
+  phone?: string
   itemName?: string
   type?: string
   label?: string
