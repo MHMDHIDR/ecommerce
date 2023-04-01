@@ -21,7 +21,7 @@ const Menu = () => {
 
   const { isSidebarOpen, menuToggler, getLocalStorageUser } =
     useContext<AppSettingsProps>(AppSettingsContext)
-  const { loading: loadingAuth, userData, isAuth } = useAuth()
+  const { userData } = useAuth()
   const {
     type: accountType,
     id,
@@ -107,7 +107,7 @@ const Menu = () => {
       lg:flex-wrap lg:justify-start lg:px-20
     `}
       >
-        <menu className='flex md:flex-col items-center gap-8 md:gap-12 w-full md:justify-start md:pt-40 justify-around'>
+        <menu className='flex md:flex-col items-center gap-2 sm:gap-8 md:gap-12 w-full md:justify-start md:pt-40 justify-around'>
           {!isSmallScreen && (
             <Link to='/' onClick={menuToggler}>
               <Logo width='24' height='20' />
@@ -129,7 +129,9 @@ const Menu = () => {
                   <span className='bg-black dark:bg-gray-300 p-2 rounded-full'>
                     <item.icon className='w-4 h-4 fill-gray-50 dark:fill-neutral-900' />
                   </span>
-                  <span className='px-2 dark:text-gray-50'>{item.label}</span>
+                  {!isSmallScreen && (
+                    <span className='px-2 dark:text-gray-50'>{item.label}</span>
+                  )}
                 </div>
               ) : (
                 <span className='[&>svg]:w-5 inline-block py-1.5'>
