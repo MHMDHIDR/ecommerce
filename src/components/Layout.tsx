@@ -1,10 +1,10 @@
 import Nav from './Nav'
-import Footer from './Footer'
+import Menu from './Menu'
 const Layout = ({ children }: { children: JSX.Element }) => (
   <>
     <Nav />
     {children}
-    <Footer />
+    <Menu />
   </>
 )
 export default Layout

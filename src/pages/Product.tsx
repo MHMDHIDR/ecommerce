@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
-import Footer from '@/components/Footer'
+import Menu from '@/components/Menu'
 import BackButton from '@/components/Icons/BackButton'
 import { CartIconLined } from '@/components/Icons/CartIcon'
 import { PRODUCT } from '@/constants'
@@ -120,7 +120,7 @@ const Product = () => {
           </Layout>
         )}
       </div>
-      <Footer />
+      <Menu />
     </>
   )
 }

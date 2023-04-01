@@ -25,11 +25,10 @@ const ViewUsers = () => {
   const DOCUMENT_TITLE = 'المستخدمين'
   useDocumentTitle(DOCUMENT_TITLE)
   const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
-
   const { loading: loadingAuth, userData, isAuth } = useAuth()
-  const { type } = !loadingAuth ? userData : parseJson(getLocalStorageUser())[0]
-
-  const accountType = parseJson(getLocalStorageUser())[0].type ?? type
+  const { type: accountType } = getLocalStorageUser()
+    ? (userData ?? { type: 'user' }) || parseJson(getLocalStorageUser())[0]
+    : USER_DATA
 
   const token = getCookies()
 
@@ -134,7 +133,7 @@ const ViewUsers = () => {
 
   return loadingAuth ? (
     <LoadingPage />
-  ) : isAuth && accountType !== 'admin' ? (
+  ) : !isAuth && accountType !== 'admin' ? (
     <ModalNotFound />
   ) : (
     <Layout>
