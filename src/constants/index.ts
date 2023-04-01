@@ -6,7 +6,7 @@ export const ITEMS_PER_PAGE = 10
 
 export const MAX_QUANTITY = 100
 
-export const TIME_TO_EXECUTE = 2000
+export const TIME_TO_EXECUTE = 3000
 
 export const isSmallScreen = window.innerWidth < 768 ? true : false
 
@@ -50,6 +50,9 @@ export const PRODUCT = (id: string) => {
 export const USER_DATA = {
   id: '',
   username: 'اسم المستخدم',
+  firstname: '',
+  lastname: '',
+  gender: 'male',
   avatarUrl: '/assets/img/profile.jpg',
   phone: '0123 456 789',
   status: '',

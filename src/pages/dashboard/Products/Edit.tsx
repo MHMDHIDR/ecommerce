@@ -24,7 +24,7 @@ import ModalNotFound from '@/components/Modal/ModalNotFound'
 import { createSlug, removeSlug } from '@/utils/slug'
 import notify from '@/utils/notify'
 import goTo from '@/utils/goTo'
-import { ProductProps, UserType } from '@/types'
+import { ProductProps, UserType, catchResponse } from '@/types'
 import { getCookies } from '@/utils/cookies'
 
 const EditProduct = () => {
@@ -111,11 +111,12 @@ const EditProduct = () => {
 
       setUpdatedItemStatus(itemUpdated)
       setUpdatedItemMessage(message)
-    } catch ({
-      response: {
-        data: { error }
-      }
-    }) {
+    } catch (err: any) {
+      const {
+        response: {
+          data: { error }
+        }
+      }: catchResponse = err
       setUpdatedItemStatus(0)
       setUpdatedItemMessage(`عفواً، حدث خطأ ما: ${error}`)
     } finally {

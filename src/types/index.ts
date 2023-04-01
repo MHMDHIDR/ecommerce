@@ -130,9 +130,12 @@ export type catchResponse = {
   response: {
     data: {
       message: string
+      error: string
       userLoggedIn?: number
       supplierLoggedIn?: number
       adminLoggedIn?: number
+      adminAdded?: number
+      supplierAdded?: number
     }
   }
 }
@@ -233,6 +236,7 @@ export type UserType = {
   type: string
   firstname?: string
   lastname?: string
+  gender?: string
   houseNumber?: number
   streetName?: string
   neighborhoodName?: string

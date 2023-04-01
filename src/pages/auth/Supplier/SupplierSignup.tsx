@@ -6,6 +6,7 @@ import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
 import notify from '@/utils/notify'
 import { LoadingSpinner } from '@/components/Loading'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
+import { catchResponse } from '@/types'
 
 const SupplierSignup = () => {
   const DOCUMENT_TITLE = 'تسجيل حساب التاجر'
@@ -25,7 +26,7 @@ const SupplierSignup = () => {
   const [password, setPassword] = useState('')
   //Form States
   const [isPassVisible, setIsPassVisible] = useState(false)
-  const [regStatus, setRegStatus] = useState<number | null>(null)
+  const [regStatus, setRegStatus] = useState<number>()
   const [regMsg, setRegMsg] = useState<any>('')
   const [isRegistering, setIsRegistering] = useState(false)
 
@@ -50,12 +51,13 @@ const SupplierSignup = () => {
 
       setRegStatus(supplierAdded)
       setRegMsg(message)
-    } catch ({
-      response: {
-        data: { message, supplierAdded }
-      }
-    }) {
-      setRegStatus(0)
+    } catch (error: any) {
+      const {
+        response: {
+          data: { message, supplierAdded }
+        }
+      }: catchResponse = error
+      setRegStatus(supplierAdded)
       setRegMsg(message)
     } finally {
       setIsRegistering(false)

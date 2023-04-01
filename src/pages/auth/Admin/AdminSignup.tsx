@@ -6,6 +6,7 @@ import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
 import notify from '@/utils/notify'
 import { LoadingSpinner } from '@/components/Loading'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
+import { catchResponse } from '@/types'
 
 const AdminSignup = () => {
   const DOCUMENT_TITLE = 'تسجيل حساب إداري'
@@ -20,7 +21,7 @@ const AdminSignup = () => {
   const [password, setPassword] = useState('')
   //Form States
   const [isPassVisible, setIsPassVisible] = useState(false)
-  const [regStatus, setRegStatus] = useState<number | null>(null)
+  const [regStatus, setRegStatus] = useState<number>()
   const [regMsg, setRegMsg] = useState<any>('')
   const [isRegistering, setIsRegistering] = useState(false)
 
@@ -41,12 +42,13 @@ const AdminSignup = () => {
 
       setRegStatus(adminAdded)
       setRegMsg(message)
-    } catch ({
-      response: {
-        data: { message, adminAdded }
-      }
-    }) {
-      setRegStatus(0)
+    } catch (error: any) {
+      const {
+        response: {
+          data: { message, adminAdded }
+        }
+      }: catchResponse = error
+      setRegStatus(adminAdded)
       setRegMsg(message)
     } finally {
       setIsRegistering(false)
