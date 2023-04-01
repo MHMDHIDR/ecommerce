@@ -28,7 +28,7 @@ const SupplierDashboard = () => {
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
-              {[...Array(5).keys()].map((_order: any, idx: number) => (
+              {[...Array(1).keys()].map((_order: any, idx: number) => (
                 <tr className='hover:bg-gray-50 dark:hover:bg-gray-700' key={idx}>
                   <td>
                     <Link to={`order/${ORDER._id}`} className='inline-block py-4 px-6'>
@@ -81,13 +81,21 @@ const SupplierDashboard = () => {
                     <NavMenu>
                       {ORDER.orderStatus === 'pending' ? (
                         <>
-                          <AcceptBtn id={'order._id'} phone={'order.userEmail'} />
+                          <AcceptBtn
+                            id={'order._id'}
+                            phone={'order.userEmail'}
+                            label='موافقة'
+                          />
                           <RejectBtn id={'order._id'} phone={'order.userEmail'} />
                         </>
                       ) : ORDER.orderStatus === 'accept' ? (
                         <RejectBtn id={'order._id'} phone={'order.userEmail'} />
                       ) : ORDER.orderStatus === 'reject' ? (
-                        <AcceptBtn id={'order._id'} phone={'order.userEmail'} />
+                        <AcceptBtn
+                          id={'order._id'}
+                          phone={'order.userEmail'}
+                          label='موافقة'
+                        />
                       ) : (
                         <span>لا يوجد إجراء</span>
                       )}

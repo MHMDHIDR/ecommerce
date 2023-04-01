@@ -102,7 +102,7 @@ export const ORDER = {
     }
   ],
   grandPrice: 39,
-  orderStatus: 'accept',
+  orderStatus: 'pending',
   orderDate: '2023-03-01T17:46:22.908+00:00'
 }
 
