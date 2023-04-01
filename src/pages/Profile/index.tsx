@@ -40,15 +40,13 @@ const Profile = () => {
     }
   }, [response])
 
-  return loadingFetch !== null && fetchedUser === null ? (
-    <LoadingPage />
-  ) : !accountId ? (
+  return !accountId ? (
     <ModalNotFound
       msg={`عليك تسجيل الدخول أولاً للمتابعة`}
       btnLink='/login?r=profile'
       btnName='تسجيل الدخول'
     />
-  ) : (
+  ) : !loadingFetch !== null && fetchedUser !== null ? (
     <Layout>
       <section className='container px-5 py-20 mx-auto rtl flex justify-center items-center max-w-6xl'>
         {isSmallScreen && <BackButton to='/' className='absolute z-50 top-6 left-6' />}
@@ -65,7 +63,7 @@ const Profile = () => {
             />
             <div className='py-2'>
               <h5 className='text-md font-semibold text-gray-800 dark:text-gray-100'>
-                {fetchedUser?.username}
+                {`${fetchedUser?.firstname} ${fetchedUser?.lastname}`}
               </h5>
               <p className='text-sm text-gray-600 dark:text-gray-100 ltr text-right'>
                 {fetchedUser?.phone}
@@ -97,6 +95,8 @@ const Profile = () => {
         </div>
       </section>
     </Layout>
+  ) : (
+    <LoadingPage />
   )
 }
 
