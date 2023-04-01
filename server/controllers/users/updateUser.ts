@@ -13,16 +13,33 @@ import { fromTable } from '../../helpers/fromTable.js'
 
 export const updateUser = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params
-  const { type, status, userFullName, gender, tel, currentProfileImg } = req.body
-  const firstname = userFullName.split(' ')[0]
-  const lastname = userFullName.split(' ')[1]
+  const {
+    type,
+    status,
+    userFullName,
+    gender,
+    houseNumber,
+    streetName,
+    neighborhoodName,
+    cityName,
+    phoneNumber,
+    tel,
+    currentProfileImg
+  } = req.body
+  const firstname = userFullName ? userFullName.trim().split(' ')[0] : ''
+  const lastname = userFullName ? userFullName.trim().split(' ')[1] : ''
 
   const values = [
-    firstname ?? '',
-    lastname ?? '',
-    gender,
-    currentProfileImg,
-    tel,
+    firstname ?? ('' || null),
+    lastname ?? ('' || null),
+    gender || null,
+    parseInt(houseNumber) || null,
+    streetName || null,
+    neighborhoodName || null,
+    cityName || null,
+    phoneNumber || null,
+    currentProfileImg || null,
+    tel || null,
     status === 'reject' ? 'block' : status === 'accept' ? 'active' : null
   ]
 
@@ -52,12 +69,22 @@ export const updateUser = asyncHandler(async (req: Request, res: Response) => {
     const imageRef = ref(storage, `profiles/${id}/${id}_${profileImgName}`)
     await uploadBytes(imageRef, profileImgData)
     const downloadURL = await getDownloadURL(imageRef)
-    values[3] = downloadURL
+    values[8] = downloadURL
   }
 
-  const query = `UPDATE ${fromTable(
-    type
-  )} SET firstname = ?, lastname = ?, gender = ?, avatarUrl= ?, phone = ?, status = IFNULL(?, status) WHERE id = ?`
+  const query = `UPDATE ${fromTable(type)}
+    SET firstname = IFNULL(?, firstname),
+        lastname = IFNULL(?, lastname),
+        gender = IFNULL(?, gender),
+        houseNumber = IFNULL(?, houseNumber),
+        streetName = IFNULL(?, streetName),
+        neighborhoodName = IFNULL(?, neighborhoodName),
+        cityName = IFNULL(?, cityName),
+        phone = IFNULL(?, phone),
+        avatarUrl = IFNULL(?, avatarUrl),
+        phone = IFNULL(?, phone),
+        status = IFNULL(?, status)
+    WHERE id = ?`
 
   db.query(query, [...values, id], (error: any, _data: any) => {
     return error
@@ -67,7 +94,7 @@ export const updateUser = asyncHandler(async (req: Request, res: Response) => {
         })
       : res.status(201).json({
           userUpdated: 1,
-          message: 'تم تحديث بيانات الحساب بنجاح'
+          message: 'تم تحديث البيانات بنجاح'
         })
   })
 })

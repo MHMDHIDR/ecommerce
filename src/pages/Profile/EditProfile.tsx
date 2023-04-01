@@ -25,17 +25,12 @@ const EditProfile = () => {
   const { loading, userData } = useAuth()
   const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
 
-  const {
-    username,
-    firstname,
-    lastname,
-    gender,
-    phone,
-    id: accountId
-  } = loading ? parseJson(getLocalStorageUser())[0] || USER_DATA : userData
+  const { id: accountId } = loading
+    ? parseJson(getLocalStorageUser())[0] || USER_DATA
+    : userData
 
   const [fetchedUser, setFetchedUser] = useState<UserType | null>(null)
-  const [userFullName, setUserFullName] = useState(`${firstname} ${lastname}`)
+  const [userFullName, setUserFullName] = useState('')
   const [tel, setTel] = useState('')
   const [userGender, setUserGender] = useState('')
   const [updateStatus, setUpdateStatus] = useState<any>(null)
@@ -51,6 +46,7 @@ const EditProfile = () => {
       Authorization: `Bearer ${token}`
     })
   })
+
   useEffect(() => {
     if (!loadingFetch && response !== null) {
       setFetchedUser(response !== null && response[0])
@@ -66,15 +62,10 @@ const EditProfile = () => {
     e.target.querySelector('button').setAttribute('disabled', 'disabled')
     setIsUpdating(true)
 
-    const firstname = userFullName.split(' ')[0]
-    const lastname = userFullName.split(' ')[1]
-
     const currentUserFullName =
-      (`${fetchedUser?.firstname} ${fetchedUser?.lastname}` ||
-        `${firstname} ${lastname}`) ??
-      username
-    const currentTel = tel || String(fetchedUser?.phone ?? phone)
-    const currentUserGender = (userGender ?? 'male') || (fetchedUser?.gender ?? 'male')
+      userFullName || `${fetchedUser?.firstname} ${fetchedUser?.lastname}`
+    const currentTel = tel || fetchedUser?.phone!
+    const currentUserGender = (userGender ?? 'male') || fetchedUser?.gender!
     const currentProfileImg = fetchedUser?.avatarUrl!
 
     //using FormData to send constructed data
@@ -143,6 +134,7 @@ const EditProfile = () => {
                 ],
                 imgName: fetchedUser?.username + ' profile'
               }}
+              required={false}
             />
           </label>
 
@@ -195,7 +187,7 @@ const EditProfile = () => {
               id='tel'
               className='form__input ltr text-right'
               onChange={e => setTel(e.target.value)}
-              defaultValue={fetchedUser ? fetchedUser?.phone : phone}
+              defaultValue={fetchedUser ? fetchedUser?.phone : tel}
               required
             />
           </label>

@@ -6,15 +6,15 @@ import { AuthenticatedRequest } from '../../types.js'
 export const getUser = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
   const { id } = req.user ? req.user : req.params
 
-  const query = `SELECT id, firstname, lastname, gender, username, avatarUrl, phone, status, type, registerDate FROM users${
+  const query = `SELECT id, firstname, lastname, gender, houseNumber, streetName, neighborhoodName, cityName, username, avatarUrl, phone, status, type, registerDate FROM users${
     id ? ` WHERE id = ?` : ''
   }
   UNION 
-  SELECT id, firstname, lastname, gender, username, avatarUrl, phone, status, type, registerDate FROM admins${
+  SELECT id, firstname, lastname, gender, houseNumber, streetName, neighborhoodName, cityName, username, avatarUrl, phone, status, type, registerDate FROM admins${
     id ? ` WHERE id = ?` : ''
   }
   UNION 
-  SELECT id, firstname, lastname, gender, username, avatarUrl, phone, status, type, registerDate FROM suppliers${
+  SELECT id, firstname, lastname, gender, houseNumber, streetName, neighborhoodName, cityName, username, avatarUrl, phone, status, type, registerDate FROM suppliers${
     id ? ` WHERE id = ?` : ''
   }`
 

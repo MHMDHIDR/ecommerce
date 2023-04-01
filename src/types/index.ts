@@ -229,11 +229,6 @@ export type NotifyProps = {
 
 export type UserType = {
   id: string
-  username: string
-  avatarUrl: string
-  phone: string
-  status: string
-  type: string
   firstname?: string
   lastname?: string
   gender?: string
@@ -241,6 +236,11 @@ export type UserType = {
   streetName?: string
   neighborhoodName?: string
   cityName?: string
+  username: string
+  avatarUrl: string
+  phone: string
+  status: string
+  type: string
   registerDate: string
   isAuth?: boolean
   dataFrom?: string
