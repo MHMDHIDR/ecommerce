@@ -66,6 +66,7 @@ const ShippingAddress = () => {
 
     //using FormData to send constructed data
     const formData = new FormData()
+    formData.append('type', fetchedUser?.type!)
     formData.append('houseNumber', String(currentHouseNumber))
     formData.append('streetName', currentStreetName!)
     formData.append('neighborhoodName', currentNeighborhoodName!)
