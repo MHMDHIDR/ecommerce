@@ -2,54 +2,42 @@ import { useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useCart } from '@/contexts/CartContext'
 import { AppSettingsContext } from '@/contexts/AppSettingsContext'
-import useAuth from '@/hooks/useAuth'
 import HomeIcon from './Icons/HomeIcon'
 import { CartIconFilled } from './Icons/CartIcon'
 import NotificationsIcon from './Icons/NotificationsIcon'
-import UsersIcon from './Icons/UsersIcon'
 import { AddBtn } from './Icons/ControlBtn'
+import { isActiveLink } from '@/utils/isActiveLink'
+import { isSmallScreen, USER_DATA } from '@/constants'
 import Logo from './Icons/Logo'
 import Shop from './Icons/Shop'
 import { AppSettingsProps } from '@/types'
-import { isSmallScreen, USER_DATA } from '@/constants'
 import Overlay from './Overlay'
-import { isActiveLink } from '@/utils/isActiveLink'
-import { parseJson } from '@/utils/jsonTools'
+import useAuth from '@/hooks/useAuth'
+import UsersIcon from './Icons/UsersIcon'
 
 const Menu = () => {
+  const { isSidebarOpen, menuToggler } = useContext<AppSettingsProps>(AppSettingsContext)
   const { totalUniqueItems } = useCart()
-
-  const { isSidebarOpen, menuToggler, getLocalStorageUser } =
-    useContext<AppSettingsProps>(AppSettingsContext)
+  const { pathname } = useLocation()
   const { userData } = useAuth()
-  const {
-    type: accountType,
-    id,
-    username,
-    avatarUrl
-  } = getLocalStorageUser()
-    ? (userData ?? { type: 'user' }) || parseJson(getLocalStorageUser())[0]
-    : USER_DATA
+  const { id, username, avatarUrl } = userData || USER_DATA
 
-  const MenuItems = [
+  const Menu = [
     {
       label: 'الرئيسية',
       to: '/',
-      icon: HomeIcon,
-      type: ['admin', 'supplier', 'user']
+      icon: HomeIcon
     },
     {
       label: 'السلة',
       to: '/cart',
       icon: CartIconFilled,
-      totalUniqueItems,
-      type: ['admin', 'user']
+      totalUniqueItems
     },
     {
       label: 'الإشعارات',
       to: '/notifications',
-      icon: NotificationsIcon,
-      type: ['admin', 'supplier', 'user']
+      icon: NotificationsIcon
     },
     {
       label: 'الحساب',
@@ -63,36 +51,78 @@ const Menu = () => {
           alt={`${username} Profile`}
           loading='lazy'
         />
-      ),
-      type: ['admin', 'supplier', 'user']
-    },
+      )
+    }
+  ]
+
+  const SupplierMenu = [
     {
       label: 'الطلبات',
-      to: `${accountType === 'admin' ? '/dashboard' : '/supplier'}`,
-      icon: HomeIcon,
-      type: ['admin', 'supplier']
+      to: '/supplier',
+      icon: HomeIcon
     },
     {
       label: 'إضافة منتج',
-      to: `${accountType === 'admin' ? '/dashboard/add' : '/supplier/add'}`,
-      icon: AddBtn,
-      type: ['admin', 'supplier']
+      to: '/supplier/add',
+      icon: AddBtn
     },
     {
       label: 'عرض المنتجات',
-      to: `${accountType === 'admin' ? '/dashboard/products' : '/supplier/products'}`,
-      icon: Shop,
-      type: ['admin', 'supplier']
+      to: '/supplier/products',
+      icon: Shop
+    },
+    {
+      label: 'الحساب',
+      to: !id ? '/login' : '/profile',
+      icon: () => (
+        <img
+          src={avatarUrl}
+          width={16}
+          height={16}
+          className='rounded-full w-4 h-4'
+          alt={`${username} Profile`}
+          loading='lazy'
+        />
+      )
+    }
+  ]
+
+  const DashboardMenu = [
+    {
+      label: 'الطلبات',
+      to: '/dashboard',
+      icon: HomeIcon
+    },
+    {
+      label: 'إضافة منتج',
+      to: '/dashboard/add',
+      icon: AddBtn
+    },
+    {
+      label: 'عرض المنتجات',
+      to: '/dashboard/products',
+      icon: Shop
     },
     {
       label: 'المستخدمين',
       to: '/dashboard/users',
-      icon: UsersIcon,
-      type: ['admin']
+      icon: UsersIcon
+    },
+    {
+      label: 'الحساب',
+      to: !id ? '/login' : '/profile',
+      icon: () => (
+        <img
+          src={avatarUrl}
+          width={16}
+          height={16}
+          className='rounded-full w-4 h-4'
+          alt={`${username} Profile`}
+          loading='lazy'
+        />
+      )
     }
   ]
-
-  const filteredMenuItems = MenuItems.filter(item => item.type.includes(accountType))
 
   return (
     <>
@@ -107,44 +137,94 @@ const Menu = () => {
       lg:flex-wrap lg:justify-start lg:px-20
     `}
       >
-        <menu className='flex md:flex-col items-center gap-2 sm:gap-8 md:gap-12 w-full md:justify-start md:pt-40 justify-around'>
+        <menu className='flex md:flex-col items-center gap-8 md:gap-12 w-full md:justify-start md:pt-40 justify-around'>
           {!isSmallScreen && (
             <Link to='/' onClick={menuToggler}>
               <Logo width='24' height='20' />
             </Link>
           )}
-          {filteredMenuItems.map((item, idx) => (
-            <Link
-              key={idx}
-              to={item.to}
-              type='button'
-              aria-controls='navbar'
-              aria-expanded='false'
-              aria-label='Toggle navigation'
-              className={`text-sm text-black rounded-full relative flex`}
-              onClick={menuToggler}
-            >
-              {isActiveLink(item.to) ? (
-                <div className='flex items-center'>
-                  <span className='bg-black dark:bg-gray-300 p-2 rounded-full'>
-                    <item.icon className='w-4 h-4 fill-gray-50 dark:fill-neutral-900' />
-                  </span>
-                  {!isSmallScreen && (
-                    <span className='px-2 dark:text-gray-50'>{item.label}</span>
+          {pathname.includes('supplier')
+            ? SupplierMenu.map((item, idx) => (
+                <Link
+                  key={idx}
+                  to={item.to}
+                  type='button'
+                  aria-controls='navbar'
+                  aria-expanded='false'
+                  aria-label='Toggle navigation'
+                  className={`text-sm text-black rounded-full relative flex`}
+                  onClick={menuToggler}
+                >
+                  {isActiveLink(item.to) ? (
+                    <div className='flex items-center'>
+                      <span className='bg-black dark:bg-gray-300 p-2 rounded-full'>
+                        <item.icon className='w-4 h-4 fill-gray-50 dark:fill-neutral-900' />
+                      </span>
+                      <span className='px-2 dark:text-gray-50'>{item.label}</span>
+                    </div>
+                  ) : (
+                    <span className='[&>svg]:w-5 inline-block py-1.5'>
+                      <item.icon className='w-5 h-5' />
+                    </span>
                   )}
-                </div>
-              ) : (
-                <span className='[&>svg]:w-5 inline-block py-1.5'>
-                  <item.icon className='w-5 h-5' />
-                </span>
-              )}
-              {item.totalUniqueItems ? (
-                <span className='absolute -top-2 right-2 rounded-full bg-red-700 py-0 px-1.5 text-xs text-white'>
-                  {item.totalUniqueItems}
-                </span>
-              ) : null}
-            </Link>
-          ))}
+                </Link>
+              ))
+            : pathname.includes('dashboard')
+            ? DashboardMenu.map((item, idx) => (
+                <Link
+                  key={idx}
+                  to={item.to}
+                  type='button'
+                  aria-controls='navbar'
+                  aria-expanded='false'
+                  aria-label='Toggle navigation'
+                  className={`text-sm text-black rounded-full relative flex`}
+                  onClick={menuToggler}
+                >
+                  {isActiveLink(item.to) ? (
+                    <div className='flex items-center'>
+                      <span className='bg-black dark:bg-gray-300 p-2 rounded-full'>
+                        <item.icon className='w-4 h-4 fill-gray-50 dark:fill-neutral-900' />
+                      </span>
+                      <span className='px-2 dark:text-gray-50'>{item.label}</span>
+                    </div>
+                  ) : (
+                    <span className='[&>svg]:w-5 inline-block py-1.5'>
+                      <item.icon className='w-5 h-5' />
+                    </span>
+                  )}
+                </Link>
+              ))
+            : Menu.map((item, idx) => (
+                <Link
+                  key={idx}
+                  to={item.to}
+                  type='button'
+                  aria-controls='navbar'
+                  aria-expanded='false'
+                  aria-label='Toggle navigation'
+                  className={`text-sm text-black rounded-full relative flex`}
+                  onClick={menuToggler}
+                >
+                  {isActiveLink(item.to) ? (
+                    <div className='flex items-center'>
+                      <span className='bg-black dark:bg-gray-300 p-2 rounded-full'>
+                        <item.icon className='w-4 h-4 fill-gray-50 dark:fill-neutral-900' />
+                      </span>
+                      <span className='px-2 dark:text-gray-50'>{item.label}</span>
+                    </div>
+                  ) : (
+                    <span className='[&>svg]:w-5 inline-block py-1.5'>
+                      <item.icon className='w-5 h-5' />
+                    </span>
+                  )}
+                  {item.totalUniqueItems ? (
+                    <span className='absolute -top-2 right-2 rounded-full bg-red-700 py-0 px-1.5 text-xs text-white'>
+                      {item.totalUniqueItems}
+                    </span>
+                  ) : null}
+                </Link>
+              ))}
         </menu>
       </section>
     </>
