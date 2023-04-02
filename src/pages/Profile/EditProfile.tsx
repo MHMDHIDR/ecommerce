@@ -71,6 +71,7 @@ const EditProfile = () => {
     //using FormData to send constructed data
     const formData = new FormData()
     formData.append('userFullName', currentUserFullName)
+    formData.append('type', fetchedUser?.type!)
     formData.append('tel', currentTel)
     formData.append('gender', currentUserGender)
     formData.append('currentProfileImg', currentProfileImg)

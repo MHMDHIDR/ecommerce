@@ -86,6 +86,8 @@ export const updateUser = asyncHandler(async (req: Request, res: Response) => {
         status = IFNULL(?, status)
     WHERE id = ?`
 
+  console.log(query)
+
   db.query(query, [...values, id], (error: any, _data: any) => {
     return error
       ? res.status(500).json({
