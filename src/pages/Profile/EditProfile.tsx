@@ -15,21 +15,33 @@ import { AppSettingsProps, catchResponse, UserType } from '@/types'
 import { useAxios } from '@/hooks/useAxios'
 import { parseJson, stringJson } from '@/utils/jsonTools'
 import axios from 'axios'
-import { getCookies } from '@/utils/cookies'
 import notify from '@/utils/notify'
 import goTo from '@/utils/goTo'
+import ModalNotFound from '@/components/Modal/ModalNotFound'
+import { getCookies } from '@/utils/cookies'
 
 const EditProfile = () => {
   useDocumentTitle('تعديل بيانات الحساب')
-  const token = getCookies()
-  const { loading, userData } = useAuth()
-  const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
 
-  const { id: accountId } = loading
-    ? parseJson(getLocalStorageUser())[0] || USER_DATA
+  const token = getCookies()
+  const { getLocalStorageUser, setLocalStorageUser } =
+    useContext<AppSettingsProps>(AppSettingsContext)
+  const { loading, userData } = useAuth()
+  const {
+    id: accountId,
+    avatarUrl,
+    username,
+    firstname,
+    lastname,
+    phone,
+    gender,
+    type
+  } = !userData
+    ? getLocalStorageUser()
+      ? parseJson(getLocalStorageUser())
+      : USER_DATA
     : userData
 
-  const [fetchedUser, setFetchedUser] = useState<UserType | null>(null)
   const [userFullName, setUserFullName] = useState('')
   const [tel, setTel] = useState('')
   const [userGender, setUserGender] = useState('')
@@ -38,20 +50,6 @@ const EditProfile = () => {
   const [isUpdating, setIsUpdating] = useState(false)
 
   const { file } = useContext(FileUploadContext)
-
-  const { loading: loadingFetch, response } = useAxios({
-    url: `/users/${accountId}`,
-    headers: stringJson({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    })
-  })
-
-  useEffect(() => {
-    if (!loadingFetch && response !== null) {
-      setFetchedUser(response !== null && response[0])
-    }
-  }, [response])
 
   const handleUpdateProfile = async (e: {
     target: any
@@ -62,15 +60,14 @@ const EditProfile = () => {
     e.target.querySelector('button').setAttribute('disabled', 'disabled')
     setIsUpdating(true)
 
-    const currentUserFullName =
-      userFullName || `${fetchedUser?.firstname} ${fetchedUser?.lastname}`
-    const currentTel = tel || fetchedUser?.phone!
-    const currentUserGender = (userGender ?? 'male') || fetchedUser?.gender!
-    const currentProfileImg = fetchedUser?.avatarUrl!
+    const currentUserFullName = userFullName || `${firstname} ${lastname}`
+    const currentTel = tel || phone!
+    const currentUserGender = (userGender ?? 'male') || gender!
+    const currentProfileImg = avatarUrl!
 
     //using FormData to send constructed data
     const formData = new FormData()
-    formData.append('type', fetchedUser?.type!)
+    formData.append('type', type!)
     formData.append('userFullName', currentUserFullName)
     formData.append('tel', currentTel)
     formData.append('gender', currentUserGender)
@@ -86,10 +83,45 @@ const EditProfile = () => {
           Authorization: `Bearer ${token}`
         }
       })
-      const { userUpdated, message } = response.data
+      const { userUpdated, message, updatedUser } = response.data
+      const {
+        id,
+        firstname,
+        lastname,
+        gender,
+        houseNumber,
+        streetName,
+        neighborhoodName,
+        cityName,
+        username,
+        avatarUrl,
+        phone,
+        status,
+        type,
+        registerDate
+      } = updatedUser
 
       setUpdateStatus(userUpdated)
       setUpdateMsg(message)
+
+      if (userUpdated === 1) {
+        setLocalStorageUser({
+          id,
+          firstname,
+          lastname,
+          gender,
+          houseNumber,
+          streetName,
+          neighborhoodName,
+          cityName,
+          username,
+          avatarUrl,
+          phone,
+          status,
+          type,
+          registerDate
+        })
+      }
     } catch (err: any) {
       const {
         response: {
@@ -103,16 +135,24 @@ const EditProfile = () => {
     }
   }
 
-  return !loadingFetch !== null && fetchedUser !== null ? (
+  return loading ? (
+    <LoadingPage />
+  ) : !accountId ? (
+    <ModalNotFound
+      msg={`عليك تسجيل الدخول أولاً للمتابعة`}
+      btnLink='/login?r=profile/edit'
+      btnName='تسجيل الدخول'
+    />
+  ) : (
     <Layout>
       <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl'>
         <div className='hidden'>
           {updateStatus === 1
             ? notify({
                 type: 'success',
-                msg: updateMsg,
-                reloadIn: TIME_TO_EXECUTE,
-                reloadTo: goTo('edit')
+                msg: updateMsg
+                // ,reloadIn: TIME_TO_EXECUTE,
+                // reloadTo: goTo('edit')
               })
             : updateStatus === 0
             ? notify({ type: 'error', msg: updateMsg })
@@ -129,11 +169,11 @@ const EditProfile = () => {
               data={{
                 defaultImg: [
                   {
-                    ImgDisplayName: fetchedUser?.username + ' profile',
-                    ImgDisplayPath: fetchedUser?.avatarUrl
+                    ImgDisplayName: username + ' profile',
+                    ImgDisplayPath: avatarUrl
                   }
                 ],
-                imgName: fetchedUser?.username + ' profile'
+                imgName: username + ' profile'
               }}
               required={false}
             />
@@ -146,7 +186,7 @@ const EditProfile = () => {
               id='username'
               className='form__input'
               onChange={e => setUserFullName(e.target.value)}
-              defaultValue={`${fetchedUser?.firstname} ${fetchedUser?.lastname}`}
+              defaultValue={`${firstname} ${lastname}`}
               required
             />
           </label>
@@ -159,9 +199,7 @@ const EditProfile = () => {
                 id='male'
                 name='gender'
                 value='male'
-                checked={
-                  userGender ? userGender === 'male' : fetchedUser.gender === 'male'
-                }
+                checked={userGender ? userGender === 'male' : gender === 'male'}
                 onChange={() => setUserGender('male')}
               />
               <span>ذكر</span>
@@ -173,9 +211,7 @@ const EditProfile = () => {
                 id='female'
                 name='gender'
                 value='female'
-                checked={
-                  userGender ? userGender === 'female' : fetchedUser.gender === 'female'
-                }
+                checked={userGender ? userGender === 'female' : gender === 'female'}
                 onChange={() => setUserGender('female')}
               />
               <span>أنثى</span>
@@ -188,7 +224,7 @@ const EditProfile = () => {
               id='tel'
               className='form__input ltr text-right'
               onChange={e => setTel(e.target.value)}
-              defaultValue={fetchedUser ? fetchedUser?.phone : tel}
+              defaultValue={phone ? phone : tel}
               required
             />
           </label>
@@ -232,8 +268,6 @@ const EditProfile = () => {
         </form>
       </section>
     </Layout>
-  ) : (
-    <LoadingPage />
   )
 }
 

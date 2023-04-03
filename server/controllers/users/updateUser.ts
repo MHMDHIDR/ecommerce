@@ -86,17 +86,26 @@ export const updateUser = asyncHandler(async (req: Request, res: Response) => {
         status = IFNULL(?, status)
     WHERE id = ?`
 
-  console.log(query)
+  db.query(query, [...values, id], (error: any, _: any) => {
+    if (error) {
+      return res.status(500).json({ userUpdated: 0, message: `عفواً حدث خطأ!: ${error}` })
+    }
+    // Get the updated user data
+    db.query(
+      `SELECT * FROM ${fromTable(type)} WHERE id = ?`,
+      [id],
+      (error: any, data: any) => {
+        if (error) {
+          return res
+            .status(500)
+            .json({ userUpdated: 0, message: `عفواً حدث خطأ!: ${error}` })
+        }
 
-  db.query(query, [...values, id], (error: any, _data: any) => {
-    return error
-      ? res.status(500).json({
-          userUpdated: 0,
-          message: `عفواً حدث خطأ!: ${error}`
-        })
-      : res.status(201).json({
-          userUpdated: 1,
-          message: 'تم تحديث البيانات بنجاح'
-        })
+        const updatedUser = data[0]
+        return res
+          .status(201)
+          .json({ userUpdated: 1, message: 'تم تحديث البيانات بنجاح', updatedUser })
+      }
+    )
   })
 })

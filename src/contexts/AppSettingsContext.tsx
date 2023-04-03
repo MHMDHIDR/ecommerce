@@ -1,7 +1,6 @@
 import { useState, createContext, ReactNode } from 'react'
 import { AppSettingsProps, UserType } from '@/types'
 import { USER_DATA } from '@/constants'
-import useLocalStorage from '@/hooks/useLocalStorage'
 import { stringJson } from '@/utils/jsonTools'
 
 export const AppSettingsContext = createContext<AppSettingsProps>({} as AppSettingsProps)

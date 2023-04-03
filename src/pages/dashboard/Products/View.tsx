@@ -102,7 +102,7 @@ const ViewProduct = () => {
 
   return loading ? (
     <LoadingPage />
-  ) : !id || (type !== 'admin' && type !== 'supplier') ? (
+  ) : !id && type !== 'admin' && type !== 'supplier' ? (
     <ModalNotFound />
   ) : (
     <Layout>

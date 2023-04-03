@@ -2,12 +2,17 @@ import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { AppSettingsContext } from '@/contexts/AppSettingsContext'
 import useAuth from '@/hooks/useAuth'
+import { parseJson } from '@/utils/jsonTools'
 import { USER_DATA } from '@/constants'
 
 const Nav = () => {
-  const { menuToggler } = useContext(AppSettingsContext)
+  const { menuToggler, getLocalStorageUser } = useContext(AppSettingsContext)
   const { userData } = useAuth()
-  const { id, username, avatarUrl } = userData || USER_DATA
+  const { id, username, avatarUrl } = !userData
+    ? getLocalStorageUser()
+      ? parseJson(getLocalStorageUser())
+      : USER_DATA
+    : userData
 
   return (
     <nav className='flex-no-wrap relative flex w-full items-center justify-between py-4 px-5 lg:flex-wrap lg:justify-start container mx-auto max-w-6xl'>

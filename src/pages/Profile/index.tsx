@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { AppSettingsContext } from '@/contexts/AppSettingsContext'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
@@ -9,44 +9,36 @@ import BorderLink from '@/components/Icons/BorderLink'
 import BackButton from '@/components/Icons/BackButton'
 import { isSmallScreen, PROFILE_LINKS, USER_DATA } from '@/constants'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
-import { parseJson, stringJson } from '@/utils/jsonTools'
-import { getCookies } from '@/utils/cookies'
-import { AppSettingsProps, UserType } from '@/types'
-import { useAxios } from '@/hooks/useAxios'
+import { parseJson } from '@/utils/jsonTools'
+import { AppSettingsProps } from '@/types'
 
 const Profile = () => {
   useDocumentTitle('إعدادات الحساب')
-  const token = getCookies()
-  const { loading, userData } = useAuth()
-  const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
 
-  const { id: accountId } = loading
-    ? parseJson(getLocalStorageUser())[0] || USER_DATA
+  const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
+  const { loading, userData } = useAuth()
+  const {
+    id: accountId,
+    avatarUrl,
+    username,
+    firstname,
+    lastname,
+    phone
+  } = !userData
+    ? getLocalStorageUser()
+      ? parseJson(getLocalStorageUser())
+      : USER_DATA
     : userData
 
-  const [fetchedUser, setFetchedUser] = useState<UserType | null>(null)
-
-  const { loading: loadingFetch, response } = useAxios({
-    url: `/users/${accountId}`,
-    headers: stringJson({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    })
-  })
-
-  useEffect(() => {
-    if (!loadingFetch && response !== null) {
-      setFetchedUser(response !== null && response[0])
-    }
-  }, [response])
-
-  return !accountId ? (
+  return loading ? (
+    <LoadingPage />
+  ) : !accountId ? (
     <ModalNotFound
       msg={`عليك تسجيل الدخول أولاً للمتابعة`}
       btnLink='/login?r=profile'
       btnName='تسجيل الدخول'
     />
-  ) : !loadingFetch !== null && fetchedUser !== null ? (
+  ) : (
     <Layout>
       <section className='container px-5 py-20 mx-auto rtl flex justify-center items-center max-w-6xl'>
         {isSmallScreen && <BackButton to='/' className='absolute z-50 top-6 left-6' />}
@@ -58,15 +50,15 @@ const Profile = () => {
           >
             <img
               className='h-16 w-16 rounded-lg object-cover'
-              src={fetchedUser?.avatarUrl}
-              alt={`${fetchedUser?.username} Avatar`}
+              src={avatarUrl}
+              alt={`${username} Avatar`}
             />
             <div className='py-2'>
               <h5 className='text-md font-semibold text-gray-800 dark:text-gray-100'>
-                {`${fetchedUser?.firstname} ${fetchedUser?.lastname}`}
+                {`${firstname} ${lastname}`}
               </h5>
               <p className='text-sm text-gray-600 dark:text-gray-100 ltr text-right'>
-                {fetchedUser?.phone}
+                {phone}
               </p>
             </div>
           </Link>
@@ -95,8 +87,6 @@ const Profile = () => {
         </div>
       </section>
     </Layout>
-  ) : (
-    <LoadingPage />
   )
 }
 

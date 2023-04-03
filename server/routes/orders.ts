@@ -12,7 +12,7 @@ import {
 const router = express.Router()
 
 router.get('/:id', getOrder)
-router.get('/:page?/:limit?', paginatedResults('orders'), getOrders)
+router.get('/:page?/:limit?', authMiddleware, paginatedResults('orders'), getOrders)
 router.patch('/:id', authMiddleware, updateOrder)
 router.delete('/:id', authMiddleware, deleteOrder)
 router.post('/', authMiddleware, addOrder)
