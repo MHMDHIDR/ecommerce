@@ -25,12 +25,11 @@ const AddProduct = () => {
   const DOCUMENT_TITLE = 'إضافة منتج جديد'
   useDocumentTitle(DOCUMENT_TITLE)
 
-  const { loading: loadingAuth, userData } = useAuth()
-  const { id: userId, type }: { id: UserType['id']; type: UserType['type'] } =
-    userData || {
-      id: USER_DATA.type,
-      type: USER_DATA.type
-    }
+  const { userData } = useAuth()
+  const { type }: { id: UserType['id']; type: UserType['type'] } = userData || {
+    id: USER_DATA.type,
+    type: USER_DATA.type
+  }
   const token = getCookies()
 
   //Form States

@@ -10,6 +10,7 @@ export type ModalProps = {
   redirectTime?: number
   btnName?: string
   btnLink?: string
+  onClick?: () => void
   ctaConfirmBtns?: string[]
   ctaSpecialBtns?: string[]
   fullscreen?: boolean

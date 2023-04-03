@@ -4,55 +4,26 @@ import asyncHandler from 'express-async-handler'
 import db from '../../helpers/db.js'
 
 export const addOrder = asyncHandler(async (req: Request, res: Response) => {
-  let {
-    id,
-    itemName,
-    imgUrl,
-    currentPrice,
-    oldPrice,
-    quantity,
-    description,
-    productStatus
-  } = req.body
+  let { productsItems, orderedBy } = req.body
 
-  ;(id = randomUUID()),
-    (imgUrl = '/assets/img/logo.png'),
-    (currentPrice = parseInt(currentPrice)),
-    (oldPrice = parseInt(currentPrice)),
-    (quantity = parseInt(quantity))
-
-  let discount = true,
-    rating = 0,
-    CreateDate = Date().toString(),
+  let CreateDate = Date().toString(),
     UpdateDate = Date().toString()
 
-  const values = [
-    id,
-    itemName,
-    imgUrl,
-    discount,
-    currentPrice,
-    oldPrice,
-    rating,
-    quantity,
-    description,
-    productStatus,
-    CreateDate,
-    UpdateDate
-  ]
+  const id = randomUUID()
+  const values = [id, productsItems, orderedBy, CreateDate, UpdateDate]
 
-  const query =
-    'INSERT INTO products (`id`, `itemName`, `imgUrl`, `discount`, `currentPrice`, `oldPrice`, `rating`, `quantity`, `description`, `productStatus`, `CreateDate`, `UpdateDate`) VALUES (?)'
+  const query = `INSERT INTO orders (id, productsItems, orderedBy, orderStatus, orderDate, updateDate)
+      VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`
 
-  db.query(query, [values], (error: any, _data: any) => {
+  db.query(query, values, (error: any, _data: any) => {
     return error
       ? res.status(500).json({
-          itemAdded: 0,
+          orderdded: 0,
           message: `عفواً حدث خطأ! ${error}`
         })
       : res.status(201).json({
-          itemAdded: 1,
-          message: 'تم اضافة المنتج بنجاح'
+          orderdded: 1,
+          message: `مبروك تم شراء المنتجات بنجاح! بإمكانك الرجوع للصفحة الرئيسية بالضغط على الزر أدناه`
         })
   })
 })

@@ -1,27 +1,20 @@
 import express from 'express'
 import { authMiddleware } from '../middlewares/authMiddleware.js'
+import { paginatedResults } from '../middlewares/paginatedResults.js'
 import {
-  getUsers,
-  signupUser,
-  loginUser,
-  signupSupplier,
-  loginSupplier,
-  forgotPass,
-  resetPass,
-  updateUser,
-  deleteUser
-} from '../controllers/users/index.js'
+  getOrder,
+  getOrders,
+  updateOrder,
+  deleteOrder,
+  addOrder
+} from '../controllers/orders/index.js'
 
 const router = express.Router()
 
-router.get('/:id?', authMiddleware, getUsers)
-router.post('/signup', signupUser)
-router.post('/login', loginUser)
-router.post('/signup-supplier', signupSupplier)
-router.post('/login-supplier', loginSupplier)
-router.post('/forgotpass', forgotPass)
-router.post('/resetpass', resetPass)
-router.patch('/:id', authMiddleware, updateUser)
-router.delete('/:id', authMiddleware, deleteUser)
+router.get('/:id', getOrder)
+router.get('/:page?/:limit?', paginatedResults('orders'), getOrders)
+router.patch('/:id', authMiddleware, updateOrder)
+router.delete('/:id', authMiddleware, deleteOrder)
+router.post('/', authMiddleware, addOrder)
 
 export default router

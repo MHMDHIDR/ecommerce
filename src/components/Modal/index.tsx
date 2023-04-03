@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Loading } from '../Icons/Status'
 import { ModalProps } from '@/types'
-// import ThemeToggler from '../ThemeToggler'
+import ThemeToggler from '../ThemeToggler'
 
 const Modal = ({
   msg = ``,
@@ -13,6 +13,7 @@ const Modal = ({
   redirectTime = 2500,
   btnName = '',
   btnLink = '/',
+  onClick,
   ctaConfirmBtns = [],
   ctaSpecialBtns = [],
   fullscreen
@@ -30,7 +31,7 @@ const Modal = ({
     >
       <span className='hidden'>
         {/* hidden theme toggler because I don't want user to change theme inside a modal view */}
-        {/* <ThemeToggler /> */}
+        <ThemeToggler />
       </span>
       <div className={fullscreen ? 'w-full' : 'container mx-auto'}>
         <div
@@ -50,6 +51,7 @@ const Modal = ({
             <Link
               to={btnLink}
               className='inline-block px-10 py-1 text-white bg-blue-600 rounded-md hover:bg-blue-700 mx-auto'
+              onClick={onClick}
             >
               {btnName}
             </Link>
