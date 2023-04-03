@@ -12,8 +12,8 @@ export const addOrder = asyncHandler(async (req: Request, res: Response) => {
   const id = randomUUID()
   const values = [id, productsItems, orderedBy, CreateDate, UpdateDate]
 
-  const query = `INSERT INTO orders (id, productsItems, orderedBy, orderStatus, orderDate, updateDate)
-      VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`
+  const query = `INSERT INTO orders (id, productsItems, orderedBy, orderDate, updateDate)
+      VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`
 
   db.query(query, values, (error: any, _data: any) => {
     return error
