@@ -1,5 +1,5 @@
-interface SupplierOrders {
-  [key: string]: { items: any[] }
+type SupplierOrders = {
+  [key: string]: { items: any[]; orderStatus: string }
 }
 
 export function groupItemsBySupplier(items: any[]): SupplierOrders {
@@ -8,7 +8,7 @@ export function groupItemsBySupplier(items: any[]): SupplierOrders {
   items.forEach(item => {
     const { addedById } = item
     if (!supplierOrders[addedById]) {
-      supplierOrders[addedById] = { items: [] }
+      supplierOrders[addedById] = { items: [], orderStatus: 'pending' }
     }
     supplierOrders[addedById].items.push(item)
   })

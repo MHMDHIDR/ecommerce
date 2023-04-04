@@ -143,7 +143,7 @@ const OrderAddress = () => {
               </li>
               <li className='flex gap-x-2'>
                 <span className='font-bold'>رقم الهاتف: </span>
-                <span className='text-gray-700 dark:text-gray-50'>
+                <span className='text-gray-700 dark:text-gray-50' dir='auto'>
                   {fetchedUser?.phone}
                 </span>
               </li>
