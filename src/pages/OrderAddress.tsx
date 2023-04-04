@@ -17,17 +17,21 @@ import { AppSettingsContext } from '@/contexts/AppSettingsContext'
 import axios from 'axios'
 import { Error, Success } from '@/components/Icons/Status'
 import Modal from '@/components/Modal'
+import { groupItemsBySupplier } from '@/utils/groupItemsBySupplier'
+import ModalNotFound from '@/components/Modal/ModalNotFound'
 
 const OrderAddress = () => {
   const DOCUMENT_TITLE = 'عنوان التوصيل'
   useDocumentTitle(DOCUMENT_TITLE)
 
   const token = getCookies()
-  const { loading, userData } = useAuth()
+  const { userData } = useAuth()
   const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
 
-  const { id: accountId } = loading
-    ? parseJson(getLocalStorageUser())[0] || USER_DATA
+  const { id: accountId } = !userData
+    ? getLocalStorageUser()
+      ? parseJson(getLocalStorageUser())
+      : USER_DATA
     : userData
 
   const { items, cartTotal, emptyCart, isEmpty } = useCart()
@@ -63,7 +67,7 @@ const OrderAddress = () => {
 
     //using FormData to send constructed data
     const formData = new FormData()
-    formData.append('productsItems', stringJson(items))
+    formData.append('productsItems', stringJson(groupItemsBySupplier(items)))
     formData.append('orderedBy', accountId)
 
     try {
@@ -87,6 +91,12 @@ const OrderAddress = () => {
 
   return loadingFetch ? (
     <LoadingPage />
+  ) : !accountId ? (
+    <ModalNotFound
+      msg={`عليك تسجيل الدخول أولاً للطلب من الموقع`}
+      btnLink='/login?r=order-address'
+      btnName='تسجيل الدخول'
+    />
   ) : (
     <Layout>
       <section className='container px-5 mx-auto rtl mb-20 flex flex-col gap-y-7 max-w-6xl'>

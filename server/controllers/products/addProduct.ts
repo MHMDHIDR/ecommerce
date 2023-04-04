@@ -6,12 +6,20 @@ import db from '../../helpers/db.js'
 import { firebaseApp } from '../../helpers/firebase.js'
 
 export const addProduct = asyncHandler(async (req: Request, res: Response) => {
-  let { itemName, currentPrice, quantity, category, description, productStatus } =
-    req.body
+  let {
+    addedById,
+    itemName,
+    currentPrice,
+    quantity,
+    category,
+    description,
+    productStatus
+  } = req.body
 
   const id = randomUUID()
   const values = [
     id,
+    addedById,
     itemName,
     '/assets/img/logo.png',
     parseInt(currentPrice),
@@ -21,23 +29,6 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
     description,
     productStatus
   ]
-
-  if (req.files) {
-    firebaseApp
-    let { productImg } = req.files
-    const storage = getStorage()
-    const productImgName = Array.isArray(productImg)
-      ? productImg[0].name
-      : productImg.name
-    const productImgData = Array.isArray(productImg)
-      ? productImg[0].data
-      : productImg.data
-
-    const imageRef = ref(storage, `products/${id}/${id}_${productImgName}`)
-    await uploadBytes(imageRef, productImgData)
-    const downloadURL = await getDownloadURL(imageRef)
-    values[2] = downloadURL
-  }
 
   const query = `INSERT INTO products (
     id,
@@ -54,15 +45,34 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
     UpdateDate
   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`
 
+  if (req.files) {
+    firebaseApp
+    let { productImg } = req.files
+    const storage = getStorage()
+    const productImgName = Array.isArray(productImg)
+      ? productImg[0].name
+      : productImg.name
+    const productImgData = Array.isArray(productImg)
+      ? productImg[0].data
+      : productImg.data
+
+    const imageRef = ref(storage, `products/${id}/${id}_${productImgName}`)
+    await uploadBytes(imageRef, productImgData)
+    const downloadURL = await getDownloadURL(imageRef)
+    values[3] = downloadURL
+  }
+
   db.query(query, values, (error: any, _data: any) => {
-    return error
-      ? res.status(500).json({
-          itemAdded: 0,
-          message: `عفواً حدث خطأ! ${error}`
-        })
-      : res.status(201).json({
-          itemAdded: 1,
-          message: 'تم اضافة المنتج بنجاح'
-        })
+    if (error) {
+      return res.status(500).json({
+        itemAdded: 0,
+        message: `عفواً حدث خطأ! ${error}`
+      })
+    }
+
+    return res.status(201).json({
+      itemAdded: 1,
+      message: 'تم اضافة المنتج بنجاح'
+    })
   })
 })

@@ -27,7 +27,7 @@ export const updateUser = asyncHandler(async (req: Request, res: Response) => {
     currentProfileImg
   } = req.body
   const firstname = userFullName ? userFullName.trim().split(' ')[0] : ''
-  const lastname = userFullName ? userFullName.trim().split(' ')[1] : ''
+  const lastname = userFullName ? userFullName.trim().split(' ').slice(1).join(' ') : ''
 
   const values = [
     firstname ?? ('' || null),

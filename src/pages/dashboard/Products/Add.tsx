@@ -26,7 +26,7 @@ const AddProduct = () => {
   useDocumentTitle(DOCUMENT_TITLE)
 
   const { userData } = useAuth()
-  const { type }: { id: UserType['id']; type: UserType['type'] } = userData || {
+  const { id, type }: { id: UserType['id']; type: UserType['type'] } = userData || {
     id: USER_DATA.type,
     type: USER_DATA.type
   }
@@ -52,12 +52,11 @@ const AddProduct = () => {
   }) => {
     e.preventDefault()
 
-    e.target.reset()
-    e.target.querySelector('button').setAttribute('disabled', 'disabled')
     setIsAdding(true)
 
     //using FormData to send constructed data
     const formData = new FormData()
+    formData.append('addedById', id)
     formData.append('itemName', itemName)
     formData.append('currentPrice', currentPrice)
     formData.append('quantity', quantity)
@@ -79,6 +78,10 @@ const AddProduct = () => {
 
       setAddItemStatus(itemAdded)
       setAddItemMessage(message)
+      if (itemAdded === 1) {
+        e.target.reset()
+        e.target.querySelector('button').setAttribute('disabled', 'disabled')
+      }
     } catch (error: any) {
       setAddItemStatus(0)
       setAddItemMessage(`عفواً، حدث خطأ ما: ${error.message}`)

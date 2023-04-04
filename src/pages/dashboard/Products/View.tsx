@@ -197,7 +197,7 @@ const ViewProduct = () => {
                         {product.productStatus === 'open'
                           ? 'تم الموافقة'
                           : product.productStatus === 'close'
-                          ? 'تم الرفض'
+                          ? 'لم يتم الموافقة بعد'
                           : 'في انتظار الادارة'}
                       </span>
                     </Link>
