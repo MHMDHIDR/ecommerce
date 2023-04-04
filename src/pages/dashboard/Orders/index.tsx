@@ -16,6 +16,7 @@ import ModalNotFound from '@/components/Modal/ModalNotFound'
 import { AppSettingsProps } from '@/types'
 import { OrderItems } from '@/constants/index'
 import goTo from '@/utils/goTo'
+import { removeSlug } from '@/utils/slug'
 
 const SupplierDashboard = () => {
   const DOCUMENT_TITLE = 'الطلبــــــــات'
@@ -32,6 +33,8 @@ const SupplierDashboard = () => {
     : userData
 
   const [orders, setOrders] = useState<any>()
+  const [orderItems, setOrderItems] = useState<any>()
+  const [orderStatus, setOrderStatus] = useState<any>()
 
   const { response, loading } = useAxios({
     url: `/orders`,
@@ -43,11 +46,16 @@ const SupplierDashboard = () => {
 
   useEffect(() => {
     if (response !== null) {
-      setOrders(response)
+      setOrders(response[0])
+      response?.filter((order: any) => {
+        const productItemsParsed = parseJson(order.productsItems)
+        setOrderItems(
+          productItemsParsed[id].items.filter((item: any) => item.addedById === id)
+        )
+        setOrderStatus(productItemsParsed[id].orderStatus)
+      })
     }
   }, [loading, response])
-
-  console.log(OrderItems.filter((item: any) => item.addedById === id))
 
   return loading ? (
     <LoadingPage />
@@ -68,11 +76,75 @@ const SupplierDashboard = () => {
             </tr>
           </thead>
           <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
-            {OrderItems.filter((item: any) => item.addedById === id).length > 0 ? (
-              OrderItems.filter((item: any) => item.addedById === id).map((item: any) => (
-                <tr>
+            {orderItems?.length > 0 ? (
+              orderItems.map((item: any, idx: number) => (
+                <tr key={item.id}>
                   <td>
-                    <span>{item.itemName}</span>
+                    <Link to={`order/${item.id}`} className='inline-block py-4 px-6'>
+                      <span>{idx + 1}</span>
+                    </Link>
+                  </td>
+                  <td className='min-w-[15rem]'>
+                    <Link to={`order/${item.id}`} className='inline-block py-4 px-6'>
+                      <span>{removeSlug(item.itemName)}</span>
+                    </Link>
+                  </td>
+                  <td>
+                    <Link to={`order/${item.id}`} className='inline-block py-4 px-6'>
+                      <span
+                        className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
+                          orderStatus === 'accept'
+                            ? 'text-green-600'
+                            : orderStatus === 'reject'
+                            ? 'text-red-600'
+                            : 'text-gray-600'
+                        }`}
+                      >
+                        <span
+                          className={`h-1.5 w-1.5 rounded-full ${
+                            orderStatus === 'accept'
+                              ? 'bg-green-600'
+                              : orderStatus === 'reject'
+                              ? 'bg-red-600'
+                              : 'bg-gray-600'
+                          }`}
+                        ></span>
+                        {orderStatus === 'accept'
+                          ? 'الطلب مقبول'
+                          : orderStatus === 'reject'
+                          ? 'الطلب مرفوض'
+                          : 'بإنتظار الاجراء'}
+                      </span>
+                    </Link>
+                  </td>
+                  <td className='min-w-[13rem]'>
+                    <Link to={`order/${item.id}`} className='inline-block py-4 px-6'>
+                      <span>{createLocaleDateString(orders.orderDate)}</span>
+                    </Link>
+                  </td>
+                  <td>
+                    <NavMenu>
+                      {orderStatus === 'pending' ? (
+                        <>
+                          <AcceptBtn
+                            id={'order._id'}
+                            phone={'order.userEmail'}
+                            label='موافقة'
+                          />
+                          <RejectBtn id={'order._id'} phone={'order.userEmail'} />
+                        </>
+                      ) : orderStatus === 'accept' ? (
+                        <RejectBtn id={'order._id'} phone={'order.userEmail'} />
+                      ) : orderStatus === 'reject' ? (
+                        <AcceptBtn
+                          id={'order._id'}
+                          phone={'order.userEmail'}
+                          label='موافقة'
+                        />
+                      ) : (
+                        <span>لا يوجد إجراء</span>
+                      )}
+                    </NavMenu>
                   </td>
                 </tr>
               ))
