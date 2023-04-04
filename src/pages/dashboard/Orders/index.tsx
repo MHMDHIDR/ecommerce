@@ -14,6 +14,8 @@ import { parseJson, stringJson } from '@/utils/jsonTools'
 import { useAxios } from '@/hooks/useAxios'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
 import { AppSettingsProps } from '@/types'
+import { OrderItems } from '@/constants/index'
+import goTo from '@/utils/goTo'
 
 const SupplierDashboard = () => {
   const DOCUMENT_TITLE = 'الطلبــــــــات'
@@ -45,6 +47,8 @@ const SupplierDashboard = () => {
     }
   }, [loading, response])
 
+  console.log(OrderItems.filter((item: any) => item.addedById === id))
+
   return loading ? (
     <LoadingPage />
   ) : !id && type !== 'admin' && type !== 'supplier' ? (
@@ -64,7 +68,31 @@ const SupplierDashboard = () => {
             </tr>
           </thead>
           <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
-            <tr></tr>
+            {OrderItems.filter((item: any) => item.addedById === id).length > 0 ? (
+              OrderItems.filter((item: any) => item.addedById === id).map((item: any) => (
+                <tr>
+                  <td>
+                    <span>{item.itemName}</span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={100} className='p-5'>
+                  <div className='flex flex-col justify-center items-center gap-y-4'>
+                    <p className='text-red-600 dark:text-red-400'>
+                      عفواً، لم يتم العثور على منتجات
+                    </p>
+                    <Link
+                      to={goTo('add')}
+                      className='rounded-md bg-blue-600 px-5 py-1 text-center text-sm text-white hover:bg-gray-700'
+                    >
+                      أضف منتج
+                    </Link>
+                  </div>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </section>
