@@ -10,6 +10,7 @@ export function groupItemsBySupplier(items: any[]): SupplierOrders {
     if (!supplierOrders[addedById]) {
       supplierOrders[addedById] = { items: [], orderStatus: 'pending' }
     }
+    item.itemStatus = 'pending' // Add default itemStatus property to item
     supplierOrders[addedById].items.push(item)
   })
 
