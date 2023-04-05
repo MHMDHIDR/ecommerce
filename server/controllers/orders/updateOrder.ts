@@ -4,9 +4,11 @@ import db from '../../helpers/db.js'
 
 export const updateOrder = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params
-  let { itemId, status } = req.body
+  let { productItems } = req.body
 
-  const values = [itemId, status]
+  console.log(productItems)
+
+  // const values = [itemId, status]
 
   const query =
     'UPDATE orders SET `itemName`= ?, `imgUrl`= ?, `discount`= ?, `currentPrice`= ?, `oldPrice`= ?, `rating`= ?, `quantity`= ?, `description`= ?, `productStatus`= ?, `CreateDate`= ?, `UpdateDate`= ? WHERE id = ?'

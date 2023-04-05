@@ -42,6 +42,7 @@ const SupplierDashboard = () => {
   const [actionOrderName, setActionOrderName] = useState('')
   const [eventState, setEventState] = useState('')
   const [actionItemId, setActionItemId] = useState('')
+  const [productItems, setProductItems] = useState<any>(null)
   const [isActionDone, setIsActionDone] = useState(null)
   const [actionMsg, setActionMsg] = useState('')
   const [modalLoading, setModalLoading] = useState<boolean>(false)
@@ -59,6 +60,7 @@ const SupplierDashboard = () => {
       setOrders(response[0])
       response?.filter((order: any) => {
         const productItemsParsed = parseJson(order.productsItems)
+        setProductItems(productItemsParsed)
         setOrderItems(
           productItemsParsed[id].items.filter((item: any) => item.addedById === id)
         )
@@ -79,7 +81,7 @@ const SupplierDashboard = () => {
       }
       case 'confirm': {
         eventState === 'reject' || eventState === 'accept'
-          ? handleOrderStatus(actionOrderId)
+          ? handleItemStatus()
           : setModalLoading(false)
         break
       }
@@ -95,16 +97,34 @@ const SupplierDashboard = () => {
     }
   })
 
-  const handleOrderStatus = async (id: string) => {
+  const handleStatusChange = (newStatus: string, itemId: string) => {
+    if (productItems) {
+      const updatedItems = productItems.items.map((item: any) => {
+        if (item.id === itemId) {
+          return {
+            ...item,
+            status: newStatus
+          }
+        }
+        return item
+      })
+      setProductItems({ ...productItems, items: updatedItems })
+    }
+  }
+
+  // { itemId: actionItemId, status: eventState }
+  const handleItemStatus = async () => {
     try {
       const headers = {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       }
 
+      console.log(productItems)
+
       const { data } = await axios.patch(
         `${API_URL}/orders/${id}`,
-        { itemId: actionItemId, status: eventState },
+        { productItems },
         { headers }
       )
 
