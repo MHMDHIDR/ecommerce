@@ -222,7 +222,7 @@ const SupplierDashboard = () => {
                         : 'بإنتظار الاجراء'}
                     </span>
                   </td>
-                  {type === 'admin' && <td className='py-4'>{item.addedById}</td>}
+                  {type === 'admin' && <td className='py-4'>{item.addedByName}</td>}
                   <td className='min-w-[13rem] py-2'>
                     <span>{createLocaleDateString(orders.orderDate)}</span>
                   </td>

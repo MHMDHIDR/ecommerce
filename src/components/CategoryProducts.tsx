@@ -11,7 +11,7 @@ import { PRODUCT } from '@/constants'
 
 const CategoryProducts = ({ name, category }: { name?: string; category?: string }) => {
   const [products, setProducts] = useState<ProductProps[]>([PRODUCT('1')])
-  const { response, loading } = useAxios({ url: `/products` })
+  const { response, loading } = useAxios({ url: `/products?status=open` })
 
   useEffect(() => {
     response && setProducts(response)
