@@ -160,6 +160,8 @@ export type ProductProps = {
   productStatus: string
   CreateDate: string
   UpdateDate: string
+  itemStatus?: 'accept' | 'reject' | 'pending'
+  itemId?: string
 }
 
 export type Item = {
@@ -251,6 +253,7 @@ export type ActionBtnsProps = {
   id: string
   phone?: string
   itemName?: string
+  itemId?: string
   type?: string
   label?: string
 }

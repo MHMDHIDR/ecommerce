@@ -2,11 +2,19 @@ import { Link } from 'react-router-dom'
 import goTo from '@/utils/goTo'
 import { ActionBtnsProps } from '@/types'
 
-export const AcceptBtn = ({ id, phone, itemName, type, label }: ActionBtnsProps) => (
+export const AcceptBtn = ({
+  id,
+  phone,
+  itemName,
+  itemId,
+  type,
+  label
+}: ActionBtnsProps) => (
   <button
     id='acceptBtn'
-    data-id={id}
+    data-orderid={id}
     data-name={itemName}
+    data-itemid={itemId}
     data-type={type}
     data-phone={phone}
     data-status='accept'
@@ -17,6 +25,32 @@ export const AcceptBtn = ({ id, phone, itemName, type, label }: ActionBtnsProps)
       &#9989;
     </span>
     <span className='mr-4 pointer-events-none'>{label ?? 'تفعيل'}</span>
+  </button>
+)
+
+export const RejectBtn = ({
+  id,
+  phone,
+  itemName,
+  itemId,
+  type,
+  label
+}: ActionBtnsProps) => (
+  <button
+    id='rejectBtn'
+    data-orderid={id}
+    data-name={itemName}
+    data-itemid={itemId}
+    data-type={type}
+    data-phone={phone}
+    data-status='reject'
+    className='m-1 py-2 text-xs text-white bg-gray-600 rounded-md hover:bg-gray-700 min-w-[7rem] relative text-center overflow-hidden border'
+    data-tooltip='رفض'
+  >
+    <span className='py-0.5 px-1 md:pl-1 bg-gray-300 rounded-md absolute right-2 top-1.5 pointer-events-none'>
+      &#10060;
+    </span>
+    <span className='mr-4 pointer-events-none'>{label ?? 'رفض'}</span>
   </button>
 )
 
@@ -32,24 +66,6 @@ export const EditBtn = ({ id }: any) => (
     </span>
     <span className='mr-4 pointer-events-none'>تعديل</span>
   </Link>
-)
-
-export const RejectBtn = ({ id, phone, itemName, type, label }: ActionBtnsProps) => (
-  <button
-    id='rejectBtn'
-    data-id={id}
-    data-name={itemName}
-    data-type={type}
-    data-phone={phone}
-    data-status='reject'
-    className='m-1 py-2 text-xs text-white bg-gray-600 rounded-md hover:bg-gray-700 min-w-[7rem] relative text-center overflow-hidden border'
-    data-tooltip='رفض'
-  >
-    <span className='py-0.5 px-1 md:pl-1 bg-gray-300 rounded-md absolute right-2 top-1.5 pointer-events-none'>
-      &#10060;
-    </span>
-    <span className='mr-4 pointer-events-none'>{label ?? 'رفض'}</span>
-  </button>
 )
 
 export const DeleteBtn = ({

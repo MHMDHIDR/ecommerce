@@ -38,11 +38,10 @@ const SupplierDashboard = () => {
 
   const [orders, setOrders] = useState<any>()
   const [orderItems, setOrderItems] = useState<any>()
-  const [orderStatus, setOrderStatus] = useState<any>()
-  const [actionUserId, setActionUserId] = useState('')
-  const [actionUserName, setActionUserName] = useState('')
-  const [actionUserType, setActionUserType] = useState('')
+  const [actionOrderId, setActionOrderId] = useState('')
+  const [actionOrderName, setActionOrderName] = useState('')
   const [eventState, setEventState] = useState('')
+  const [actionItemId, setActionItemId] = useState('')
   const [isActionDone, setIsActionDone] = useState(null)
   const [actionMsg, setActionMsg] = useState('')
   const [modalLoading, setModalLoading] = useState<boolean>(false)
@@ -63,7 +62,6 @@ const SupplierDashboard = () => {
         setOrderItems(
           productItemsParsed[id].items.filter((item: any) => item.addedById === id)
         )
-        setOrderStatus(productItemsParsed[id].orderStatus)
       })
     }
   }, [loading, response])
@@ -72,16 +70,16 @@ const SupplierDashboard = () => {
     switch (e.target.id) {
       case 'acceptBtn':
       case 'rejectBtn': {
-        setActionUserId(e.target.dataset.id)
-        setActionUserName(removeSlug(e.target.dataset.name))
-        setActionUserType(e.target.dataset.type)
+        setActionOrderId(e.target.dataset.orderid)
+        setActionItemId(e.target.dataset.itemid)
+        setActionOrderName(removeSlug(e.target.dataset.name))
         setEventState(e.target.dataset.status)
         setModalLoading(true)
         break
       }
       case 'confirm': {
         eventState === 'reject' || eventState === 'accept'
-          ? handleOrderStatus(actionUserId, actionUserType)
+          ? handleOrderStatus(actionOrderId)
           : setModalLoading(false)
         break
       }
@@ -97,20 +95,20 @@ const SupplierDashboard = () => {
     }
   })
 
-  const handleOrderStatus = async (id: string, type: string) => {
+  const handleOrderStatus = async (id: string) => {
     try {
       const headers = {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       }
 
-      const response = await axios.patch(
+      const { data } = await axios.patch(
         `${API_URL}/orders/${id}`,
-        { type, status: eventState },
+        { itemId: actionItemId, status: eventState },
         { headers }
       )
 
-      const { orderUpdated, message } = response.data
+      const { orderUpdated, message } = data
       setIsActionDone(orderUpdated)
       setActionMsg(message)
       //Remove waiting modal
@@ -148,7 +146,7 @@ const SupplierDashboard = () => {
             classes='text-blue-600 dark:text-blue-400 text-lg'
             msg={`هل أنت متأكد من ${
               eventState === 'reject' ? 'رفض' : eventState === 'accept' ? 'موافقة' : ''
-            } طلب ${actionUserName} ؟`}
+            } طلب ${actionOrderName} ؟`}
             ctaConfirmBtns={[
               eventState === 'reject' ? 'رفض' : eventState === 'accept' ? 'موافقة' : '',
               'الغاء'
@@ -190,25 +188,25 @@ const SupplierDashboard = () => {
                     <Link to={`order/${item.id}`} className='inline-block py-4 px-6'>
                       <span
                         className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
-                          orderStatus === 'accept'
+                          item.itemStatus === 'accept'
                             ? 'text-green-600'
-                            : orderStatus === 'reject'
+                            : item.itemStatus === 'reject'
                             ? 'text-red-600'
                             : 'text-gray-600'
                         }`}
                       >
                         <span
                           className={`h-1.5 w-1.5 rounded-full ${
-                            orderStatus === 'accept'
+                            item.itemStatus === 'accept'
                               ? 'bg-green-600'
-                              : orderStatus === 'reject'
+                              : item.itemStatus === 'reject'
                               ? 'bg-red-600'
                               : 'bg-gray-600'
                           }`}
                         ></span>
-                        {orderStatus === 'accept'
+                        {item.itemStatus === 'accept'
                           ? 'الطلب مقبول'
-                          : orderStatus === 'reject'
+                          : item.itemStatus === 'reject'
                           ? 'الطلب مرفوض'
                           : 'بإنتظار الاجراء'}
                       </span>
@@ -221,19 +219,33 @@ const SupplierDashboard = () => {
                   </td>
                   <td>
                     <NavMenu>
-                      {orderStatus === 'pending' ? (
+                      {item.itemStatus === 'pending' ? (
                         <>
                           <AcceptBtn
-                            id={item.id}
+                            id={orders.Id}
                             itemName={item.itemName}
+                            itemId={item.id}
                             label='موافقة'
                           />
-                          <RejectBtn id={item.id} itemName={item.itemName} />
+                          <RejectBtn
+                            id={orders.Id}
+                            itemName={item.itemName}
+                            itemId={item.id}
+                          />
                         </>
-                      ) : orderStatus === 'accept' ? (
-                        <RejectBtn id={item.id} itemName={item.itemName} />
-                      ) : orderStatus === 'reject' ? (
-                        <AcceptBtn id={item.id} itemName={item.itemName} label='موافقة' />
+                      ) : item.itemStatus === 'accept' ? (
+                        <RejectBtn
+                          id={orders.Id}
+                          itemName={item.itemName}
+                          itemId={item.id}
+                        />
+                      ) : item.itemStatus === 'reject' ? (
+                        <AcceptBtn
+                          id={orders.Id}
+                          itemName={item.itemName}
+                          itemId={item.id}
+                          label='موافقة'
+                        />
                       ) : (
                         <span>لا يوجد إجراء</span>
                       )}
