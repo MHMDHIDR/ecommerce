@@ -17,7 +17,7 @@ import { AppSettingsContext } from '@/contexts/AppSettingsContext'
 import axios from 'axios'
 import { Error, Success } from '@/components/Icons/Status'
 import Modal from '@/components/Modal'
-import { groupItemsBySupplier } from '@/utils/groupItemsBySupplier'
+import { groupItemsBySupplier } from '@/utils/orders'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
 
 const OrderAddress = () => {

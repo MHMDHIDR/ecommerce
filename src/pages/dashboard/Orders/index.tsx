@@ -21,6 +21,7 @@ import axios from 'axios'
 import Modal from '@/components/Modal'
 import { Loading } from '@/components/Icons/Status'
 import notify from '@/utils/notify'
+import { handleStatusChange } from '@/utils/orders'
 
 const SupplierDashboard = () => {
   const DOCUMENT_TITLE = 'الطلبــــــــات'
@@ -97,22 +98,6 @@ const SupplierDashboard = () => {
     }
   })
 
-  const handleStatusChange = (newStatus: string, itemId: string) => {
-    if (productItems) {
-      const updatedItems = productItems.items.map((item: any) => {
-        if (item.id === itemId) {
-          return {
-            ...item,
-            status: newStatus
-          }
-        }
-        return item
-      })
-      setProductItems({ ...productItems, items: updatedItems })
-    }
-  }
-
-  // { itemId: actionItemId, status: eventState }
   const handleItemStatus = async () => {
     try {
       const headers = {
@@ -120,11 +105,18 @@ const SupplierDashboard = () => {
         Authorization: `Bearer ${token}`
       }
 
-      console.log(productItems)
-
       const { data } = await axios.patch(
-        `${API_URL}/orders/${id}`,
-        { productItems },
+        `${API_URL}/orders/${actionOrderId}`,
+        {
+          productItems: stringJson(
+            handleStatusChange({
+              productItems,
+              id,
+              newStatus: eventState,
+              itemId: actionItemId
+            })
+          )
+        },
         { headers }
       )
 
@@ -153,7 +145,7 @@ const SupplierDashboard = () => {
                 type: 'success',
                 msg: actionMsg,
                 reloadIn: TIME_TO_EXECUTE,
-                reloadTo: goTo('users')
+                reloadTo: goTo('supplier')
               })
             : isActionDone === 0
             ? notify({ type: 'error', msg: actionMsg })
@@ -189,55 +181,45 @@ const SupplierDashboard = () => {
             {orderItems?.length > 0 ? (
               orderItems.map((item: ProductProps, idx: number) => (
                 <tr key={item.id}>
-                  <td>
-                    <Link to={`order/${item.id}`} className='inline-block py-4 px-6'>
-                      <span>{idx + 1}</span>
-                    </Link>
+                  <td className='py-2'>
+                    <span>{idx + 1}</span>
                   </td>
-                  <td className='min-w-[15rem]'>
-                    <Link to={`order/${item.id}`} className='inline-block py-4 px-6'>
-                      <span>{removeSlug(item.itemName)}</span>
-                    </Link>
+                  <td className='min-w-[15rem] py-2'>
+                    <span>{removeSlug(item.itemName)}</span>
                   </td>
-                  <td className='min-w-[15rem]'>
-                    <Link to={`order/${item.id}`} className='inline-block py-4 px-6'>
-                      <span>{item.quantity}</span>
-                    </Link>
+                  <td className='py-2'>
+                    <span>{item.quantity}</span>
                   </td>
-                  <td>
-                    <Link to={`order/${item.id}`} className='inline-block py-4 px-6'>
-                      <span
-                        className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
-                          item.itemStatus === 'accept'
-                            ? 'text-green-600'
-                            : item.itemStatus === 'reject'
-                            ? 'text-red-600'
-                            : 'text-gray-600'
-                        }`}
-                      >
-                        <span
-                          className={`h-1.5 w-1.5 rounded-full ${
-                            item.itemStatus === 'accept'
-                              ? 'bg-green-600'
-                              : item.itemStatus === 'reject'
-                              ? 'bg-red-600'
-                              : 'bg-gray-600'
-                          }`}
-                        ></span>
-                        {item.itemStatus === 'accept'
-                          ? 'الطلب مقبول'
+                  <td className='py-2'>
+                    <span
+                      className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
+                        item.itemStatus === 'accept'
+                          ? 'text-green-600'
                           : item.itemStatus === 'reject'
-                          ? 'الطلب مرفوض'
-                          : 'بإنتظار الاجراء'}
-                      </span>
-                    </Link>
+                          ? 'text-red-600'
+                          : 'text-gray-600'
+                      }`}
+                    >
+                      <span
+                        className={`h-1.5 w-1.5 rounded-full ${
+                          item.itemStatus === 'accept'
+                            ? 'bg-green-600'
+                            : item.itemStatus === 'reject'
+                            ? 'bg-red-600'
+                            : 'bg-gray-600'
+                        }`}
+                      ></span>
+                      {item.itemStatus === 'accept'
+                        ? 'الطلب مقبول'
+                        : item.itemStatus === 'reject'
+                        ? 'الطلب مرفوض'
+                        : 'بإنتظار الاجراء'}
+                    </span>
                   </td>
-                  <td className='min-w-[13rem]'>
-                    <Link to={`order/${item.id}`} className='inline-block py-4 px-6'>
-                      <span>{createLocaleDateString(orders.orderDate)}</span>
-                    </Link>
+                  <td className='min-w-[13rem] py-2'>
+                    <span>{createLocaleDateString(orders.orderDate)}</span>
                   </td>
-                  <td>
+                  <td className='py-2'>
                     <NavMenu>
                       {item.itemStatus === 'pending' ? (
                         <>
