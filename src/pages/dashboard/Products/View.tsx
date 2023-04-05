@@ -26,13 +26,21 @@ const ViewProduct = () => {
   const DOCUMENT_TITLE = 'عرض المنتجات'
   useDocumentTitle(DOCUMENT_TITLE)
 
-  const { loading: loadingAuth, userData } = useAuth()
-  const { id, type: authType } = userData || { id: USER_DATA.id, type: USER_DATA.type }
   const token = getCookies()
 
   const { getLocalStorageUser } = useContext(AppSettingsContext)
-  const addedById = parseJson(getLocalStorageUser())[0].id
-  const type = parseJson(getLocalStorageUser())[0].type ?? authType
+  const { loading: loadingAuth, userData } = useAuth()
+  const { id, type: authType } = userData || { id: USER_DATA.id, type: USER_DATA.type }
+  const addedById = getLocalStorageUser() ? parseJson(getLocalStorageUser())[0].id : id
+  const type = getLocalStorageUser() ? parseJson(getLocalStorageUser())[0].type : authType
+
+  const [delProductId, setDelProductId] = useState('')
+  const [delProductName, setDelProductName] = useState('')
+  const [delProductImg, setDelProductImg] = useState('')
+  const [isItemDeleted, setIsItemDeleted] = useState(null)
+  const [itemDeletedMsg, setItemDeletedMsg] = useState('')
+  const [modalLoading, setModalLoading] = useState<boolean>(false)
+  const [products, setProducts] = useState<ProductProps[]>([PRODUCT('1')])
 
   const { response, loading } = useAxios({
     url: `/products${type !== 'admin' ? `?addedById=${addedById}` : ''}`
@@ -43,14 +51,6 @@ const ViewProduct = () => {
       setProducts(response)
     }
   }, [loading, response])
-
-  const [delProductId, setDelProductId] = useState('')
-  const [delProductName, setDelProductName] = useState('')
-  const [delProductImg, setDelProductImg] = useState('')
-  const [isItemDeleted, setIsItemDeleted] = useState(null)
-  const [itemDeletedMsg, setItemDeletedMsg] = useState('')
-  const [modalLoading, setModalLoading] = useState<boolean>(false)
-  const [products, setProducts] = useState<ProductProps[]>([PRODUCT('1')])
 
   useEventListener('click', (e: any) => {
     switch (e.target.id) {
@@ -100,9 +100,9 @@ const ViewProduct = () => {
     }
   }
 
-  return loading ? (
+  return loadingAuth || loading ? (
     <LoadingPage />
-  ) : !id && type !== 'admin' && type !== 'supplier' ? (
+  ) : !id || (type !== 'admin' && type !== 'supplier') ? (
     <ModalNotFound />
   ) : (
     <Layout>

@@ -46,6 +46,7 @@ const SupplierDashboard = () => {
   const [productItems, setProductItems] = useState<any>(null)
   const [isActionDone, setIsActionDone] = useState(null)
   const [actionMsg, setActionMsg] = useState('')
+  const [isSettingOrderItems, setIsSettingOrderItems] = useState(true)
   const [modalLoading, setModalLoading] = useState<boolean>(false)
 
   const { response, loading } = useAxios({
@@ -63,11 +64,15 @@ const SupplierDashboard = () => {
         const productItemsParsed = parseJson(order.productsItems)
         setProductItems(productItemsParsed)
         setOrderItems(
-          productItemsParsed[id].items.filter((item: any) => item.addedById === id)
+          type === 'admin'
+            ? productItems &&
+                Object.values(productItems).flatMap(({ items }: any) => items)
+            : productItemsParsed[id]?.items.filter((item: any) => item.addedById === id)
         )
+        setIsSettingOrderItems(false)
       })
     }
-  }, [loading, response])
+  }, [loading, isSettingOrderItems, response])
 
   useEventListener('click', (e: any) => {
     switch (e.target.id) {
@@ -132,9 +137,9 @@ const SupplierDashboard = () => {
     }
   }
 
-  return loading ? (
+  return loading && isSettingOrderItems ? (
     <LoadingPage />
-  ) : !id && type !== 'admin' && type !== 'supplier' ? (
+  ) : !id || (type !== 'admin' && type !== 'supplier') ? (
     <ModalNotFound />
   ) : (
     <Layout>
@@ -173,6 +178,7 @@ const SupplierDashboard = () => {
               <th className='py-4'>اسم المنتج</th>
               <th className='py-4'>الكميـــــــــة</th>
               <th className='py-4'>الحالة</th>
+              {type === 'admin' && <th className='py-4'>اسم التاجر</th>}
               <th className='py-4'>تاريخ الطلب</th>
               <th className='py-4'>الإجراء</th>
             </tr>
@@ -216,42 +222,52 @@ const SupplierDashboard = () => {
                         : 'بإنتظار الاجراء'}
                     </span>
                   </td>
+                  {type === 'admin' && <td className='py-4'>{item.addedById}</td>}
                   <td className='min-w-[13rem] py-2'>
                     <span>{createLocaleDateString(orders.orderDate)}</span>
                   </td>
                   <td className='py-2'>
-                    <NavMenu>
-                      {item.itemStatus === 'pending' ? (
-                        <>
+                    {type === 'admin' ? (
+                      <Link
+                        to={`order/${id}`}
+                        className='inline-block p-2 text-xs text-white bg-green-600 rounded-md hover:bg-green-700 text-center'
+                      >
+                        عرض تفاصيل الطلب
+                      </Link>
+                    ) : (
+                      <NavMenu>
+                        {item.itemStatus === 'pending' ? (
+                          <>
+                            <AcceptBtn
+                              id={orders.Id}
+                              itemName={item.itemName}
+                              itemId={item.id}
+                              label='موافقة'
+                            />
+                            <RejectBtn
+                              id={orders.Id}
+                              itemName={item.itemName}
+                              itemId={item.id}
+                            />
+                          </>
+                        ) : item.itemStatus === 'accept' ? (
+                          <RejectBtn
+                            id={orders.Id}
+                            itemName={item.itemName}
+                            itemId={item.id}
+                          />
+                        ) : item.itemStatus === 'reject' ? (
                           <AcceptBtn
                             id={orders.Id}
                             itemName={item.itemName}
                             itemId={item.id}
                             label='موافقة'
                           />
-                          <RejectBtn
-                            id={orders.Id}
-                            itemName={item.itemName}
-                            itemId={item.id}
-                          />
-                        </>
-                      ) : item.itemStatus === 'accept' ? (
-                        <RejectBtn
-                          id={orders.Id}
-                          itemName={item.itemName}
-                          itemId={item.id}
-                        />
-                      ) : item.itemStatus === 'reject' ? (
-                        <AcceptBtn
-                          id={orders.Id}
-                          itemName={item.itemName}
-                          itemId={item.id}
-                          label='موافقة'
-                        />
-                      ) : (
-                        <span>لا يوجد إجراء</span>
-                      )}
-                    </NavMenu>
+                        ) : (
+                          <span>لا يوجد إجراء</span>
+                        )}
+                      </NavMenu>
+                    )}
                   </td>
                 </tr>
               ))

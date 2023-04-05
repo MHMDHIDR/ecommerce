@@ -27,6 +27,7 @@ import DashboardAddProduct from './pages/dashboard/Products/Add'
 import SupplierEditProduct from './pages/dashboard/Products/Edit'
 import DashboardViewProduct from './pages/dashboard/Products/View'
 import SupplierDashboard from './pages/dashboard/Orders'
+import DashboardOrderDetails from './pages/dashboard/Orders/Details'
 import DashboardViewUsers from './pages/dashboard/Users/View'
 import Profile from './pages/Profile'
 import EditProfile from './pages/Profile/EditProfile'
@@ -85,6 +86,10 @@ const App = () => {
                     <Route path='supplier/add' element={<DashboardAddProduct />} />
                     <Route path='supplier/products' element={<DashboardViewProduct />} />
                     <Route
+                      path='supplier/order/:id'
+                      element={<DashboardOrderDetails />}
+                    />
+                    <Route
                       path='supplier/product/:id'
                       element={<SupplierEditProduct />}
                     />
@@ -92,6 +97,10 @@ const App = () => {
                     <Route path='dashboard' element={<SupplierDashboard />} />
                     <Route path='dashboard/add' element={<DashboardAddProduct />} />
                     <Route path='dashboard/products' element={<DashboardViewProduct />} />
+                    <Route
+                      path='dashboard/order/:id'
+                      element={<DashboardOrderDetails />}
+                    />
                     <Route
                       path='dashboard/product/:id'
                       element={<SupplierEditProduct />}

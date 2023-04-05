@@ -1,13 +1,4 @@
-type SupplierOrders = {
-  [key: string]: { items: any[]; orderStatus: string }
-}
-
-type StatusChangeProps = {
-  productItems: SupplierOrders
-  id: string
-  newStatus: string
-  itemId: string
-}
+import { StatusChangeProps, SupplierOrders } from '@/types'
 
 export function groupItemsBySupplier(items: any[]): SupplierOrders {
   const supplierOrders: SupplierOrders = {}

@@ -161,6 +161,8 @@ export type ProductProps = {
   CreateDate: string
   UpdateDate: string
   itemStatus?: 'accept' | 'reject' | 'pending'
+  addedById?: string
+  addedByName?: string
   itemId?: string
 }
 
@@ -256,4 +258,15 @@ export type ActionBtnsProps = {
   itemId?: string
   type?: string
   label?: string
+}
+
+export type SupplierOrders = {
+  [key: string]: { items: any[]; orderStatus: string }
+}
+
+export type StatusChangeProps = {
+  productItems: SupplierOrders
+  id: string
+  newStatus: string
+  itemId: string
 }

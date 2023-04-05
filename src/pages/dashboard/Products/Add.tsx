@@ -19,18 +19,24 @@ import { FileUploadContext } from '@/contexts/FileUploadContext'
 import { createSlug } from '@/utils/slug'
 import notify from '@/utils/notify'
 import { getCookies } from '@/utils/cookies'
-import { UserType } from '@/types'
+import { AppSettingsProps } from '@/types'
+import { AppSettingsContext } from '@/contexts/AppSettingsContext'
+import { parseJson } from '@/utils/jsonTools'
+import ModalNotFound from '@/components/Modal/ModalNotFound'
 
 const AddProduct = () => {
   const DOCUMENT_TITLE = 'إضافة منتج جديد'
   useDocumentTitle(DOCUMENT_TITLE)
 
-  const { userData } = useAuth()
-  const { id, type }: { id: UserType['id']; type: UserType['type'] } = userData || {
-    id: USER_DATA.type,
-    type: USER_DATA.type
-  }
   const token = getCookies()
+
+  const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
+  const { loading, userData } = useAuth()
+  const { id, type } = !userData
+    ? getLocalStorageUser()
+      ? parseJson(getLocalStorageUser())
+      : USER_DATA
+    : userData
 
   //Form States
   const [itemName, setItemName] = useState('')
@@ -90,169 +96,168 @@ const AddProduct = () => {
     }
   }
 
-  return (
-    <Suspense fallback={<LoadingPage />}>
-      <Layout>
-        <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
-          <div className='hidden'>
-            {addItemStatus === 1
-              ? notify({
-                  type: 'success',
-                  msg: addItemMessage,
-                  reloadIn: TIME_TO_EXECUTE,
-                  reloadTo: goTo('products')
-                })
-              : addItemStatus === 0
-              ? notify({ type: 'error', msg: addItemMessage })
-              : null}
-          </div>
-          {isSmallScreen && <BackButton to='/' className='absolute z-50 top-6 left-6' />}
-          <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>
-          <form
-            className='relative flex flex-col items-center'
-            onSubmit={handleAddProduct}
-          >
-            <label htmlFor='uploadImg' className='flex items-center gap-y-2 flex-col'>
-              <FileUpload
-                data={{
-                  defaultImg: [
-                    {
-                      ImgDisplayName: 'product image',
-                      ImgDisplayPath: '/assets/img/logo.png'
-                    }
-                  ],
-                  imgName: 'product image',
-                  label: 'أضف صورة'
-                }}
-              />
-            </label>
+  return loading ? (
+    <LoadingPage />
+  ) : !id && type !== 'admin' && type !== 'supplier' ? (
+    <ModalNotFound />
+  ) : (
+    <Layout>
+      <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
+        <div className='hidden'>
+          {addItemStatus === 1
+            ? notify({
+                type: 'success',
+                msg: addItemMessage,
+                reloadIn: TIME_TO_EXECUTE,
+                reloadTo: goTo('products')
+              })
+            : addItemStatus === 0
+            ? notify({ type: 'error', msg: addItemMessage })
+            : null}
+        </div>
+        {isSmallScreen && <BackButton to='/' className='absolute z-50 top-6 left-6' />}
+        <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>
+        <form className='relative flex flex-col items-center' onSubmit={handleAddProduct}>
+          <label htmlFor='uploadImg' className='flex items-center gap-y-2 flex-col'>
+            <FileUpload
+              data={{
+                defaultImg: [
+                  {
+                    ImgDisplayName: 'product image',
+                    ImgDisplayPath: '/assets/img/logo.png'
+                  }
+                ],
+                imgName: 'product image',
+                label: 'أضف صورة'
+              }}
+            />
+          </label>
 
-            <label htmlFor='username' className='form__group'>
-              <span className='form__label'>اسم المنتج</span>
-              <input
-                type='text'
-                id='username'
-                className='form__input'
-                onChange={e => setItemName(createSlug(e.target.value.trim()))}
-                required
-              />
-            </label>
+          <label htmlFor='username' className='form__group'>
+            <span className='form__label'>اسم المنتج</span>
+            <input
+              type='text'
+              id='username'
+              className='form__input'
+              onChange={e => setItemName(createSlug(e.target.value.trim()))}
+              required
+            />
+          </label>
 
-            <label htmlFor='price' className='form__group'>
-              <span className='form__label'>السعر</span>
-              <input
-                type='number'
-                id='price'
-                className='form__input'
-                onChange={e => setCurrentPrice(e.target.value.trim())}
-                required
-              />
-            </label>
+          <label htmlFor='price' className='form__group'>
+            <span className='form__label'>السعر</span>
+            <input
+              type='number'
+              id='price'
+              className='form__input'
+              onChange={e => setCurrentPrice(e.target.value.trim())}
+              required
+            />
+          </label>
 
-            <label htmlFor='quantity' className='form__group'>
-              <span className='form__label'>الكمية</span>
-              <input
-                type='number'
-                id='quantity'
-                className='form__input'
-                onChange={e => setQuantity(e.target.value.trim())}
-                required
-              />
-            </label>
+          <label htmlFor='quantity' className='form__group'>
+            <span className='form__label'>الكمية</span>
+            <input
+              type='number'
+              id='quantity'
+              className='form__input'
+              onChange={e => setQuantity(e.target.value.trim())}
+              required
+            />
+          </label>
 
-            {type === 'admin' && (
-              <div className='form__group'>
-                <span className='form__label'>حالة المنتج</span>
-                <label className='form__group cursor-pointer' htmlFor='open'>
-                  <input
-                    className='form__input'
-                    type='radio'
-                    id='open'
-                    name='type'
-                    value='open'
-                    checked={productStatus === 'open'}
-                    onChange={e => setProductStatus(e.target.value)}
-                  />
-                   <span>مفتوح</span>
-                </label>
-                <label className='form__group cursor-pointer' htmlFor='close'>
-                  <input
-                    className='form__input'
-                    type='radio'
-                    id='close'
-                    name='type'
-                    value='close'
-                    checked={productStatus === 'close'}
-                    onChange={e => setProductStatus(e.target.value)}
-                  />
-                   <span>مغلق</span>
-                </label>
-              </div>
-            )}
-
-            <label htmlFor='category' className='form__group'>
-              <span className='form__label active'>التصنيف</span>
-              <select
-                id='category'
-                className='form__input'
-                onChange={e =>
-                  setCategory([
-                    e.target.value.trim(),
-                    e.target.options[e.target.selectedIndex].textContent
-                  ])
-                }
-              >
-                <option value=''>اختر التصنيف</option>
-                {CATEGORIES?.map(({ en_label, ar_label }, idx) => (
-                  <option key={idx} value={en_label}>
-                    {ar_label}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <label htmlFor='description' className='form__group'>
-              <span className='form__label'>وصف المنتج</span>
-              <textarea
-                name='description'
-                id='description'
-                minLength={10}
-                maxLength={1000}
-                className='form__input'
-                required
-                onChange={e => setItemDesc(e.target.value.trim())}
-              ></textarea>
-            </label>
-
-            <div className='flex items-center gap-x-20'>
-              <button
-                type='submit'
-                className={`min-w-[7rem] bg-green-600 hover:bg-green-700 text-white py-1.5 px-6 rounded-md${
-                  isAdding || addItemStatus === 1
-                    ? ' disabled:opacity-30 disabled:hover:bg-green-700 disabled:cursor-not-allowed'
-                    : ''
-                }`}
-              >
-                {isAdding ? (
-                  <>
-                    <LoadingSpinner />
-                    &nbsp; جارِ اضافة المنتج...
-                  </>
-                ) : (
-                  'إضافة'
-                )}
-              </button>
-              <Link
-                to={goTo('products')}
-                className='text-gray-800 underline-hover text-bold dark:text-white'
-              >
-                القائمة
-              </Link>
+          {type === 'admin' && (
+            <div className='form__group'>
+              <span className='form__label'>حالة المنتج</span>
+              <label className='form__group cursor-pointer' htmlFor='open'>
+                <input
+                  className='form__input'
+                  type='radio'
+                  id='open'
+                  name='type'
+                  value='open'
+                  checked={productStatus === 'open'}
+                  onChange={e => setProductStatus(e.target.value)}
+                />
+                 <span>مفتوح</span>
+              </label>
+              <label className='form__group cursor-pointer' htmlFor='close'>
+                <input
+                  className='form__input'
+                  type='radio'
+                  id='close'
+                  name='type'
+                  value='close'
+                  checked={productStatus === 'close'}
+                  onChange={e => setProductStatus(e.target.value)}
+                />
+                 <span>مغلق</span>
+              </label>
             </div>
-          </form>
-        </section>
-      </Layout>
-    </Suspense>
+          )}
+
+          <label htmlFor='category' className='form__group'>
+            <span className='form__label active'>التصنيف</span>
+            <select
+              id='category'
+              className='form__input'
+              onChange={e =>
+                setCategory([
+                  e.target.value.trim(),
+                  e.target.options[e.target.selectedIndex].textContent
+                ])
+              }
+            >
+              <option value=''>اختر التصنيف</option>
+              {CATEGORIES?.map(({ en_label, ar_label }, idx) => (
+                <option key={idx} value={en_label}>
+                  {ar_label}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label htmlFor='description' className='form__group'>
+            <span className='form__label'>وصف المنتج</span>
+            <textarea
+              name='description'
+              id='description'
+              minLength={10}
+              maxLength={1000}
+              className='form__input'
+              required
+              onChange={e => setItemDesc(e.target.value.trim())}
+            ></textarea>
+          </label>
+
+          <div className='flex items-center gap-x-20'>
+            <button
+              type='submit'
+              className={`min-w-[7rem] bg-green-600 hover:bg-green-700 text-white py-1.5 px-6 rounded-md${
+                isAdding || addItemStatus === 1
+                  ? ' disabled:opacity-30 disabled:hover:bg-green-700 disabled:cursor-not-allowed'
+                  : ''
+              }`}
+            >
+              {isAdding ? (
+                <>
+                  <LoadingSpinner />
+                  &nbsp; جارِ اضافة المنتج...
+                </>
+              ) : (
+                'إضافة'
+              )}
+            </button>
+            <Link
+              to={goTo('products')}
+              className='text-gray-800 underline-hover text-bold dark:text-white'
+            >
+              القائمة
+            </Link>
+          </div>
+        </form>
+      </section>
+    </Layout>
   )
 }
 
