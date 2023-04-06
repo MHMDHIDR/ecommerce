@@ -13,7 +13,7 @@ import { AppSettingsContext } from '@/contexts/AppSettingsContext'
 import { parseJson, stringJson } from '@/utils/jsonTools'
 import { useAxios } from '@/hooks/useAxios'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
-import { AppSettingsProps, ProductProps } from '@/types'
+import { AppSettingsProps, ProductProps, UserType } from '@/types'
 import goTo from '@/utils/goTo'
 import { removeSlug } from '@/utils/slug'
 import useEventListener from '@/hooks/useEventListener'
@@ -22,6 +22,7 @@ import Modal from '@/components/Modal'
 import { Loading } from '@/components/Icons/Status'
 import notify from '@/utils/notify'
 import { handleStatusChange } from '@/utils/orders'
+import { getUserFullName } from '@/utils/getUser'
 
 const SupplierDashboard = () => {
   const DOCUMENT_TITLE = 'الطلبــــــــات'
@@ -37,6 +38,7 @@ const SupplierDashboard = () => {
       : USER_DATA
     : userData
 
+  const [usersData, setUserData] = useState()
   const [orders, setOrders] = useState<any>()
   const [orderItems, setOrderItems] = useState<any>()
   const [actionOrderId, setActionOrderId] = useState('')
@@ -57,8 +59,16 @@ const SupplierDashboard = () => {
     })
   })
 
+  const Users = useAxios({
+    url: `/users`,
+    headers: stringJson({
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${token}`
+    })
+  })
+
   useEffect(() => {
-    if (response !== null) {
+    if (response !== null && Users.response !== null) {
       setOrders(response)
       response?.filter((order: any) => {
         const productItemsParsed = parseJson(order.productsItems)
@@ -67,10 +77,13 @@ const SupplierDashboard = () => {
           type === 'admin'
             ? productItems &&
                 Object.values(productItems).flatMap(({ items }: any) => items)
-            : productItemsParsed[id]?.items.filter((item: any) => order.addedById === id)
+            : productItemsParsed[id]?.items.filter(
+                (item: ProductProps) => item.addedById === id
+              )
         )
         setIsSettingOrderItems(false)
       })
+      setUserData(Users.response)
     }
   }, [loading, isSettingOrderItems, response])
 
@@ -103,6 +116,7 @@ const SupplierDashboard = () => {
     }
   })
 
+  console.log(id)
   const handleItemStatus = async () => {
     try {
       const headers = {
@@ -136,8 +150,6 @@ const SupplierDashboard = () => {
       console.error(err)
     }
   }
-
-  console.log(orders)
 
   return loading && isSettingOrderItems ? (
     <LoadingPage />
@@ -302,7 +314,9 @@ const SupplierDashboard = () => {
                       <span>{idx + 1}</span>
                     </td>
                     <td className='min-w-[15rem] py-2'>
-                      <span>{removeSlug(order.orderedBy)}</span>
+                      <span>
+                        {usersData && getUserFullName(usersData, order.orderedBy)}
+                      </span>
                     </td>
                     <td className='py-2'>
                       <span

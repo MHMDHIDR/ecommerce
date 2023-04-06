@@ -255,6 +255,7 @@ export type ActionBtnsProps = {
   id: string
   phone?: string
   itemName?: string
+  supplierId?: string
   itemId?: string
   type?: string
   label?: string

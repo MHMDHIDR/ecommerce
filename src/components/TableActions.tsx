@@ -6,6 +6,7 @@ export const AcceptBtn = ({
   id,
   phone,
   itemName,
+  supplierId,
   itemId,
   type,
   label
@@ -14,6 +15,7 @@ export const AcceptBtn = ({
     id='acceptBtn'
     data-orderid={id}
     data-name={itemName}
+    data-supplierid={supplierId}
     data-itemid={itemId}
     data-type={type}
     data-phone={phone}
@@ -32,6 +34,7 @@ export const RejectBtn = ({
   id,
   phone,
   itemName,
+  supplierId,
   itemId,
   type,
   label
@@ -40,6 +43,7 @@ export const RejectBtn = ({
     id='rejectBtn'
     data-orderid={id}
     data-name={itemName}
+    data-supplierid={supplierId}
     data-itemid={itemId}
     data-type={type}
     data-phone={phone}
