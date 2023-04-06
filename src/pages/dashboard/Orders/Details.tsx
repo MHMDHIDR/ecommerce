@@ -17,7 +17,7 @@ import { Loading } from '@/components/Icons/Status'
 import { API_URL, isSmallScreen, TIME_TO_EXECUTE, USER_DATA } from '@/constants'
 import goTo from '@/utils/goTo'
 import { getCookies } from '@/utils/cookies'
-import { AppSettingsProps, ProductProps } from '@/types'
+import { AppSettingsProps, ProductProps, UserType } from '@/types'
 import { parseJson, stringJson } from '@/utils/jsonTools'
 import { createLocaleDateString } from '@/utils/convertDate'
 import { removeSlug } from '@/utils/slug'
@@ -29,7 +29,7 @@ const DashboardOrderDetails = () => {
   useDocumentTitle(DOCUMENT_TITLE)
 
   const token = getCookies()
-  const { id: orderId } = useParams()
+  const { id: orderId, userId } = useParams()
 
   const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
   const { userData } = useAuth()
@@ -39,6 +39,7 @@ const DashboardOrderDetails = () => {
       : USER_DATA
     : userData
 
+  const [usersData, setUserData] = useState<UserType | null>(null)
   const [order, setOrder] = useState<any>()
   const [orderItems, setOrderItems] = useState<any>()
   const [actionOrderId, setActionOrderId] = useState('')
@@ -60,8 +61,16 @@ const DashboardOrderDetails = () => {
     })
   })
 
+  const Users = useAxios({
+    url: `/users/${userId}`,
+    headers: stringJson({
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${token}`
+    })
+  })
+
   useEffect(() => {
-    if (response !== null) {
+    if (response !== null && Users.response !== null) {
       setOrder(response[0])
       response?.filter((order: any) => {
         const productItemsParsed = parseJson(order.productsItems)
@@ -74,10 +83,11 @@ const DashboardOrderDetails = () => {
                 (item: ProductProps) => item.addedById === id
               )
         )
-        setIsSettingOrderItems(false)
       })
+      setUserData(Users.response[0])
+      setIsSettingOrderItems(false)
     }
-  }, [loading, response, isSettingOrderItems])
+  }, [loading, isSettingOrderItems, Users.response, response])
 
   useEventListener('click', (e: any) => {
     switch (e.target.id) {
@@ -170,7 +180,7 @@ const DashboardOrderDetails = () => {
     }
   }
 
-  return loading && isSettingOrderItems ? (
+  return loading || isSettingOrderItems ? (
     <LoadingPage />
   ) : !id || type !== 'admin' ? (
     <ModalNotFound />
@@ -184,7 +194,7 @@ const DashboardOrderDetails = () => {
                 type: 'success',
                 msg: actionMsg,
                 reloadIn: TIME_TO_EXECUTE,
-                reloadTo: goTo(`order/${orderId}`)
+                reloadTo: goTo(`order/${orderId}/${userId}`)
               })
             : isActionDone === 0
             ? notify({ type: 'error', msg: actionMsg })
@@ -204,8 +214,8 @@ const DashboardOrderDetails = () => {
             ]}
           />
         )}
-        <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>
 
+        <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>
         <table className='w-full bg-white dark:bg-gray-600 text-xs text-gray-900 dark:text-white text-center rounded-lg border border-gray-200 dark:border-gray-900 shadow-md dark:shadow-gray-900'>
           <thead className='bg-gray-50 dark:bg-gray-700'>
             <tr>
@@ -312,6 +322,44 @@ const DashboardOrderDetails = () => {
             )}
           </tbody>
         </table>
+
+        <h2 className='text-xl text-center my-16'>عنوان التوصيل</h2>
+        <ul className='flex flex-col justify-center border gap-x-3 p-5 rounded-xl shadow-xl overflow-hidden space-y-3'>
+          <li className='flex gap-x-2'>
+            <span className='font-bold'>اسم العميل: </span>
+            <span className='text-gray-700 dark:text-gray-50'>
+              {usersData?.firstname} {usersData?.lastname}
+            </span>
+          </li>
+          <li className='flex gap-x-2'>
+            <span className='font-bold'>رقم المنزل: </span>
+            <span className='text-gray-700 dark:text-gray-50'>
+              {usersData?.houseNumber}
+            </span>
+          </li>
+          <li className='flex gap-x-2'>
+            <span className='font-bold'>الشارع:</span>
+            <span className='text-gray-700 dark:text-gray-50'>
+              {usersData?.streetName}
+            </span>
+          </li>
+          <li className='flex gap-x-2'>
+            <span className='font-bold'>الحي: </span>
+            <span className='text-gray-700 dark:text-gray-50'>
+              {usersData?.neighborhoodName}
+            </span>
+          </li>
+          <li className='flex gap-x-2'>
+            <span className='font-bold'>المدينة: </span>
+            <span className='text-gray-700 dark:text-gray-50'>{usersData?.cityName}</span>
+          </li>
+          <li className='flex gap-x-2'>
+            <span className='font-bold'>رقم الهاتف: </span>
+            <span className='text-gray-700 dark:text-gray-50' dir='auto'>
+              {usersData?.phone}
+            </span>
+          </li>
+        </ul>
 
         <div className='flex items-center justify-center gap-x-20 mt-10'>
           {order?.orderStatus === 'pending' ? (

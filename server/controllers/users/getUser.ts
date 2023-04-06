@@ -4,7 +4,7 @@ import db from '../../helpers/db.js'
 import { AuthenticatedRequest } from '../../types.js'
 
 export const getUser = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const { id } = req.user ? req.user : req.params
+  const id = 'id' in req.params ? req.params.id : req.user ? req.user.id : ''
 
   const query = `SELECT id, firstname, lastname, gender, houseNumber, streetName, neighborhoodName, cityName, username, avatarUrl, phone, status, type, registerDate FROM users${
     id ? ` WHERE id = ?` : ''

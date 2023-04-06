@@ -86,7 +86,7 @@ const App = () => {
                     <Route path='supplier/add' element={<DashboardAddProduct />} />
                     <Route path='supplier/products' element={<DashboardViewProduct />} />
                     <Route
-                      path='supplier/order/:id'
+                      path='supplier/order/:id/:userId'
                       element={<DashboardOrderDetails />}
                     />
                     <Route
@@ -98,7 +98,7 @@ const App = () => {
                     <Route path='dashboard/add' element={<DashboardAddProduct />} />
                     <Route path='dashboard/products' element={<DashboardViewProduct />} />
                     <Route
-                      path='dashboard/order/:id'
+                      path='dashboard/order/:id/:userId'
                       element={<DashboardOrderDetails />}
                     />
                     <Route

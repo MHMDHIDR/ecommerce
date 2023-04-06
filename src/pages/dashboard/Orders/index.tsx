@@ -345,7 +345,7 @@ const SupplierDashboard = () => {
                     </td>
                     <td className='py-2'>
                       <Link
-                        to={`order/${order.Id}`}
+                        to={`order/${order.Id}/${order.orderedBy}`}
                         className='inline-block p-2 text-xs text-white bg-green-600 rounded-md hover:bg-green-700 text-center'
                       >
                         عرض تفاصيل الطلب
