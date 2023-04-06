@@ -14,7 +14,7 @@ import ModalNotFound from '@/components/Modal/ModalNotFound'
 import NavMenu from '@/components/NavMenu'
 import Modal from '@/components/Modal'
 import { Loading } from '@/components/Icons/Status'
-import { API_URL, isSmallScreen, ORDER, TIME_TO_EXECUTE, USER_DATA } from '@/constants'
+import { API_URL, isSmallScreen, TIME_TO_EXECUTE, USER_DATA } from '@/constants'
 import goTo from '@/utils/goTo'
 import { getCookies } from '@/utils/cookies'
 import { AppSettingsProps, ProductProps } from '@/types'
@@ -93,7 +93,9 @@ const DashboardOrderDetails = () => {
       }
       case 'confirm': {
         eventState === 'reject' || eventState === 'accept'
-          ? handleItemStatus()
+          ? e.target.dataset.name
+            ? handleItemStatus() //update single item status in the order
+            : handleOrderStatus() //update whole order status
           : setModalLoading(false)
         break
       }
@@ -143,7 +145,30 @@ const DashboardOrderDetails = () => {
     }
   }
 
-  const handleOrderStatus = async () => {}
+  const handleOrderStatus = async () => {
+    try {
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+
+      const { data } = await axios.patch(
+        `${API_URL}/orders/${actionOrderId}`,
+        { orderStatus: eventState },
+        { headers }
+      )
+
+      const { orderUpdated, message } = data
+      setIsActionDone(orderUpdated)
+      setActionMsg(message)
+      //Remove waiting modal
+      setTimeout(() => {
+        setModalLoading(false)
+      }, 300)
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   return loading && isSettingOrderItems ? (
     <LoadingPage />
@@ -172,7 +197,7 @@ const DashboardOrderDetails = () => {
             classes='text-blue-600 dark:text-blue-400 text-lg'
             msg={`هل أنت متأكد من ${
               eventState === 'reject' ? 'رفض' : eventState === 'accept' ? 'موافقة' : ''
-            } طلب ${actionOrderName} ؟`}
+            } ${actionOrderName ? 'طلب ' + actionOrderName : 'الطلب'}؟`}
             ctaConfirmBtns={[
               eventState === 'reject' ? 'رفض' : eventState === 'accept' ? 'موافقة' : '',
               'الغاء'
@@ -279,14 +304,8 @@ const DashboardOrderDetails = () => {
                 <td colSpan={100} className='p-5'>
                   <div className='flex flex-col justify-center items-center gap-y-4'>
                     <p className='text-red-600 dark:text-red-400'>
-                      عفواً، لم يتم العثور على منتجات
+                      عفواً، لم يتم العثور على طلبات
                     </p>
-                    <Link
-                      to={goTo('add')}
-                      className='rounded-md bg-blue-600 px-5 py-1 text-center text-sm text-white hover:bg-gray-700'
-                    >
-                      أضف منتج
-                    </Link>
                   </div>
                 </td>
               </tr>
@@ -295,18 +314,18 @@ const DashboardOrderDetails = () => {
         </table>
 
         <div className='flex items-center justify-center gap-x-20 mt-10'>
-          {ORDER.orderStatus === 'pending' ? (
+          {order?.orderStatus === 'pending' ? (
             <>
-              <AcceptBtn id={'order._id'} phone={'order.userEmail'} label='قبول' />
-              <RejectBtn id={'order._id'} phone={'order.userEmail'} />
+              <AcceptBtn id={order.Id} label='موافقة' />
+              <RejectBtn id={order.Id} />
             </>
-          ) : ORDER.orderStatus === 'accept' ? (
-            <RejectBtn id={'order._id'} phone={'order.userEmail'} />
-          ) : ORDER.orderStatus === 'reject' ? (
-            <AcceptBtn id={'order._id'} phone={'order.userEmail'} label='قبول' />
+          ) : order?.orderStatus === 'accept' ? (
+            <RejectBtn id={order.Id} />
+          ) : order?.orderStatus === 'reject' ? (
+            <AcceptBtn id={order.Id} label='موافقة' />
           ) : (
             <Link
-              to={goTo('supplier')}
+              to={goTo('dashboard')}
               className='text-gray-800 underline-hover text-bold dark:text-white'
             >
               العودة للطلبات

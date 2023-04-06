@@ -13,7 +13,7 @@ import { AppSettingsContext } from '@/contexts/AppSettingsContext'
 import { parseJson, stringJson } from '@/utils/jsonTools'
 import { useAxios } from '@/hooks/useAxios'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
-import { AppSettingsProps, ProductProps, UserType } from '@/types'
+import { AppSettingsProps, ProductProps } from '@/types'
 import goTo from '@/utils/goTo'
 import { removeSlug } from '@/utils/slug'
 import useEventListener from '@/hooks/useEventListener'
@@ -116,7 +116,6 @@ const SupplierDashboard = () => {
     }
   })
 
-  console.log(id)
   const handleItemStatus = async () => {
     try {
       const headers = {
@@ -164,7 +163,7 @@ const SupplierDashboard = () => {
                 type: 'success',
                 msg: actionMsg,
                 reloadIn: TIME_TO_EXECUTE,
-                reloadTo: goTo('supplier')
+                reloadTo: goTo(type === 'admin' ? 'dashboard' : 'supplier')
               })
             : isActionDone === 0
             ? notify({ type: 'error', msg: actionMsg })
@@ -280,14 +279,8 @@ const SupplierDashboard = () => {
                   <td colSpan={100} className='p-5'>
                     <div className='flex flex-col justify-center items-center gap-y-4'>
                       <p className='text-red-600 dark:text-red-400'>
-                        عفواً، لم يتم العثور على منتجات
+                        عفواً، لم يتم العثور على طلبات
                       </p>
-                      <Link
-                        to={goTo('add')}
-                        className='rounded-md bg-blue-600 px-5 py-1 text-center text-sm text-white hover:bg-gray-700'
-                      >
-                        أضف منتج
-                      </Link>
                     </div>
                   </td>
                 </tr>
@@ -365,14 +358,8 @@ const SupplierDashboard = () => {
                   <td colSpan={100} className='p-5'>
                     <div className='flex flex-col justify-center items-center gap-y-4'>
                       <p className='text-red-600 dark:text-red-400'>
-                        عفواً، لم يتم العثور على منتجات
+                        عفواً، لم يتم العثور على طلبات
                       </p>
-                      <Link
-                        to={goTo('add')}
-                        className='rounded-md bg-blue-600 px-5 py-1 text-center text-sm text-white hover:bg-gray-700'
-                      >
-                        أضف منتج
-                      </Link>
                     </div>
                   </td>
                 </tr>
