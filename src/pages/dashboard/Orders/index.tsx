@@ -59,7 +59,7 @@ const SupplierDashboard = () => {
 
   useEffect(() => {
     if (response !== null) {
-      setOrders(response[0])
+      setOrders(response)
       response?.filter((order: any) => {
         const productItemsParsed = parseJson(order.productsItems)
         setProductItems(productItemsParsed)
@@ -67,7 +67,7 @@ const SupplierDashboard = () => {
           type === 'admin'
             ? productItems &&
                 Object.values(productItems).flatMap(({ items }: any) => items)
-            : productItemsParsed[id]?.items.filter((item: any) => item.addedById === id)
+            : productItemsParsed[id]?.items.filter((item: any) => order.addedById === id)
         )
         setIsSettingOrderItems(false)
       })
@@ -136,6 +136,8 @@ const SupplierDashboard = () => {
       console.error(err)
     }
   }
+
+  console.log(orders)
 
   return loading && isSettingOrderItems ? (
     <LoadingPage />
@@ -223,33 +225,33 @@ const SupplierDashboard = () => {
                       </span>
                     </td>
                     <td className='min-w-[13rem] py-2'>
-                      <span>{createLocaleDateString(orders.orderDate)}</span>
+                      <span>{createLocaleDateString(orders[0].orderDate)}</span>
                     </td>
                     <td className='py-2'>
                       <NavMenu>
                         {item.itemStatus === 'pending' ? (
                           <>
                             <AcceptBtn
-                              id={orders.Id}
+                              id={orders[0].Id}
                               itemName={item.itemName}
                               itemId={item.id}
                               label='موافقة'
                             />
                             <RejectBtn
-                              id={orders.Id}
+                              id={orders[0].Id}
                               itemName={item.itemName}
                               itemId={item.id}
                             />
                           </>
                         ) : item.itemStatus === 'accept' ? (
                           <RejectBtn
-                            id={orders.Id}
+                            id={orders[0].Id}
                             itemName={item.itemName}
                             itemId={item.id}
                           />
                         ) : item.itemStatus === 'reject' ? (
                           <AcceptBtn
-                            id={orders.Id}
+                            id={orders[0].Id}
                             itemName={item.itemName}
                             itemId={item.id}
                             label='موافقة'
@@ -286,7 +288,6 @@ const SupplierDashboard = () => {
               <tr>
                 <th className='py-4'>رقم الطلب</th>
                 <th className='py-4'>اسم العميل</th>
-                <th className='py-4'>اسم التاجر</th>
                 <th className='py-4'>الحالة</th>
                 <th className='py-4'>تاريخ إنشاء الطلب</th>
                 <th className='py-4'>تاريخ تحديث الحالة</th>
@@ -294,53 +295,50 @@ const SupplierDashboard = () => {
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
-              {orderItems?.length > 0 ? (
-                orderItems.map((item: ProductProps, idx: number) => (
-                  <tr key={item.id}>
+              {orders?.length > 0 ? (
+                orders.map((order: any, idx: number) => (
+                  <tr key={order.Id}>
                     <td className='py-2'>
                       <span>{idx + 1}</span>
                     </td>
                     <td className='min-w-[15rem] py-2'>
-                      <span>{removeSlug(item.itemName)}</span>
-                    </td>
-                    <td className='py-2'>
-                      <span>{item.quantity}</span>
+                      <span>{removeSlug(order.orderedBy)}</span>
                     </td>
                     <td className='py-2'>
                       <span
                         className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
-                          item.itemStatus === 'accept'
+                          order.orderStatus === 'accept'
                             ? 'text-green-600'
-                            : item.itemStatus === 'reject'
+                            : order.orderStatus === 'reject'
                             ? 'text-red-600'
                             : 'text-gray-600'
                         }`}
                       >
                         <span
                           className={`h-1.5 w-1.5 rounded-full ${
-                            item.itemStatus === 'accept'
+                            order.orderStatus === 'accept'
                               ? 'bg-green-600'
-                              : item.itemStatus === 'reject'
+                              : order.orderStatus === 'reject'
                               ? 'bg-red-600'
                               : 'bg-gray-600'
                           }`}
                         ></span>
-                        {item.itemStatus === 'accept'
+                        {order.orderStatus === 'accept'
                           ? 'الطلب مقبول'
-                          : item.itemStatus === 'reject'
+                          : order.orderStatus === 'reject'
                           ? 'الطلب مرفوض'
                           : 'بإنتظار الاجراء'}
                       </span>
                     </td>
                     <td className='min-w-[13rem] py-2'>
-                      <span>{createLocaleDateString(orders.orderDate)}</span>
+                      <span>{createLocaleDateString(order.orderDate)}</span>
                     </td>
                     <td className='min-w-[13rem] py-2'>
-                      <span>{createLocaleDateString(orders.orderDate)}</span>
+                      <span>{createLocaleDateString(order.orderDate)}</span>
                     </td>
                     <td className='py-2'>
                       <Link
-                        to={`order/${id}`}
+                        to={`order/${order.Id}`}
                         className='inline-block p-2 text-xs text-white bg-green-600 rounded-md hover:bg-green-700 text-center'
                       >
                         عرض تفاصيل الطلب
