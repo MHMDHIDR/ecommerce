@@ -171,70 +171,61 @@ const SupplierDashboard = () => {
           />
         )}
         <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>
-        <table className='w-full bg-white dark:bg-gray-600 text-xs text-gray-900 dark:text-white text-center rounded-lg border border-gray-200 dark:border-gray-900 shadow-md dark:shadow-gray-900'>
-          <thead className='bg-gray-50 dark:bg-gray-700'>
-            <tr>
-              <th className='py-4'>رقم الطلب</th>
-              <th className='py-4'>اسم المنتج</th>
-              <th className='py-4'>الكميـــــــــة</th>
-              <th className='py-4'>الحالة</th>
-              {type === 'admin' && <th className='py-4'>اسم التاجر</th>}
-              <th className='py-4'>تاريخ الطلب</th>
-              <th className='py-4'>الإجراء</th>
-            </tr>
-          </thead>
-          <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
-            {orderItems?.length > 0 ? (
-              orderItems.map((item: ProductProps, idx: number) => (
-                <tr key={item.id}>
-                  <td className='py-2'>
-                    <span>{idx + 1}</span>
-                  </td>
-                  <td className='min-w-[15rem] py-2'>
-                    <span>{removeSlug(item.itemName)}</span>
-                  </td>
-                  <td className='py-2'>
-                    <span>{item.quantity}</span>
-                  </td>
-                  <td className='py-2'>
-                    <span
-                      className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
-                        item.itemStatus === 'accept'
-                          ? 'text-green-600'
-                          : item.itemStatus === 'reject'
-                          ? 'text-red-600'
-                          : 'text-gray-600'
-                      }`}
-                    >
+        {type === 'supplier' ? (
+          <table className='w-full bg-white dark:bg-gray-600 text-xs text-gray-900 dark:text-white text-center rounded-lg border border-gray-200 dark:border-gray-900 shadow-md dark:shadow-gray-900'>
+            <thead className='bg-gray-50 dark:bg-gray-700'>
+              <tr>
+                <th className='py-4'>رقم الطلب</th>
+                <th className='py-4'>اسم المنتج</th>
+                <th className='py-4'>الكميـــــــــة</th>
+                <th className='py-4'>الحالة</th>
+                <th className='py-4'>تاريخ الطلب</th>
+                <th className='py-4'>الإجراء</th>
+              </tr>
+            </thead>
+            <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
+              {orderItems?.length > 0 ? (
+                orderItems.map((item: ProductProps, idx: number) => (
+                  <tr key={item.id}>
+                    <td className='py-2'>
+                      <span>{idx + 1}</span>
+                    </td>
+                    <td className='min-w-[15rem] py-2'>
+                      <span>{removeSlug(item.itemName)}</span>
+                    </td>
+                    <td className='py-2'>
+                      <span>{item.quantity}</span>
+                    </td>
+                    <td className='py-2'>
                       <span
-                        className={`h-1.5 w-1.5 rounded-full ${
+                        className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
                           item.itemStatus === 'accept'
-                            ? 'bg-green-600'
+                            ? 'text-green-600'
                             : item.itemStatus === 'reject'
-                            ? 'bg-red-600'
-                            : 'bg-gray-600'
+                            ? 'text-red-600'
+                            : 'text-gray-600'
                         }`}
-                      ></span>
-                      {item.itemStatus === 'accept'
-                        ? 'الطلب مقبول'
-                        : item.itemStatus === 'reject'
-                        ? 'الطلب مرفوض'
-                        : 'بإنتظار الاجراء'}
-                    </span>
-                  </td>
-                  {type === 'admin' && <td className='py-4'>{item.addedByName}</td>}
-                  <td className='min-w-[13rem] py-2'>
-                    <span>{createLocaleDateString(orders.orderDate)}</span>
-                  </td>
-                  <td className='py-2'>
-                    {type === 'admin' ? (
-                      <Link
-                        to={`order/${id}`}
-                        className='inline-block p-2 text-xs text-white bg-green-600 rounded-md hover:bg-green-700 text-center'
                       >
-                        عرض تفاصيل الطلب
-                      </Link>
-                    ) : (
+                        <span
+                          className={`h-1.5 w-1.5 rounded-full ${
+                            item.itemStatus === 'accept'
+                              ? 'bg-green-600'
+                              : item.itemStatus === 'reject'
+                              ? 'bg-red-600'
+                              : 'bg-gray-600'
+                          }`}
+                        ></span>
+                        {item.itemStatus === 'accept'
+                          ? 'الطلب مقبول'
+                          : item.itemStatus === 'reject'
+                          ? 'الطلب مرفوض'
+                          : 'بإنتظار الاجراء'}
+                      </span>
+                    </td>
+                    <td className='min-w-[13rem] py-2'>
+                      <span>{createLocaleDateString(orders.orderDate)}</span>
+                    </td>
+                    <td className='py-2'>
                       <NavMenu>
                         {item.itemStatus === 'pending' ? (
                           <>
@@ -267,29 +258,116 @@ const SupplierDashboard = () => {
                           <span>لا يوجد إجراء</span>
                         )}
                       </NavMenu>
-                    )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={100} className='p-5'>
+                    <div className='flex flex-col justify-center items-center gap-y-4'>
+                      <p className='text-red-600 dark:text-red-400'>
+                        عفواً، لم يتم العثور على منتجات
+                      </p>
+                      <Link
+                        to={goTo('add')}
+                        className='rounded-md bg-blue-600 px-5 py-1 text-center text-sm text-white hover:bg-gray-700'
+                      >
+                        أضف منتج
+                      </Link>
+                    </div>
                   </td>
                 </tr>
-              ))
-            ) : (
+              )}
+            </tbody>
+          </table>
+        ) : type === 'admin' ? (
+          <table className='w-full bg-white dark:bg-gray-600 text-xs text-gray-900 dark:text-white text-center rounded-lg border border-gray-200 dark:border-gray-900 shadow-md dark:shadow-gray-900'>
+            <thead className='bg-gray-50 dark:bg-gray-700'>
               <tr>
-                <td colSpan={100} className='p-5'>
-                  <div className='flex flex-col justify-center items-center gap-y-4'>
-                    <p className='text-red-600 dark:text-red-400'>
-                      عفواً، لم يتم العثور على منتجات
-                    </p>
-                    <Link
-                      to={goTo('add')}
-                      className='rounded-md bg-blue-600 px-5 py-1 text-center text-sm text-white hover:bg-gray-700'
-                    >
-                      أضف منتج
-                    </Link>
-                  </div>
-                </td>
+                <th className='py-4'>رقم الطلب</th>
+                <th className='py-4'>اسم العميل</th>
+                <th className='py-4'>اسم التاجر</th>
+                <th className='py-4'>الحالة</th>
+                <th className='py-4'>تاريخ إنشاء الطلب</th>
+                <th className='py-4'>تاريخ تحديث الحالة</th>
+                <th className='py-4'>الإجراء</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
+              {orderItems?.length > 0 ? (
+                orderItems.map((item: ProductProps, idx: number) => (
+                  <tr key={item.id}>
+                    <td className='py-2'>
+                      <span>{idx + 1}</span>
+                    </td>
+                    <td className='min-w-[15rem] py-2'>
+                      <span>{removeSlug(item.itemName)}</span>
+                    </td>
+                    <td className='py-2'>
+                      <span>{item.quantity}</span>
+                    </td>
+                    <td className='py-2'>
+                      <span
+                        className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
+                          item.itemStatus === 'accept'
+                            ? 'text-green-600'
+                            : item.itemStatus === 'reject'
+                            ? 'text-red-600'
+                            : 'text-gray-600'
+                        }`}
+                      >
+                        <span
+                          className={`h-1.5 w-1.5 rounded-full ${
+                            item.itemStatus === 'accept'
+                              ? 'bg-green-600'
+                              : item.itemStatus === 'reject'
+                              ? 'bg-red-600'
+                              : 'bg-gray-600'
+                          }`}
+                        ></span>
+                        {item.itemStatus === 'accept'
+                          ? 'الطلب مقبول'
+                          : item.itemStatus === 'reject'
+                          ? 'الطلب مرفوض'
+                          : 'بإنتظار الاجراء'}
+                      </span>
+                    </td>
+                    <td className='min-w-[13rem] py-2'>
+                      <span>{createLocaleDateString(orders.orderDate)}</span>
+                    </td>
+                    <td className='min-w-[13rem] py-2'>
+                      <span>{createLocaleDateString(orders.orderDate)}</span>
+                    </td>
+                    <td className='py-2'>
+                      <Link
+                        to={`order/${id}`}
+                        className='inline-block p-2 text-xs text-white bg-green-600 rounded-md hover:bg-green-700 text-center'
+                      >
+                        عرض تفاصيل الطلب
+                      </Link>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={100} className='p-5'>
+                    <div className='flex flex-col justify-center items-center gap-y-4'>
+                      <p className='text-red-600 dark:text-red-400'>
+                        عفواً، لم يتم العثور على منتجات
+                      </p>
+                      <Link
+                        to={goTo('add')}
+                        className='rounded-md bg-blue-600 px-5 py-1 text-center text-sm text-white hover:bg-gray-700'
+                      >
+                        أضف منتج
+                      </Link>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        ) : null}
       </section>
     </Layout>
   )
