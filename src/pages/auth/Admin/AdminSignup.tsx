@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { API_URL, TIME_TO_EXECUTE } from '@/constants'
 import axios from 'axios'
 import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
@@ -83,6 +82,7 @@ const AdminSignup = () => {
                 id='firstname'
                 placeholder='الاســم الأول، مثال: (محمد)'
                 onChange={e => setFirstname(e.target.value)}
+                required
               />
               <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] motion-reduce:transition-none dark:text-gray-200 dark:peer-focus:text-gray-200'>
                 الاســــــم الأول
@@ -96,6 +96,7 @@ const AdminSignup = () => {
                 id='lastname'
                 placeholder='الاســم الثاني مثال: (أحمد)'
                 onChange={e => setLastname(e.target.value)}
+                required
               />
               <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] motion-reduce:transition-none dark:text-gray-200 dark:peer-focus:text-gray-200'>
                 الاســــــم الثاني
@@ -111,6 +112,7 @@ const AdminSignup = () => {
                 id='username'
                 placeholder='اسم المستخدم'
                 onChange={e => setUsername(e.target.value)}
+                required
               />
               <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] motion-reduce:transition-none dark:text-gray-200 dark:peer-focus:text-gray-200'>
                 اسم المستخدم

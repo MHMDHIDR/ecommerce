@@ -127,20 +127,6 @@ const Login = () => {
               </span>
             </label>
 
-            <label htmlFor='rememberMe' className='relative flex mb-6'>
-              <input
-                type='checkbox'
-                id='rememberMe'
-                onChange={e =>
-                  console.log(
-                    `Remember me is: ${e.target.checked ? 'checked' : 'Unchecked'}`
-                  )
-                }
-                defaultChecked={true}
-              />
-              <span className='inline-block pr-2 hover:cursor-pointer'>تذكرني</span>
-            </label>
-
             <button
               type='submit'
               className={`inline-block w-full rounded px-7 py-2.5 text-sm leading-normal text-white dark:text-black shadow-[0_4px_9px_-4px_#3b71ca] transition ease-in-out bg-gray-700 dark:bg-white${

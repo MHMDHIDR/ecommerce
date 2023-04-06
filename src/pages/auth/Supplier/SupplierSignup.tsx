@@ -92,6 +92,7 @@ const SupplierSignup = () => {
                 id='firstname'
                 placeholder='الاســم الأول، مثال: (محمد)'
                 onChange={e => setFirstname(e.target.value)}
+                required
               />
               <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] motion-reduce:transition-none dark:text-gray-200 dark:peer-focus:text-gray-200'>
                 الاســــــم الأول
@@ -105,6 +106,7 @@ const SupplierSignup = () => {
                 id='lastname'
                 placeholder='الاســم الثاني مثال: (أحمد)'
                 onChange={e => setLastname(e.target.value)}
+                required
               />
               <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] motion-reduce:transition-none dark:text-gray-200 dark:peer-focus:text-gray-200'>
                 الاســــــم الثاني
@@ -178,6 +180,7 @@ const SupplierSignup = () => {
                 id='username'
                 placeholder='اسم المستخدم'
                 onChange={e => setUsername(e.target.value)}
+                required
               />
               <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] motion-reduce:transition-none dark:text-gray-200 dark:peer-focus:text-gray-200'>
                 اسم المستخدم
@@ -220,19 +223,7 @@ const SupplierSignup = () => {
 
             <div className='mb-6 flex items-center justify-between'>
               <div className='flex gap-x-2 mb-[0.125rem] min-h-[1.5rem]'>
-                <input
-                  type='checkbox'
-                  id='terms&condCheckbox'
-                  onChange={e =>
-                    console.log(
-                      `terms & conditions Checkbox is: ${
-                        e.target.checked ? 'checked' : 'Unchecked'
-                      }`
-                    )
-                  }
-                  defaultChecked={true}
-                  required
-                />
+                <input type='checkbox' id='terms&condCheckbox' required />
                 <label className='hover:cursor-pointer' htmlFor='terms&condCheckbox'>
                   بالضغط هنا فأنت توافق على
                   <div className='inline-flex items-center gap-x-2 pr-2'>

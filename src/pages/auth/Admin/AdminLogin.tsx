@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { Facebook, Google } from '@/components/Icons/Socials'
 import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
 import { API_URL, TIME_TO_EXECUTE, USER_DATA } from '@/constants'
 import notify from '@/utils/notify'
@@ -124,20 +123,6 @@ const AdminLogin = () => {
               <span className='pointer-events-none absolute top-0 right-2 max-w-[90%] text-gray-700 duration-200 -translate-y-[1.15rem] scale-[0.8] dark:text-gray-200 dark:peer-focus:text-gray-200'>
                 كلمة المرور
               </span>
-            </label>
-
-            <label htmlFor='rememberMe' className='relative flex mb-6'>
-              <input
-                type='checkbox'
-                id='rememberMe'
-                onChange={e =>
-                  console.log(
-                    `Remember me is: ${e.target.checked ? 'checked' : 'Unchecked'}`
-                  )
-                }
-                defaultChecked={true}
-              />
-              <span className='inline-block pr-2 hover:cursor-pointer'>تذكرني</span>
             </label>
 
             <button
