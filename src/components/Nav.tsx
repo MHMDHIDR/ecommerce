@@ -4,10 +4,11 @@ import { AppSettingsContext } from '@/contexts/AppSettingsContext'
 import useAuth from '@/hooks/useAuth'
 import { parseJson } from '@/utils/jsonTools'
 import { USER_DATA } from '@/constants'
+import UsersIcon from './Icons/UsersIcon'
 
 const Nav = () => {
   const { menuToggler, getLocalStorageUser } = useContext(AppSettingsContext)
-  const { userData } = useAuth()
+  const { userData, isAuth } = useAuth()
   const { id, username, avatarUrl } = !userData
     ? getLocalStorageUser()
       ? parseJson(getLocalStorageUser())
@@ -49,13 +50,17 @@ const Nav = () => {
               role='link'
               aria-expanded='false'
             >
-              <img
-                src={avatarUrl}
-                className='rounded-full w-8 h-8'
-                style={{ height: '32px', width: '32px' }}
-                alt={username + ' Avatar'}
-                loading='lazy'
-              />
+              {isAuth ? (
+                <img
+                  src={avatarUrl}
+                  className='rounded-full w-8 h-8'
+                  style={{ height: '32px', width: '32px' }}
+                  alt={username + ' Avatar'}
+                  loading='lazy'
+                />
+              ) : (
+                <UsersIcon className='border rounded-full p-1 h-8 w-8 hover:border-black transition-colors duration-300' />
+              )}
             </Link>
           </div>
         </div>

@@ -19,7 +19,7 @@ const Menu = () => {
   const { isSidebarOpen, menuToggler } = useContext<AppSettingsProps>(AppSettingsContext)
   const { totalUniqueItems } = useCart()
   const { pathname } = useLocation()
-  const { userData } = useAuth()
+  const { userData, isAuth } = useAuth()
   const { id, username, avatarUrl } = userData || USER_DATA
 
   const Menu = [
@@ -42,16 +42,20 @@ const Menu = () => {
     {
       label: 'الحساب',
       to: !id ? '/login' : '/profile',
-      icon: () => (
-        <img
-          src={avatarUrl}
-          width={16}
-          height={16}
-          className='rounded-full w-4 h-4'
-          alt={`${username} Profile`}
-          loading='lazy'
-        />
-      )
+      icon: () => {
+        return isAuth ? (
+          <img
+            src={avatarUrl}
+            width={16}
+            height={16}
+            className='rounded-full w-4 h-4'
+            alt={`${username} Profile`}
+            loading='lazy'
+          />
+        ) : (
+          <UsersIcon className='border rounded-full p-1 h-4 w-4 hover:border-black transition-colors duration-300' />
+        )
+      }
     }
   ]
 
@@ -74,16 +78,20 @@ const Menu = () => {
     {
       label: 'الحساب',
       to: !id ? '/login' : '/profile',
-      icon: () => (
-        <img
-          src={avatarUrl}
-          width={16}
-          height={16}
-          className='rounded-full w-4 h-4'
-          alt={`${username} Profile`}
-          loading='lazy'
-        />
-      )
+      icon: () => {
+        return isAuth ? (
+          <img
+            src={avatarUrl}
+            width={16}
+            height={16}
+            className='rounded-full w-4 h-4'
+            alt={`${username} Profile`}
+            loading='lazy'
+          />
+        ) : (
+          <UsersIcon className='border rounded-full p-1 h-4 w-4 hover:border-black transition-colors duration-300' />
+        )
+      }
     }
   ]
 
@@ -111,16 +119,20 @@ const Menu = () => {
     {
       label: 'الحساب',
       to: !id ? '/login' : '/profile',
-      icon: () => (
-        <img
-          src={avatarUrl}
-          width={16}
-          height={16}
-          className='rounded-full w-4 h-4'
-          alt={`${username} Profile`}
-          loading='lazy'
-        />
-      )
+      icon: () => {
+        return isAuth ? (
+          <img
+            src={avatarUrl}
+            width={16}
+            height={16}
+            className='rounded-full w-4 h-4'
+            alt={`${username} Profile`}
+            loading='lazy'
+          />
+        ) : (
+          <UsersIcon className='border rounded-full p-1 h-4 w-4 hover:border-black transition-colors duration-300' />
+        )
+      }
     }
   ]
 

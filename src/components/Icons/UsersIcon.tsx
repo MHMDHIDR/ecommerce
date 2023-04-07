@@ -5,7 +5,7 @@ const UsersIcon = ({ className }: { className?: string }) => (
     height='164.684'
     viewBox='0 0 155.422 164.684'
     fill='currentColor'
-    className={className ? className : ' h-5 w-5'}
+    className={`h-5 w-5${className ? ' ' + className : ''}`}
   >
     <path
       id='User-icon-SVG-09ujkfges'
