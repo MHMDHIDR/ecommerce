@@ -218,7 +218,6 @@ const DashboardOrderDetails = () => {
               <th className='py-4'>اسم المنتج</th>
               <th className='py-4'>الكميـــــــــة</th>
               <th className='py-4'>الحالة</th>
-              <th className='py-4'>سبب الرفض</th>
               <th className='py-4'>تاريخ الطلب</th>
               <th className='py-4'>الإجراء</th>
             </tr>
@@ -237,33 +236,37 @@ const DashboardOrderDetails = () => {
                     <span>{item.quantity}</span>
                   </td>
                   <td className='py-2'>
-                    <span
-                      className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
-                        item.itemStatus === 'accept'
-                          ? 'text-green-600'
-                          : item.itemStatus === 'reject'
-                          ? 'text-red-600'
-                          : 'text-gray-600'
-                      }`}
-                    >
+                    <span className='flex flex-col items-center gap-y-1'>
                       <span
-                        className={`h-1.5 w-1.5 rounded-full ${
+                        className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
                           item.itemStatus === 'accept'
-                            ? 'bg-green-600'
+                            ? 'text-green-600'
                             : item.itemStatus === 'reject'
-                            ? 'bg-red-600'
-                            : 'bg-gray-600'
+                            ? 'text-red-600'
+                            : 'text-gray-600'
                         }`}
-                      ></span>
-                      {item.itemStatus === 'accept'
-                        ? 'الطلب مقبول'
-                        : item.itemStatus === 'reject'
-                        ? 'الطلب مرفوض'
-                        : 'بإنتظار الاجراء'}
+                      >
+                        <span
+                          className={`h-1.5 w-1.5 rounded-full ${
+                            item.itemStatus === 'accept'
+                              ? 'bg-green-600'
+                              : item.itemStatus === 'reject'
+                              ? 'bg-red-600'
+                              : 'bg-gray-600'
+                          }`}
+                        ></span>
+                        {item.itemStatus === 'accept'
+                          ? 'الطلب مقبول'
+                          : item.itemStatus === 'reject'
+                          ? 'الطلب مرفوض'
+                          : 'بإنتظار الاجراء'}
+                      </span>
+                      <span>
+                        {item.rejectReason!?.length > 1
+                          ? item.rejectReason
+                          : 'لم يتم تحديد السبب'}
+                      </span>
                     </span>
-                  </td>
-                  <td className='min-w-[13rem] py-2'>
-                    <span>{item.rejectReason ? item.rejectReason : 'الطلب مقبول'}</span>
                   </td>
                   <td className='min-w-[13rem] py-2'>
                     <span>{createLocaleDateString(order.orderDate)}</span>
@@ -273,14 +276,14 @@ const DashboardOrderDetails = () => {
                       {item.itemStatus === 'pending' ? (
                         <>
                           <AcceptBtn
-                            id={order.Id}
+                            id={order.id}
                             itemName={item.itemName}
                             supplierId={item.addedById}
                             itemId={item.id}
                             label='موافقة'
                           />
                           <RejectBtn
-                            id={order.Id}
+                            id={order.id}
                             itemName={item.itemName}
                             supplierId={item.addedById}
                             itemId={item.id}
@@ -288,14 +291,14 @@ const DashboardOrderDetails = () => {
                         </>
                       ) : item.itemStatus === 'accept' ? (
                         <RejectBtn
-                          id={order.Id}
+                          id={order.id}
                           itemName={item.itemName}
                           supplierId={item.addedById}
                           itemId={item.id}
                         />
                       ) : item.itemStatus === 'reject' ? (
                         <AcceptBtn
-                          id={order.Id}
+                          id={order.id}
                           itemName={item.itemName}
                           supplierId={item.addedById}
                           itemId={item.id}
@@ -363,13 +366,13 @@ const DashboardOrderDetails = () => {
         <div className='flex items-center justify-center gap-x-20 mt-10'>
           {order?.orderStatus === 'pending' ? (
             <>
-              <AcceptBtn id={order.Id} label='موافقة' />
-              <RejectBtn id={order.Id} />
+              <AcceptBtn id={order.id} label='موافقة' />
+              <RejectBtn id={order.id} />
             </>
           ) : order?.orderStatus === 'accept' ? (
-            <RejectBtn id={order.Id} />
+            <RejectBtn id={order.id} />
           ) : order?.orderStatus === 'reject' ? (
-            <AcceptBtn id={order.Id} label='موافقة' />
+            <AcceptBtn id={order.id} label='موافقة' />
           ) : (
             <Link
               to={goTo('dashboard')}

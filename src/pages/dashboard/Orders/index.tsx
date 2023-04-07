@@ -162,9 +162,9 @@ const SupplierDashboard = () => {
           {isActionDone === 1
             ? notify({
                 type: 'success',
-                msg: actionMsg
-                // ,reloadIn: TIME_TO_EXECUTE,
-                // reloadTo: goTo(type === 'admin' ? 'dashboard' : 'supplier')
+                msg: actionMsg,
+                reloadIn: TIME_TO_EXECUTE,
+                reloadTo: goTo(type === 'admin' ? 'dashboard' : 'supplier')
               })
             : isActionDone === 0
             ? notify({ type: 'error', msg: actionMsg })
@@ -207,7 +207,6 @@ const SupplierDashboard = () => {
                 <th className='py-4'>اسم المنتج</th>
                 <th className='py-4'>الكميـــــــــة</th>
                 <th className='py-4'>الحالة</th>
-                <th className='py-4'>سبب الرفض</th>
                 <th className='py-4'>تاريخ الطلب</th>
                 <th className='py-4'>الإجراء</th>
               </tr>
@@ -226,33 +225,37 @@ const SupplierDashboard = () => {
                       <span>{item.quantity}</span>
                     </td>
                     <td className='py-2'>
-                      <span
-                        className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
-                          item.itemStatus === 'accept'
-                            ? 'text-green-600'
-                            : item.itemStatus === 'reject'
-                            ? 'text-red-600'
-                            : 'text-gray-600'
-                        }`}
-                      >
+                      <span className='flex flex-col items-center gap-y-1'>
                         <span
-                          className={`h-1.5 w-1.5 rounded-full ${
+                          className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
                             item.itemStatus === 'accept'
-                              ? 'bg-green-600'
+                              ? 'text-green-600'
                               : item.itemStatus === 'reject'
-                              ? 'bg-red-600'
-                              : 'bg-gray-600'
+                              ? 'text-red-600'
+                              : 'text-gray-600'
                           }`}
-                        ></span>
-                        {item.itemStatus === 'accept'
-                          ? 'الطلب مقبول'
-                          : item.itemStatus === 'reject'
-                          ? 'الطلب مرفوض'
-                          : 'بإنتظار الاجراء'}
+                        >
+                          <span
+                            className={`h-1.5 w-1.5 rounded-full ${
+                              item.itemStatus === 'accept'
+                                ? 'bg-green-600'
+                                : item.itemStatus === 'reject'
+                                ? 'bg-red-600'
+                                : 'bg-gray-600'
+                            }`}
+                          ></span>
+                          {item.itemStatus === 'accept'
+                            ? 'الطلب مقبول'
+                            : item.itemStatus === 'reject'
+                            ? 'الطلب مرفوض'
+                            : 'بإنتظار الاجراء'}
+                        </span>
+                        <span>
+                          {item.rejectReason!?.length > 1
+                            ? item.rejectReason
+                            : 'لم يتم تحديد السبب'}
+                        </span>
                       </span>
-                    </td>
-                    <td className='min-w-[13rem] py-2'>
-                      <span>{item.rejectReason ? item.rejectReason : 'الطلب مقبول'}</span>
                     </td>
                     <td className='min-w-[13rem] py-2'>
                       <span>
@@ -264,26 +267,26 @@ const SupplierDashboard = () => {
                         {item.itemStatus === 'pending' ? (
                           <>
                             <AcceptBtn
-                              id={orders && orders[0]?.Id}
+                              id={orders && orders[0]?.id}
                               itemName={item.itemName}
                               itemId={item.id}
                               label='موافقة'
                             />
                             <RejectBtn
-                              id={orders && orders[0]?.Id}
+                              id={orders && orders[0]?.id}
                               itemName={item.itemName}
                               itemId={item.id}
                             />
                           </>
                         ) : item.itemStatus === 'accept' ? (
                           <RejectBtn
-                            id={orders && orders[0]?.Id}
+                            id={orders && orders[0]?.id}
                             itemName={item.itemName}
                             itemId={item.id}
                           />
                         ) : item.itemStatus === 'reject' ? (
                           <AcceptBtn
-                            id={orders && orders[0]?.Id}
+                            id={orders && orders[0]?.id}
                             itemName={item.itemName}
                             itemId={item.id}
                             label='موافقة'
@@ -323,7 +326,7 @@ const SupplierDashboard = () => {
             <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
               {orders?.length > 0 ? (
                 orders.map((order: any, idx: number) => (
-                  <tr key={order.Id}>
+                  <tr key={order.id}>
                     <td className='py-2'>
                       <span>{idx + 1}</span>
                     </td>
@@ -366,7 +369,7 @@ const SupplierDashboard = () => {
                     </td>
                     <td className='py-2'>
                       <Link
-                        to={`order/${order.Id}/${order.orderedBy}`}
+                        to={`order/${order.id}/${order.orderedBy}`}
                         className='inline-block p-2 text-xs text-white bg-green-600 rounded-md hover:bg-green-700 text-center'
                       >
                         عرض تفاصيل الطلب
