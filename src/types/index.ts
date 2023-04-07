@@ -262,12 +262,13 @@ export type ActionBtnsProps = {
 }
 
 export type SupplierOrders = {
-  [key: string]: { items: any[]; orderStatus: string }
+  [key: string]: { items: any[]; orderStatus: string; rejectReason: string }
 }
 
 export type StatusChangeProps = {
   productItems: SupplierOrders
   id: string
   newStatus: string
+  rejectReason?: string
   itemId: string
 }

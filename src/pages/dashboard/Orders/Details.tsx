@@ -113,11 +113,6 @@ const DashboardOrderDetails = () => {
         setModalLoading(false)
         break
       }
-
-      default: {
-        setModalLoading(false)
-        break
-      }
     }
   })
 

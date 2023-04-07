@@ -69,11 +69,6 @@ const ViewProduct = () => {
         setModalLoading(false)
         break
       }
-
-      default: {
-        setModalLoading(false)
-        break
-      }
     }
   })
 

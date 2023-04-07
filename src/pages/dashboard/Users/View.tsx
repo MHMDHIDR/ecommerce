@@ -77,11 +77,6 @@ const ViewUsers = () => {
         setModalLoading(false)
         break
       }
-
-      default: {
-        setModalLoading(false)
-        break
-      }
     }
   })
 

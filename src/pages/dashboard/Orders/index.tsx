@@ -49,6 +49,7 @@ const SupplierDashboard = () => {
   const [isActionDone, setIsActionDone] = useState(null)
   const [actionMsg, setActionMsg] = useState('')
   const [isSettingOrderItems, setIsSettingOrderItems] = useState(true)
+  const [rejectReason, setRejectReason] = useState('')
   const [modalLoading, setModalLoading] = useState<boolean>(false)
 
   const { response, loading } = useAxios({
@@ -99,17 +100,17 @@ const SupplierDashboard = () => {
         break
       }
       case 'confirm': {
-        eventState === 'reject' || eventState === 'accept'
+        eventState === 'accept'
+          ? handleItemStatus()
+          : eventState === 'reject' && rejectReason.length === 0
+          ? alert('يجب عليك كتابة سبب الرفض!')
+          : eventState === 'reject' && rejectReason.length > 1
           ? handleItemStatus()
           : setModalLoading(false)
+
         break
       }
       case 'cancel': {
-        setModalLoading(false)
-        break
-      }
-
-      default: {
         setModalLoading(false)
         break
       }
@@ -131,6 +132,7 @@ const SupplierDashboard = () => {
               productItems,
               id,
               newStatus: eventState,
+              rejectReason,
               itemId: actionItemId
             })
           )
@@ -181,6 +183,20 @@ const SupplierDashboard = () => {
               eventState === 'reject' ? 'رفض' : eventState === 'accept' ? 'موافقة' : '',
               'الغاء'
             ]}
+            extraComponents={
+              eventState === 'reject' ? (
+                <textarea
+                  name='rejectReason'
+                  id='rejectReason'
+                  minLength={10}
+                  maxLength={1000}
+                  className='form__input p-3'
+                  placeholder='يجب عليك كتابة سبب الرفض وذلك للمراجعة'
+                  onChange={e => setRejectReason(e.target.value.trim())}
+                  required
+                ></textarea>
+              ) : null
+            }
           />
         )}
         <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>

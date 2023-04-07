@@ -140,11 +140,6 @@ const EditProduct = () => {
         setModalLoading(false)
         break
       }
-
-      default: {
-        setModalLoading(false)
-        break
-      }
     }
   })
 

@@ -6,9 +6,10 @@ export function groupItemsBySupplier(items: any[]): SupplierOrders {
   items.forEach(item => {
     const { addedById } = item
     if (!supplierOrders[addedById]) {
-      supplierOrders[addedById] = { items: [], orderStatus: 'pending' }
+      supplierOrders[addedById] = { items: [], orderStatus: 'pending', rejectReason: '' }
     }
     item.itemStatus = 'pending' // Add default itemStatus property to item
+    item.rejectReason = '' // Add default rejectReason property to item
     supplierOrders[addedById].items.push(item)
   })
 
@@ -19,6 +20,7 @@ export const handleStatusChange = ({
   productItems,
   id,
   newStatus,
+  rejectReason,
   itemId
 }: StatusChangeProps) => {
   return {
@@ -28,7 +30,8 @@ export const handleStatusChange = ({
         if (item.id === itemId) {
           return {
             ...item,
-            itemStatus: newStatus
+            itemStatus: newStatus,
+            rejectReason: rejectReason ? rejectReason : ''
           }
         }
         return item
