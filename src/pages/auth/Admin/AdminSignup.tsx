@@ -1,15 +1,21 @@
-import { useState } from 'react'
-import { API_URL, TIME_TO_EXECUTE } from '@/constants'
+import { useEffect, useState } from 'react'
+import { API_URL, TIME_TO_EXECUTE, USER_DATA } from '@/constants'
 import axios from 'axios'
 import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
 import notify from '@/utils/notify'
-import { LoadingSpinner } from '@/components/Loading'
+import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import { catchResponse } from '@/types'
+import useAuth from '@/hooks/useAuth'
+import { useNavigate } from 'react-router-dom'
 
 const AdminSignup = () => {
   const DOCUMENT_TITLE = 'تسجيل حساب إداري'
   useDocumentTitle(DOCUMENT_TITLE)
+
+  const { loading, userData } = useAuth()
+  const { id } = userData || { id: USER_DATA.id }
+  const navigate = useNavigate()
 
   //Personal Info States
   const [firstname, setFirstname] = useState('')
@@ -54,7 +60,25 @@ const AdminSignup = () => {
     }
   }
 
-  return (
+  //this will ensure I can't access login page if i'm already logged in
+  useEffect(() => {
+    if (id && regStatus === 1) {
+      const timeoutId = setTimeout(() => {
+        navigate('/')
+      }, TIME_TO_EXECUTE)
+      return () => {
+        clearTimeout(timeoutId)
+      }
+    } else if (id !== '' && regStatus === null) {
+      navigate('/')
+    } else if (id) {
+      navigate('/')
+    }
+  }, [id, regStatus])
+
+  return loading ? (
+    <LoadingPage />
+  ) : (
     <section className='h-screen'>
       <div className='container px-6 py-16 mx-auto max-w-6xl'>
         <div className='hidden'>

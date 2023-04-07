@@ -70,7 +70,7 @@ const Login = () => {
     }
   }, [id, loginStatus])
 
-  return loading ? (
+  return id || loading ? (
     <LoadingPage />
   ) : (
     <section className='h-screen'>

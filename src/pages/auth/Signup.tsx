@@ -1,22 +1,28 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Facebook, Google } from '@/components/Icons/Socials'
-import { API_URL, TIME_TO_EXECUTE } from '@/constants'
+import { API_URL, TIME_TO_EXECUTE, USER_DATA } from '@/constants'
 import axios from 'axios'
 import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
 import notify from '@/utils/notify'
-import { LoadingSpinner } from '@/components/Loading'
+import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
+import useAuth from '@/hooks/useAuth'
+import { catchResponse } from '@/types'
 
 const Signup = () => {
   const DOCUMENT_TITLE = 'تسجيل حساب جديد'
   useDocumentTitle(DOCUMENT_TITLE)
 
+  const { loading, userData } = useAuth()
+  const { id } = userData || { id: USER_DATA.id }
+  const navigate = useNavigate()
+
   const [username, setUsername] = useState('')
   const [tel, setTel] = useState('')
   const [password, setPassword] = useState('')
   const [isPassVisible, setIsPassVisible] = useState(false)
-  const [regStatus, setRegStatus] = useState<number | null>(null)
+  const [regStatus, setRegStatus] = useState<number>()
   const [regMsg, setRegMsg] = useState('')
   const [isRegistering, setIsRegistering] = useState(false)
 
@@ -35,15 +41,38 @@ const Signup = () => {
 
       setRegStatus(userAdded)
       setRegMsg(message)
-    } catch (error) {
-      setRegStatus(0)
-      setRegMsg(`عفواً!، حدث خطأ ما: ${error}`)
+    } catch (error: any) {
+      const {
+        response: {
+          data: { message, userAdded }
+        }
+      }: catchResponse = error
+      setRegStatus(userAdded)
+      setRegMsg(`عفواً!، حدث خطأ ما: ${message}`)
     } finally {
       setIsRegistering(false)
     }
   }
 
-  return (
+  //this will ensure I can't access login page if i'm already logged in
+  useEffect(() => {
+    if (id && regStatus === 1) {
+      const timeoutId = setTimeout(() => {
+        navigate('/')
+      }, TIME_TO_EXECUTE)
+      return () => {
+        clearTimeout(timeoutId)
+      }
+    } else if (id !== '' && regStatus === null) {
+      navigate('/')
+    } else if (id) {
+      navigate('/')
+    }
+  }, [id, regStatus])
+
+  return loading ? (
+    <LoadingPage />
+  ) : (
     <section className='h-screen'>
       <div className='container px-6 py-16 mx-auto max-w-6xl'>
         <div className='hidden'>

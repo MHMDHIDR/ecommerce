@@ -135,6 +135,7 @@ export type catchResponse = {
       userLoggedIn?: number
       supplierLoggedIn?: number
       adminLoggedIn?: number
+      userAdded?: number
       adminAdded?: number
       supplierAdded?: number
     }
