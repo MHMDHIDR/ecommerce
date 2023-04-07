@@ -21,7 +21,7 @@ import axios from 'axios'
 import Modal from '@/components/Modal'
 import { Loading } from '@/components/Icons/Status'
 import notify from '@/utils/notify'
-import { handleStatusChange } from '@/utils/orders'
+import { getOrderItems, handleStatusChange } from '@/utils/orders'
 import { getUserFullName } from '@/utils/getUser'
 
 const SupplierDashboard = () => {
@@ -75,7 +75,7 @@ const SupplierDashboard = () => {
   }, [loading, response])
 
   useEffect(() => {
-    response?.filter((order: any) => {
+    response?.map((order: any) => {
       const productItemsParsed = parseJson(order.productsItems)
       setProductItems(productItemsParsed)
       setOrderItems(
@@ -132,7 +132,6 @@ const SupplierDashboard = () => {
               productItems,
               id,
               newStatus: eventState,
-              rejectReason,
               itemId: actionItemId
             })
           )
@@ -163,9 +162,9 @@ const SupplierDashboard = () => {
           {isActionDone === 1
             ? notify({
                 type: 'success',
-                msg: actionMsg,
-                reloadIn: TIME_TO_EXECUTE,
-                reloadTo: goTo(type === 'admin' ? 'dashboard' : 'supplier')
+                msg: actionMsg
+                // ,reloadIn: TIME_TO_EXECUTE,
+                // reloadTo: goTo(type === 'admin' ? 'dashboard' : 'supplier')
               })
             : isActionDone === 0
             ? notify({ type: 'error', msg: actionMsg })
@@ -256,33 +255,35 @@ const SupplierDashboard = () => {
                       <span>{item.rejectReason ? item.rejectReason : 'الطلب مقبول'}</span>
                     </td>
                     <td className='min-w-[13rem] py-2'>
-                      <span>{createLocaleDateString(orders[0].orderDate)}</span>
+                      <span>
+                        {createLocaleDateString(orders && orders[0]?.orderDate)}
+                      </span>
                     </td>
                     <td className='py-2'>
                       <NavMenu>
                         {item.itemStatus === 'pending' ? (
                           <>
                             <AcceptBtn
-                              id={orders[0].Id}
+                              id={orders && orders[0]?.Id}
                               itemName={item.itemName}
                               itemId={item.id}
                               label='موافقة'
                             />
                             <RejectBtn
-                              id={orders[0].Id}
+                              id={orders && orders[0]?.Id}
                               itemName={item.itemName}
                               itemId={item.id}
                             />
                           </>
                         ) : item.itemStatus === 'accept' ? (
                           <RejectBtn
-                            id={orders[0].Id}
+                            id={orders && orders[0]?.Id}
                             itemName={item.itemName}
                             itemId={item.id}
                           />
                         ) : item.itemStatus === 'reject' ? (
                           <AcceptBtn
-                            id={orders[0].Id}
+                            id={orders && orders[0]?.Id}
                             itemName={item.itemName}
                             itemId={item.id}
                             label='موافقة'

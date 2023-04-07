@@ -1,4 +1,5 @@
 import { StatusChangeProps, SupplierOrders } from '@/types'
+import { parseJson } from './jsonTools'
 
 export function groupItemsBySupplier(items: any[]): SupplierOrders {
   const supplierOrders: SupplierOrders = {}
@@ -6,7 +7,7 @@ export function groupItemsBySupplier(items: any[]): SupplierOrders {
   items.forEach(item => {
     const { addedById } = item
     if (!supplierOrders[addedById]) {
-      supplierOrders[addedById] = { items: [], orderStatus: 'pending', rejectReason: '' }
+      supplierOrders[addedById] = { items: [], orderStatus: 'pending' }
     }
     item.itemStatus = 'pending' // Add default itemStatus property to item
     item.rejectReason = '' // Add default rejectReason property to item
@@ -39,4 +40,8 @@ export const handleStatusChange = ({
       orderStatus: productItems[id].orderStatus
     }
   }
+}
+
+export const getOrderItems = (res: any) => {
+  return res.map((order: any) => parseJson(order.productsItems))
 }
