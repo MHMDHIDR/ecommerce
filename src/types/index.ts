@@ -161,6 +161,7 @@ export type ProductProps = {
   CreateDate: string
   UpdateDate: string
   itemStatus?: 'accept' | 'reject' | 'pending'
+  rejectReason?: string
   addedById?: string
   addedByName?: string
   itemId?: string

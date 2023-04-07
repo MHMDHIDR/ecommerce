@@ -218,6 +218,7 @@ const DashboardOrderDetails = () => {
               <th className='py-4'>اسم المنتج</th>
               <th className='py-4'>الكميـــــــــة</th>
               <th className='py-4'>الحالة</th>
+              <th className='py-4'>سبب الرفض</th>
               <th className='py-4'>تاريخ الطلب</th>
               <th className='py-4'>الإجراء</th>
             </tr>
@@ -260,6 +261,9 @@ const DashboardOrderDetails = () => {
                         ? 'الطلب مرفوض'
                         : 'بإنتظار الاجراء'}
                     </span>
+                  </td>
+                  <td className='min-w-[13rem] py-2'>
+                    <span>{item.rejectReason ? item.rejectReason : 'الطلب مقبول'}</span>
                   </td>
                   <td className='min-w-[13rem] py-2'>
                     <span>{createLocaleDateString(order.orderDate)}</span>

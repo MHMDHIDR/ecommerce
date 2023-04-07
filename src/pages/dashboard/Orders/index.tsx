@@ -48,7 +48,6 @@ const SupplierDashboard = () => {
   const [productItems, setProductItems] = useState<any>(null)
   const [isActionDone, setIsActionDone] = useState(null)
   const [actionMsg, setActionMsg] = useState('')
-  const [isSettingOrderItems, setIsSettingOrderItems] = useState(true)
   const [rejectReason, setRejectReason] = useState('')
   const [modalLoading, setModalLoading] = useState<boolean>(false)
 
@@ -71,22 +70,23 @@ const SupplierDashboard = () => {
   useEffect(() => {
     if (response !== null && Users.response !== null) {
       setOrders(response)
-      response?.filter((order: any) => {
-        const productItemsParsed = parseJson(order.productsItems)
-        setProductItems(productItemsParsed)
-        setOrderItems(
-          type === 'admin'
-            ? productItems &&
-                Object.values(productItems).flatMap(({ items }: any) => items)
-            : productItemsParsed[id]?.items.filter(
-                (item: ProductProps) => item.addedById === id
-              )
-        )
-        setIsSettingOrderItems(false)
-      })
       setUserData(Users.response)
     }
-  }, [loading, isSettingOrderItems, response])
+  }, [loading, response])
+
+  useEffect(() => {
+    response?.filter((order: any) => {
+      const productItemsParsed = parseJson(order.productsItems)
+      setProductItems(productItemsParsed)
+      setOrderItems(
+        type === 'admin'
+          ? productItems && Object.values(productItems).flatMap(({ items }: any) => items)
+          : productItemsParsed[id]?.items.filter(
+              (item: ProductProps) => item.addedById === id
+            )
+      )
+    })
+  }, [response])
 
   useEventListener('click', (e: any) => {
     switch (e.target.id) {
@@ -152,7 +152,7 @@ const SupplierDashboard = () => {
     }
   }
 
-  return loading && isSettingOrderItems ? (
+  return loading ? (
     <LoadingPage />
   ) : !id || (type !== 'admin' && type !== 'supplier') ? (
     <ModalNotFound />
@@ -208,6 +208,7 @@ const SupplierDashboard = () => {
                 <th className='py-4'>اسم المنتج</th>
                 <th className='py-4'>الكميـــــــــة</th>
                 <th className='py-4'>الحالة</th>
+                <th className='py-4'>سبب الرفض</th>
                 <th className='py-4'>تاريخ الطلب</th>
                 <th className='py-4'>الإجراء</th>
               </tr>
@@ -250,6 +251,9 @@ const SupplierDashboard = () => {
                           ? 'الطلب مرفوض'
                           : 'بإنتظار الاجراء'}
                       </span>
+                    </td>
+                    <td className='min-w-[13rem] py-2'>
+                      <span>{item.rejectReason ? item.rejectReason : 'الطلب مقبول'}</span>
                     </td>
                     <td className='min-w-[13rem] py-2'>
                       <span>{createLocaleDateString(orders[0].orderDate)}</span>
