@@ -1,10 +1,14 @@
+import { LogoProps } from '@/types'
+
 const ICON_SIZE_CLASS =
   'w-[calc(var(--drkModeToggleSize)/1.5)] h-[calc(var(--drkModeToggleSize)/1.5)]'
 
 //Twitter
-export const Twitter = ({ fill = 'white' }) => (
+export const Twitter = ({ fill = 'skyblue', className }: LogoProps) => (
   <svg
-    className={`${ICON_SIZE_CLASS} opacity-60 hover:opacity-100 transition-opacity mx-auto`}
+    className={`${ICON_SIZE_CLASS} opacity-60 hover:opacity-100 transition-opacity mx-auto${
+      className ? ' ' + className : ''
+    }`}
     xmlns='http://www.w3.org/2000/svg'
     viewBox='0 0 512 512'
     fill={fill}
@@ -15,9 +19,11 @@ export const Twitter = ({ fill = 'white' }) => (
 )
 
 //Instagram
-export const Instagram = ({ fill = 'white' }) => (
+export const Instagram = ({ fill = 'purple', className }: LogoProps) => (
   <svg
-    className={`${ICON_SIZE_CLASS} opacity-60 hover:opacity-100 transition-opacity mx-auto`}
+    className={`${ICON_SIZE_CLASS} opacity-60 hover:opacity-100 transition-opacity mx-auto${
+      className ? ' ' + className : ''
+    }`}
     xmlns='http://www.w3.org/2000/svg'
     viewBox='0 0 512 512'
     fill={fill}
@@ -29,9 +35,11 @@ export const Instagram = ({ fill = 'white' }) => (
 )
 
 //WhatsApp
-export const WhatsApp = ({ fill = 'white' }) => (
+export const WhatsApp = ({ fill = 'white', className }: LogoProps) => (
   <svg
-    className={`${ICON_SIZE_CLASS} opacity-60 hover:opacity-100 transition-opacity mx-auto`}
+    className={`${ICON_SIZE_CLASS} opacity-60 hover:opacity-100 transition-opacity mx-auto${
+      className ? ' ' + className : ''
+    }`}
     xmlns='http://www.w3.org/2000/svg'
     viewBox='0 0 512 512'
     fill={fill}
@@ -45,9 +53,9 @@ export const WhatsApp = ({ fill = 'white' }) => (
 )
 
 //Facebook
-export const Facebook = ({ fill = '#3b5998' }) => (
+export const Facebook = ({ fill = '#3b5998', className }: LogoProps) => (
   <svg
-    className={`h-5 w-5`}
+    className={`${ICON_SIZE_CLASS} h-5 w-5${className ? ' ' + className : ''}`}
     xmlns='http://www.w3.org/2000/svg'
     viewBox='0 0 24 24'
     fill={fill}
@@ -58,11 +66,11 @@ export const Facebook = ({ fill = '#3b5998' }) => (
 )
 
 //Google
-export const Google = ({ fill = 'none' }) => (
+export const Google = ({ fill = 'none', className }: LogoProps) => (
   <svg
     viewBox='0 0 19 20'
     fill={fill}
-    className={`h-5 w-[1.19rem]`}
+    className={`h-5 w-[1.19rem]${className ? ' ' + className : ''}`}
     xmlns='http://www.w3.org/2000/svg'
   >
     <title>Google</title>

@@ -10,6 +10,7 @@ import { setCookies } from '@/utils/cookies'
 import useAuth from '@/hooks/useAuth'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import { catchResponse } from '@/types'
+import Divider from '@/components/Divider'
 
 const Login = () => {
   const DOCUMENT_TITLE = 'تسجيل الدخول'
@@ -148,34 +149,32 @@ const Login = () => {
               <Link to='/signup'>تسجيل حساب جديد</Link>
             </div>
 
-            <div className='flex relative justify-center items-center m-4 before:[background:linear-gradient(90deg,transparent,#000,transparent)] before:absolute before:left-0 before:top-1/2 before:w-full before:h-px select-none'>
-              <span className='dark:text-neutral-200 bg-white dark:bg-gray-800 z-10 px-2'>
-                أو
-              </span>
-            </div>
+            <Divider>أو</Divider>
 
-            <Link
-              to={'facebookLogin'}
-              aria-label='Continue with facebook'
-              role='button'
-              className='focus:outline-blue-300 focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5 dark:bg-white'
-            >
-              <Google />
-              <p className='text-base font-medium mr-4 text-gray-700'>
-                تسجيل الدخول مع جوجل
-              </p>
-            </Link>
-            <Link
-              to={'facebookLogin'}
-              aria-label='Continue with facebook'
-              role='button'
-              className='focus:outline-blue-300 focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 w-full md:mr-10 lg:mr-32 md:w-80 flex md:inline-flex items-center justify-center mt-5 dark:bg-white'
-            >
-              <Facebook />
-              <p className='text-base font-medium mr-4 text-gray-700'>
-                تسجيل الدخول مع فيسبوك
-              </p>
-            </Link>
+            <div className='flex gap-y-5 md:gap-x-20 mt-10'>
+              <Link
+                to={'googleLogin'}
+                aria-label='Continue with Google'
+                role='button'
+                className='dark:bg-white focus:outline-blue-300 focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 border rounded-lg border-gray-700 w-full inline-flex items-center justify-center'
+              >
+                <Google />
+                <p className='text-base font-medium mr-4 text-gray-700'>
+                  تسجيل الدخول مع جوجل
+                </p>
+              </Link>
+              <Link
+                to={'facebookLogin'}
+                aria-label='Continue with facebook'
+                role='button'
+                className='dark:bg-white focus:outline-blue-300 focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 border rounded-lg border-gray-700 w-full inline-flex items-center justify-center'
+              >
+                <Facebook className='w-[1.25rem_!important]' />
+                <p className='text-base font-medium mr-4 text-gray-700'>
+                  تسجيل الدخول مع فيسبوك
+                </p>
+              </Link>
+            </div>
           </form>
         </div>
       </div>

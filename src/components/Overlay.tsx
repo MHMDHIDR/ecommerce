@@ -6,7 +6,10 @@ import { AppSettingsProps } from '@/types'
 const Overlay = () => {
   const { isSidebarOpen, menuToggler } = useContext<AppSettingsProps>(AppSettingsContext)
 
-  useEventListener('keydown', (e: any) => e.key === 'Escape' && menuToggler())
+  //close sidebar menu on ESC button press
+  useEventListener('keydown', (e: any) =>
+    e.key === 'Escape' && isSidebarOpen ? menuToggler() : null
+  )
 
   return (
     <div

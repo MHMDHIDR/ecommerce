@@ -2,18 +2,19 @@ import { useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useCart } from '@/contexts/CartContext'
 import { AppSettingsContext } from '@/contexts/AppSettingsContext'
-import HomeIcon from './Icons/HomeIcon'
-import { CartIconFilled } from './Icons/CartIcon'
-import NotificationsIcon from './Icons/NotificationsIcon'
-import { AddBtn } from './Icons/ControlBtn'
+import useAuth from '@/hooks/useAuth'
+import Overlay from '../Overlay'
+import UsersIcon from '../Icons/UsersIcon'
+import HomeIcon from '../Icons/HomeIcon'
+import { CartIconFilled } from '../Icons/CartIcon'
+import NotificationsIcon from '../Icons/NotificationsIcon'
+import { AddBtn } from '../Icons/ControlBtn'
+import Logo from '../Icons/Logo'
+import Shop from '../Icons/Shop'
+import { AppSettingsProps } from '@/types'
 import { isActiveLink } from '@/utils/isActiveLink'
 import { isSmallScreen, USER_DATA } from '@/constants'
-import Logo from './Icons/Logo'
-import Shop from './Icons/Shop'
-import { AppSettingsProps } from '@/types'
-import Overlay from './Overlay'
-import useAuth from '@/hooks/useAuth'
-import UsersIcon from './Icons/UsersIcon'
+import Item from './Item'
 
 const Menu = () => {
   const { isSidebarOpen, menuToggler } = useContext<AppSettingsProps>(AppSettingsContext)
@@ -167,25 +168,7 @@ const Menu = () => {
                   className={`text-sm text-black rounded-full relative flex`}
                   onClick={menuToggler}
                 >
-                  {isActiveLink(item.to) ? (
-                    <div className='flex justify-center items-center bg-white dark:bg-gray-900 bg-opacity-30 -mr-4 px-3 py-1 rounded-full'>
-                      <span className='bg-black dark:bg-gray-300 p-2 rounded-full'>
-                        <item.icon className='w-4 h-4 fill-gray-50 dark:fill-neutral-900' />
-                      </span>
-                      {!isSmallScreen ? (
-                        <span className='px-2 dark:text-gray-50'>{item.label}</span>
-                      ) : null}
-                    </div>
-                  ) : (
-                    <div className='flex justify-center items-center'>
-                      <span className='[&>svg]:w-5 inline-block py-1.5'>
-                        <item.icon className='w-5 h-5' />
-                      </span>
-                      {!isSmallScreen ? (
-                        <span className='px-2 dark:text-gray-50'>{item.label}</span>
-                      ) : null}
-                    </div>
-                  )}
+                  <Item item={item} />
                 </Link>
               ))
             : pathname.includes('dashboard')
@@ -200,25 +183,7 @@ const Menu = () => {
                   className={`text-sm text-black rounded-full relative flex`}
                   onClick={menuToggler}
                 >
-                  {isActiveLink(item.to) ? (
-                    <div className='flex justify-center items-center bg-white dark:bg-gray-900 bg-opacity-30 -mr-4 px-3 py-1 rounded-full'>
-                      <span className='bg-black dark:bg-gray-300 p-2 rounded-full'>
-                        <item.icon className='w-4 h-4 fill-gray-50 dark:fill-neutral-900' />
-                      </span>
-                      {!isSmallScreen ? (
-                        <span className='px-2 dark:text-gray-50'>{item.label}</span>
-                      ) : null}
-                    </div>
-                  ) : (
-                    <div className='flex justify-center items-center'>
-                      <span className='[&>svg]:w-5 inline-block py-1.5'>
-                        <item.icon className='w-5 h-5' />
-                      </span>
-                      {!isSmallScreen ? (
-                        <span className='px-2 dark:text-gray-50'>{item.label}</span>
-                      ) : null}
-                    </div>
-                  )}
+                  <Item item={item} />
                 </Link>
               ))
             : Menu.map((item, idx) => (
@@ -232,25 +197,7 @@ const Menu = () => {
                   className={`text-sm text-black rounded-full relative flex`}
                   onClick={menuToggler}
                 >
-                  {isActiveLink(item.to) ? (
-                    <div className='flex justify-center items-center bg-white dark:bg-gray-900 bg-opacity-30 -mr-4 px-3 py-1 rounded-full'>
-                      <span className='bg-black dark:bg-gray-300 p-2 rounded-full'>
-                        <item.icon className='w-4 h-4 fill-gray-50 dark:fill-neutral-900' />
-                      </span>
-                      {!isSmallScreen ? (
-                        <span className='px-2 dark:text-gray-50'>{item.label}</span>
-                      ) : null}
-                    </div>
-                  ) : (
-                    <div className='flex justify-center items-center'>
-                      <span className='[&>svg]:w-5 inline-block py-1.5'>
-                        <item.icon className='w-5 h-5' />
-                      </span>
-                      {!isSmallScreen ? (
-                        <span className='px-2 dark:text-gray-50'>{item.label}</span>
-                      ) : null}
-                    </div>
-                  )}
+                  <Item item={item} />
                   {item.totalUniqueItems ? (
                     <span className='absolute -top-2 right-2 rounded-full bg-red-700 py-0 px-1.5 text-xs text-white'>
                       {item.totalUniqueItems}

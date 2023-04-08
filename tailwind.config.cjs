@@ -11,6 +11,10 @@ module.exports = {
         '5xl': '2304px',
         '6xl': '2560px',
         standalone: { raw: '(display-mode: standalone)' }
+      },
+      colors: {
+        'blue-gray-400': '#c3d6ff',
+        'blue-gray-900': '#224184'
       }
     }
   },

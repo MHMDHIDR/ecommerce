@@ -58,6 +58,7 @@ export type ArrowProps = {
 }
 
 export type LogoProps = {
+  fill?: string
   width?: string | number
   height?: string | number
   className?: string
@@ -92,6 +93,20 @@ export type NavMenuPros = {
   label?: string
   className?: string
   src?: string
+}
+
+export type MenuItem = {
+  item: {
+    label: string
+    to: string
+    icon: ({
+      className,
+      onClick
+    }: {
+      className?: string | undefined
+      onClick?: (() => void) | undefined
+    }) => JSX.Element
+  }
 }
 
 export type AppSettingsProps = {
