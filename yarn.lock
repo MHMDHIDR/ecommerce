@@ -872,6 +872,7 @@ __metadata:
     autoprefixer: ^10.4.13
     axios: ^1.3.4
     concurrently: ^7.6.0
+    embla-carousel-react: ^7.1.0
     framer-motion: ^10.0.1
     js-cookie: ^3.0.1
     nodemon: ^2.0.21
@@ -892,6 +893,24 @@ __metadata:
   version: 1.4.343
   resolution: "electron-to-chromium@npm:1.4.343"
   checksum: 576fc7363fb86341e9d9eaa84c3ab1fbe176ad5edff9ae1cdd1cba9ff1c28ff5791fec69f5dad82f3f5dfbf04674dd7d3842b8a8c30f23eb18584550685110bf
+  languageName: node
+  linkType: hard
+
+"embla-carousel-react@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "embla-carousel-react@npm:7.1.0"
+  dependencies:
+    embla-carousel: 7.1.0
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.1 || ^18.0.0
+  checksum: e5c914874e2acb4db26f7f4da9e7658522e0714fed8b72b3e99984a2e48ff1a3f618ae74855baea5da42d9dd65f4706d7bfe6384ff9f8b542060a0e17ca63264
+  languageName: node
+  linkType: hard
+
+"embla-carousel@npm:7.1.0":
+  version: 7.1.0
+  resolution: "embla-carousel@npm:7.1.0"
+  checksum: fffb3d77cbd0866d4fcfa0247ead60297f57d62ee3dcf737a4f5708c0e6034ba308716d6a8a567ead55520c117de61b382fd040e4aec3daaee55bb5ba11fee7f
   languageName: node
   linkType: hard
 

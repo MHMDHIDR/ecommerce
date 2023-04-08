@@ -16,6 +16,13 @@ export type ModalProps = {
   fullscreen?: boolean
 }
 
+export type mediaProps = {
+  id?: string
+  imgUrl: string
+  itemName: string
+  currentPrice?: number
+}[]
+
 export type DotButtonProps = {
   selected: boolean
   onClick: MouseEventHandler<HTMLButtonElement>

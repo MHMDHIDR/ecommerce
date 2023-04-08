@@ -42,8 +42,8 @@ export const PRODUCT = (id: string) => {
     لابتوب ماك-بوك آير الجديد، سرعة فائقة وجودة كبيرة ... لابتوب ماك-بوك آير الجديد، سرعة فائقة وجودة كبيرة
     `,
     productStatus: 'open',
-    CreateDate: '2023-03-01 18:23:19.000000',
-    UpdateDate: '2023-03-19 18:23:19.000000'
+    createDate: '2023-03-01 18:23:19.000000',
+    updateDate: '2023-03-19 18:23:19.000000'
   }
 }
 
@@ -66,48 +66,6 @@ export const API_URL =
       ? `http://${url.dev}:4000`
       : `http://${url.local}:4000`
     : `https://ecommerce-server-mhmdhidr.vercel.app`
-
-export const ORDER = {
-  _id: '63ff8ff8b',
-  orderId: '7ae07a76-7674-4c05-9d0c-c3332a292690',
-  userId: 'undefined',
-  userEmail: 'soft.eng.mohammed@gmail.com',
-  personName: 'مستر محمد',
-  personPhone: '12312311',
-  personAddress: '12312311',
-  personNotes: '',
-  orderItems: [
-    {
-      cItemId: '63e7381d0466a1d3fb2bbeba',
-      cHeading: 'حقيبة نسائية',
-      cImg: [
-        {
-          foodImgDisplayName: 'caa8fbbd-3f3f-4cd0-97d9-c851581bf8faburger.webp',
-          foodImgDisplayPath:
-            'https://mhmdhidr-uploads.s3.amazonaws.com/caa8fbbd-3f3f-4cd0-97d9-c851581bf8faburger.webp'
-        },
-        {
-          foodImgDisplayName: 'bb21ee9a-9caa-434b-a50f-d675f427dd1fburger2.webp',
-          foodImgDisplayPath:
-            'https://mhmdhidr-uploads.s3.amazonaws.com/bb21ee9a-9caa-434b-a50f-d675f427dd1fburger2.webp'
-        },
-        {
-          foodImgDisplayName: '9be71fc1-d6b4-4190-bd34-51d817aeb395burger3.webp',
-          foodImgDisplayPath:
-            'https://mhmdhidr-uploads.s3.amazonaws.com/9be71fc1-d6b4-4190-bd34-51d817aeb395burger3.webp'
-        }
-      ],
-      cPrice: 25,
-      cCategory: 'حقائب',
-      cDesc:
-        'برجر مشوي، مخلل، جبنة شيدر صفراء، بصل ناضج، طماطم ناضجة، لولو أخضر وصوص مايونيز بلسميك',
-      cQuantity: 1
-    }
-  ],
-  grandPrice: 39,
-  orderStatus: 'pending',
-  orderDate: '2023-03-01T17:46:22.908+00:00'
-}
 
 export const CATEGORIES = [
   { ar_label: 'الملابس', en_label: 'clothes', itemCount: 200 },

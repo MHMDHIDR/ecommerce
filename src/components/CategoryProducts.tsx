@@ -1,29 +1,24 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { useAxios } from '@/hooks/useAxios'
-import { LoadingPage } from './Loading'
 import NoItems from './NoItems'
 import Icon404 from './Icons/Icon404'
 import { ProductProps } from '@/types'
 import { removeSlug } from '@/utils/slug'
-import { PRODUCT } from '@/constants'
 
-const CategoryProducts = ({ name, category }: { name?: string; category?: string }) => {
-  const [products, setProducts] = useState<ProductProps[]>([PRODUCT('1')])
-  const { response, loading } = useAxios({ url: `/products?status=open` })
-
-  useEffect(() => {
-    response && setProducts(response)
-  }, [response])
-
+const CategoryProducts = ({
+  name,
+  category,
+  products
+}: {
+  name?: string
+  category?: string
+  products: ProductProps[]
+}) => {
   return (
     <>
       <h2 className='my-5'>{name || category}</h2>
 
-      {loading ? (
-        <LoadingPage />
-      ) : products.length > 0 ? (
+      {products && products.length > 0 ? (
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-10 gap-x-4'>
           {products?.map((product: ProductProps) => (
             <motion.div
