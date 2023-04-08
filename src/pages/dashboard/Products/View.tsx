@@ -206,12 +206,12 @@ const ViewProduct = () => {
                   </td>
                   <td className='min-w-[14rem]'>
                     <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
-                      <span>{createLocaleDateString(product.CreateDate)}</span>
+                      <span>{createLocaleDateString(product.createDate)}</span>
                     </Link>
                   </td>
                   <td className='min-w-[14rem]'>
                     <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
-                      <span>{createLocaleDateString(product.UpdateDate)}</span>
+                      <span>{createLocaleDateString(product.updateDate)}</span>
                     </Link>
                   </td>
                   <td>

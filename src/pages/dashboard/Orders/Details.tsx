@@ -239,25 +239,25 @@ const DashboardOrderDetails = () => {
                     <span className='flex flex-col items-center gap-y-1'>
                       <span
                         className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
-                          item.itemStatus === 'accept'
+                          item.orderItemStatus === 'accept'
                             ? 'text-green-600'
-                            : item.itemStatus === 'reject'
+                            : item.orderItemStatus === 'reject'
                             ? 'text-red-600'
                             : 'text-gray-600'
                         }`}
                       >
                         <span
                           className={`h-1.5 w-1.5 rounded-full ${
-                            item.itemStatus === 'accept'
+                            item.orderItemStatus === 'accept'
                               ? 'bg-green-600'
-                              : item.itemStatus === 'reject'
+                              : item.orderItemStatus === 'reject'
                               ? 'bg-red-600'
                               : 'bg-gray-600'
                           }`}
                         ></span>
-                        {item.itemStatus === 'accept'
+                        {item.orderItemStatus === 'accept'
                           ? 'الطلب مقبول'
-                          : item.itemStatus === 'reject'
+                          : item.orderItemStatus === 'reject'
                           ? 'الطلب مرفوض'
                           : 'بإنتظار الاجراء'}
                       </span>
@@ -273,7 +273,7 @@ const DashboardOrderDetails = () => {
                   </td>
                   <td className='py-2'>
                     <NavMenu>
-                      {item.itemStatus === 'pending' ? (
+                      {item.orderItemStatus === 'pending' ? (
                         <>
                           <AcceptBtn
                             id={order.id}
@@ -289,14 +289,14 @@ const DashboardOrderDetails = () => {
                             itemId={item.id}
                           />
                         </>
-                      ) : item.itemStatus === 'accept' ? (
+                      ) : item.orderItemStatus === 'accept' ? (
                         <RejectBtn
                           id={order.id}
                           itemName={item.itemName}
                           supplierId={item.addedById}
                           itemId={item.id}
                         />
-                      ) : item.itemStatus === 'reject' ? (
+                      ) : item.orderItemStatus === 'reject' ? (
                         <AcceptBtn
                           id={order.id}
                           itemName={item.itemName}

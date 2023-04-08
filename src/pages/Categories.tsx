@@ -1,16 +1,25 @@
-import { Suspense } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import CategoryProducts from '@/components/CategoryProducts'
 import BackButton from '@/components/Icons/BackButton'
 import Layout from '@/components/Layout'
 import { LoadingPage } from '@/components/Loading'
 import Search from '@/components/Search'
-import { CATEGORIES, isSmallScreen } from '@/constants'
+import { CATEGORIES, PRODUCT, isSmallScreen } from '@/constants'
+import { useAxios } from '@/hooks/useAxios'
+import { ProductProps } from '@/types'
 
 const Categories = () => {
   const { name } = useParams()
   //look for [ name ] in database if available then show the
   //products inside the item page
+
+  const [products, setProducts] = useState<ProductProps[]>([PRODUCT('1')])
+  const { response, loading } = useAxios({ url: `/products?status=open` })
+
+  useEffect(() => {
+    if (response !== null) setProducts(response)
+  }, [response])
 
   return (
     <Suspense fallback={<LoadingPage />}>
@@ -21,7 +30,7 @@ const Categories = () => {
             {isSmallScreen && <BackButton to='/' className='w-8 h-8' />}
           </div>
           {name ? (
-            <CategoryProducts name={name} />
+            <CategoryProducts name={name} products={products} />
           ) : (
             <div className='flex flex-wrap justify-center mt-5 gap-3 md:gap-12'>
               {CATEGORIES.map(
