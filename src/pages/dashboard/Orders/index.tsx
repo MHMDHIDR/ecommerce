@@ -21,7 +21,7 @@ import axios from 'axios'
 import Modal from '@/components/Modal'
 import { Loading } from '@/components/Icons/Status'
 import notify from '@/utils/notify'
-import { getOrderItems, handleStatusChange } from '@/utils/orders'
+import { handleStatusChange } from '@/utils/orders'
 import { getUserFullName } from '@/utils/getUser'
 
 const SupplierDashboard = () => {
@@ -40,7 +40,6 @@ const SupplierDashboard = () => {
 
   const [usersData, setUserData] = useState()
   const [orders, setOrders] = useState<any>()
-  const [orderItems, setOrderItems] = useState<any>()
   const [actionOrderId, setActionOrderId] = useState('')
   const [actionOrderName, setActionOrderName] = useState('')
   const [eventState, setEventState] = useState('')
@@ -51,42 +50,28 @@ const SupplierDashboard = () => {
   const [rejectReason, setRejectReason] = useState('')
   const [modalLoading, setModalLoading] = useState<boolean>(false)
 
-  const { response, loading } = useAxios({
-    url: `/orders`,
+  const getOrders = useAxios({
+    url: `/orders?supplierId=${id}`,
     headers: stringJson({
       'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${token}`
     })
   })
 
-  const Users = useAxios({
-    url: `/users`,
-    headers: stringJson({
-      'Content-Type': 'multipart/form-data',
-      Authorization: `Bearer ${token}`
-    })
-  })
+  // const Users = useAxios({
+  //   url: `/users`,
+  //   headers: stringJson({
+  //     'Content-Type': 'multipart/form-data',
+  //     Authorization: `Bearer ${token}`
+  //   })
+  // })
 
   useEffect(() => {
-    if (response !== null && Users.response !== null) {
-      setOrders(response)
-      setUserData(Users.response)
+    if (getOrders.response !== null /*&& Users.response !== null*/) {
+      setOrders(getOrders.response)
+      // setUserData(Users.response)
     }
-  }, [loading, response])
-
-  useEffect(() => {
-    response?.map((order: any) => {
-      const productItemsParsed = parseJson(order.productsItems)
-      setProductItems(productItemsParsed)
-      setOrderItems(
-        type === 'admin'
-          ? productItems && Object.values(productItems).flatMap(({ items }: any) => items)
-          : productItemsParsed[id]?.items.filter(
-              (item: ProductProps) => item.addedById === id
-            )
-      )
-    })
-  }, [response])
+  }, [getOrders?.response])
 
   useEventListener('click', (e: any) => {
     switch (e.target.id) {
@@ -151,7 +136,7 @@ const SupplierDashboard = () => {
     }
   }
 
-  return loading ? (
+  return getOrders.loading ? (
     <LoadingPage />
   ) : !id || (type !== 'admin' && type !== 'supplier') ? (
     <ModalNotFound />
@@ -199,12 +184,14 @@ const SupplierDashboard = () => {
           />
         )}
         <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>
+        {/* Orders Table */}
         {type === 'supplier' ? (
           <table className='w-full bg-white dark:bg-gray-600 text-xs text-gray-900 dark:text-white text-center rounded-lg border border-gray-200 dark:border-gray-900 shadow-md dark:shadow-gray-900'>
             <thead className='bg-gray-50 dark:bg-gray-700'>
               <tr>
                 <th className='py-4'>رقم الطلب</th>
                 <th className='py-4'>اسم المنتج</th>
+                <th className='py-4'>صورة المنتج</th>
                 <th className='py-4'>الكميـــــــــة</th>
                 <th className='py-4'>الحالة</th>
                 <th className='py-4'>تاريخ الطلب</th>
@@ -212,8 +199,8 @@ const SupplierDashboard = () => {
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
-              {orderItems?.length > 0 ? (
-                orderItems.map((item: ProductProps, idx: number) => (
+              {orders?.length > 0 ? (
+                orders.map((item: ProductProps, idx: number) => (
                   <tr key={item.id}>
                     <td className='py-2'>
                       <span>{idx + 1}</span>
@@ -222,31 +209,41 @@ const SupplierDashboard = () => {
                       <span>{removeSlug(item.itemName)}</span>
                     </td>
                     <td className='py-2'>
+                      <img
+                        loading='lazy'
+                        src={item.imgUrl}
+                        alt={item.itemName}
+                        height={36}
+                        width={36}
+                        className='object-cover rounded-lg shadow-md h-9 w-9'
+                      />
+                    </td>
+                    <td className='py-2'>
                       <span>{item.quantity}</span>
                     </td>
                     <td className='py-2'>
                       <span className='flex flex-col items-center gap-y-1'>
                         <span
                           className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
-                            item.itemStatus === 'accept'
+                            item.orderItemStatus === 'accept'
                               ? 'text-green-600'
-                              : item.itemStatus === 'reject'
+                              : item.orderItemStatus === 'reject'
                               ? 'text-red-600'
                               : 'text-gray-600'
                           }`}
                         >
                           <span
                             className={`h-1.5 w-1.5 rounded-full ${
-                              item.itemStatus === 'accept'
+                              item.orderItemStatus === 'accept'
                                 ? 'bg-green-600'
-                                : item.itemStatus === 'reject'
+                                : item.orderItemStatus === 'reject'
                                 ? 'bg-red-600'
                                 : 'bg-gray-600'
                             }`}
                           ></span>
-                          {item.itemStatus === 'accept'
+                          {item.orderItemStatus === 'accept'
                             ? 'الطلب مقبول'
-                            : item.itemStatus === 'reject'
+                            : item.orderItemStatus === 'reject'
                             ? 'الطلب مرفوض'
                             : 'بإنتظار الاجراء'}
                         </span>
@@ -258,35 +255,33 @@ const SupplierDashboard = () => {
                       </span>
                     </td>
                     <td className='min-w-[13rem] py-2'>
-                      <span>
-                        {createLocaleDateString(orders && orders[0]?.orderDate)}
-                      </span>
+                      <span>{createLocaleDateString(item?.createDate)}</span>
                     </td>
                     <td className='py-2'>
                       <NavMenu>
-                        {item.itemStatus === 'pending' ? (
+                        {item.orderItemStatus === 'pending' ? (
                           <>
                             <AcceptBtn
-                              id={orders && orders[0]?.id}
+                              id={item?.id}
                               itemName={item.itemName}
                               itemId={item.id}
                               label='موافقة'
                             />
                             <RejectBtn
-                              id={orders && orders[0]?.id}
+                              id={item?.id}
                               itemName={item.itemName}
                               itemId={item.id}
                             />
                           </>
-                        ) : item.itemStatus === 'accept' ? (
+                        ) : item.orderItemStatus === 'accept' ? (
                           <RejectBtn
-                            id={orders && orders[0]?.id}
+                            id={item?.id}
                             itemName={item.itemName}
                             itemId={item.id}
                           />
-                        ) : item.itemStatus === 'reject' ? (
+                        ) : item.orderItemStatus === 'reject' ? (
                           <AcceptBtn
-                            id={orders && orders[0]?.id}
+                            id={item?.id}
                             itemName={item.itemName}
                             itemId={item.id}
                             label='موافقة'

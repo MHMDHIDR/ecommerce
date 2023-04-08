@@ -174,9 +174,9 @@ export type ProductProps = {
   category: string
   description: string
   productStatus: string
-  CreateDate: string
-  UpdateDate: string
-  itemStatus?: 'accept' | 'reject' | 'pending'
+  createDate: string
+  updateDate: string
+  orderItemStatus?: 'accept' | 'reject' | 'pending'
   rejectReason?: string
   addedById?: string
   addedByName?: string
@@ -279,7 +279,9 @@ export type ActionBtnsProps = {
 }
 
 export type StatusChangeProps = {
-  productItems: SupplierOrders
+  productItems: {
+    [key: string]: { items: any[]; orderStatus: string }
+  }
   id: string
   newStatus: string
   rejectReason?: string

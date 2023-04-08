@@ -11,13 +11,33 @@ export const addOrder = asyncHandler(async (req: Request, res: Response) => {
 
   for (const item of items) {
     db.query(
-      `INSERT INTO order_items (order_id, product_id, supplier_id, quantity, price) VALUES (?, ?, ?, ?, ?)`,
-      [id, item.id, item.addedById, item.quantity, item.currentPrice]
+      `INSERT INTO orderItems (
+        orderId,
+        productId,
+        itemName,
+        imgUrl,
+        quantity,
+        price,
+        category,
+        supplierId,
+        supplierName
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        id,
+        item.id,
+        item.itemName,
+        item.imgUrl,
+        item.quantity,
+        item.currentPrice,
+        item.category,
+        item.addedById,
+        item.addedByName
+      ]
     )
   }
 
   db.query(
-    `INSERT INTO orders (id, orderedBy, orderDate, updateDate) VALUES (?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
+    `INSERT INTO orders (id, orderedBy, createDate, updateDate) VALUES (?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
     [id, orderedBy],
     (error, _data) => {
       if (error) {

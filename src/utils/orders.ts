@@ -25,7 +25,3 @@ export const handleStatusChange = ({
     }
   }
 }
-
-export const getOrderItems = (res: any) => {
-  return res.map((order: any) => parseJson(order.productsItems))
-}

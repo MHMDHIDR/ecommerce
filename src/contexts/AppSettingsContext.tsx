@@ -21,6 +21,7 @@ const AppSettingsContextProvider = ({ children }: { children: ReactNode }) => {
   const menuToggler = () => {
     setIsSidebarOpen(!isSidebarOpen)
     setSidebarOpen(!isSidebarOpen)
+    document.querySelector('body')?.classList.toggle('overflow-hidden')
   }
 
   function setLocalStorageUser(user: UserType) {
