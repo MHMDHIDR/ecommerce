@@ -4,7 +4,6 @@ import useDocumentTitle from '@/hooks/useDocumentTitle'
 import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import Layout from '@/components/Layout'
 import { useCart } from '@/contexts/CartContext'
-import ModalSuccess from '@/components/Modal/ModalSuccess'
 import { API_URL, USER_DATA, isSmallScreen } from '@/constants'
 import abstractText from '@/utils/abstractText'
 import NoItems from '@/components/NoItems'
@@ -17,7 +16,6 @@ import { AppSettingsContext } from '@/contexts/AppSettingsContext'
 import axios from 'axios'
 import { Error, Success } from '@/components/Icons/Status'
 import Modal from '@/components/Modal'
-import { groupItemsBySupplier } from '@/utils/orders'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
 
 const OrderAddress = () => {
@@ -67,7 +65,7 @@ const OrderAddress = () => {
 
     //using FormData to send constructed data
     const formData = new FormData()
-    formData.append('productsItems', stringJson(groupItemsBySupplier(items)))
+    formData.append('productsItems', stringJson(items))
     formData.append('orderedBy', accountId)
 
     try {

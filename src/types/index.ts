@@ -278,10 +278,6 @@ export type ActionBtnsProps = {
   label?: string
 }
 
-export type SupplierOrders = {
-  [key: string]: { items: any[]; orderStatus: string }
-}
-
 export type StatusChangeProps = {
   productItems: SupplierOrders
   id: string

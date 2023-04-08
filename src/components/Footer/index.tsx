@@ -191,7 +191,7 @@ const Footer = () => (
 
       <Divider />
 
-      <div className='flex flex-col justify-between items-center pt-5 md:pt-0 sm:flex-row text-xs'>
+      <div className='flex flex-col justify-between items-center py-5 md:pt-0 sm:flex-row text-xs'>
         <p className='dark:text-gray-100'>
           جميع الحقوق محفوظة &copy;{' '}
           {new Date().getFullYear() === 2023

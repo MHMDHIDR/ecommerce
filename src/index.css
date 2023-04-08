@@ -4,7 +4,7 @@
 
 @layer utilities {
   ::-webkit-scrollbar {
-    @apply w-1 h-1.5;
+    @apply md:w-0 h-1.5;
   }
 
   ::-webkit-scrollbar-thumb:hover {
