@@ -191,22 +191,22 @@ const Footer = () => (
 
       <Divider />
 
-      <div className='flex flex-col justify-between items-center pt-5 md:pt-0 sm:flex-row'>
-        <p className='text-sm dark:text-gray-100'>
+      <div className='flex flex-col justify-between items-center pt-5 md:pt-0 sm:flex-row text-xs'>
+        <p className='dark:text-gray-100'>
           جميع الحقوق محفوظة &copy;{' '}
           {new Date().getFullYear() === 2023
             ? '2023'
             : `2023 - ${new Date().getFullYear()}`}
         </p>
         <div className='flex items-center mt-4 gap-5 sm:mt-0'>
-          <span>متواجدون على</span>
+          <span>تجدنا على</span>
           <Link
             to='https://twitter.com/'
             target='_blank'
             data-tooltip='Twitter'
             className='transition-colors duration-300 hover:text-blue-800 dark:hover:text-blue-400'
           >
-            <Twitter className='w-[1.5rem]' />
+            <Twitter className='w-7' />
           </Link>
           <Link
             to='https://instagram.com/'
@@ -214,7 +214,7 @@ const Footer = () => (
             data-tooltip='Instagram'
             className='transition-colors duration-300 hover:text-blue-800 dark:hover:text-blue-400'
           >
-            <Instagram className='w-[1.5rem]' />
+            <Instagram className='w-7' />
           </Link>
           <Link
             to='https://facebook.com/'
@@ -222,7 +222,7 @@ const Footer = () => (
             data-tooltip='Facebook'
             className='transition-colors duration-300 hover:text-blue-800 dark:hover:text-blue-400'
           >
-            <Facebook className='w-[1.5rem]' />
+            <Facebook className='w-7' />
           </Link>
         </div>
       </div>

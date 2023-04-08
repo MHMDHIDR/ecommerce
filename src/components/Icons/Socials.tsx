@@ -1,12 +1,9 @@
 import { LogoProps } from '@/types'
 
-const ICON_SIZE_CLASS =
-  'w-[calc(var(--drkModeToggleSize)/1.5)] h-[calc(var(--drkModeToggleSize)/1.5)]'
-
 //Twitter
 export const Twitter = ({ fill = 'skyblue', className }: LogoProps) => (
   <svg
-    className={`${ICON_SIZE_CLASS} opacity-60 hover:opacity-100 transition-opacity mx-auto${
+    className={`opacity-60 hover:opacity-100 transition-opacity mx-auto${
       className ? ' ' + className : ''
     }`}
     xmlns='http://www.w3.org/2000/svg'
@@ -21,7 +18,7 @@ export const Twitter = ({ fill = 'skyblue', className }: LogoProps) => (
 //Instagram
 export const Instagram = ({ fill = 'purple', className }: LogoProps) => (
   <svg
-    className={`${ICON_SIZE_CLASS} opacity-60 hover:opacity-100 transition-opacity mx-auto${
+    className={`opacity-60 hover:opacity-100 transition-opacity mx-auto${
       className ? ' ' + className : ''
     }`}
     xmlns='http://www.w3.org/2000/svg'
@@ -37,7 +34,7 @@ export const Instagram = ({ fill = 'purple', className }: LogoProps) => (
 //WhatsApp
 export const WhatsApp = ({ fill = 'white', className }: LogoProps) => (
   <svg
-    className={`${ICON_SIZE_CLASS} opacity-60 hover:opacity-100 transition-opacity mx-auto${
+    className={`opacity-60 hover:opacity-100 transition-opacity mx-auto${
       className ? ' ' + className : ''
     }`}
     xmlns='http://www.w3.org/2000/svg'
@@ -55,7 +52,7 @@ export const WhatsApp = ({ fill = 'white', className }: LogoProps) => (
 //Facebook
 export const Facebook = ({ fill = '#3b5998', className }: LogoProps) => (
   <svg
-    className={`${ICON_SIZE_CLASS} h-5 w-5${className ? ' ' + className : ''}`}
+    className={`h-5 w-5${className ? ' ' + className : ''}`}
     xmlns='http://www.w3.org/2000/svg'
     viewBox='0 0 24 24'
     fill={fill}

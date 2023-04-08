@@ -188,7 +188,7 @@ const Signup = () => {
                 to={'googleLogin'}
                 aria-label='Continue with Google'
                 role='button'
-                className='dark:bg-white focus:outline-blue-300 focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 border rounded-lg border-gray-700 w-full inline-flex items-center justify-center'
+                className='dark:bg-white focus:outline-blue-300 focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 border rounded-lg border-gray-700 w-full py-3 inline-flex items-center justify-center'
               >
                 <Google />
                 <p className='text-base font-medium mr-4 text-gray-700'>
@@ -199,9 +199,9 @@ const Signup = () => {
                 to={'facebookLogin'}
                 aria-label='Continue with facebook'
                 role='button'
-                className='dark:bg-white focus:outline-blue-300 focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 border rounded-lg border-gray-700 w-full inline-flex items-center justify-center'
+                className='dark:bg-white focus:outline-blue-300 focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 border rounded-lg border-gray-700 w-full py-3 inline-flex items-center justify-center'
               >
-                <Facebook className='w-[1.25rem_!important]' />
+                <Facebook />
                 <p className='text-base font-medium mr-4 text-gray-700'>
                   تسجيل حساب جديد مع فيسبوك
                 </p>
