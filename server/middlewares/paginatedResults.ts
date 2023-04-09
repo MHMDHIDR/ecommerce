@@ -15,33 +15,6 @@ export const paginatedResults = (table: string) => {
     const response: Record<string, any> = {}
 
     try {
-      const countQuery = `SELECT COUNT(*) as count FROM ${table}`
-      const countResult = await db.promise().query(countQuery)
-      const itemsCount = countResult[0][0].count
-      response.itemsCount = category
-        ? await db
-            .promise()
-            .query(`SELECT COUNT(*) as count FROM ${table} WHERE category = ?`, [
-              category
-            ])
-        : itemsCount
-
-      response.numberOfPages = Math.ceil(response.itemsCount / reqLimit)
-
-      if (endIndex < itemsCount) {
-        response.next = {
-          page: reqPage + 1,
-          limit: reqLimit
-        }
-      }
-
-      if (startIndex > 0) {
-        response.previous = {
-          page: reqPage - 1,
-          limit: reqLimit
-        }
-      }
-
       let query = `SELECT * FROM ${table}`
 
       if (supplierId) {
@@ -53,6 +26,28 @@ export const paginatedResults = (table: string) => {
           .promise()
           .query(query, [supplierId, reqLimit, startIndex])
         response.response = response.response[0]
+        const countQuery = `SELECT COUNT(*) as count FROM orders o JOIN orderItems oi ON o.id = oi.orderId WHERE oi.supplierId = ?`
+        const countResult = await db
+          .promise()
+          .query(countQuery, [supplierId, reqLimit, startIndex])
+        const itemsCount = countResult[0][0].count
+
+        response.itemsCount = itemsCount
+        if (endIndex < itemsCount) {
+          response.next = {
+            page: reqPage + 1,
+            limit: reqLimit
+          }
+        }
+
+        if (startIndex > 0) {
+          response.previous = {
+            page: reqPage - 1,
+            limit: reqLimit
+          }
+        }
+
+        response.numberOfPages = Math.ceil(response.itemsCount / reqLimit)
       } else if (!page) {
         if (addedById && status) {
           query = `SELECT * FROM ${table} WHERE addedById = ? AND productStatus = ? ORDER BY ${
@@ -60,12 +55,54 @@ export const paginatedResults = (table: string) => {
           }`
           response.response = await db.promise().query(query, [addedById, status])
           response.response = response.response[0]
+          const countQuery = `SELECT COUNT(*) as count FROM ${table} WHERE addedById = ? AND productStatus = ?`
+          const countResult = await db.promise().query(countQuery, [addedById, status])
+          const itemsCount = countResult[0][0].count
+
+          response.itemsCount = itemsCount
+          if (endIndex < itemsCount) {
+            response.next = {
+              page: reqPage + 1,
+              limit: reqLimit
+            }
+          }
+
+          if (startIndex > 0) {
+            response.previous = {
+              page: reqPage - 1,
+              limit: reqLimit
+            }
+          }
+          response.numberOfPages = Math.ceil(response.itemsCount / reqLimit)
         } else {
           query = `SELECT * FROM ${table} ${addedById ? 'WHERE addedById = ?' : ''} ${
             status ? 'WHERE productStatus = ?' : ''
           } ORDER BY ${orderBy ? `${orderBy} DESC` : `updateDate DESC`}`
           response.response = await db.promise().query(query, [status, addedById])
           response.response = response.response[0]
+
+          const countQuery = `SELECT COUNT(*) as count FROM ${table} ${
+            addedById ? 'WHERE addedById = ?' : ''
+          } ${status ? 'WHERE productStatus = ?' : ''}`
+
+          const countResult = await db.promise().query(countQuery, [status, addedById])
+          const itemsCount = countResult[0][0].count
+
+          response.itemsCount = itemsCount
+          if (endIndex < itemsCount) {
+            response.next = {
+              page: reqPage + 1,
+              limit: reqLimit
+            }
+          }
+
+          if (startIndex > 0) {
+            response.previous = {
+              page: reqPage - 1,
+              limit: reqLimit
+            }
+          }
+          response.numberOfPages = Math.ceil(response.itemsCount / reqLimit)
         }
       } else if (category) {
         query = `SELECT * FROM ${table} WHERE category = ? AND productStatus = ? ORDER BY ${
@@ -75,6 +112,27 @@ export const paginatedResults = (table: string) => {
           .promise()
           .query(query, [category, status, reqLimit, startIndex])
         response.response = response.response[0]
+        const countQuery = `SELECT COUNT(*) as count FROM ${table} WHERE category = ? AND productStatus = ?`
+        const countResult = await db
+          .promise()
+          .query(countQuery, [category, status, reqLimit, startIndex])
+        const itemsCount = countResult[0][0].count
+
+        response.itemsCount = itemsCount
+        if (endIndex < itemsCount) {
+          response.next = {
+            page: reqPage + 1,
+            limit: reqLimit
+          }
+        }
+
+        if (startIndex > 0) {
+          response.previous = {
+            page: reqPage - 1,
+            limit: reqLimit
+          }
+        }
+        response.numberOfPages = Math.ceil(response.itemsCount / reqLimit)
       } else {
         query = `SELECT * FROM ${table} ${addedById ? 'WHERE addedById = ?' : ''} ${
           status ? 'WHERE productStatus = ?' : ''
@@ -83,6 +141,29 @@ export const paginatedResults = (table: string) => {
           .promise()
           .query(query, [addedById, status, reqLimit, startIndex])
         response.response = response.response[0]
+        const countQuery = `SELECT COUNT(*) as count FROM ${table} ${
+          addedById ? 'WHERE addedById = ?' : ''
+        } ${status ? 'WHERE productStatus = ?' : ''}`
+        const countResult = await db
+          .promise()
+          .query(countQuery, [addedById, status, reqLimit, startIndex])
+        const itemsCount = countResult[0][0].count
+
+        response.itemsCount = itemsCount
+        if (endIndex < itemsCount) {
+          response.next = {
+            page: reqPage + 1,
+            limit: reqLimit
+          }
+        }
+
+        if (startIndex > 0) {
+          response.previous = {
+            page: reqPage - 1,
+            limit: reqLimit
+          }
+        }
+        response.numberOfPages = Math.ceil(response.itemsCount / reqLimit)
       }
 
       response.category = category

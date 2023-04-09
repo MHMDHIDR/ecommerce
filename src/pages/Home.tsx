@@ -20,10 +20,14 @@ const Home = () => {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
 
   const [products, setProducts] = useState<ProductProps[]>([PRODUCT('1')])
-  const { response, loading } = useAxios({ url: `/products?status=open` })
+  const [itemsCount, setItemsCount] = useState()
+  const { response, data, loading } = useAxios({ url: `/products?status=open` })
 
   useEffect(() => {
-    if (response !== null) setProducts(response)
+    if (response !== null) {
+      setProducts(response)
+      setItemsCount(data.itemsCount)
+    }
   }, [response])
 
   return loading ? (
@@ -45,7 +49,7 @@ const Home = () => {
           </div>
 
           {/* Slider */}
-          <Slider products={products} />
+          <Slider products={products} itemsCount={itemsCount!} />
 
           {/* Most Trending */}
           <div>

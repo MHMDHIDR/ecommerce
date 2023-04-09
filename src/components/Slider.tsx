@@ -1,8 +1,16 @@
 import EmblaCarousel from '@/components/EmblaCarousel'
+import { ITEMS_PER_PAGE } from '@/constants'
 import { ProductProps, mediaProps } from '@/types'
 
-const Slider = ({ products }: { products: ProductProps[] }) => {
-  const slides = Array.from(Array(3).keys())
+const Slider = ({
+  products,
+  itemsCount
+}: {
+  products: ProductProps[]
+  itemsCount: number
+}) => {
+  const SlidesCount = ITEMS_PER_PAGE > itemsCount ? itemsCount : ITEMS_PER_PAGE
+  const slides = Array.from(Array(SlidesCount).keys())
   let media: mediaProps = []
 
   //push food images to media array

@@ -13,6 +13,7 @@ export const useAxios = ({
   headers = null
 }: axiosProps) => {
   const [response, setResponse] = useState<any>(null)
+  const [data, setData] = useState<any>(null)
   const [error, setError] = useState<{
     error: any
     response: any
@@ -29,7 +30,8 @@ export const useAxios = ({
           headers:
             headers !== null ? parseJson(headers) : { 'Content-Type': 'application/json' }
         })
-        setResponse(data?.response ? data?.response : data)
+        setData(data)
+        setResponse(data?.response)
         setloading(false)
       } catch (error) {
         setError({ error, response: error })
@@ -40,5 +42,5 @@ export const useAxios = ({
     fetchData()
   }, [url, method, body, headers])
 
-  return { response, error, loading }
+  return { response, error, loading, data }
 }
