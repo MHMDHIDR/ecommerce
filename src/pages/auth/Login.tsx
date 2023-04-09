@@ -151,7 +151,7 @@ const Login = () => {
 
             <Divider>أو</Divider>
 
-            <div className='flex gap-y-5 md:gap-x-20 mt-10'>
+            <div className='flex gap-y-5 md:gap-x-20 mt-10 flex-wrap md:flex-nowrap mx-auto max-w-xs md:max-w-none'>
               <Link
                 to={'googleLogin'}
                 aria-label='Continue with Google'
