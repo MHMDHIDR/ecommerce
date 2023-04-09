@@ -39,7 +39,7 @@ const OrderAddress = () => {
   const completeOrderBtnRef = useRef<HTMLButtonElement>(null)
 
   const [fetchedUser, setFetchedUser] = useState<UserType | null>(null)
-  const { loading: loadingFetch, response } = useAxios({
+  const { loading: loadingFetch, data } = useAxios({
     url: `/users/${accountId}`,
     headers: stringJson({
       'Content-Type': 'application/json',
@@ -48,10 +48,10 @@ const OrderAddress = () => {
   })
 
   useEffect(() => {
-    if (!loadingFetch && response !== null) {
-      setFetchedUser(response !== null && response[0])
+    if (!loadingFetch && data !== null) {
+      setFetchedUser(data !== null && data[0])
     }
-  }, [response])
+  }, [data])
 
   const handleCheckout = async (e: {
     target: any

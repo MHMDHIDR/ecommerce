@@ -4,17 +4,35 @@ import db from '../../helpers/db.js'
 
 export const updateOrder = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params
-  let { productItems, orderStatus } = req.body
+  let { eventState, rejectReason, productId } = req.body
 
-  const query = `UPDATE orders
-    SET productsItems = IFNULL(?, productsItems),
-      orderStatus = IFNULL(?, orderStatus),
-      updateDate = CURRENT_TIMESTAMP
+  const updateOrderItemsQuery = `UPDATE orderItems
+    SET orderItemStatus = IFNULL(?, orderItemStatus),
+        rejectReason = IFNULL(?, rejectReason),
+        updateDate = CURRENT_TIMESTAMP
+    WHERE orderId = ? AND productId = ?`
+
+  const updateOrderQuery = `UPDATE orders
+    SET updateDate = CURRENT_TIMESTAMP
     WHERE id = ?`
 
-  db.query(query, [productItems, orderStatus, id], (error: any, _data: any) => {
-    return error
-      ? res.status(500).json({ orderUpdated: 0, message: `عفواً حدث خطأ!: ${error}` })
-      : res.status(201).json({ orderUpdated: 1, message: 'تم تحديث المنتج بنجاح' })
-  })
+  db.query(
+    updateOrderItemsQuery,
+    [eventState, rejectReason, id, productId],
+    (error: any, _data: any) => {
+      if (error) {
+        return res
+          .status(500)
+          .json({ orderUpdated: 0, message: `عفواً حدث خطأ!: ${error}` })
+      }
+      db.query(updateOrderQuery, [id], (error: any, _data: any) => {
+        if (error) {
+          return res
+            .status(500)
+            .json({ orderUpdated: 0, message: `عفواً حدث خطأ!: ${error}` })
+        }
+        res.status(201).json({ orderUpdated: 1, message: 'تم تحديث المنتج بنجاح' })
+      })
+    }
+  )
 })

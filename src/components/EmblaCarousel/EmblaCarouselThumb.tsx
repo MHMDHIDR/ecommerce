@@ -9,7 +9,7 @@ export const Thumb = ({ selected, onClick, imgSrc, alt }: EmblaThumbProps) => (
   >
     <button
       onClick={onClick}
-      className='relative block w-24 h-24 overflow-hidden bg-transparent border-0 rounded-lg cursor-pointer touch-manipulation outline-0 margin-0 padding-0'
+      className='relative block w-24 h-24 overflow-hidden bg-transparent border-0 rounded-md cursor-pointer touch-manipulation outline-0 margin-0 padding-0'
       type='button'
     >
       <img

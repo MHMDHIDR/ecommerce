@@ -20,11 +20,11 @@ const Product = () => {
   const alreadyAdded = inCart(id!)
 
   const [product, setProduct] = useState<ProductProps>(PRODUCT('1'))
-  const { response, loading } = useAxios({ url: `/products/${id}` })
+  const { data, loading } = useAxios({ url: `/products/${id}` })
 
   useEffect(() => {
-    response && setProduct(response[0])
-  }, [response])
+    data && setProduct(data[0])
+  }, [data])
 
   return (
     <>
@@ -57,10 +57,10 @@ const Product = () => {
 
               <div className='mt-2.5 mb-5 flex items-center'>
                 <span className='ml-2 rounded bg-yellow-200 dark:text-black px-2.5 py-0.5 text-xs font-semibold'>
-                  {(product.rating < 1 ? 1 : product.rating + 5).toFixed(1)}
+                  {(product.rating < 1 ? 1 : product.rating).toFixed(1)}
                 </span>
                 {[
-                  ...Array(Math.round(product.rating < 1 ? 1 : product.rating + 5)).keys()
+                  ...Array(Math.round(product.rating < 1 ? 1 : product.rating)).keys()
                 ].map((_star: any, idx: number) => (
                   <svg
                     key={idx}

@@ -7,7 +7,7 @@ export const AcceptBtn = ({
   phone,
   itemName,
   supplierId,
-  itemId,
+  productId,
   type,
   label
 }: ActionBtnsProps) => (
@@ -16,7 +16,7 @@ export const AcceptBtn = ({
     data-orderid={id}
     data-name={itemName}
     data-supplierid={supplierId}
-    data-itemid={itemId}
+    data-productid={productId}
     data-type={type}
     data-phone={phone}
     data-status='accept'
@@ -35,7 +35,7 @@ export const RejectBtn = ({
   phone,
   itemName,
   supplierId,
-  itemId,
+  productId,
   type,
   label
 }: ActionBtnsProps) => (
@@ -44,7 +44,7 @@ export const RejectBtn = ({
     data-orderid={id}
     data-name={itemName}
     data-supplierid={supplierId}
-    data-itemid={itemId}
+    data-productid={productId}
     data-type={type}
     data-phone={phone}
     data-status='reject'

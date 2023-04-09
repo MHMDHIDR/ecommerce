@@ -20,8 +20,10 @@ export const addOrder = asyncHandler(async (req: Request, res: Response) => {
         price,
         category,
         supplierId,
-        supplierName
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        supplierName,
+        createDate,
+        updateDate
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
       [
         id,
         item.id,

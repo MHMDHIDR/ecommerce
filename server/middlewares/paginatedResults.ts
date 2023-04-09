@@ -7,7 +7,7 @@ export const paginatedResults = (table: string) => {
     const { page, limit } = req.params
     const { category, orderBy, addedById, status, supplierId } = req.query
     const reqPage = parseInt(page) || 1
-    const reqLimit = parseInt(limit) || 1
+    const reqLimit = parseInt(limit) || parseInt(process.env.BIG_LIMIT!)
 
     const startIndex = (reqPage - 1) * reqLimit
     const endIndex = reqPage * reqLimit

@@ -4,8 +4,8 @@ export const DotButton = ({ selected, onClick }: DotButtonProps) => (
   <button
     aria-label='Dotted Navigation'
     title='Dotted Navigation'
-    className={`bg-transparent cursor-pointer relative p-0 outline-0 border-0 w-8 h-8 mx-2 flex items-center after:bg-gray-100 after:w-full after:h-1 after:rounded-sm ${
-      selected ? 'after:bg-blue-400 opacity-100' : ''
+    className={`bg-transparent cursor-pointer relative p-0 outline-0 border-0 w-8 h-8 mx-2 flex items-center after:bg-blue-400 after:w-full after:h-1 after:rounded-sm ${
+      selected ? 'after:bg-blue-600' : ''
     }`}
     type='button'
     onClick={onClick}

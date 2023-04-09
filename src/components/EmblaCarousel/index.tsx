@@ -55,24 +55,24 @@ const EmblaCarousel = ({ slides, media, smallView = false }: any) => {
     <div dir={`ltr`}>
       {/* Big Menu View */}
       <div
-        className={`w-full relative p-1 rounded-xl cursor-grab bg-center before:absolute before:bg-gray-100 before:dark:bg-gray-600 before:inset-0 before:bg-opacity-[.85] before:dark:bg-opacity-[.85] before:rounded-xl before:transition-colors`}
+        className={`w-full relative p-1 cursor-grab bg-center before:absolute before:bg-gray-100 before:dark:bg-gray-600 before:inset-0 before:bg-opacity-[.85] before:dark:bg-opacity-[.85]  before:transition-colors`}
         style={{ backgroundImage: `url('/assets/img/logo.jpg')` }}
       >
         <div className='w-full overflow-hidden' ref={mainViewportRef}>
           <div className='flex -ml-2 select-none'>
             {slides.map((index: number) => (
               <Link
-                to={`/view/item/${IdByIndex(index)}`}
+                to={`/product/${IdByIndex(index)}`}
                 className='relative min-w-full pl-2'
                 key={index}
               >
-                {priceByIndex(index) && (
-                  <span className='absolute z-40 flex items-center justify-center px-4 py-2 text-base font-bold text-white bg-green-900 sm:px-6 sm:text-xl rounded-xl top-3 left-4 rtl'>
+                {/* {priceByIndex(index) && (
+                  <span className='absolute z-40 flex items-center justify-center px-4 py-2 text-base font-bold text-white bg-green-900 sm:px-6 sm:text-xl top-3 left-4 rtl'>
                     {priceByIndex(index)} ج.س
                   </span>
-                )}
+                )} */}
                 <div
-                  className={`relative overflow-hidden rounded-xl ${
+                  className={`relative overflow-hidden ${
                     smallView
                       ? slides.length > 1 //many images
                         ? 'h-[19.3rem]'
@@ -108,7 +108,7 @@ const EmblaCarousel = ({ slides, media, smallView = false }: any) => {
 
       {/* Dots (buttons) View */}
       {!smallView && (
-        <div className='flex justify-center pt-3 list-none'>
+        <div className='flex justify-center list-none'>
           {scrollSnaps.map((_: any, index: number) => (
             <DotButton
               key={index}
@@ -121,7 +121,7 @@ const EmblaCarousel = ({ slides, media, smallView = false }: any) => {
 
       {/* Thumb View */}
       {slides.length > 1 && (
-        <div className='relative w-full p-2 transition-colors bg-gray-100 dark:bg-gray-600 rounded-xl'>
+        <div className='relative w-full p-2 transition-colors bg-gray-100 dark:bg-gray-600'>
           <div className='w-full overflow-hidden' ref={thumbViewportRef}>
             <div className={`flex justify-between cursor-default select-none`}>
               {slides.map((index: number) => (

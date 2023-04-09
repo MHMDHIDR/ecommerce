@@ -21,7 +21,6 @@ import axios from 'axios'
 import Modal from '@/components/Modal'
 import { Loading } from '@/components/Icons/Status'
 import notify from '@/utils/notify'
-import { handleStatusChange } from '@/utils/orders'
 import { getUserFullName } from '@/utils/getUser'
 
 const SupplierDashboard = () => {
@@ -34,23 +33,21 @@ const SupplierDashboard = () => {
   const { userData } = useAuth()
   const { id, type } = !userData
     ? getLocalStorageUser()
-      ? parseJson(getLocalStorageUser())
+      ? parseJson(getLocalStorageUser())[0]
       : USER_DATA
     : userData
 
-  const [usersData, setUserData] = useState()
-  const [orders, setOrders] = useState<any>()
+  const [orders, setOrders] = useState<ProductProps[]>()
   const [actionOrderId, setActionOrderId] = useState('')
   const [actionOrderName, setActionOrderName] = useState('')
   const [eventState, setEventState] = useState('')
-  const [actionItemId, setActionItemId] = useState('')
-  const [productItems, setProductItems] = useState<any>(null)
+  const [actionProductId, setActionProductId] = useState('')
   const [isActionDone, setIsActionDone] = useState(null)
   const [actionMsg, setActionMsg] = useState('')
   const [rejectReason, setRejectReason] = useState('')
   const [modalLoading, setModalLoading] = useState<boolean>(false)
 
-  const getOrders = useAxios({
+  const { response, loading } = useAxios({
     url: `/orders?supplierId=${id}`,
     headers: stringJson({
       'Content-Type': 'multipart/form-data',
@@ -58,27 +55,18 @@ const SupplierDashboard = () => {
     })
   })
 
-  // const Users = useAxios({
-  //   url: `/users`,
-  //   headers: stringJson({
-  //     'Content-Type': 'multipart/form-data',
-  //     Authorization: `Bearer ${token}`
-  //   })
-  // })
-
   useEffect(() => {
-    if (getOrders.response !== null /*&& Users.response !== null*/) {
-      setOrders(getOrders.response)
-      // setUserData(Users.response)
+    if (response !== null) {
+      setOrders(response)
     }
-  }, [getOrders?.response])
+  }, [response])
 
   useEventListener('click', (e: any) => {
     switch (e.target.id) {
       case 'acceptBtn':
       case 'rejectBtn': {
         setActionOrderId(e.target.dataset.orderid)
-        setActionItemId(e.target.dataset.itemid)
+        setActionProductId(e.target.dataset.productid)
         setActionOrderName(removeSlug(e.target.dataset.name))
         setEventState(e.target.dataset.status)
         setModalLoading(true)
@@ -111,16 +99,7 @@ const SupplierDashboard = () => {
 
       const { data } = await axios.patch(
         `${API_URL}/orders/${actionOrderId}`,
-        {
-          productItems: stringJson(
-            handleStatusChange({
-              productItems,
-              id,
-              newStatus: eventState,
-              itemId: actionItemId
-            })
-          )
-        },
+        { eventState, productId: actionProductId, rejectReason },
         { headers }
       )
 
@@ -136,7 +115,7 @@ const SupplierDashboard = () => {
     }
   }
 
-  return getOrders.loading ? (
+  return loading ? (
     <LoadingPage />
   ) : !id || (type !== 'admin' && type !== 'supplier') ? (
     <ModalNotFound />
@@ -147,9 +126,9 @@ const SupplierDashboard = () => {
           {isActionDone === 1
             ? notify({
                 type: 'success',
-                msg: actionMsg,
-                reloadIn: TIME_TO_EXECUTE,
-                reloadTo: goTo(type === 'admin' ? 'dashboard' : 'supplier')
+                msg: actionMsg
+                // ,reloadIn: TIME_TO_EXECUTE,
+                // reloadTo: goTo(type === 'admin' ? 'dashboard' : 'supplier')
               })
             : isActionDone === 0
             ? notify({ type: 'error', msg: actionMsg })
@@ -199,9 +178,9 @@ const SupplierDashboard = () => {
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
-              {orders?.length > 0 ? (
+              {orders && orders?.length > 0 ? (
                 orders.map((item: ProductProps, idx: number) => (
-                  <tr key={item.id}>
+                  <tr key={item.id + idx}>
                     <td className='py-2'>
                       <span>{idx + 1}</span>
                     </td>
@@ -248,9 +227,11 @@ const SupplierDashboard = () => {
                             : 'بإنتظار الاجراء'}
                         </span>
                         <span>
-                          {item.rejectReason!?.length > 1
-                            ? item.rejectReason
-                            : 'لم يتم تحديد السبب'}
+                          {item.orderItemStatus === 'reject'
+                            ? item.rejectReason!?.length > 1
+                              ? item.rejectReason
+                              : 'لم يتم تحديد السبب'
+                            : ''}
                         </span>
                       </span>
                     </td>
@@ -264,26 +245,26 @@ const SupplierDashboard = () => {
                             <AcceptBtn
                               id={item?.id}
                               itemName={item.itemName}
-                              itemId={item.id}
+                              productId={item.productId}
                               label='موافقة'
                             />
                             <RejectBtn
                               id={item?.id}
                               itemName={item.itemName}
-                              itemId={item.id}
+                              productId={item.productId}
                             />
                           </>
                         ) : item.orderItemStatus === 'accept' ? (
                           <RejectBtn
                             id={item?.id}
                             itemName={item.itemName}
-                            itemId={item.id}
+                            productId={item.productId}
                           />
                         ) : item.orderItemStatus === 'reject' ? (
                           <AcceptBtn
                             id={item?.id}
                             itemName={item.itemName}
-                            itemId={item.id}
+                            productId={item.productId}
                             label='موافقة'
                           />
                         ) : (
@@ -319,7 +300,7 @@ const SupplierDashboard = () => {
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
-              {orders?.length > 0 ? (
+              {orders && orders?.length > 0 ? (
                 orders.map((order: any, idx: number) => (
                   <tr key={order.id}>
                     <td className='py-2'>
@@ -327,7 +308,7 @@ const SupplierDashboard = () => {
                     </td>
                     <td className='min-w-[15rem] py-2'>
                       <span>
-                        {usersData && getUserFullName(usersData, order.orderedBy)}
+                        {/* {usersData && getUserFullName(usersData, order.orderedBy)} */}
                       </span>
                     </td>
                     <td className='py-2'>

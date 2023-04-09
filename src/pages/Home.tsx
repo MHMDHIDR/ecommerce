@@ -8,7 +8,7 @@ import Search from '@/components/Search'
 import Filter from '@/components/Icons/Filter'
 import Arrow from '@/components/Icons/Arrow'
 import CategoryProducts from '@/components/CategoryProducts'
-import { CATEGORIES, isSmallScreen, PRODUCT } from '@/constants'
+import { CATEGORIES, isSmallScreen, ITEMS_PER_PAGE, PRODUCT } from '@/constants'
 import abstractText from '@/utils/abstractText'
 import Slider from '@/components/Slider'
 import { ProductProps } from '@/types'
@@ -49,7 +49,7 @@ const Home = () => {
           </div>
 
           {/* Slider */}
-          <Slider products={products} itemsCount={itemsCount!} />
+          <Slider products={products} itemsCount={itemsCount ?? ITEMS_PER_PAGE} />
 
           {/* Most Trending */}
           <div>

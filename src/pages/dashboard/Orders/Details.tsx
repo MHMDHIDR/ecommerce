@@ -21,7 +21,6 @@ import { AppSettingsProps, ProductProps, UserType } from '@/types'
 import { parseJson, stringJson } from '@/utils/jsonTools'
 import { createLocaleDateString } from '@/utils/convertDate'
 import { removeSlug } from '@/utils/slug'
-import { handleStatusChange } from '@/utils/orders'
 import notify from '@/utils/notify'
 
 const DashboardOrderDetails = () => {
@@ -123,20 +122,9 @@ const DashboardOrderDetails = () => {
         Authorization: `Bearer ${token}`
       }
 
-      const { data } = await axios.patch(
-        `${API_URL}/orders/${actionOrderId}`,
-        {
-          productItems: stringJson(
-            handleStatusChange({
-              productItems,
-              id: actionSupplierId,
-              newStatus: eventState,
-              itemId: actionItemId
-            })
-          )
-        },
-        { headers }
-      )
+      const { data } = await axios.patch(`${API_URL}/orders/${actionOrderId}`, {
+        headers
+      })
 
       const { orderUpdated, message } = data
       setIsActionDone(orderUpdated)

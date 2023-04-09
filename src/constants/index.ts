@@ -2,7 +2,7 @@ import { UserType } from '@/types'
 
 export const { origin }: any = typeof window !== 'undefined' && window.location
 
-export const ITEMS_PER_PAGE = 10
+export const ITEMS_PER_PAGE = 5
 
 export const MAX_QUANTITY = 100
 
