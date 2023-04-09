@@ -86,10 +86,6 @@ const App = () => {
                     <Route path='supplier/add' element={<DashboardAddProduct />} />
                     <Route path='supplier/products' element={<DashboardViewProduct />} />
                     <Route
-                      path='supplier/order/:id/:userId'
-                      element={<DashboardOrderDetails />}
-                    />
-                    <Route
                       path='supplier/product/:id'
                       element={<SupplierEditProduct />}
                     />

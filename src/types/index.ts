@@ -187,6 +187,7 @@ export type ProductProps = {
   rejectReason?: string
   addedById?: string
   addedByName?: string
+  orderId: string
   productId?: string
 }
 
@@ -283,11 +284,4 @@ export type ActionBtnsProps = {
   productId?: string
   type?: string
   label?: string
-}
-
-export type StatusChangeProps = {
-  id: string
-  newStatus: string
-  rejectReason?: string
-  itemId: string
 }

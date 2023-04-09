@@ -22,6 +22,8 @@ import { parseJson, stringJson } from '@/utils/jsonTools'
 import { createLocaleDateString } from '@/utils/convertDate'
 import { removeSlug } from '@/utils/slug'
 import notify from '@/utils/notify'
+import Divider from '@/components/Divider'
+import DeliveryAddress from './DeliveryAddress'
 
 const DashboardOrderDetails = () => {
   const DOCUMENT_TITLE = 'تفاصيل الطلب'
@@ -38,27 +40,18 @@ const DashboardOrderDetails = () => {
       : USER_DATA
     : userData
 
-  const [usersData, setUserData] = useState<UserType | null>(null)
+  const [usersData, setUserData] = useState<UserType>(USER_DATA)
   const [order, setOrder] = useState<any>()
   const [orderItems, setOrderItems] = useState<any>()
   const [actionOrderId, setActionOrderId] = useState('')
   const [actionOrderName, setActionOrderName] = useState('')
   const [eventState, setEventState] = useState('')
-  const [actionItemId, setActionItemId] = useState('')
+  const [actionProductId, setActionProductId] = useState('')
   const [actionSupplierId, setActionSupplierId] = useState('')
-  const [productItems, setProductItems] = useState<any>(null)
   const [isActionDone, setIsActionDone] = useState(null)
   const [actionMsg, setActionMsg] = useState('')
-  const [isSettingOrderItems, setIsSettingOrderItems] = useState(true)
+  const [rejectReason, setRejectReason] = useState('')
   const [modalLoading, setModalLoading] = useState<boolean>(false)
-
-  const { response, loading } = useAxios({
-    url: `/orders/${orderId}`,
-    headers: stringJson({
-      'Content-Type': 'multipart/form-data',
-      Authorization: `Bearer ${token}`
-    })
-  })
 
   const Users = useAxios({
     url: `/users/${userId}`,
@@ -68,32 +61,36 @@ const DashboardOrderDetails = () => {
     })
   })
 
+  const { data, loading } = useAxios({
+    url: `/orders/${orderId}`,
+    headers: stringJson({
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${token}`
+    })
+  })
+
+  const { response } = useAxios({
+    url: `/orders?orderId=${orderId}`,
+    headers: stringJson({
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${token}`
+    })
+  })
+
   useEffect(() => {
-    if (response !== null && Users.response !== null) {
-      setOrder(response[0])
-      response?.filter((order: any) => {
-        const productItemsParsed = parseJson(order.productsItems)
-        setProductItems(productItemsParsed)
-        setOrderItems(
-          type === 'admin'
-            ? productItems &&
-                Object.values(productItems).flatMap(({ items }: any) => items)
-            : productItemsParsed[id]?.items.filter(
-                (item: ProductProps) => item.addedById === id
-              )
-        )
-      })
-      setUserData(Users.response[0])
-      setIsSettingOrderItems(false)
+    if (data !== null && response !== null && Users.data !== null) {
+      setOrder(data[0])
+      setOrderItems(response)
+      setUserData(Users.data[0])
     }
-  }, [loading, isSettingOrderItems, Users.response, response])
+  }, [loading, Users.data])
 
   useEventListener('click', (e: any) => {
     switch (e.target.id) {
       case 'acceptBtn':
       case 'rejectBtn': {
         setActionOrderId(e.target.dataset.orderid)
-        setActionItemId(e.target.dataset.itemid)
+        setActionProductId(e.target.dataset.productid)
         setActionSupplierId(e.target.dataset.supplierid)
         setActionOrderName(removeSlug(e.target.dataset.name))
         setEventState(e.target.dataset.status)
@@ -101,13 +98,18 @@ const DashboardOrderDetails = () => {
         break
       }
       case 'confirm': {
-        eventState === 'reject' || eventState === 'accept'
-          ? e.target.dataset.name
-            ? handleItemStatus() //update single item status in the order
-            : handleOrderStatus() //update whole order status
+        eventState === 'accept' && actionOrderName
+          ? handleItemStatus()
+          : eventState === 'reject' && actionOrderName && rejectReason.length === 0
+          ? alert('يجب عليك كتابة سبب الرفض!')
+          : eventState === 'reject' && actionOrderName && rejectReason.length > 1
+          ? handleItemStatus()
+          : (eventState === 'accept' || eventState === 'reject') && !actionOrderName
+          ? handleOrderStatus()
           : setModalLoading(false)
         break
       }
+
       case 'cancel': {
         setModalLoading(false)
         break
@@ -122,9 +124,17 @@ const DashboardOrderDetails = () => {
         Authorization: `Bearer ${token}`
       }
 
-      const { data } = await axios.patch(`${API_URL}/orders/${actionOrderId}`, {
-        headers
-      })
+      const { data } = await axios.patch(
+        `${API_URL}/orders/${actionOrderId}`,
+        {
+          eventStateItem: eventState,
+          productId: actionProductId,
+          rejectReasonItem: rejectReason
+        },
+        {
+          headers
+        }
+      )
 
       const { orderUpdated, message } = data
       setIsActionDone(orderUpdated)
@@ -147,7 +157,7 @@ const DashboardOrderDetails = () => {
 
       const { data } = await axios.patch(
         `${API_URL}/orders/${actionOrderId}`,
-        { orderStatus: eventState },
+        { eventStateOrder: eventState, rejectReasonOrder: rejectReason },
         { headers }
       )
 
@@ -163,7 +173,7 @@ const DashboardOrderDetails = () => {
     }
   }
 
-  return loading || isSettingOrderItems ? (
+  return loading ? (
     <LoadingPage />
   ) : !id || type !== 'admin' ? (
     <ModalNotFound />
@@ -195,10 +205,23 @@ const DashboardOrderDetails = () => {
               eventState === 'reject' ? 'رفض' : eventState === 'accept' ? 'موافقة' : '',
               'الغاء'
             ]}
+            extraComponents={
+              eventState === 'reject' ? (
+                <textarea
+                  name='rejectReason'
+                  id='rejectReason'
+                  minLength={10}
+                  maxLength={1000}
+                  className='form__input p-3'
+                  placeholder='يجب عليك كتابة سبب الرفض وذلك للمراجعة'
+                  onChange={e => setRejectReason(e.target.value.trim())}
+                  required
+                ></textarea>
+              ) : null
+            }
           />
         )}
-
-        <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>
+        <h2 className='text-xl text-center mt-20 mb-4'>{DOCUMENT_TITLE}</h2>
         <table className='w-full bg-white dark:bg-gray-600 text-xs text-gray-900 dark:text-white text-center rounded-lg border border-gray-200 dark:border-gray-900 shadow-md dark:shadow-gray-900'>
           <thead className='bg-gray-50 dark:bg-gray-700'>
             <tr>
@@ -206,14 +229,15 @@ const DashboardOrderDetails = () => {
               <th className='py-4'>اسم المنتج</th>
               <th className='py-4'>الكميـــــــــة</th>
               <th className='py-4'>الحالة</th>
-              <th className='py-4'>تاريخ الطلب</th>
+              <th className='py-4'>تاريخ إنشاء الطلب</th>
+              <th className='py-4'>تاريخ تحديث الطلب</th>
               <th className='py-4'>الإجراء</th>
             </tr>
           </thead>
           <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
-            {orderItems?.length > 0 ? (
+            {orderItems && orderItems?.length > 0 ? (
               orderItems.map((item: ProductProps, idx: number) => (
-                <tr key={item.id}>
+                <tr key={idx}>
                   <td className='py-2'>
                     <span>{idx + 1}</span>
                   </td>
@@ -250,14 +274,19 @@ const DashboardOrderDetails = () => {
                           : 'بإنتظار الاجراء'}
                       </span>
                       <span>
-                        {item.rejectReason!?.length > 1
-                          ? item.rejectReason
-                          : 'لم يتم تحديد السبب'}
+                        {item.orderItemStatus === 'reject'
+                          ? item.rejectReason!?.length > 1
+                            ? item.rejectReason
+                            : 'لم يتم تحديد السبب'
+                          : ''}
                       </span>
                     </span>
                   </td>
                   <td className='min-w-[13rem] py-2'>
-                    <span>{createLocaleDateString(order.orderDate)}</span>
+                    <span>{createLocaleDateString(item.createDate)}</span>
+                  </td>
+                  <td className='min-w-[13rem] py-2'>
+                    <span>{createLocaleDateString(item.updateDate)}</span>
                   </td>
                   <td className='py-2'>
                     <NavMenu>
@@ -267,14 +296,14 @@ const DashboardOrderDetails = () => {
                             id={order.id}
                             itemName={item.itemName}
                             supplierId={item.addedById}
-                            itemId={item.id}
+                            productId={item.productId}
                             label='موافقة'
                           />
                           <RejectBtn
                             id={order.id}
                             itemName={item.itemName}
                             supplierId={item.addedById}
-                            itemId={item.id}
+                            productId={item.productId}
                           />
                         </>
                       ) : item.orderItemStatus === 'accept' ? (
@@ -282,14 +311,14 @@ const DashboardOrderDetails = () => {
                           id={order.id}
                           itemName={item.itemName}
                           supplierId={item.addedById}
-                          itemId={item.id}
+                          productId={item.productId}
                         />
                       ) : item.orderItemStatus === 'reject' ? (
                         <AcceptBtn
                           id={order.id}
                           itemName={item.itemName}
                           supplierId={item.addedById}
-                          itemId={item.id}
+                          productId={item.productId}
                           label='موافقة'
                         />
                       ) : (
@@ -313,43 +342,9 @@ const DashboardOrderDetails = () => {
           </tbody>
         </table>
 
-        <h2 className='text-xl text-center my-16'>عنوان التوصيل</h2>
-        <ul className='flex flex-col justify-center border gap-x-3 p-5 rounded-xl shadow-xl overflow-hidden space-y-3'>
-          <li className='flex gap-x-2'>
-            <span className='font-bold'>اسم العميل: </span>
-            <span className='text-gray-700 dark:text-gray-50'>
-              {usersData?.firstname} {usersData?.lastname}
-            </span>
-          </li>
-          <li className='flex gap-x-2'>
-            <span className='font-bold'>رقم المنزل: </span>
-            <span className='text-gray-700 dark:text-gray-50'>
-              {usersData?.houseNumber}
-            </span>
-          </li>
-          <li className='flex gap-x-2'>
-            <span className='font-bold'>الشارع:</span>
-            <span className='text-gray-700 dark:text-gray-50'>
-              {usersData?.streetName}
-            </span>
-          </li>
-          <li className='flex gap-x-2'>
-            <span className='font-bold'>الحي: </span>
-            <span className='text-gray-700 dark:text-gray-50'>
-              {usersData?.neighborhoodName}
-            </span>
-          </li>
-          <li className='flex gap-x-2'>
-            <span className='font-bold'>المدينة: </span>
-            <span className='text-gray-700 dark:text-gray-50'>{usersData?.cityName}</span>
-          </li>
-          <li className='flex gap-x-2'>
-            <span className='font-bold'>رقم الهاتف: </span>
-            <span className='text-gray-700 dark:text-gray-50' dir='auto'>
-              {usersData?.phone}
-            </span>
-          </li>
-        </ul>
+        <Divider className='my-10' />
+
+        <DeliveryAddress usersData={usersData} />
 
         <div className='flex items-center justify-center gap-x-20 mt-10'>
           {order?.orderStatus === 'pending' ? (

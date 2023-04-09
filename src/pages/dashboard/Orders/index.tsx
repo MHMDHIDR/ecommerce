@@ -13,7 +13,7 @@ import { AppSettingsContext } from '@/contexts/AppSettingsContext'
 import { parseJson, stringJson } from '@/utils/jsonTools'
 import { useAxios } from '@/hooks/useAxios'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
-import { AppSettingsProps, ProductProps } from '@/types'
+import { AppSettingsProps, ProductProps, UserType } from '@/types'
 import goTo from '@/utils/goTo'
 import { removeSlug } from '@/utils/slug'
 import useEventListener from '@/hooks/useEventListener'
@@ -37,6 +37,7 @@ const SupplierDashboard = () => {
       : USER_DATA
     : userData
 
+  const [usersData, setUserData] = useState<UserType[]>([USER_DATA])
   const [orders, setOrders] = useState<ProductProps[]>()
   const [actionOrderId, setActionOrderId] = useState('')
   const [actionOrderName, setActionOrderName] = useState('')
@@ -47,8 +48,16 @@ const SupplierDashboard = () => {
   const [rejectReason, setRejectReason] = useState('')
   const [modalLoading, setModalLoading] = useState<boolean>(false)
 
+  const Users = useAxios({
+    url: `/users`,
+    headers: stringJson({
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${token}`
+    })
+  })
+
   const { response, loading } = useAxios({
-    url: `/orders?supplierId=${id}`,
+    url: `/orders${type === 'supplier' ? `?supplierId=${id}` : ''}`,
     headers: stringJson({
       'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${token}`
@@ -56,8 +65,9 @@ const SupplierDashboard = () => {
   })
 
   useEffect(() => {
-    if (response !== null) {
+    if (response !== null && Users.data !== null) {
       setOrders(response)
+      setUserData(Users.data)
     }
   }, [response])
 
@@ -80,7 +90,6 @@ const SupplierDashboard = () => {
           : eventState === 'reject' && rejectReason.length > 1
           ? handleItemStatus()
           : setModalLoading(false)
-
         break
       }
       case 'cancel': {
@@ -99,7 +108,11 @@ const SupplierDashboard = () => {
 
       const { data } = await axios.patch(
         `${API_URL}/orders/${actionOrderId}`,
-        { eventState, productId: actionProductId, rejectReason },
+        {
+          eventStateItem: eventState,
+          productId: actionProductId,
+          rejectReasonItem: rejectReason
+        },
         { headers }
       )
 
@@ -126,9 +139,9 @@ const SupplierDashboard = () => {
           {isActionDone === 1
             ? notify({
                 type: 'success',
-                msg: actionMsg
-                // ,reloadIn: TIME_TO_EXECUTE,
-                // reloadTo: goTo(type === 'admin' ? 'dashboard' : 'supplier')
+                msg: actionMsg,
+                reloadIn: TIME_TO_EXECUTE,
+                reloadTo: goTo(type === 'admin' ? 'dashboard' : 'supplier')
               })
             : isActionDone === 0
             ? notify({ type: 'error', msg: actionMsg })
@@ -180,7 +193,7 @@ const SupplierDashboard = () => {
             <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
               {orders && orders?.length > 0 ? (
                 orders.map((item: ProductProps, idx: number) => (
-                  <tr key={item.id + idx}>
+                  <tr key={idx}>
                     <td className='py-2'>
                       <span>{idx + 1}</span>
                     </td>
@@ -243,26 +256,26 @@ const SupplierDashboard = () => {
                         {item.orderItemStatus === 'pending' ? (
                           <>
                             <AcceptBtn
-                              id={item?.id}
+                              id={item?.orderId}
                               itemName={item.itemName}
                               productId={item.productId}
                               label='موافقة'
                             />
                             <RejectBtn
-                              id={item?.id}
+                              id={item?.orderId}
                               itemName={item.itemName}
                               productId={item.productId}
                             />
                           </>
                         ) : item.orderItemStatus === 'accept' ? (
                           <RejectBtn
-                            id={item?.id}
+                            id={item?.orderId}
                             itemName={item.itemName}
                             productId={item.productId}
                           />
                         ) : item.orderItemStatus === 'reject' ? (
                           <AcceptBtn
-                            id={item?.id}
+                            id={item?.orderId}
                             itemName={item.itemName}
                             productId={item.productId}
                             label='موافقة'
@@ -308,7 +321,7 @@ const SupplierDashboard = () => {
                     </td>
                     <td className='min-w-[15rem] py-2'>
                       <span>
-                        {/* {usersData && getUserFullName(usersData, order.orderedBy)} */}
+                        {usersData && getUserFullName(usersData, order.orderedBy)}
                       </span>
                     </td>
                     <td className='py-2'>
@@ -338,10 +351,10 @@ const SupplierDashboard = () => {
                       </span>
                     </td>
                     <td className='min-w-[13rem] py-2'>
-                      <span>{createLocaleDateString(order.orderDate)}</span>
+                      <span>{createLocaleDateString(order.createDate)}</span>
                     </td>
                     <td className='min-w-[13rem] py-2'>
-                      <span>{createLocaleDateString(order.orderDate)}</span>
+                      <span>{createLocaleDateString(order.updateDate)}</span>
                     </td>
                     <td className='py-2'>
                       <Link
