@@ -39,7 +39,7 @@ const Search = () => {
           تم العثور على {resultsCount} {resultsCount > 2 ? 'نتائج' : 'نتيجة'}
         </small>
 
-        {searchResults && resultsCount > 3 ? (
+        {searchResults && resultsCount > 0 ? (
           searchResults.map((item: ProductProps) => (
             <Link
               key={item.id}

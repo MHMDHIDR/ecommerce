@@ -60,10 +60,12 @@ const EditProduct = () => {
 
   const { file } = useContext(FileUploadContext)
 
-  const { response, loading } = useAxios({ url: `/products/${id}` })
+  const { data, loading } = useAxios({ url: `/products/${id}` })
   useEffect(() => {
-    if (response) setProduct(response[0])
-  }, [response && response[0]])
+    if (data !== null) {
+      setProduct(data[0])
+    }
+  }, [data && data[0]])
 
   const handleUpdateProduct = async (e: {
     target: any
@@ -316,7 +318,7 @@ const EditProduct = () => {
                       e.target.options[e.target.selectedIndex].textContent
                     ])
                   }
-                  defaultValue={response[0]?.category}
+                  defaultValue={data[0]?.category}
                   required
                 >
                   <option value=''>اختر التصنيف</option>

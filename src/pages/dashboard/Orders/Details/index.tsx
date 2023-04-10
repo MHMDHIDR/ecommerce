@@ -83,7 +83,7 @@ const DashboardOrderDetails = () => {
       setOrderItems(response)
       setUserData(Users.data[0])
     }
-  }, [loading, Users.data])
+  }, [loading, response, Users.data])
 
   useEventListener('click', (e: any) => {
     switch (e.target.id) {
@@ -173,7 +173,7 @@ const DashboardOrderDetails = () => {
     }
   }
 
-  return loading ? (
+  return loading || data === null || response === null ? (
     <LoadingPage />
   ) : !id || type !== 'admin' ? (
     <ModalNotFound />

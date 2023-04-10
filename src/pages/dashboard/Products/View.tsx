@@ -21,6 +21,8 @@ import { API_URL, PRODUCT, TIME_TO_EXECUTE, USER_DATA } from '@/constants'
 import { parseJson } from '@/utils/jsonTools'
 import { getCookies } from '@/utils/cookies'
 import NavMenu from '@/components/NavMenu'
+import { ClickableButton } from '@/components/Button'
+import { AddBtn } from '@/components/Icons/ControlBtn'
 
 const ViewProduct = () => {
   const DOCUMENT_TITLE = 'عرض المنتجات'
@@ -124,6 +126,16 @@ const ViewProduct = () => {
           />
         )}
         <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>
+
+        <Link to={goTo(`add`)}>
+          <ClickableButton className='bg-blue-500 hover:bg-blue-600 shadow-blue-600 hover:shadow-blue-800'>
+            <>
+              <AddBtn className='inline-flex ml-4 w-4 h-4 fill-white' />
+              <span>إضافة وجبة</span>
+            </>
+          </ClickableButton>
+        </Link>
+
         <table className='w-full bg-white dark:bg-gray-600 text-xs text-gray-900 dark:text-white text-center rounded-lg border border-gray-200 dark:border-gray-900 shadow-md dark:shadow-gray-900'>
           <thead className='bg-gray-50 dark:bg-gray-700'>
             <tr>

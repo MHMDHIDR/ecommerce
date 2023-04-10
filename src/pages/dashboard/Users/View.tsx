@@ -41,7 +41,7 @@ const ViewUsers = () => {
   const [modalLoading, setModalLoading] = useState<boolean>(false)
   const [users, setUsers] = useState<UserType[]>([USER_DATA])
 
-  const { response, loading } = useAxios({
+  const { data, loading } = useAxios({
     url: `/users`,
     headers: stringJson({
       'Content-Type': 'multipart/form-data',
@@ -50,8 +50,10 @@ const ViewUsers = () => {
   })
 
   useEffect(() => {
-    response && setUsers(response)
-  }, [response])
+    if (data !== null) {
+      setUsers(data)
+    }
+  }, [data])
 
   useEventListener('click', (e: any) => {
     switch (e.target.id) {

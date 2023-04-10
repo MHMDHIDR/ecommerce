@@ -156,7 +156,7 @@ export type catchResponse = {
 
 export type ButtonProps = {
   children: JSX.Element
-  color?: string
+  className?: string
 }
 
 export type ProductProps = {

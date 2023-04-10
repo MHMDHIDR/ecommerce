@@ -23,7 +23,9 @@ const Product = () => {
   const { data, loading } = useAxios({ url: `/products/${id}` })
 
   useEffect(() => {
-    data && setProduct(data[0])
+    if (data !== null) {
+      setProduct(data[0])
+    }
   }, [data])
 
   return (
