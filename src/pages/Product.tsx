@@ -2,22 +2,31 @@ import { Link, useParams } from 'react-router-dom'
 import Menu from '@/components/Menu'
 import BackButton from '@/components/Icons/BackButton'
 import { CartIconLined } from '@/components/Icons/CartIcon'
-import { PRODUCT } from '@/constants'
+import { PRODUCT, USER_DATA } from '@/constants'
 import { useCart } from '@/contexts/CartContext'
-import { Item, ProductProps } from '@/types'
+import { AppSettingsContext } from '@/contexts/AppSettingsContext'
+import { AppSettingsProps, Item, ProductProps } from '@/types'
 import Controls from './Cart/Controls'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useAxios } from '@/hooks/useAxios'
+import useAuth from '@/hooks/useAuth'
 import { LoadingPage } from '@/components/Loading'
 import NoItems from '@/components/NoItems'
 import Icon404 from '@/components/Icons/Icon404'
-import { removeSlug } from '@/utils/slug'
 import Layout from '@/components/Layout'
+import { removeSlug } from '@/utils/slug'
+import { parseJson } from '@/utils/jsonTools'
 
 const Product = () => {
   const { id } = useParams()
   const { items, addItem, inCart } = useCart()
   const alreadyAdded = inCart(id!)
+
+  const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
+  const { userData } = useAuth()
+  const { type: accountType } = getLocalStorageUser()
+    ? (userData ?? { type: 'user' }) || parseJson(getLocalStorageUser())[0]
+    : USER_DATA
 
   const [product, setProduct] = useState<ProductProps>(PRODUCT('1'))
   const { data, loading } = useAxios({ url: `/products/${id}` })
@@ -94,20 +103,22 @@ const Product = () => {
                   ) : null}
                 </p>
 
-                {alreadyAdded ? (
-                  items
-                    .filter((item: Item) => item.id === id)
-                    .map((item: Item) => <Controls key={item.id} item={item} />)
-                ) : (
-                  <button
-                    type='button'
-                    onClick={() => addItem(product)}
-                    className='flex items-center rounded-md bg-blue-600 px-5 py-2.5 text-center text-sm text-white hover:bg-blue-700 focus:outline-none'
-                  >
-                    <CartIconLined className='ml-2' />
-                    أضف الى السلة
-                  </button>
-                )}
+                {accountType === 'user' ? (
+                  alreadyAdded ? (
+                    items
+                      .filter((item: Item) => item.id === id)
+                      .map((item: Item) => <Controls key={item.id} item={item} />)
+                  ) : (
+                    <button
+                      type='button'
+                      onClick={() => addItem(product)}
+                      className='flex items-center rounded-md bg-blue-600 px-5 py-2.5 text-center text-sm text-white hover:bg-blue-700 focus:outline-none'
+                    >
+                      <CartIconLined className='ml-2' />
+                      أضف الى السلة
+                    </button>
+                  )
+                ) : null}
               </div>
             </main>
           </>

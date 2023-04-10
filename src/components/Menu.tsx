@@ -20,7 +20,7 @@ const Menu = () => {
   const { totalUniqueItems } = useCart()
   const { pathname } = useLocation()
   const { userData, isAuth } = useAuth()
-  const { id, username, avatarUrl } = userData || USER_DATA
+  const { id, username, avatarUrl, type } = userData || USER_DATA
 
   const Menu = [
     {
@@ -29,10 +29,10 @@ const Menu = () => {
       icon: HomeIcon
     },
     {
-      label: 'السلة',
-      to: '/cart',
+      label: type === 'admin' || type === 'supplier' ? 'طلبات العملاء' : 'السلة',
+      to: type === 'admin' ? '/dashboard' : type === 'supplier' ? '/supplier' : '/cart',
       icon: CartIconFilled,
-      totalUniqueItems
+      totalUniqueItems: type === 'admin' || type === 'supplier' ? null : totalUniqueItems
     },
     {
       label: 'الإشعارات',
@@ -63,7 +63,7 @@ const Menu = () => {
     {
       label: 'الطلبات',
       to: '/supplier',
-      icon: HomeIcon
+      icon: CartIconFilled
     },
     {
       label: 'إضافة منتج',
@@ -99,7 +99,7 @@ const Menu = () => {
     {
       label: 'الطلبات',
       to: '/dashboard',
-      icon: HomeIcon
+      icon: CartIconFilled
     },
     {
       label: 'إضافة منتج',
