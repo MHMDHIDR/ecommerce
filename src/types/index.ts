@@ -71,16 +71,6 @@ export type LogoProps = {
   className?: string
 }
 
-export type SearchContextProps = {
-  setSearch: (search: string) => void
-  search: string
-  searchResults: any[]
-  setSearchFor: (searchFor: string) => void
-  setCategory: (itemCategory: string) => void
-  // loading: boolean
-  // error: any
-}
-
 export type SearchResultsProps = {
   itemName: string
   itemCategories: string[]

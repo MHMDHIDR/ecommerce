@@ -1,7 +1,6 @@
 import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { isSmallScreen } from '@/constants'
-import { SearchContext } from '@/contexts/SearchContext'
 import useEventListener from '@/hooks/useEventListener'
 import { removeSlug } from '@/utils/slug'
 
@@ -13,7 +12,9 @@ const Search = ({
   className?: string
 }) => {
   const [smallSearch, setSmallSearch] = useState(small)
-  // const { setSearch, search, searchResults } = useContext(SearchContext)
+
+  const [search, setSearch] = useState('')
+
   const navigate = useNavigate()
 
   const searchWrapper = document.querySelector('.search__wrapper')
@@ -25,7 +26,8 @@ const Search = ({
 
   const handleSearch = (e: { preventDefault: () => void }) => {
     e.preventDefault()
-    // navigate(`/search/${search}`)
+
+    navigate(`/search/${search}`)
   }
 
   return (
@@ -43,7 +45,7 @@ const Search = ({
           smallSearch ? ' w-0 pl-10 hover:cursor-pointer' : ' w-[inherit] pl-16 sm:pl-28'
         }`}
         placeholder={smallSearch ? '' : 'ابحث عن منتج في المتجر'}
-        // onChange={e => (e.target.value.trim() ? setSearch(e.target.value.trim()) : '')}
+        onChange={e => (e.target.value.trim() ? setSearch(e.target.value.trim()) : '')}
         onKeyUp={(e: any) => {
           const searchValue = e.target.value.trim()
           searchValue.length > 0
@@ -53,7 +55,7 @@ const Search = ({
         disabled={smallSearch}
       />
       <button
-        type={`button`} //todo: if search value length > 1 make it submit/ else button
+        type={search.length > 1 ? 'submit' : 'button'}
         onClick={() => setSmallSearch(prev => !prev)}
         role='search'
         aria-label='search'
@@ -78,27 +80,6 @@ const Search = ({
           />
         </svg>
       </button>
-
-      <div className='absolute w-[inherit] bg-neutral-200 dark:bg-neutral-300 opacity-0 pointer-events-none search__wrapper rtl border-2 border-b-blue-400 border-r-blue-400 border-l-blue-400 hidden'>
-        <ul className='overflow-y-auto rtl:text-right max-h-60'>
-          {/* {search &&
-            searchResults?.map(({ _id, itemName, itemImgs }, idx) => (
-              <Link
-                key={idx}
-                to={`/view/item/${_id}`}
-                className={`w-full flex px-4 py-2 justify-start items-center gap-x-5 transition-colors font-[600] text-blue-600 dark:text-blue-700 text-xl hover:cursor-pointer hover:bg-gray-300 dark:hover:bg-neutral-400 border-b border-b-gray-300 dark:border-b-gray-400`}
-              >
-                <img
-                  loading='lazy'
-                  src={itemImgs[0].ImgDisplayPath}
-                  alt={itemName}
-                  className={`object-cover rounded-lg shadow-md w-14 h-14`}
-                />
-                <p>{removeSlug(itemName)}</p>
-              </Link>
-            ))} */}
-        </ul>
-      </div>
     </form>
   )
 }
