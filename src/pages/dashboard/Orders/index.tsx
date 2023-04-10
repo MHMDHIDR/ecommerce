@@ -86,7 +86,7 @@ const SupplierDashboard = () => {
         eventState === 'accept'
           ? handleItemStatus()
           : eventState === 'reject' && rejectReason.length === 0
-          ? alert('يجب عليك كتابة سبب الرفض!')
+          ? notify({ type: 'error', msg: 'يجب عليك كتابة سبب الرفض!' })
           : eventState === 'reject' && rejectReason.length > 1
           ? handleItemStatus()
           : setModalLoading(false)

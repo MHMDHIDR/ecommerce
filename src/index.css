@@ -139,6 +139,11 @@ input[type='search']::-webkit-search-results-decoration {
   @apply hidden;
 }
 
+.Toastify {
+  position: absolute;
+  z-index: 10000;
+}
+
 /* Loading Component */
 .animate-fly-in {
   left: -10%;

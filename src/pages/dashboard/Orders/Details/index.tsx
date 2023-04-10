@@ -101,7 +101,7 @@ const DashboardOrderDetails = () => {
         eventState === 'accept' && actionOrderName
           ? handleItemStatus()
           : eventState === 'reject' && actionOrderName && rejectReason.length === 0
-          ? alert('يجب عليك كتابة سبب الرفض!')
+          ? notify({ type: 'error', msg: 'يجب عليك كتابة سبب الرفض!' })
           : eventState === 'reject' && actionOrderName && rejectReason.length > 1
           ? handleItemStatus()
           : (eventState === 'accept' || eventState === 'reject') && !actionOrderName
