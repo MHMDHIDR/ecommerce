@@ -8,28 +8,34 @@
   "name": "eCommerce",
   "short_name": "eCommerce",
   "description": "eCommerce Web and App to order and find different items",
-  "categories": ["eCommerce", "Order", "different", "items", "Online"],
+  "categories": [
+    "eCommerce",
+    "Order",
+    "different",
+    "items",
+    "Online"
+  ],
   "icons": [
     {
-      "src": "https://mhmdhidr-ecommerce.vercel.app/assets/img/logo.png",
+      "src": "public/assets/img/icons/mobile/manifest-icon-192.maskable.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "https://mhmdhidr-ecommerce.vercel.app/assets/img/logo.png",
+      "src": "public/assets/img/icons/mobile/manifest-icon-192.maskable.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "https://mhmdhidr-ecommerce.vercel.app/assets/img/logo.png",
+      "src": "public/assets/img/icons/mobile/manifest-icon-512.maskable.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "https://mhmdhidr-ecommerce.vercel.app/assets/img/logo.png",
+      "src": "public/assets/img/icons/mobile/manifest-icon-512.maskable.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
