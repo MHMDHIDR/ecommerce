@@ -10,10 +10,10 @@ import { isActiveLink } from '@/utils/isActiveLink'
 import { isSmallScreen, USER_DATA } from '@/constants'
 import Logo from './Icons/Logo'
 import Shop from './Icons/Shop'
+import UsersIcon from './Icons/UsersIcon'
 import { AppSettingsProps } from '@/types'
 import Overlay from './Overlay'
 import useAuth from '@/hooks/useAuth'
-import UsersIcon from './Icons/UsersIcon'
 
 const Menu = () => {
   const { isSidebarOpen, menuToggler } = useContext<AppSettingsProps>(AppSettingsContext)
@@ -168,7 +168,7 @@ const Menu = () => {
                   onClick={menuToggler}
                 >
                   {isActiveLink(item.to) ? (
-                    <div className='flex justify-center items-center bg-white dark:bg-gray-900 bg-opacity-30 -mr-4 px-3 py-1 rounded-full'>
+                    <div className='flex justify-center items-center md:bg-white md:dark:bg-gray-900 bg-opacity-30 -mr-4 px-3 py-1 rounded-full'>
                       <span className='bg-black dark:bg-gray-300 p-2 rounded-full'>
                         <item.icon className='w-4 h-4 fill-gray-50 dark:fill-neutral-900' />
                       </span>
@@ -201,7 +201,7 @@ const Menu = () => {
                   onClick={menuToggler}
                 >
                   {isActiveLink(item.to) ? (
-                    <div className='flex justify-center items-center bg-white dark:bg-gray-900 bg-opacity-30 -mr-4 px-3 py-1 rounded-full'>
+                    <div className='flex justify-center items-center md:bg-white md:dark:bg-gray-900 bg-opacity-30 -mr-4 px-3 py-1 rounded-full'>
                       <span className='bg-black dark:bg-gray-300 p-2 rounded-full'>
                         <item.icon className='w-4 h-4 fill-gray-50 dark:fill-neutral-900' />
                       </span>
@@ -233,7 +233,7 @@ const Menu = () => {
                   onClick={menuToggler}
                 >
                   {isActiveLink(item.to) ? (
-                    <div className='flex justify-center items-center bg-white dark:bg-gray-900 bg-opacity-30 -mr-4 px-3 py-1 rounded-full'>
+                    <div className='flex justify-center items-center md:bg-white md:dark:bg-gray-900 bg-opacity-30 -mr-4 px-3 py-1 rounded-full'>
                       <span className='bg-black dark:bg-gray-300 p-2 rounded-full'>
                         <item.icon className='w-4 h-4 fill-gray-50 dark:fill-neutral-900' />
                       </span>

@@ -331,6 +331,10 @@ const SupplierDashboard = () => {
                             ? 'text-green-600'
                             : order.orderStatus === 'reject'
                             ? 'text-red-600'
+                            : order.orderStatus === 'shipped'
+                            ? 'bg-blue-600'
+                            : order.orderStatus === 'delivered'
+                            ? 'bg-pink-600'
                             : 'text-gray-600'
                         }`}
                       >
@@ -340,6 +344,10 @@ const SupplierDashboard = () => {
                               ? 'bg-green-600'
                               : order.orderStatus === 'reject'
                               ? 'bg-red-600'
+                              : order.orderStatus === 'shipped'
+                              ? 'bg-blue-600'
+                              : order.orderStatus === 'delivered'
+                              ? 'bg-pink-600'
                               : 'bg-gray-600'
                           }`}
                         ></span>
@@ -347,6 +355,10 @@ const SupplierDashboard = () => {
                           ? 'الطلب مقبول'
                           : order.orderStatus === 'reject'
                           ? 'الطلب مرفوض'
+                          : order.orderStatus === 'shipped'
+                          ? 'تم شحن الطلب'
+                          : order.orderStatus === 'delivered'
+                          ? 'تم توصيل الطلب'
                           : 'بإنتظار الاجراء'}
                       </span>
                     </td>

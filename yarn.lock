@@ -880,7 +880,6 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-router-dom: ^6.8.2
-    react-social-login-buttons: ^3.6.1
     react-toastify: ^9.1.1
     reactjs-social-login: ^2.6.2
     tailwindcss: ^3.2.7
@@ -2030,15 +2029,6 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
   checksum: c9fce46147c04257d7d6fa1f5bbfac96c5fdd0b15f26918bd12b2e5fe9143977c5a4452272f9b85795a22e29ec105a60d0bbe036118efc52b383d163cd8829ab
-  languageName: node
-  linkType: hard
-
-"react-social-login-buttons@npm:^3.6.1":
-  version: 3.6.1
-  resolution: "react-social-login-buttons@npm:3.6.1"
-  peerDependencies:
-    react: ^15.0.0 || ^16.0.0 || ^17.x || ^18.x
-  checksum: c3b33afed5666354acc40e35159fe432ab946ab1ebc2336ff17c0298c89ac7e445963455be865a7d75ea7ac3583bf892b0ae0879b50cbc73dcb31b057eedbce6
   languageName: node
   linkType: hard
 
