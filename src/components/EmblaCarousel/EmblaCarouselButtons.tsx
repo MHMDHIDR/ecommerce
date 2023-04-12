@@ -16,7 +16,7 @@ export const PrevButton = ({ enabled, onClick }: PrevNextButtonProps) => (
   <button
     aria-label='Previous slide'
     title='Previous slide'
-    className='outline-0 cursor-pointer bg-transparent touch-manipulation absolute z-[1] top-1/2 -translate-y-1/2 border-0 border-none w-10 h-10 fill-blue-400 hover:fill-blue-500 disabled:hover:fill-blue-400 disabled:cursor-default disabled:opacity-30 left-3'
+    className='outline-0 cursor-pointer bg-transparent touch-manipulation absolute z-[1] top-1/2 -translate-y-1/2 border-0 border-none w-12 h-12 fill-blue-400 hover:fill-blue-500 disabled:hover:fill-blue-400 disabled:cursor-default disabled:opacity-30 left-3'
     onClick={onClick}
     disabled={!enabled}
     type='button'
@@ -35,7 +35,7 @@ export const NextButton = ({ enabled, onClick }: PrevNextButtonProps) => (
   <button
     aria-label='Next slide'
     title='Next slide'
-    className='outline-0 cursor-pointer bg-transparent touch-manipulation absolute z-[1] top-1/2 -translate-y-1/2 border-0 border-none w-10 h-10 fill-blue-400 hover:fill-blue-500 disabled:hover:fill-blue-400 disabled:cursor-default disabled:opacity-30 right-3'
+    className='outline-0 cursor-pointer bg-transparent touch-manipulation absolute z-[1] top-1/2 -translate-y-1/2 border-0 border-none w-12 h-12 fill-blue-400 hover:fill-blue-500 disabled:hover:fill-blue-400 disabled:cursor-default disabled:opacity-30 right-3'
     onClick={onClick}
     disabled={!enabled}
     type='button'

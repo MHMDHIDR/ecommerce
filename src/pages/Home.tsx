@@ -71,9 +71,9 @@ const Home = () => {
                 alt={mostOrdered.itemName}
               />
               <div className='py-2'>
-                <h5 className='text-md font-semibold text-gray-800 dark:text-gray-50'>
+                <h3 className='text-md font-semibold text-gray-800 dark:text-gray-50'>
                   {removeSlug(mostOrdered.itemName)}
-                </h5>
+                </h3>
                 <p className='text-sm text-gray-600 dark:text-gray-50'>
                   {abstractText(mostOrdered.description, isSmallScreen ? 45 : 200)}
                 </p>

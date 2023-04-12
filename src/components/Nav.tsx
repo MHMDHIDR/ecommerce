@@ -49,6 +49,7 @@ const Nav = () => {
               to={!id ? '/login' : '/profile'}
               role='link'
               aria-expanded='false'
+              aria-label={!id ? 'Login to your account' : 'view your profile page'}
             >
               {isAuth ? (
                 <img
