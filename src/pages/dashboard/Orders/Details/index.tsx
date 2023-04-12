@@ -9,7 +9,7 @@ import { AppSettingsContext } from '@/contexts/AppSettingsContext'
 import { LoadingPage } from '@/components/Loading'
 import BackButton from '@/components/Icons/BackButton'
 import Layout from '@/components/Layout'
-import { AcceptBtn, RejectBtn } from '@/components/TableActions'
+import { AcceptBtn, DeliveredBtn, RejectBtn, ShippedBtn } from '@/components/TableActions'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
 import NavMenu from '@/components/NavMenu'
 import Modal from '@/components/Modal'
@@ -88,7 +88,9 @@ const DashboardOrderDetails = () => {
   useEventListener('click', (e: any) => {
     switch (e.target.id) {
       case 'acceptBtn':
-      case 'rejectBtn': {
+      case 'rejectBtn':
+      case 'shippedBtn':
+      case 'deliveredBtn': {
         setActionOrderId(e.target.dataset.orderid)
         setActionProductId(e.target.dataset.productid)
         setActionSupplierId(e.target.dataset.supplierid)
@@ -104,7 +106,11 @@ const DashboardOrderDetails = () => {
           ? notify({ type: 'error', msg: 'يجب عليك كتابة سبب الرفض!' })
           : eventState === 'reject' && actionOrderName && rejectReason.length > 1
           ? handleItemStatus()
-          : (eventState === 'accept' || eventState === 'reject') && !actionOrderName
+          : (eventState === 'accept' ||
+              eventState === 'reject' ||
+              eventState === 'shipped' ||
+              eventState === 'delivered') &&
+            !actionOrderName
           ? handleOrderStatus()
           : setModalLoading(false)
         break
@@ -199,10 +205,26 @@ const DashboardOrderDetails = () => {
             status={Loading}
             classes='text-blue-600 dark:text-blue-400 text-lg'
             msg={`هل أنت متأكد من ${
-              eventState === 'reject' ? 'رفض' : eventState === 'accept' ? 'موافقة' : ''
+              eventState === 'reject'
+                ? 'رفض'
+                : eventState === 'accept'
+                ? 'موافقة'
+                : eventState === 'shipped'
+                ? 'شحن'
+                : eventState === 'delivered'
+                ? 'توصيل'
+                : ''
             } ${actionOrderName ? 'طلب ' + actionOrderName : 'الطلب'}؟`}
             ctaConfirmBtns={[
-              eventState === 'reject' ? 'رفض' : eventState === 'accept' ? 'موافقة' : '',
+              eventState === 'reject'
+                ? 'رفض'
+                : eventState === 'accept'
+                ? 'موافقة'
+                : eventState === 'shipped'
+                ? 'شحن'
+                : eventState === 'delivered'
+                ? 'توصيل'
+                : '',
               'الغاء'
             ]}
             extraComponents={
@@ -346,24 +368,32 @@ const DashboardOrderDetails = () => {
 
         <DeliveryAddress usersData={usersData} />
 
-        <div className='flex items-center justify-center gap-x-20 mt-10'>
-          {order?.orderStatus === 'pending' ? (
-            <>
+        <div className='flex items-center justify-around mt-10'>
+          <NavMenu label='تغير حالة الطلب'>
+            {order?.orderStatus === 'pending' ? (
+              <>
+                <AcceptBtn id={order.id} label='موافقة' />
+                <RejectBtn id={order.id} />
+              </>
+            ) : order?.orderStatus === 'accept' ? (
+              <>
+                <RejectBtn id={order.id} />
+                <ShippedBtn id={order.id} />
+              </>
+            ) : order?.orderStatus === 'reject' ? (
               <AcceptBtn id={order.id} label='موافقة' />
+            ) : order?.orderStatus === 'shipped' ? (
+              <DeliveredBtn id={order.id} />
+            ) : order?.orderStatus === 'delivered' ? (
               <RejectBtn id={order.id} />
-            </>
-          ) : order?.orderStatus === 'accept' ? (
-            <RejectBtn id={order.id} />
-          ) : order?.orderStatus === 'reject' ? (
-            <AcceptBtn id={order.id} label='موافقة' />
-          ) : (
-            <Link
-              to={goTo('dashboard')}
-              className='text-gray-800 underline-hover text-bold dark:text-white'
-            >
-              العودة للطلبات
-            </Link>
-          )}
+            ) : null}
+          </NavMenu>
+          <Link
+            to={goTo('dashboard')}
+            className='text-gray-800 underline-hover text-bold dark:text-white mx-auto'
+          >
+            العودة للطلبات
+          </Link>
         </div>
       </section>
     </Layout>

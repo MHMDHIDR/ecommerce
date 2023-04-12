@@ -58,6 +58,62 @@ export const RejectBtn = ({
   </button>
 )
 
+export const ShippedBtn = ({
+  id,
+  phone,
+  itemName,
+  supplierId,
+  productId,
+  type,
+  label
+}: ActionBtnsProps) => (
+  <button
+    id='shippedBtn'
+    data-orderid={id}
+    data-name={itemName}
+    data-supplierid={supplierId}
+    data-productid={productId}
+    data-type={type}
+    data-phone={phone}
+    data-status='shipped'
+    className='m-1 py-2 text-xs text-white bg-blue-400 rounded-md hover:bg-blue-500 min-w-[7rem] relative text-center overflow-hidden border'
+    data-tooltip='تم الشحن'
+  >
+    <span className='py-0.5 px-1 md:pl-1 bg-blue-300 rounded-md absolute right-2 top-1.5 pointer-events-none'>
+      &#128667;
+    </span>
+    <span className='mr-4 pointer-events-none'>{label ?? 'تم الشحن'}</span>
+  </button>
+)
+
+export const DeliveredBtn = ({
+  id,
+  phone,
+  itemName,
+  supplierId,
+  productId,
+  type,
+  label
+}: ActionBtnsProps) => (
+  <button
+    id='deliveredBtn'
+    data-orderid={id}
+    data-name={itemName}
+    data-supplierid={supplierId}
+    data-productid={productId}
+    data-type={type}
+    data-phone={phone}
+    data-status='delivered'
+    className='m-1 py-2 text-xs text-white bg-pink-600 rounded-md hover:bg-pink-700 min-w-[7rem] relative text-center overflow-hidden border'
+    data-tooltip='تم التوصيل'
+  >
+    <span className='py-0.5 px-1 md:pl-1 bg-gray-300 rounded-md absolute right-2 top-1.5 pointer-events-none'>
+      &#128230;
+    </span>
+    <span className='mr-4 pointer-events-none'>{label ?? 'تم التوصيل'}</span>
+  </button>
+)
+
 export const EditBtn = ({ id }: any) => (
   <Link
     id='editBtn'

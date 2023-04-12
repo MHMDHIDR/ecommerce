@@ -67,7 +67,8 @@ const Modal = ({
                   'تحويل الى مستخدم'
                 ]
                 const redConditions = ['حظر', 'حذف', 'رفض']
-                const blueConditions = ['كاشير', 'طباعة']
+                const pinkConditions = ['توصيل']
+                const blueConditions = ['كاشير', 'طباعة', 'شحن']
 
                 const confirmColor = redConditions.some(btnTxt => btn.includes(btnTxt))
                   ? 'red'
@@ -75,6 +76,8 @@ const Modal = ({
                   ? 'blue'
                   : greenConditions.some(btnTxt => btn.includes(btnTxt))
                   ? 'green'
+                  : pinkConditions.some(btnTxt => btn.includes(btnTxt))
+                  ? 'pink'
                   : 'neutral'
                 return (
                   <span
