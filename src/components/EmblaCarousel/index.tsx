@@ -90,7 +90,7 @@ const EmblaCarousel = ({ slides, media, smallView = false }: any) => {
                   />
                 </div>
                 {!smallView && (
-                  <span className='inline-block w-full py-2 text-base text-center sm:text-2xl'>
+                  <span className='inline-block w-full py-1 text-center md:text-lg'>
                     {removeSlug(nameByIndex(index))}
                   </span>
                 )}

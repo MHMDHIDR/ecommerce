@@ -5,13 +5,14 @@ import useAuth from '@/hooks/useAuth'
 import { parseJson } from '@/utils/jsonTools'
 import { USER_DATA } from '@/constants'
 import UsersIcon from './Icons/UsersIcon'
+import CartNavLink from './CartNavLink'
 
 const Nav = () => {
   const { menuToggler, getLocalStorageUser } = useContext(AppSettingsContext)
   const { userData, isAuth } = useAuth()
-  const { id, username, avatarUrl } = !userData
+  const { id, username, avatarUrl, type } = !userData
     ? getLocalStorageUser()
-      ? parseJson(getLocalStorageUser())
+      ? parseJson(getLocalStorageUser())[0]
       : USER_DATA
     : userData
 
@@ -41,6 +42,8 @@ const Nav = () => {
             </svg>
           </span>
         </button>
+
+        {type === 'admin' || type === 'supplier' ? null : <CartNavLink />}
 
         <div className='relative flex items-center'>
           <div className='relative'>
