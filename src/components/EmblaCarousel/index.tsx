@@ -4,6 +4,7 @@ import { DotButton, PrevButton, NextButton } from './EmblaCarouselButtons'
 import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react'
 import { Thumb } from './EmblaCarouselThumb'
 import { removeSlug } from '@/utils/slug'
+import { isSmallScreen } from '@/constants'
 
 const EmblaCarousel = ({ slides, media, smallView = false }: any) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -121,7 +122,7 @@ const EmblaCarousel = ({ slides, media, smallView = false }: any) => {
 
       {/* Thumb View */}
       {slides.length > 1 && (
-        <div className='relative w-full p-2 transition-colors bg-gray-100 dark:bg-gray-600'>
+        <div className='relative w-full p-1.5 transition-colors bg-gray-100 dark:bg-gray-600'>
           <div className='w-full overflow-hidden' ref={thumbViewportRef}>
             <div className={`flex justify-between cursor-default select-none`}>
               {slides.map((index: number) => (

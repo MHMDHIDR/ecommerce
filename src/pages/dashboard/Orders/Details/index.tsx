@@ -185,7 +185,7 @@ const DashboardOrderDetails = () => {
     <ModalNotFound />
   ) : (
     <Layout>
-      <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
+      <section className='container overflow-x-auto px-5 rtl mx-auto max-w-6xl h-full'>
         {isSmallScreen && <BackButton to='/' className='absolute z-50 top-6 left-6' />}
         <div className='hidden'>
           {isActionDone === 1

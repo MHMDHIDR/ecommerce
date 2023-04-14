@@ -7,7 +7,9 @@ const DeliveryAddress = ({ usersData }: { usersData: UserType }) => (
       <li className='flex gap-x-2'>
         <span className='font-bold'>اسم العميل: </span>
         <span className='text-gray-700 dark:text-gray-50'>
-          {usersData?.firstname} {usersData?.lastname}
+          {!usersData.firstname && !usersData.lastname
+            ? 'لم يتم تحديد اسم العميل'
+            : `${usersData.firstname} ${usersData.lastname}`}
         </span>
       </li>
       <li className='flex gap-x-2'>

@@ -26,7 +26,7 @@ const ViewUsers = () => {
   useDocumentTitle(DOCUMENT_TITLE)
   const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
   const { loading: loadingAuth, userData, isAuth } = useAuth()
-  const { type: accountType } = getLocalStorageUser()
+  const { type: accountType, id: currentUserId } = getLocalStorageUser()
     ? (userData ?? { type: 'user' }) || parseJson(getLocalStorageUser())[0]
     : USER_DATA
 
@@ -51,7 +51,17 @@ const ViewUsers = () => {
 
   useEffect(() => {
     if (data !== null) {
-      setUsers(data)
+      const oldestRegisteredDate = data.reduce((oldest: string, user: UserType) => {
+        if (!oldest || new Date(user.registerDate) < new Date(oldest)) {
+          return user.registerDate
+        }
+        return oldest
+      }, null)
+      const filteredUsers = data.filter(
+        (user: UserType) =>
+          user.registerDate !== oldestRegisteredDate && user.id !== currentUserId
+      )
+      setUsers(filteredUsers)
     }
   }, [data])
 
@@ -185,7 +195,7 @@ const ViewUsers = () => {
                 </td>
               </tr>
             ) : users.length > 0 ? (
-              users?.map((user: UserType, idx: number) => (
+              users.map((user: UserType, idx: number) => (
                 <tr className='hover:bg-gray-50 dark:hover:bg-gray-700' key={user.id}>
                   <td>
                     <span>{idx + 1}</span>
