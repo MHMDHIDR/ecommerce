@@ -164,6 +164,7 @@ export type ProductProps = {
   itemName: string
   imgUrl: string
   discount: boolean
+  price?: number
   currentPrice: number
   oldPrice: number
   rating: number
