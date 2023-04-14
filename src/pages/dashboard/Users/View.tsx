@@ -154,7 +154,9 @@ const ViewUsers = () => {
             classes='text-blue-600 dark:text-blue-400 text-lg'
             msg={`هل أنت متأكد من ${
               eventState === 'reject' ? 'حظر' : eventState === 'delete' ? 'حذف' : 'تفعيل'
-            } ${actionUserName} ؟ لا يمكن التراجع عن هذا القرار`}
+            } ${actionUserName} ${
+              eventState === 'delete' ? 'لا يمكن التراجع عن هذا القرار' : ''
+            } ؟`}
             ctaConfirmBtns={[
               eventState === 'reject' ? 'حظر' : eventState === 'delete' ? 'حذف' : 'تفعيل',
               'الغاء'

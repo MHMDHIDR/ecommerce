@@ -91,7 +91,7 @@ const DashboardOrderDetails = () => {
       case 'rejectBtn':
       case 'shippedBtn':
       case 'deliveredBtn': {
-        setActionOrderId(e.target.dataset.orderid)
+        setActionOrderId(e.target.dataset.id)
         setActionProductId(e.target.dataset.productid)
         setActionSupplierId(e.target.dataset.supplierid)
         setActionOrderName(removeSlug(e.target.dataset.name))

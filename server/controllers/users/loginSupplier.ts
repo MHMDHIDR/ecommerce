@@ -24,7 +24,12 @@ export const loginSupplier = asyncHandler(
         if (results.length > 0) {
           const supplier = results[0]
 
-          if (await compare(password, supplier.password)) {
+          if (supplier && supplier.status === 'block') {
+            return res.status(403).json({
+              supplierLoggedIn: 0,
+              message: 'عفواً، حسابك موقوف! عليك التواصل مع الإدارة إذا أردت تسجيل الدخول'
+            })
+          } else if (await compare(password, supplier.password)) {
             return res.status(200).json({
               supplierLoggedIn: 1,
               message: 'تم تسجيل الدخول بنجاح',

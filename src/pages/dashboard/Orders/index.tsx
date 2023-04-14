@@ -75,7 +75,7 @@ const SupplierDashboard = () => {
     switch (e.target.id) {
       case 'acceptBtn':
       case 'rejectBtn': {
-        setActionOrderId(e.target.dataset.orderid)
+        setActionOrderId(e.target.dataset.id)
         setActionProductId(e.target.dataset.productid)
         setActionOrderName(removeSlug(e.target.dataset.name))
         setEventState(e.target.dataset.status)
@@ -326,16 +326,16 @@ const SupplierDashboard = () => {
                     </td>
                     <td className='py-2'>
                       <span
-                        className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
+                        className={`inline-flex items-center gap-1.5 min-w-max border rounded-full px-2 py-1 text-xs ${
                           order.orderStatus === 'accept'
-                            ? 'text-green-600'
+                            ? 'border-green-600 text-green-600 dark:text-green-300'
                             : order.orderStatus === 'reject'
-                            ? 'text-red-600'
+                            ? 'border-red-600 text-red-600 dark:text-red-300'
                             : order.orderStatus === 'shipped'
-                            ? 'bg-blue-600'
+                            ? 'border-blue-600 text-blue-600 dark:text-blue-300'
                             : order.orderStatus === 'delivered'
-                            ? 'bg-pink-600'
-                            : 'text-gray-600'
+                            ? 'border-pink-600 text-pink-600 dark:text-pink-300'
+                            : ''
                         }`}
                       >
                         <span
@@ -347,10 +347,10 @@ const SupplierDashboard = () => {
                               : order.orderStatus === 'shipped'
                               ? 'bg-blue-600'
                               : order.orderStatus === 'delivered'
-                              ? 'bg-pink-600'
+                              ? 'bg-pink-300'
                               : 'bg-gray-600'
                           }`}
-                        ></span>
+                        />
                         {order.orderStatus === 'accept'
                           ? 'الطلب مقبول'
                           : order.orderStatus === 'reject'

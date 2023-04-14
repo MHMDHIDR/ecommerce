@@ -13,7 +13,7 @@ export const AcceptBtn = ({
 }: ActionBtnsProps) => (
   <button
     id='acceptBtn'
-    data-orderid={id}
+    data-id={id}
     data-name={itemName}
     data-supplierid={supplierId}
     data-productid={productId}
@@ -41,7 +41,7 @@ export const RejectBtn = ({
 }: ActionBtnsProps) => (
   <button
     id='rejectBtn'
-    data-orderid={id}
+    data-id={id}
     data-name={itemName}
     data-supplierid={supplierId}
     data-productid={productId}
@@ -69,7 +69,7 @@ export const ShippedBtn = ({
 }: ActionBtnsProps) => (
   <button
     id='shippedBtn'
-    data-orderid={id}
+    data-id={id}
     data-name={itemName}
     data-supplierid={supplierId}
     data-productid={productId}
@@ -97,7 +97,7 @@ export const DeliveredBtn = ({
 }: ActionBtnsProps) => (
   <button
     id='deliveredBtn'
-    data-orderid={id}
+    data-id={id}
     data-name={itemName}
     data-supplierid={supplierId}
     data-productid={productId}

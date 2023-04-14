@@ -19,13 +19,18 @@ export const loginAdmin = asyncHandler(
       if (err) throw err
 
       if (results.length > 0) {
-        const supplier = results[0]
+        const admin = results[0]
 
-        if (await compare(password, supplier.password)) {
+        if (admin && admin.status === 'block') {
+          return res.status(403).json({
+            adminLoggedIn: 0,
+            message: 'عفواً، حسابك موقوف! عليك التواصل مع الإدارة إذا أردت تسجيل الدخول'
+          })
+        } else if (await compare(password, admin.password)) {
           return res.status(200).json({
             adminLoggedIn: 1,
             message: 'تم تسجيل الدخول بنجاح',
-            token: signJwt({ userId: supplier.id })
+            token: signJwt({ userId: admin.id })
           })
         } else {
           return res.status(401).json({
