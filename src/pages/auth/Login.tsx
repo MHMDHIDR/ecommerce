@@ -132,7 +132,10 @@ const Login = () => {
               type='submit'
               className={`inline-block w-full rounded px-7 py-2.5 text-sm leading-normal text-white dark:text-black shadow-[0_4px_9px_-4px_#3b71ca] transition ease-in-out bg-gray-700 dark:bg-white${
                 isLoginIn ? ' disabled:opacity-30 disabled:cursor-not-allowed' : ''
+              } ${
+                !tel || !password ? 'disabled:opacity-30 disabled:cursor-not-allowed' : ''
               }`}
+              disabled={!tel || !password}
             >
               {isLoginIn ? (
                 <span className='flex items-center w-full gap-x-2 justify-center'>

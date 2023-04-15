@@ -10,10 +10,9 @@ import Layout from '@/components/Layout'
 import { AppSettingsContext } from '@/contexts/AppSettingsContext'
 import { FileUploadContext } from '@/contexts/FileUploadContext'
 import { handleLogout } from '@/utils/handleLogout'
-import { useContext, useEffect, useState } from 'react'
-import { AppSettingsProps, catchResponse, UserType } from '@/types'
-import { useAxios } from '@/hooks/useAxios'
-import { parseJson, stringJson } from '@/utils/jsonTools'
+import { useContext, useState } from 'react'
+import { AppSettingsProps, catchResponse } from '@/types'
+import { parseJson } from '@/utils/jsonTools'
 import axios from 'axios'
 import notify from '@/utils/notify'
 import goTo from '@/utils/goTo'
@@ -145,14 +144,14 @@ const EditProfile = () => {
     />
   ) : (
     <Layout>
-      <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl'>
+      <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-screen'>
         <div className='hidden'>
           {updateStatus === 1
             ? notify({
                 type: 'success',
-                msg: updateMsg
-                // ,reloadIn: TIME_TO_EXECUTE,
-                // reloadTo: goTo('edit')
+                msg: updateMsg,
+                reloadIn: TIME_TO_EXECUTE,
+                reloadTo: goTo('edit')
               })
             : updateStatus === 0
             ? notify({ type: 'error', msg: updateMsg })

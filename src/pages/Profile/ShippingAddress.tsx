@@ -36,18 +36,19 @@ const ShippingAddress = () => {
   const [updateMsg, setUpdateMsg] = useState<string>('')
   const [isUpdating, setIsUpdating] = useState(false)
 
-  const { loading: loadingFetch, response } = useAxios({
+  const { loading: loadingFetch, data } = useAxios({
     url: `/users/${accountId}`,
     headers: stringJson({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`
     })
   })
+
   useEffect(() => {
-    if (!loadingFetch && response !== null) {
-      setFetchedUser(response !== null && response[0])
+    if (!loadingFetch && data !== null) {
+      setFetchedUser(data[0])
     }
-  }, [response])
+  }, [data])
 
   const handleUpdateShippingAddress = async (e: {
     target: any
@@ -99,14 +100,14 @@ const ShippingAddress = () => {
 
   return !loadingFetch !== null && fetchedUser !== null ? (
     <Layout>
-      <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl mt-28 md:mt-40'>
+      <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-screen mt-28 md:mt-40'>
         <div className='hidden'>
           {updateStatus === 1
             ? notify({
                 type: 'success',
-                msg: updateMsg
-                // ,reloadIn: TIME_TO_EXECUTE,
-                // reloadTo: goTo('shipping-address')
+                msg: updateMsg,
+                reloadIn: TIME_TO_EXECUTE,
+                reloadTo: goTo('shipping-address')
               })
             : updateStatus === 0
             ? notify({ type: 'error', msg: updateMsg })

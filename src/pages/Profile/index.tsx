@@ -43,7 +43,7 @@ const Profile = () => {
       <section className='container px-5 py-20 mx-auto rtl flex justify-center items-center max-w-6xl'>
         {isSmallScreen && <BackButton to='/' className='absolute z-50 top-6 left-6' />}
 
-        <div className='flex flex-col w-full'>
+        <div className='flex flex-col w-full h-screen'>
           <Link
             to={`edit`}
             className='flex items-center gap-x-3 overflow-hidden rounded-lg bg-white dark:bg-gray-700 p-2 shadow-md'

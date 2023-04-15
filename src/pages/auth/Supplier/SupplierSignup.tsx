@@ -29,6 +29,7 @@ const SupplierSignup = () => {
   const [username, setUsername] = useState('')
   const [tel, setTel] = useState('')
   const [password, setPassword] = useState('')
+  const [termsAndConditions, setTermsAndConditions] = useState(false)
   //Form States
   const [isPassVisible, setIsPassVisible] = useState(false)
   const [regStatus, setRegStatus] = useState<number>()
@@ -246,7 +247,12 @@ const SupplierSignup = () => {
 
             <div className='mb-6 flex items-center justify-between'>
               <div className='flex gap-x-2 mb-[0.125rem] min-h-[1.5rem]'>
-                <input type='checkbox' id='terms&condCheckbox' required />
+                <input
+                  type='checkbox'
+                  id='terms&condCheckbox'
+                  onChange={e => setTermsAndConditions(e.target.checked)}
+                  required
+                />
                 <label className='hover:cursor-pointer' htmlFor='terms&condCheckbox'>
                   بالضغط هنا فأنت توافق على
                   <div className='inline-flex items-center gap-x-2 pr-2'>
@@ -268,7 +274,32 @@ const SupplierSignup = () => {
                 isRegistering || regStatus === 1
                   ? ' disabled:opacity-30 disabled:cursor-not-allowed'
                   : ''
+              } ${
+                !firstname ||
+                !lastname ||
+                !houseNumber ||
+                !streetName ||
+                !neighborhoodName ||
+                !cityName ||
+                !username ||
+                !tel ||
+                !password ||
+                !termsAndConditions
+                  ? 'disabled:opacity-30 disabled:cursor-not-allowed'
+                  : ''
               }`}
+              disabled={
+                !firstname ||
+                !lastname ||
+                !houseNumber ||
+                !streetName ||
+                !neighborhoodName ||
+                !cityName ||
+                !username ||
+                !tel ||
+                !password ||
+                !termsAndConditions
+              }
             >
               {isRegistering ? (
                 <>
