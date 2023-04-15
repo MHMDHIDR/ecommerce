@@ -20,7 +20,7 @@ const CartNavLink = () => {
         </span>
         <span className='px-2 dark:text-gray-50'>السلة</span>
       </div>
-      <span className='absolute -top-2 left-1.5 rounded-full bg-red-700 px-1.5 text-xs text-white'>
+      <span className='absolute -top-1 left-1.5 rounded-full bg-red-700 px-1.5 text-xs text-white'>
         {totalUniqueItems}
       </span>
     </Link>

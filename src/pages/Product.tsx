@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import Menu from '@/components/Menu'
 import BackButton from '@/components/Icons/BackButton'
 import { CartIconLined } from '@/components/Icons/CartIcon'
-import { PRODUCT, USER_DATA } from '@/constants'
+import { ITEMS_PER_PAGE, USER_DATA } from '@/constants'
 import { useCart } from '@/contexts/CartContext'
 import { AppSettingsContext } from '@/contexts/AppSettingsContext'
 import { AppSettingsProps, Item, ProductProps } from '@/types'
@@ -130,20 +130,23 @@ const Product = () => {
 
         {relevantProducts && relevantProducts.length > 0 ? (
           <div className='relative w-full pb-20 md:pb-10 transition-colors bg-gray-100 dark:bg-gray-600'>
-            <h2 className='text-xl pt-4 px-10'>منتجات ذات صلة</h2>
-            <div className='flex gap-6 p-10 cursor-default select-none overflow-x-auto'>
+            <h2 className='text-xl pt-4 px-10' aria-label='relevant products'>
+              منتجات ذات صلة
+            </h2>
+            <div className='flex gap-10 p-10 cursor-default select-none overflow-x-auto'>
               {relevantProducts
                 .filter((product: ProductProps) => product.id !== id)
+                .slice(0, ITEMS_PER_PAGE)
                 .map(({ id, imgUrl, itemName }) => (
                   <Link
                     key={id}
-                    className='inline-block max-w-[11rem] max-h-[11rem]'
+                    className='inline-block max-w-[11rem] max-h-[11rem] min-w-[11rem]'
                     to={`/product/${id}`}
                   >
                     <img
                       loading='lazy'
                       src={imgUrl}
-                      className='w-full h-full'
+                      className='w-full h-full rounded-xl'
                       alt={removeSlug(itemName)}
                       title={removeSlug(itemName)}
                       width={176}
