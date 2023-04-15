@@ -130,14 +130,14 @@ const Product = () => {
           </main>
         </div>
         {relevantProducts && relevantProducts.length > 0 ? (
-          <div className='relative transition-colors bg-gray-50 dark:bg-gray-600 rtl'>
+          <div className='relative transition-colors bg-gray-50 dark:bg-gray-700 rtl'>
             <h2
               className='text-lg md:text-xl pt-4 px-10 max-w-6xl mx-auto'
               aria-label='relevant products'
             >
               قد يهمك أيضاً
             </h2>
-            <div className='flex gap-x-10 p-10 pb-20 md:pb-10 cursor-default select-none overflow-x-auto max-w-6xl mx-auto'>
+            <div className='flex gap-x-10 p-10 pb-32 md:pb-10 cursor-default select-none overflow-x-auto max-w-6xl mx-auto'>
               {relevantProducts
                 .filter((product: ProductProps) => product.id !== id)
                 .slice(0, ITEMS_PER_PAGE)
