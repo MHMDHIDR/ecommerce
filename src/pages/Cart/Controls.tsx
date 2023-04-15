@@ -9,12 +9,12 @@ const Controls = ({ item }: { item: Item }) => {
   return (
     <div className='flex items-center gap-x-1 cursor-pointer'>
       <TrashBtn
-        className='w-4 h-4 fill-red-600 dark:fill-red-400'
+        className='w-5 h-5 fill-red-600 dark:fill-red-400'
         onClick={() => removeItem(item.id)}
       />
-      <div className='flex items-center justify-between bg-gray-100 dark:bg-gray-900 rounded-full'>
+      <div className='flex items-center justify-between bg-gray-100 dark:bg-gray-900 rounded-full py-1'>
         <AddBtn
-          className='p-2 rounded-r-full w-7 h-7'
+          className='p-2 rounded-r-full w-8 h-8'
           onClick={() =>
             updateItemQuantity(
               item.id,
@@ -23,7 +23,7 @@ const Controls = ({ item }: { item: Item }) => {
           }
         />
         <input
-          className='text-center px-2 w-14 bg-gray-100 dark:bg-gray-900 font-bold overflow-y-hidden'
+          className='text-center px-2 w-14 bg-gray-100 dark:bg-gray-900 text-xl'
           type='number'
           value={item.quantity}
           min={1}
@@ -31,7 +31,7 @@ const Controls = ({ item }: { item: Item }) => {
           onChange={e => updateItemQuantity(item.id, parseInt(e.target.value))}
         />
         <MinusBtn
-          className='p-2 rounded-l-full w-7 h-7'
+          className='p-2 rounded-l-full w-8 h-8'
           onClick={() => updateItemQuantity(item.id, item.quantity - 1)}
         />
       </div>
