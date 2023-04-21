@@ -41,7 +41,7 @@ const Product = () => {
   useEffect(() => {
     if (data !== null && response !== null && response.length > 0) {
       setProduct(data[0])
-      setRelevantProducts(response)
+      setRelevantProducts([...response].sort(() => Math.random() - ITEMS_PER_PAGE * 0.1))
     }
   }, [data, loading, response])
 
@@ -135,18 +135,16 @@ const Product = () => {
               className='text-lg md:text-xl pt-4 px-10 max-w-6xl mx-auto'
               aria-label='relevant products'
             >
-              قد يهمك أيضاً
+              قد يعجبك أيضاً
             </h2>
-            <div className='flex gap-x-10 p-10 pb-32 md:pb-10 cursor-default select-none overflow-x-auto max-w-6xl mx-auto'>
+            <div className='flex flex-wrap gap-24 p-10 pb-32 md:pb-14 cursor-default select-none overflow-x-auto max-w-6xl mx-auto'>
               {relevantProducts
                 .filter((product: ProductProps) => product.id !== id)
                 .slice(0, ITEMS_PER_PAGE)
-                .map(({ id, imgUrl, itemName }) => (
+                .map(({ id, imgUrl, itemName, currentPrice }) => (
                   <Link
                     key={id}
-                    className='inline-block max-w-[5rem] max-h-[5rem] min-w-[5rem]
-                    md:max-w-[11rem] md:max-h-[11rem] md:min-w-[11rem]
-                    '
+                    className='inline-block max-w-[5rem] max-h-[5rem] min-w-[5rem] md:max-w-[11rem] md:max-h-[11rem] md:min-w-[11rem]'
                     to={`/product/${id}`}
                   >
                     <img
@@ -160,6 +158,9 @@ const Product = () => {
                     />
                     <span className='inline-block w-full text-center'>
                       {removeSlug(abstractText(itemName, 10))}
+                    </span>
+                    <span className='inline-block w-full text-center text-green-500 font-bold text-sm md:text-base'>
+                      {currentPrice} ج.س
                     </span>
                   </Link>
                 ))}

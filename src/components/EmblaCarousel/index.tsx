@@ -4,7 +4,6 @@ import { DotButton, PrevButton, NextButton } from './EmblaCarouselButtons'
 import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react'
 import { Thumb } from './EmblaCarouselThumb'
 import { removeSlug } from '@/utils/slug'
-import { isSmallScreen } from '@/constants'
 
 const EmblaCarousel = ({ slides, media, smallView = false }: any) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
