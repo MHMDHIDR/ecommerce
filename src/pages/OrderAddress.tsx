@@ -17,6 +17,7 @@ import axios from 'axios'
 import { Error, Success } from '@/components/Icons/Status'
 import Modal from '@/components/Modal'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
+import notify from '@/utils/notify'
 
 const OrderAddress = () => {
   const DOCUMENT_TITLE = 'عنوان التوصيل'
@@ -26,9 +27,15 @@ const OrderAddress = () => {
   const { userData } = useAuth()
   const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
 
-  const { id: accountId } = !userData
+  const {
+    id: accountId,
+    houseNumber,
+    streetName,
+    neighborhoodName,
+    cityName
+  } = !userData
     ? getLocalStorageUser()
-      ? parseJson(getLocalStorageUser())[0]
+      ? parseJson(getLocalStorageUser())
       : USER_DATA
     : userData
 
@@ -59,6 +66,19 @@ const OrderAddress = () => {
     preventDefault: () => void
   }) => {
     e.preventDefault()
+
+    if (
+      houseNumber === '' ||
+      streetName === '' ||
+      neighborhoodName === '' ||
+      cityName === ''
+    ) {
+      completeOrderBtnRef.current?.setAttribute('disabled', 'disabled')
+      return notify({
+        type: 'error',
+        msg: 'يجب عليك ملئ جميع بيانات التوصيل، ثم المحاولة مرة أخرى!'
+      })
+    }
 
     completeOrderBtnRef.current?.setAttribute('disabled', 'disabled')
     setIsOrdering(true)

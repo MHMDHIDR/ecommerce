@@ -8,7 +8,6 @@ import { signupAdmin } from './signupAdmin.js'
 import { loginAdmin } from './loginAdmin.js'
 import { forgotPass } from './forgotPass.js'
 import { resetPass } from './resetPass.js'
-import { wishlist } from './wishlist.js'
 import { updateUser } from './updateUser.js'
 import { deleteUser } from './deleteUser.js'
 
@@ -23,7 +22,6 @@ export {
   loginAdmin,
   forgotPass,
   resetPass,
-  wishlist,
   updateUser,
   deleteUser
 }

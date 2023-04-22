@@ -12,7 +12,7 @@ const Nav = () => {
   const { userData, isAuth } = useAuth()
   const { id, username, avatarUrl, type } = !userData
     ? getLocalStorageUser()
-      ? parseJson(getLocalStorageUser())[0]
+      ? parseJson(getLocalStorageUser())
       : USER_DATA
     : userData
 

@@ -10,9 +10,11 @@ import { USER_DATA } from '@/constants'
 const CartHeader = () => {
   const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
   const { userData } = useAuth()
-  const { id } = getLocalStorageUser()
-    ? parseJson(getLocalStorageUser())[0] || (userData ?? { id: '' })
-    : USER_DATA
+  const { id } = !userData
+    ? getLocalStorageUser()
+      ? parseJson(getLocalStorageUser())
+      : USER_DATA
+    : userData
 
   return id ? (
     <header className='flex justify-between my-4'>

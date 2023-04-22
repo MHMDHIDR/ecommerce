@@ -52,7 +52,7 @@ export const USER_DATA = {
   firstname: '',
   lastname: '',
   gender: 'male',
-  avatarUrl: '/assets/img/profile.jpg',
+  avatarUrl: '/assets/img/logo.jpg',
   phone: '0123 456 789',
   status: '',
   type: 'user',

@@ -1,13 +1,11 @@
 import { Suspense, useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import { AppSettingsContext } from '@/contexts/AppSettingsContext'
 import { LoadingPage } from '@/components/Loading'
 import Layout from '@/components/Layout'
 import NoItems from '@/components/NoItems'
 import CartHeader from './CartHeader'
-import abstractText from '@/utils/abstractText'
-import { PRODUCT, USER_DATA } from '@/constants'
+import { USER_DATA } from '@/constants'
 import { AppSettingsProps, ProductProps } from '@/types'
 import useAuth from '@/hooks/useAuth'
 import { parseJson, stringJson } from '@/utils/jsonTools'
@@ -25,9 +23,11 @@ const CompletedOrders = () => {
 
   const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
   const { userData } = useAuth()
-  const { type: accountType, id } = getLocalStorageUser()
-    ? parseJson(getLocalStorageUser())[0] || (userData ?? { type: 'user', id: '' })
-    : USER_DATA
+  const { type: accountType, id } = !userData
+    ? getLocalStorageUser()
+      ? parseJson(getLocalStorageUser())
+      : USER_DATA
+    : userData
 
   const [orders, setOrders] = useState<ProductProps[]>()
 

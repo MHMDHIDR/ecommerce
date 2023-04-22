@@ -19,10 +19,13 @@ const ShippingAddress = () => {
   useDocumentTitle(DOCUMENT_TITLE)
   const token = getCookies()
   const { loading, userData } = useAuth()
-  const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
+  const { getLocalStorageUser, setLocalStorageUser } =
+    useContext<AppSettingsProps>(AppSettingsContext)
 
-  const { phone, id: accountId } = loading
-    ? parseJson(getLocalStorageUser())[0] || USER_DATA
+  const { phone, id: accountId } = !userData
+    ? getLocalStorageUser()
+      ? parseJson(getLocalStorageUser())
+      : USER_DATA
     : userData
 
   const [fetchedUser, setFetchedUser] = useState<UserType | null>(null)
@@ -59,7 +62,7 @@ const ShippingAddress = () => {
     e.target.querySelector('button').setAttribute('disabled', 'disabled')
     setIsUpdating(true)
 
-    const currentHouseNumber = String(houseNumber) || fetchedUser?.houseNumber
+    const currentHouseNumber = houseNumber || fetchedUser?.houseNumber
     const currentStreetName = streetName || fetchedUser?.streetName
     const currentNeighborhoodName = neighborhoodName || fetchedUser?.neighborhoodName
     const currentCityName = cityName || fetchedUser?.cityName
@@ -81,10 +84,45 @@ const ShippingAddress = () => {
           Authorization: `Bearer ${token}`
         }
       })
-      const { userUpdated, message } = response.data
+      const { userUpdated, message, updatedUser } = response.data
+      const {
+        id,
+        firstname,
+        lastname,
+        gender,
+        houseNumber,
+        streetName,
+        neighborhoodName,
+        cityName,
+        username,
+        avatarUrl,
+        phone,
+        status,
+        type,
+        registerDate
+      } = updatedUser
 
       setUpdateStatus(userUpdated)
       setUpdateMsg(message)
+
+      if (userUpdated === 1) {
+        setLocalStorageUser({
+          id,
+          firstname,
+          lastname,
+          gender,
+          houseNumber,
+          streetName,
+          neighborhoodName,
+          cityName,
+          username,
+          avatarUrl,
+          phone,
+          status,
+          type,
+          registerDate
+        })
+      }
     } catch (err: any) {
       const {
         response: {
