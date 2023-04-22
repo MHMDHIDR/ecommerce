@@ -4,6 +4,7 @@ import NoItems from './NoItems'
 import Icon404 from './Icons/Icon404'
 import { ProductProps } from '@/types'
 import { removeSlug } from '@/utils/slug'
+import HeartIcon from './Icons/HeartIcon'
 
 const CategoryProducts = ({
   name,
@@ -14,12 +15,16 @@ const CategoryProducts = ({
   category?: string
   products: ProductProps[]
 }) => {
+  const addToWishlist = (id: string) => {
+    console.log(`Add ${id} item to users Wishlist`)
+  }
+
   return (
     <>
       <h2 className='my-5'>{name || category}</h2>
 
       {products && products.length > 0 ? (
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-10 gap-x-4'>
+        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-10 gap-x-4'>
           {products?.map((product: ProductProps) => (
             <motion.div
               key={product.id}
@@ -31,24 +36,30 @@ const CategoryProducts = ({
                 duration: 3
               }}
             >
-              <div className='relative sm:max-w-[10rem] lg:max-w-xs w-fit overflow-hidden mx-auto'>
-                <Link to={`/product/${product?.id}`} className='block sm:h-40 sm:w-40'>
+              <span
+                className='absolute right-10 -top-3 cursor-pointer p-1.5 bg-white rounded-full group z-10'
+                onClick={() => addToWishlist(product?.id)}
+              >
+                <HeartIcon className='w-5 h-5 fill-blue-300 group-hover:fill-blue-400' />
+              </span>
+              <Link
+                to={`/product/${product?.id}`}
+                className='relative block sm:max-w-[10rem] lg:max-w-xs w-fit overflow-hidden mx-auto'
+              >
+                <div className='h-40 w-40'>
                   <img
+                    width={160}
+                    height={160}
                     className='h-full w-full rounded-lg object-cover'
                     src={product?.imgUrl || '/assets/img/logo.png'}
                     alt={removeSlug(product?.itemName)}
                   />
-                </Link>
+                </div>
                 <span className='absolute hidden top-0 right-0 w-28 py-1 translate-y-4 translate-x-8 rotate-45 bg-blue-600 text-center text-sm text-white'>
                   تخفيض
                 </span>
-                <div className='text-center mt-1'>
-                  <Link
-                    to='#'
-                    className='text-sm font-semibold tracking-tight text-gray-800 dark:text-gray-100'
-                  >
-                    {removeSlug(product?.itemName) || category}
-                  </Link>
+                <div className='text-sm font-semibold tracking-tight text-gray-800 dark:text-gray-100 text-center mt-3'>
+                  {removeSlug(product?.itemName) || category}
                   <div className='flex justify-center items-center gap-x-2 mt-1'>
                     <span className='text-sm font-bold text-gray-800 dark:text-gray-100'>
                       {product?.currentPrice} ج.س
@@ -60,7 +71,7 @@ const CategoryProducts = ({
                     )}
                   </div>
                 </div>
-              </div>
+              </Link>
             </motion.div>
           ))}
         </div>

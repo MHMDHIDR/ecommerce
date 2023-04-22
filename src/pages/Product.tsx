@@ -159,7 +159,7 @@ const Product = () => {
                     <span className='inline-block w-full text-center'>
                       {removeSlug(abstractText(itemName, 10))}
                     </span>
-                    <span className='inline-block w-full text-center text-green-500 font-bold text-sm md:text-base'>
+                    <span className='inline-block w-full text-center font-bold text-sm md:text-base'>
                       {currentPrice} ج.س
                     </span>
                   </Link>
