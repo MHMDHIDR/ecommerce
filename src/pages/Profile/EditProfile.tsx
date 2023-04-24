@@ -37,7 +37,7 @@ const EditProfile = () => {
     type
   } = !userData
     ? getLocalStorageUser()
-      ? parseJson(getLocalStorageUser())
+      ? parseJson(getLocalStorageUser()) ?? parseJson(getLocalStorageUser())[0]
       : USER_DATA
     : userData
 

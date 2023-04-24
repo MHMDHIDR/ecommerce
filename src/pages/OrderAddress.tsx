@@ -35,7 +35,7 @@ const OrderAddress = () => {
     cityName
   } = !userData
     ? getLocalStorageUser()
-      ? parseJson(getLocalStorageUser())
+      ? parseJson(getLocalStorageUser())[0]
       : USER_DATA
     : userData
 

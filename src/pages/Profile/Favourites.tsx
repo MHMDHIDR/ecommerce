@@ -4,7 +4,7 @@ import { LoadingPage } from '@/components/Loading'
 import Layout from '@/components/Layout'
 import { Link } from 'react-router-dom'
 import { CartIconLined } from '@/components/Icons/CartIcon'
-import Search from '@/components/Search'
+import SearchBar from '@/components/SearchBar'
 import { useCart } from '@/contexts/CartContext'
 import abstractText from '@/utils/abstractText'
 import { Item } from '@/types'
@@ -22,7 +22,7 @@ const Favourites = () => {
       <Layout>
         <section className='container px-5 mx-auto rtl mb-20 max-w-6xl'>
           <div className='flex justify-between gap-x-5 items-center'>
-            <Search className='my-7' />
+            <SearchBar className='my-7' />
             {isSmallScreen && <BackButton to='/profile' className='w-8 h-8' />}
           </div>
 

@@ -1,10 +1,9 @@
-import { useState, useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { isSmallScreen } from '@/constants'
 import useEventListener from '@/hooks/useEventListener'
-import { removeSlug } from '@/utils/slug'
 
-const Search = ({
+const SearchBar = ({
   small = isSmallScreen,
   className
 }: {
@@ -12,9 +11,7 @@ const Search = ({
   className?: string
 }) => {
   const [smallSearch, setSmallSearch] = useState(small)
-
   const [search, setSearch] = useState('')
-
   const navigate = useNavigate()
 
   const searchWrapper = document.querySelector('.search__wrapper')
@@ -84,4 +81,4 @@ const Search = ({
   )
 }
 
-export default Search
+export default SearchBar

@@ -18,13 +18,13 @@ const ShippingAddress = () => {
   const DOCUMENT_TITLE = 'عنوان التوصيل'
   useDocumentTitle(DOCUMENT_TITLE)
   const token = getCookies()
-  const { loading, userData } = useAuth()
+  const { userData } = useAuth()
   const { getLocalStorageUser, setLocalStorageUser } =
     useContext<AppSettingsProps>(AppSettingsContext)
 
   const { phone, id: accountId } = !userData
     ? getLocalStorageUser()
-      ? parseJson(getLocalStorageUser())
+      ? parseJson(getLocalStorageUser()) ?? parseJson(getLocalStorageUser())[0]
       : USER_DATA
     : userData
 

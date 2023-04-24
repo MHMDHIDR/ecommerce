@@ -26,9 +26,11 @@ const Cart = () => {
 
   const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
   const { userData } = useAuth()
-  const { type: accountType } = getLocalStorageUser()
-    ? parseJson(getLocalStorageUser())[0] || (userData ?? { type: 'user' })
-    : USER_DATA
+  const { type: accountType, id } = !userData
+    ? getLocalStorageUser()
+      ? parseJson(getLocalStorageUser()) ?? parseJson(getLocalStorageUser())[0]
+      : USER_DATA
+    : userData
 
   const [modalLoading, setModalLoading] = useState<boolean>()
 
@@ -57,7 +59,7 @@ const Cart = () => {
       ) : (
         <Layout>
           <section className='container px-5 mx-auto rtl mb-24 h-full max-w-6xl'>
-            <CartHeader />
+            <CartHeader id={id} />
             {/* Confirm Box */}
             {modalLoading && (
               <Modal

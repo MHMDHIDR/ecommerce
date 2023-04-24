@@ -13,7 +13,8 @@ import { parseJson } from '@/utils/jsonTools'
 import { AppSettingsProps } from '@/types'
 
 const Profile = () => {
-  useDocumentTitle('إعدادات الحساب')
+  const DOCUMENT_TITLE = 'إعدادات الحساب'
+  useDocumentTitle(DOCUMENT_TITLE)
 
   const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
   const { loading, userData } = useAuth()
@@ -26,7 +27,7 @@ const Profile = () => {
     phone
   } = !userData
     ? getLocalStorageUser()
-      ? parseJson(getLocalStorageUser())
+      ? parseJson(getLocalStorageUser()) ?? parseJson(getLocalStorageUser())[0]
       : USER_DATA
     : userData
 

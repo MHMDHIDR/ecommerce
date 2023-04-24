@@ -36,7 +36,7 @@ const DashboardOrderDetails = () => {
   const { userData } = useAuth()
   const { id, type } = !userData
     ? getLocalStorageUser()
-      ? parseJson(getLocalStorageUser())
+      ? parseJson(getLocalStorageUser())[0]
       : USER_DATA
     : userData
 

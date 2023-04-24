@@ -4,7 +4,7 @@ import CategoryProducts from '@/components/CategoryProducts'
 import BackButton from '@/components/Icons/BackButton'
 import Layout from '@/components/Layout'
 import { LoadingPage } from '@/components/Loading'
-import Search from '@/components/Search'
+import SearchBar from '@/components/SearchBar'
 import { CATEGORIES, PRODUCT, isSmallScreen } from '@/constants'
 import { useAxios } from '@/hooks/useAxios'
 import { ProductProps } from '@/types'
@@ -27,7 +27,7 @@ const Categories = () => {
     <Layout>
       <section className='container px-7 mx-auto my-10 flex flex-col rtl mb-24 max-w-6xl'>
         <div className='flex gap-x-7 items-center justify-between'>
-          <Search />
+          <SearchBar />
           {isSmallScreen && <BackButton to='/' className='w-8 h-8' />}
         </div>
         {name ? (

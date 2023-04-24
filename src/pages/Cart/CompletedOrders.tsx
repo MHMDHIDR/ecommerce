@@ -25,7 +25,7 @@ const CompletedOrders = () => {
   const { userData } = useAuth()
   const { type: accountType, id } = !userData
     ? getLocalStorageUser()
-      ? parseJson(getLocalStorageUser())
+      ? parseJson(getLocalStorageUser()) ?? parseJson(getLocalStorageUser())[0]
       : USER_DATA
     : userData
 

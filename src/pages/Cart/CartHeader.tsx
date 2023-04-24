@@ -1,21 +1,7 @@
 import { Link } from 'react-router-dom'
 import { isActiveLink } from '@/utils/isActiveLink'
-import { useContext } from 'react'
-import { AppSettingsProps } from '@/types'
-import { AppSettingsContext } from '@/contexts/AppSettingsContext'
-import useAuth from '@/hooks/useAuth'
-import { parseJson } from '@/utils/jsonTools'
-import { USER_DATA } from '@/constants'
 
-const CartHeader = () => {
-  const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
-  const { userData } = useAuth()
-  const { id } = !userData
-    ? getLocalStorageUser()
-      ? parseJson(getLocalStorageUser())
-      : USER_DATA
-    : userData
-
+const CartHeader = ({ id }: { id: string }) => {
   return id ? (
     <header className='flex justify-between my-4'>
       <span className='font-bold'>طلباتي</span>
@@ -42,6 +28,6 @@ const CartHeader = () => {
         </Link>
       </div>
     </header>
-  ) : null
+  ) : null //if there's no currently logged in user then don't show the cartHeader
 }
 export default CartHeader

@@ -4,7 +4,9 @@ import useDocumentTitle from '@/hooks/useDocumentTitle'
 import { LoadingPage } from '@/components/Loading'
 import Layout from '@/components/Layout'
 import NoItems from '@/components/NoItems'
+import SearchBar from '@/components/SearchBar'
 import { useAxios } from '@/hooks/useAxios'
+import Filter from '@/components/Icons/Filter'
 import { ProductProps } from '@/types'
 import abstractText from '@/utils/abstractText'
 import { isSmallScreen } from '@/constants'
@@ -17,6 +19,7 @@ const Search = () => {
 
   const [searchResults, setRearchResults] = useState([])
   const [resultsCount, setResultsCount] = useState(0)
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
 
   const { response, data, loading } = useAxios({
     url: `/products?status=open&SearchQuery=${SearchQuery}`
@@ -34,6 +37,14 @@ const Search = () => {
   ) : (
     <Layout>
       <section className='container h-full px-5 mx-auto rtl mb-24 max-w-6xl'>
+        <div className='flex justify-between gap-x-5 items-center'>
+          <SearchBar />
+          <Filter
+            className='w-6 h-6 min-w-fit dark:fill-white hover:cursor-pointer'
+            onClick={() => setIsFilterOpen(prev => !prev)}
+          />
+        </div>
+
         <h2 className='my-3 font-bold'>نتائج البحث عن {SearchQuery}</h2>
         <small className='my-3'>
           تم العثور على {resultsCount} {resultsCount > 2 ? 'نتائج' : 'نتيجة'}

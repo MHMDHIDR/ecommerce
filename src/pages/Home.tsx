@@ -4,7 +4,7 @@ import useDocumentTitle from '@/hooks/useDocumentTitle'
 import { useAxios } from '@/hooks/useAxios'
 import { LoadingPage } from '@/components/Loading'
 import Layout from '@/components/Layout'
-import Search from '@/components/Search'
+import SearchBar from '@/components/SearchBar'
 import Filter from '@/components/Icons/Filter'
 import Arrow from '@/components/Icons/Arrow'
 import CategoryProducts from '@/components/CategoryProducts'
@@ -48,7 +48,7 @@ const Home = () => {
         </header>
         <main className='rtl'>
           <div className='flex justify-between gap-x-5 items-center'>
-            <Search />
+            <SearchBar />
             <Filter
               className='w-6 h-6 min-w-fit dark:fill-white hover:cursor-pointer'
               onClick={() => setIsFilterOpen(prev => !prev)}
