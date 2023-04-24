@@ -4,7 +4,7 @@ export const ITEMS_PER_PAGE = 7
 
 export const MAX_QUANTITY = 100
 
-export const TIME_TO_EXECUTE = 3000
+export const TIME_TO_EXECUTE = 3000 //3 seconds
 
 export const isSmallScreen = window.innerWidth < 768 ? true : false
 

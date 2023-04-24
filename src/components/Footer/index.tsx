@@ -200,29 +200,14 @@ const Footer = () => (
         </p>
         <div className='flex items-center mt-4 gap-5 sm:mt-0'>
           <span>تجدنا على</span>
-          <Link
-            to='https://twitter.com/'
-            target='_blank'
-            data-tooltip='Twitter'
-            className='transition-colors duration-300 hover:text-blue-800 dark:hover:text-blue-400'
-          >
+          <Link to='https://twitter.com/' target='_blank' data-tooltip='Twitter'>
             <Twitter className='w-7' />
           </Link>
-          <Link
-            to='https://instagram.com/'
-            target='_blank'
-            data-tooltip='Instagram'
-            className='transition-colors duration-300 hover:text-blue-800 dark:hover:text-blue-400'
-          >
-            <Instagram className='w-7' />
+          <Link to='https://instagram.com/' target='_blank' data-tooltip='Instagram'>
+            <Instagram className='w-7 fill-purple-600 dark:fill-purple-400' />
           </Link>
-          <Link
-            to='https://facebook.com/'
-            target='_blank'
-            data-tooltip='Facebook'
-            className='transition-colors duration-300 hover:text-blue-800 dark:hover:text-blue-400'
-          >
-            <Facebook className='w-7' />
+          <Link to='https://facebook.com/' target='_blank' data-tooltip='Facebook'>
+            <Facebook className='w-7 fill-blue-600 dark:fill-blue-400' />
           </Link>
         </div>
       </div>

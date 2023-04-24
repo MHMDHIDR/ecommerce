@@ -7,7 +7,7 @@ import 'dotenv/config'
 const app = express()
 
 //PORT
-const { PORT } = process.env
+const PORT = process.env.PORT ?? 4000
 
 //DON't SHOW EXPRESS IN RESPONSE HEADERS
 app.disable('x-powered-by')
