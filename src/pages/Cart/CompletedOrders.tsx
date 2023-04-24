@@ -54,7 +54,7 @@ const CompletedOrders = () => {
       ) : (
         <Layout>
           <section className='container h-full px-5 mx-auto rtl mb-24 max-w-6xl'>
-            <CartHeader />
+            <CartHeader id={id} />
             {orders && orders.length > 0 ? (
               <div className='flex flex-col gap-y-3'>
                 <table className='w-full bg-white dark:bg-gray-600 text-xs text-gray-900 dark:text-white text-center rounded-lg border border-gray-200 dark:border-gray-900 shadow-md dark:shadow-gray-900'>
