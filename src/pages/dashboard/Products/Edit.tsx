@@ -18,7 +18,7 @@ import ModalNotFound from '@/components/Modal/ModalNotFound'
 import { createSlug, removeSlug } from '@/utils/slug'
 import notify from '@/utils/notify'
 import goTo from '@/utils/goTo'
-import { ProductProps, UserType, catchResponse } from '@/types'
+import { CategoryProps, ProductProps, UserType, catchResponse } from '@/types'
 import { getCookies } from '@/utils/cookies'
 
 const EditProduct = () => {
@@ -37,6 +37,7 @@ const EditProduct = () => {
 
   //Form States
   const [product, setProduct] = useState<ProductProps | null>(null)
+  const [categories, setCategories] = useState<CategoryProps[] | null>(null)
   const [itemName, setItemName] = useState('')
   const [currentPrice, setCurrentPrice] = useState('')
   const [quantity, setQuantity] = useState('')
@@ -54,12 +55,19 @@ const EditProduct = () => {
 
   const { file } = useContext(FileUploadContext)
 
+  const { response, loading: loadingCategories } = useAxios({ url: `/categories` })
   const { data, loading } = useAxios({ url: `/products/${id}` })
   useEffect(() => {
-    if (data !== null) {
+    if (data !== null && response !== null) {
       setProduct(data[0])
+      setCategories(
+        response.map(({ categoryNameEn, categoryNameAr }: CategoryProps) => ({
+          categoryNameEn,
+          categoryNameAr
+        }))
+      )
     }
-  }, [data && data[0]])
+  }, [data, response])
 
   const handleUpdateProduct = async (e: {
     target: any
@@ -200,7 +208,7 @@ const EditProduct = () => {
         )}
         {isSmallScreen && <BackButton to='/' className='absolute z-50 top-6 left-6' />}
 
-        {loading ? (
+        {loading || loadingCategories ? (
           <div className='flex justify-center items-center my-48'>
             <LoadingSpinner title='جار البحث عن المنتج...' />
           </div>
@@ -312,15 +320,17 @@ const EditProduct = () => {
                       e.target.options[e.target.selectedIndex].textContent
                     ])
                   }
-                  defaultValue={data[0]?.category}
+                  value={product?.categoryNameEn}
                   required
                 >
                   <option value=''>اختر التصنيف</option>
-                  {[]?.map(({ en_label, ar_label }: any, idx: number) => (
-                    <option key={idx} value={en_label}>
-                      {ar_label}
-                    </option>
-                  ))}
+                  {categories?.map(
+                    ({ categoryNameEn, categoryNameAr }: any, idx: number) => (
+                      <option key={idx} value={categoryNameEn}>
+                        {removeSlug(categoryNameAr)}
+                      </option>
+                    )
+                  )}
                 </select>
               </label>
 

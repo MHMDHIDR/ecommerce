@@ -4,7 +4,12 @@ import db from '../../helpers/db.js'
 
 export const getProduct = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params
-  const query = `SELECT * FROM products WHERE id = ?`
+  const query = `
+    SELECT p.*, c.categoryNameEn
+    FROM products p
+    JOIN categories c ON p.category_id = c.id
+    WHERE p.id = ?
+  `
 
   db.query(query, [id], (error: any, data: any) => {
     return error
