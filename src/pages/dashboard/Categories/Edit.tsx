@@ -18,10 +18,10 @@ import ModalNotFound from '@/components/Modal/ModalNotFound'
 import { createSlug, removeSlug } from '@/utils/slug'
 import notify from '@/utils/notify'
 import goTo from '@/utils/goTo'
-import { ProductProps, UserType, catchResponse } from '@/types'
+import { CategoryProps, UserType, catchResponse } from '@/types'
 import { getCookies } from '@/utils/cookies'
 
-const EditProduct = () => {
+const EditCategory = () => {
   const DOCUMENT_TITLE = 'تعديل المنتج'
   useDocumentTitle(DOCUMENT_TITLE)
 
@@ -36,32 +36,30 @@ const EditProduct = () => {
   const { id } = useParams()
 
   //Form States
-  const [product, setProduct] = useState<ProductProps | null>(null)
-  const [itemName, setItemName] = useState('')
-  const [currentPrice, setCurrentPrice] = useState('')
-  const [quantity, setQuantity] = useState('')
-  const [category, setCategory] = useState<any>([])
-  const [productStatus, setProductStatus] = useState('')
-  const [itemDesc, setItemDesc] = useState('')
-  const [delProductId, setDelProductId] = useState('')
-  const [delProductName, setDelProductName] = useState('')
+  const [category, setCategory] = useState<CategoryProps | null>(null)
+  const [categoryNameAr, setCategoryNameAr] = useState('')
+  const [categoryNameEn, setCategoryNameEn] = useState('')
+  const [categoryStatus, setProductStatus] = useState('')
+  const [categoryDesc, setCategoryDesc] = useState('')
+  const [delCategoryId, setDelCategoryId] = useState('')
+  const [delCategoryName, setDelCategoryName] = useState('')
   const [modalLoading, setModalLoading] = useState<boolean>(false)
-  const [updateItemStatus, setUpdatedItemStatus] = useState<number | null>(null)
-  const [updateItemMessage, setUpdatedItemMessage] = useState('')
-  const [isItemDeleted, setIsItemDeleted] = useState<number | null>(null)
-  const [itemDeletedMsg, setItemDeletedMsg] = useState('')
+  const [updateCategoryStatus, setUpdatedCategoryStatus] = useState<number | null>(null)
+  const [updateCategoryMessage, setUpdatedCategoryMessage] = useState('')
+  const [isCategoryDeleted, setIsCategoryDeleted] = useState<number | null>(null)
+  const [CategoryDeletedMsg, setCategoryDeletedMsg] = useState('')
   const [isUpdating, setIsUpdating] = useState(false)
 
   const { file } = useContext(FileUploadContext)
 
-  const { data, loading } = useAxios({ url: `/products/${id}` })
+  const { data, loading } = useAxios({ url: `/categories/${id}` })
   useEffect(() => {
     if (data !== null) {
-      setProduct(data[0])
+      setCategory(data[0])
     }
   }, [data && data[0]])
 
-  const handleUpdateProduct = async (e: {
+  const handleUpdateCategory = async (e: {
     target: any
     key?: string
     preventDefault: () => void
@@ -70,30 +68,26 @@ const EditProduct = () => {
     e.target.querySelector('button').setAttribute('disabled', 'disabled')
     setIsUpdating(true)
 
-    const currentProductName = itemName || product?.itemName!
-    const currentProductPrice = currentPrice || String(product?.currentPrice)
-    const currentProductQuantity = quantity || String(product?.quantity)
-    const currentProductCategory = category[0] || product?.category
-    const currentProductStatus =
+    const currentCategoryNameAr = categoryNameAr || category?.categoryNameAr!
+    const currentCategoryNameEn = categoryNameEn || category?.categoryNameEn!
+    const currentCategoryStatus =
       type === 'supplier'
-        ? product?.productStatus!
+        ? category?.categoryStatus!
         : type === 'admin'
-        ? productStatus || product?.productStatus
+        ? categoryStatus || category?.categoryStatus
         : 'close'
-    const currentProductDesc = itemDesc || product?.description!
-    const currentProductImg = product?.imgUrl!
+    const currentCategoryDesc = categoryDesc || category?.description!
+    const currentProductImg = category?.imgUrl!
 
     //using FormData to send constructed data
     const formData = new FormData()
-    formData.append('itemName', currentProductName)
-    formData.append('currentPrice', currentProductPrice)
-    formData.append('quantity', currentProductQuantity)
-    formData.append('category', currentProductCategory)
-    formData.append('productStatus', currentProductStatus ?? 'close')
-    formData.append('description', currentProductDesc)
+    formData.append('categoryNameEn', currentCategoryNameAr)
+    formData.append('categoryNameAr', currentCategoryNameEn)
+    formData.append('categoryStatus', currentCategoryStatus ?? 'close')
+    formData.append('description', currentCategoryDesc)
     formData.append('currentProductImg', currentProductImg)
     file.map((img: any) => {
-      formData.append('productImg', img)
+      formData.append('categoryImg', img)
     })
 
     try {
@@ -105,16 +99,16 @@ const EditProduct = () => {
       })
       const { itemUpdated, message } = response.data
 
-      setUpdatedItemStatus(itemUpdated)
-      setUpdatedItemMessage(message)
+      setUpdatedCategoryStatus(itemUpdated)
+      setUpdatedCategoryMessage(message)
     } catch (err: any) {
       const {
         response: {
           data: { error }
         }
       }: catchResponse = err
-      setUpdatedItemStatus(0)
-      setUpdatedItemMessage(`عفواً، حدث خطأ ما: ${error}`)
+      setUpdatedCategoryStatus(0)
+      setUpdatedCategoryMessage(`عفواً، حدث خطأ ما: ${error}`)
     } finally {
       setIsUpdating(false)
     }
@@ -123,13 +117,13 @@ const EditProduct = () => {
   useEventListener('click', (e: any) => {
     switch (e.target.id) {
       case 'deleteBtn': {
-        setDelProductId(e.target.dataset.id)
-        setDelProductName(removeSlug(e.target.dataset.name))
+        setDelCategoryId(e.target.dataset.id)
+        setDelCategoryName(removeSlug(e.target.dataset.name))
         setModalLoading(true)
         break
       }
       case 'confirm': {
-        handleDeleteProduct(delProductId)
+        handleDeleteProduct(delCategoryId)
         break
       }
       case 'cancel': {
@@ -140,7 +134,7 @@ const EditProduct = () => {
   })
 
   const handleDeleteProduct = async (itemId: string) => {
-    const imgUrl = product?.imgUrl!
+    const imgUrl = category?.imgUrl!
     try {
       const response = await axios.delete(
         `${API_URL}/products/${itemId}?imgUrl=${imgUrl}`,
@@ -149,8 +143,8 @@ const EditProduct = () => {
         }
       )
       const { itemDeleted, message } = response.data
-      setIsItemDeleted(itemDeleted)
-      setItemDeletedMsg(message)
+      setIsCategoryDeleted(itemDeleted)
+      setCategoryDeletedMsg(message)
       //Remove waiting modal
       setTimeout(() => {
         setModalLoading(false)
@@ -168,24 +162,24 @@ const EditProduct = () => {
     <Layout>
       <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
         <div className='hidden'>
-          {updateItemStatus === 1
+          {updateCategoryStatus === 1
             ? notify({
                 type: 'success',
-                msg: updateItemMessage,
+                msg: updateCategoryMessage,
+                reloadIn: TIME_TO_EXECUTE,
+                reloadTo: goTo('categories')
+              })
+            : updateCategoryStatus === 0
+            ? notify({ type: 'error', msg: updateCategoryMessage })
+            : isCategoryDeleted === 1
+            ? notify({
+                type: 'success',
+                msg: CategoryDeletedMsg,
                 reloadIn: TIME_TO_EXECUTE,
                 reloadTo: goTo('products')
               })
-            : updateItemStatus === 0
-            ? notify({ type: 'error', msg: updateItemMessage })
-            : isItemDeleted === 1
-            ? notify({
-                type: 'success',
-                msg: itemDeletedMsg,
-                reloadIn: TIME_TO_EXECUTE,
-                reloadTo: goTo('products')
-              })
-            : isItemDeleted === 0
-            ? notify({ type: 'error', msg: itemDeletedMsg })
+            : isCategoryDeleted === 0
+            ? notify({ type: 'error', msg: CategoryDeletedMsg })
             : null}
         </div>
 
@@ -194,7 +188,7 @@ const EditProduct = () => {
           <Modal
             status={Loading}
             classes='text-blue-600 dark:text-blue-400 text-lg'
-            msg={`هل أنت متأكد من حذف ${delProductName} ؟ لا يمكن التراجع عن هذا القرار`}
+            msg={`هل أنت متأكد من حذف ${delCategoryName} ؟ لا يمكن التراجع عن هذا القرار`}
             ctaConfirmBtns={['حذف', 'الغاء']}
           />
         )}
@@ -209,60 +203,47 @@ const EditProduct = () => {
             <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>
             <form
               className='relative flex flex-col items-center'
-              onSubmit={handleUpdateProduct}
+              onSubmit={handleUpdateCategory}
             >
               <label htmlFor='uploadImg' className='flex items-center gap-y-2 flex-col'>
                 <FileUpload
                   data={{
                     defaultImg: [
                       {
-                        ImgDisplayName: product?.itemName,
-                        ImgDisplayPath: product?.imgUrl
+                        ImgDisplayName: category?.categoryNameEn,
+                        ImgDisplayPath: category?.imgUrl
                       }
                     ],
-                    imgName: product?.itemName,
+                    imgName: category?.categoryNameEn,
                     label: 'تغيير صورة'
                   }}
                   required={false}
                 />
               </label>
 
-              <label htmlFor='username' className='form__group'>
-                <span className='form__label'>اسم المنتج</span>
+              <label htmlFor='categoryNameAr' className='form__group'>
+                <span className='form__label'>اسم التصنيف بالعربي</span>
                 <input
                   type='text'
-                  id='username'
+                  id='categoryNameAr'
                   className='form__input'
-                  onChange={e => setItemName(createSlug(e.target.value.trim()))}
-                  defaultValue={removeSlug(product?.itemName!)}
+                  onChange={e => setCategoryNameAr(createSlug(e.target.value.trim()))}
+                  defaultValue={removeSlug(category?.categoryNameAr!)}
                   required
                 />
               </label>
 
-              <label htmlFor='price' className='form__group'>
-                <span className='form__label'>السعر</span>
+              <label htmlFor='categoryNameEn' className='form__group'>
+                <span className='form__label'>اسم التصنيف بالإنجليزي</span>
                 <input
-                  type='number'
-                  id='price'
+                  type='text'
+                  id='categoryNameEn'
                   className='form__input'
-                  onChange={e => setCurrentPrice(e.target.value.trim())}
-                  defaultValue={product?.currentPrice}
+                  onChange={e => setCategoryNameEn(createSlug(e.target.value.trim()))}
+                  defaultValue={removeSlug(category?.categoryNameEn!)}
                   required
                 />
               </label>
-
-              <label htmlFor='quantity' className='form__group'>
-                <span className='form__label'>الكمية</span>
-                <input
-                  type='number'
-                  id='quantity'
-                  className='form__input'
-                  onChange={e => setQuantity(e.target.value.trim())}
-                  defaultValue={product?.quantity}
-                  required
-                />
-              </label>
-
               {type === 'admin' && (
                 <div className='form__group'>
                   <span className='form__label'>حالة المنتج</span>
@@ -274,9 +255,9 @@ const EditProduct = () => {
                       name='type'
                       value='open'
                       checked={
-                        productStatus
-                          ? productStatus === 'open'
-                          : product?.productStatus === 'open'
+                        categoryStatus
+                          ? categoryStatus === 'open'
+                          : category?.categoryStatus === 'open'
                       }
                       onChange={() => setProductStatus('open')}
                     />
@@ -290,9 +271,9 @@ const EditProduct = () => {
                       name='type'
                       value='close'
                       checked={
-                        productStatus
-                          ? productStatus === 'close'
-                          : product?.productStatus === 'close'
+                        categoryStatus
+                          ? categoryStatus === 'close'
+                          : category?.categoryStatus === 'close'
                       }
                       onChange={() => setProductStatus('close')}
                     />
@@ -300,49 +281,24 @@ const EditProduct = () => {
                   </label>
                 </div>
               )}
-
-              <label htmlFor='category' className='form__group'>
-                <span className='form__label'>التصنيف</span>
-                <select
-                  id='category'
-                  className='form__input'
-                  onChange={e =>
-                    setCategory([
-                      e.target.value.trim(),
-                      e.target.options[e.target.selectedIndex].textContent
-                    ])
-                  }
-                  defaultValue={data[0]?.category}
-                  required
-                >
-                  <option value=''>اختر التصنيف</option>
-                  {[]?.map(({ en_label, ar_label }: any, idx: number) => (
-                    <option key={idx} value={en_label}>
-                      {ar_label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
               <label htmlFor='description' className='form__group'>
-                <span className='form__label'>وصف المنتج</span>
+                <span className='form__label'>الوصـــــف</span>
                 <textarea
                   name='description'
                   id='description'
                   minLength={10}
                   maxLength={300}
                   className='form__input'
-                  onChange={e => setItemDesc(e.target.value.trim())}
-                  defaultValue={product?.description}
+                  onChange={e => setCategoryDesc(e.target.value.trim())}
+                  defaultValue={category?.description}
                   required
                 ></textarea>
               </label>
-
               <div className='flex items-center gap-x-20'>
                 <button
                   type='submit'
                   className={`min-w-[7rem] bg-green-600 hover:bg-green-700 text-white py-1.5 px-6 rounded-md${
-                    isUpdating || updateItemStatus === 1
+                    isUpdating || updateCategoryStatus === 1
                       ? ' disabled:opacity-30 disabled:hover:bg-green-700 disabled:cursor-not-allowed'
                       : ''
                   }`}
@@ -350,13 +306,13 @@ const EditProduct = () => {
                   {isUpdating ? (
                     <>
                       <LoadingSpinner />
-                      &nbsp; جارِ تحديث المنتج...
+                      &nbsp; جارِ تحديث التصنيف...
                     </>
                   ) : (
                     'تحديث'
                   )}
                 </button>
-                <DeleteBtn id={product?.id!} itemName={product?.itemName!} />
+                <DeleteBtn id={category?.id!} itemName={category?.categoryNameEn!} />
               </div>
             </form>
           </>
@@ -366,4 +322,4 @@ const EditProduct = () => {
   )
 }
 
-export default EditProduct
+export default EditCategory

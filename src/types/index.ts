@@ -182,6 +182,19 @@ export type ProductProps = {
   productId?: string
 }
 
+export type CategoryProps = {
+  id: string
+  categoryNameEn: string
+  categoryNameAr: string
+  imgUrl: string
+  description: string
+  categoryStatus: string
+  createDate: string
+  updateDate: string
+  addedById?: string
+  addedByName?: string
+}
+
 export type Item = {
   [key: string]: any
   id: string

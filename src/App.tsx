@@ -22,11 +22,10 @@ import OrderAddress from './pages/OrderAddress'
 import Notifications from './pages/Notifications'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsConditions from './pages/TermsConditions'
-import DashboardAddProduct from './pages/dashboard/Products/Add'
-import SupplierEditProduct from './pages/dashboard/Products/Edit'
-import DashboardViewProduct from './pages/dashboard/Products/View'
+import AddProduct from './pages/dashboard/Products/Add'
+import EditProduct from './pages/dashboard/Products/Edit'
+import ViewProduct from './pages/dashboard/Products/View'
 import SupplierDashboard from './pages/dashboard/Orders'
-import DashboardOrderDetails from './pages/dashboard/Orders/Details'
 import DashboardViewUsers from './pages/dashboard/Users/View'
 import Profile from './pages/Profile'
 import EditProfile from './pages/Profile/EditProfile'
@@ -40,6 +39,10 @@ import SupplierLogin from './pages/auth/Supplier/SupplierLogin'
 import SupplierSignup from './pages/auth/Supplier/SupplierSignup'
 import AdminLogin from './pages/auth/Admin/AdminLogin'
 import AdminSignup from './pages/auth/Admin/AdminSignup'
+import AddCategory from './pages/dashboard/Categories/Add'
+import ViewCategory from './pages/dashboard/Categories/View'
+import EditCategory from './pages/dashboard/Categories/Edit'
+import DashboardOrderDetails from './pages/dashboard/Orders/Details'
 
 const App = () => {
   return (
@@ -63,13 +66,11 @@ const App = () => {
                   </Route>
                   <Route path='/privacy-policy' element={<PrivacyPolicy />} />
                   <Route path='/terms-and-conditions' element={<TermsConditions />} />
-
                   {/* Profile Routes */}
                   <Route path='/profile' element={<Profile />} />
                   <Route path='/profile/edit' element={<EditProfile />} />
                   <Route path='/profile/favourites' element={<Favourites />} />
                   <Route path='/profile/shipping-address' element={<ShippingAddress />} />
-
                   {/* Auth Routes */}
                   <Route path='/login' element={<Login />} />
                   <Route path='/signup' element={<Signup />} />
@@ -77,23 +78,34 @@ const App = () => {
                   <Route path='/supplier-signup' element={<SupplierSignup />} />
                   <Route path='/admin-login' element={<AdminLogin />} />
                   <Route path='/admin-signup' element={<AdminSignup />} />
-
                   {/* Supplier Dashboard Routes */}
+                  {/* Supplier Orders */}
                   <Route path='supplier' element={<SupplierDashboard />} />
-                  <Route path='supplier/add' element={<DashboardAddProduct />} />
-                  <Route path='supplier/products' element={<DashboardViewProduct />} />
-                  <Route path='supplier/product/:id' element={<SupplierEditProduct />} />
+                  {/* Supplier Products */}
+                  <Route path='supplier/add' element={<AddProduct />} />
+                  <Route path='supplier/products' element={<ViewProduct />} />
+                  <Route path='supplier/product/:id' element={<EditProduct />} />
+                  {/* Supplier Categories */}
+                  <Route path='supplier/category/add' element={<AddCategory />} />
+                  <Route path='supplier/categories' element={<ViewCategory />} />
+                  <Route path='supplier/category/:id' element={<EditCategory />} />
                   {/* Admin Dashboard Routes */}
+                  {/* Admin Orders */}
                   <Route path='dashboard' element={<SupplierDashboard />} />
-                  <Route path='dashboard/add' element={<DashboardAddProduct />} />
-                  <Route path='dashboard/products' element={<DashboardViewProduct />} />
                   <Route
                     path='dashboard/order/:id/:userId'
                     element={<DashboardOrderDetails />}
                   />
-                  <Route path='dashboard/product/:id' element={<SupplierEditProduct />} />
+                  {/* Admin Products */}
+                  <Route path='dashboard/add' element={<AddProduct />} />
+                  <Route path='dashboard/products' element={<ViewProduct />} />
+                  <Route path='dashboard/product/:id' element={<EditProduct />} />
+                  {/* Admin Categories */}
+                  <Route path='dashboard/category/add' element={<AddCategory />} />
+                  <Route path='dashboard/categories' element={<ViewCategory />} />
+                  <Route path='dashboard/category/:id' element={<EditCategory />} />
+                  {/* Admin Users */}
                   <Route path='dashboard/users' element={<DashboardViewUsers />} />
-
                   <Route path='*' element={<ModalNotFound fullscreen={true} />} />
                 </Routes>
               </Suspense>

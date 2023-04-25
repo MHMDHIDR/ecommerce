@@ -6,10 +6,11 @@ import HomeIcon from './Icons/HomeIcon'
 import { CartIconFilled } from './Icons/CartIcon'
 import NotificationsIcon from './Icons/NotificationsIcon'
 import { AddBtn } from './Icons/ControlBtn'
-import { isActiveLink } from '@/utils/isActiveLink'
-import { isSmallScreen, USER_DATA } from '@/constants'
 import Logo from './Icons/Logo'
 import Shop from './Icons/Shop'
+import Catetory from './Icons/Catetory'
+import { isActiveLink } from '@/utils/isActiveLink'
+import { isSmallScreen, USER_DATA } from '@/constants'
 import UsersIcon from './Icons/UsersIcon'
 import { AppSettingsProps } from '@/types'
 import Overlay from './Overlay'
@@ -76,6 +77,11 @@ const Menu = () => {
       icon: Shop
     },
     {
+      label: 'التصنيفات',
+      to: '/supplier/categories',
+      icon: Catetory
+    },
+    {
       label: 'الحساب',
       to: !id ? '/login' : '/profile',
       icon: () => {
@@ -110,6 +116,11 @@ const Menu = () => {
       label: 'عرض المنتجات',
       to: '/dashboard/products',
       icon: Shop
+    },
+    {
+      label: 'التصنيفات',
+      to: '/dashboard/categories',
+      icon: Catetory
     },
     {
       label: 'المستخدمين',

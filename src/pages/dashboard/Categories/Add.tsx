@@ -7,13 +7,7 @@ import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import FileUpload from '@/components/FileUpload'
 import BackButton from '@/components/Icons/BackButton'
 import Layout from '@/components/Layout'
-import {
-  isSmallScreen,
-  CATEGORIES,
-  API_URL,
-  USER_DATA,
-  TIME_TO_EXECUTE
-} from '@/constants'
+import { isSmallScreen, API_URL, USER_DATA, TIME_TO_EXECUTE } from '@/constants'
 import goTo from '@/utils/goTo'
 import { FileUploadContext } from '@/contexts/FileUploadContext'
 import { createSlug } from '@/utils/slug'
@@ -24,8 +18,8 @@ import { AppSettingsContext } from '@/contexts/AppSettingsContext'
 import { parseJson } from '@/utils/jsonTools'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
 
-const AddProduct = () => {
-  const DOCUMENT_TITLE = 'إضافة منتج جديد'
+const AddCategory = () => {
+  const DOCUMENT_TITLE = 'أضف تصنيف'
   useDocumentTitle(DOCUMENT_TITLE)
 
   const token = getCookies()
@@ -39,14 +33,12 @@ const AddProduct = () => {
     : userData
 
   //Form States
-  const [itemName, setItemName] = useState('')
-  const [currentPrice, setCurrentPrice] = useState('')
-  const [quantity, setQuantity] = useState('')
-  const [category, setCategory] = useState<any>([])
-  const [productStatus, setProductStatus] = useState('open')
-  const [itemDesc, setItemDesc] = useState('')
-  const [addItemStatus, setAddItemStatus] = useState<number | null>(null)
-  const [addItemMessage, setAddItemMessage] = useState('')
+  const [categoryNameAr, setCategoryNameAr] = useState('')
+  const [categoryNameEn, setCategoryNameEn] = useState('')
+  const [categoryStatus, setCategoryStatus] = useState('open')
+  const [categoryDesc, setCategoryDesc] = useState('')
+  const [addStatus, setAddStatus] = useState<number | null>(null)
+  const [addMessage, setAddMessage] = useState('')
   const [isAdding, setIsAdding] = useState(false)
 
   const { file } = useContext(FileUploadContext)
@@ -63,18 +55,16 @@ const AddProduct = () => {
     //using FormData to send constructed data
     const formData = new FormData()
     formData.append('addedById', id)
-    formData.append('itemName', itemName)
-    formData.append('currentPrice', currentPrice)
-    formData.append('quantity', quantity)
-    formData.append('category', category[0])
-    formData.append('productStatus', type === 'supplier' ? 'close' : productStatus)
-    formData.append('description', itemDesc)
+    formData.append('categoryNameEn', categoryNameEn)
+    formData.append('categoryNameAr', categoryNameAr)
+    formData.append('categoryStatus', type === 'supplier' ? 'close' : categoryStatus)
+    formData.append('description', categoryDesc)
     file.map((img: any) => {
-      formData.append('productImg', img)
+      formData.append('categoryImg', img)
     })
 
     try {
-      const response = await axios.post(`${API_URL}/products`, formData, {
+      const response = await axios.post(`${API_URL}/categories`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`
@@ -82,15 +72,15 @@ const AddProduct = () => {
       })
       const { itemAdded, message } = response.data
 
-      setAddItemStatus(itemAdded)
-      setAddItemMessage(message)
+      setAddStatus(itemAdded)
+      setAddMessage(message)
       if (itemAdded === 1) {
         e.target.reset()
         e.target.querySelector('button').setAttribute('disabled', 'disabled')
       }
     } catch (error: any) {
-      setAddItemStatus(0)
-      setAddItemMessage(`عفواً، حدث خطأ ما: ${error.message}`)
+      setAddStatus(0)
+      setAddMessage(`عفواً، حدث خطأ ما: ${error.message}`)
     } finally {
       setIsAdding(false)
     }
@@ -104,15 +94,15 @@ const AddProduct = () => {
     <Layout>
       <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
         <div className='hidden'>
-          {addItemStatus === 1
+          {addStatus === 1
             ? notify({
                 type: 'success',
-                msg: addItemMessage,
+                msg: addMessage,
                 reloadIn: TIME_TO_EXECUTE,
                 reloadTo: goTo('products')
               })
-            : addItemStatus === 0
-            ? notify({ type: 'error', msg: addItemMessage })
+            : addStatus === 0
+            ? notify({ type: 'error', msg: addMessage })
             : null}
         </div>
         {isSmallScreen && <BackButton to='/' className='absolute z-50 top-6 left-6' />}
@@ -133,42 +123,31 @@ const AddProduct = () => {
             />
           </label>
 
-          <label htmlFor='username' className='form__group'>
-            <span className='form__label'>اسم المنتج</span>
+          <label htmlFor='categoryNameAr' className='form__group'>
+            <span className='form__label'>اسم التصنيف بالعربي</span>
             <input
               type='text'
-              id='username'
+              id='categoryNameAr'
               className='form__input'
-              onChange={e => setItemName(createSlug(e.target.value.trim()))}
+              onChange={e => setCategoryNameAr(createSlug(e.target.value.trim()))}
               required
             />
           </label>
 
-          <label htmlFor='price' className='form__group'>
-            <span className='form__label'>السعر</span>
+          <label htmlFor='categoryNameEn' className='form__group'>
+            <span className='form__label'>اسم التصنيف بالإنجليزي</span>
             <input
-              type='number'
-              id='price'
+              type='text'
+              id='categoryNameEn'
               className='form__input'
-              onChange={e => setCurrentPrice(e.target.value.trim())}
-              required
-            />
-          </label>
-
-          <label htmlFor='quantity' className='form__group'>
-            <span className='form__label'>الكمية</span>
-            <input
-              type='number'
-              id='quantity'
-              className='form__input'
-              onChange={e => setQuantity(e.target.value.trim())}
+              onChange={e => setCategoryNameEn(createSlug(e.target.value.trim()))}
               required
             />
           </label>
 
           {type === 'admin' && (
             <div className='form__group'>
-              <span className='form__label'>حالة المنتج</span>
+              <span className='form__label'>حالة التصنيف</span>
               <label className='form__group cursor-pointer' htmlFor='open'>
                 <input
                   className='form__input'
@@ -176,8 +155,8 @@ const AddProduct = () => {
                   id='open'
                   name='type'
                   value='open'
-                  checked={productStatus === 'open'}
-                  onChange={e => setProductStatus(e.target.value)}
+                  checked={categoryStatus === 'open'}
+                  onChange={e => setCategoryStatus(e.target.value)}
                 />
                  <span>مفتوح</span>
               </label>
@@ -188,45 +167,24 @@ const AddProduct = () => {
                   id='close'
                   name='type'
                   value='close'
-                  checked={productStatus === 'close'}
-                  onChange={e => setProductStatus(e.target.value)}
+                  checked={categoryStatus === 'close'}
+                  onChange={e => setCategoryStatus(e.target.value)}
                 />
                  <span>مغلق</span>
               </label>
             </div>
           )}
 
-          <label htmlFor='category' className='form__group'>
-            <span className='form__label active'>التصنيف</span>
-            <select
-              id='category'
-              className='form__input'
-              onChange={e =>
-                setCategory([
-                  e.target.value.trim(),
-                  e.target.options[e.target.selectedIndex].textContent
-                ])
-              }
-            >
-              <option value=''>اختر التصنيف</option>
-              {CATEGORIES?.map(({ en_label, ar_label }, idx) => (
-                <option key={idx} value={en_label}>
-                  {ar_label}
-                </option>
-              ))}
-            </select>
-          </label>
-
           <label htmlFor='description' className='form__group'>
-            <span className='form__label'>وصف المنتج</span>
+            <span className='form__label'>الوصف</span>
             <textarea
               name='description'
               id='description'
               minLength={10}
               maxLength={1000}
               className='form__input'
+              onChange={e => setCategoryDesc(e.target.value.trim())}
               required
-              onChange={e => setItemDesc(e.target.value.trim())}
             ></textarea>
           </label>
 
@@ -234,7 +192,7 @@ const AddProduct = () => {
             <button
               type='submit'
               className={`min-w-[7rem] bg-green-600 hover:bg-green-700 text-white py-1.5 px-6 rounded-md${
-                isAdding || addItemStatus === 1
+                isAdding || addStatus === 1
                   ? ' disabled:opacity-30 disabled:hover:bg-green-700 disabled:cursor-not-allowed'
                   : ''
               }`}
@@ -261,4 +219,4 @@ const AddProduct = () => {
   )
 }
 
-export default AddProduct
+export default AddCategory

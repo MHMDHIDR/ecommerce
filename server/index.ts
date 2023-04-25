@@ -34,11 +34,13 @@ app.get('/', (_req: Request, res: Response) =>
 
 //Routes
 import products from './routes/products.js'
+import categories from './routes/categories.js'
 import orders from './routes/orders.js'
 import users from './routes/users.js'
 
 // Use Routes
 app.use('/products', products)
+app.use('/categories', categories)
 app.use('/orders', orders)
 app.use('/users', users)
 
