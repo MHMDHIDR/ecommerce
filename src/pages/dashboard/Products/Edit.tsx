@@ -73,7 +73,7 @@ const EditProduct = () => {
     const currentProductName = itemName || product?.itemName!
     const currentProductPrice = currentPrice || String(product?.currentPrice)
     const currentProductQuantity = quantity || String(product?.quantity)
-    const currentProductCategory = category[0] || product?.category
+    const currentProductCategory = category[0] || product?.category_id
     const currentProductStatus =
       type === 'supplier'
         ? product?.productStatus!
