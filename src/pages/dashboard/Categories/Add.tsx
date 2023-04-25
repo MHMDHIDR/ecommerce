@@ -26,7 +26,7 @@ const AddCategory = () => {
 
   const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
   const { loading, userData } = useAuth()
-  const { id, type } = !userData
+  const { id, type, firstname, lastname, username } = !userData
     ? getLocalStorageUser()
       ? parseJson(getLocalStorageUser())[0]
       : USER_DATA
@@ -55,6 +55,10 @@ const AddCategory = () => {
     //using FormData to send constructed data
     const formData = new FormData()
     formData.append('addedById', id)
+    formData.append(
+      'addedByName',
+      firstname.length > 0 ? firstname + ' ' + lastname : username
+    ) //if we've firstname and lastname add them, else use the username
     formData.append('categoryNameEn', categoryNameEn)
     formData.append('categoryNameAr', categoryNameAr)
     formData.append('categoryStatus', type === 'supplier' ? 'close' : categoryStatus)
@@ -70,11 +74,11 @@ const AddCategory = () => {
           Authorization: `Bearer ${token}`
         }
       })
-      const { itemAdded, message } = response.data
+      const { categoryAdded, message } = response.data
 
-      setAddStatus(itemAdded)
+      setAddStatus(categoryAdded)
       setAddMessage(message)
-      if (itemAdded === 1) {
+      if (categoryAdded === 1) {
         e.target.reset()
         e.target.querySelector('button').setAttribute('disabled', 'disabled')
       }
@@ -99,7 +103,7 @@ const AddCategory = () => {
                 type: 'success',
                 msg: addMessage,
                 reloadIn: TIME_TO_EXECUTE,
-                reloadTo: goTo('products')
+                reloadTo: goTo('categories')
               })
             : addStatus === 0
             ? notify({ type: 'error', msg: addMessage })
@@ -200,17 +204,17 @@ const AddCategory = () => {
               {isAdding ? (
                 <>
                   <LoadingSpinner />
-                  &nbsp; جارِ اضافة المنتج...
+                  &nbsp; جارِ اضافة التصنيف...
                 </>
               ) : (
                 'إضافة'
               )}
             </button>
             <Link
-              to={goTo('products')}
+              to={goTo('categories')}
               className='text-gray-800 underline-hover text-bold dark:text-white'
             >
-              القائمة
+              عرض التصنيفات
             </Link>
           </div>
         </form>

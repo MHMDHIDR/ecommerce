@@ -25,7 +25,7 @@ import { ClickableButton } from '@/components/Button'
 import { AddBtn } from '@/components/Icons/ControlBtn'
 
 const ViewCategory = () => {
-  const DOCUMENT_TITLE = 'تصينفات المنتجات'
+  const DOCUMENT_TITLE = 'التصنيفــــــــــات'
   useDocumentTitle(DOCUMENT_TITLE)
 
   const token = getCookies()
@@ -36,11 +36,11 @@ const ViewCategory = () => {
   const addedById = getLocalStorageUser() ? parseJson(getLocalStorageUser())[0].id : id
   const type = getLocalStorageUser() ? parseJson(getLocalStorageUser())[0].type : authType
 
-  const [delProductId, setDelProductId] = useState('')
+  const [delCategoryId, setDelCategoryId] = useState('')
   const [delCategoryName, setDelCategoryName] = useState('')
-  const [delProductImg, setDelProductImg] = useState('')
-  const [isItemDeleted, setIsItemDeleted] = useState(null)
-  const [itemDeletedMsg, setItemDeletedMsg] = useState('')
+  const [delCategoryImg, setDelCategoryImg] = useState('')
+  const [isCategoryDeleted, setIsCategoryDeleted] = useState(null)
+  const [itemCategoryMsg, setCategoryDeletedMsg] = useState('')
   const [modalLoading, setModalLoading] = useState<boolean>(false)
   const [categories, setCategories] = useState<CategoryProps[]>()
 
@@ -57,14 +57,14 @@ const ViewCategory = () => {
   useEventListener('click', (e: any) => {
     switch (e.target.id) {
       case 'deleteBtn': {
-        setDelProductId(e.target.dataset.id)
+        setDelCategoryId(e.target.dataset.id)
         setDelCategoryName(removeSlug(e.target.dataset.name))
-        setDelProductImg(e.target.dataset.imgUrl)
+        setDelCategoryImg(e.target.dataset.imgUrl)
         setModalLoading(true)
         break
       }
       case 'confirm': {
-        handleDeleteProduct(delProductId, delProductImg)
+        handleDeleteProduct(delCategoryId, delCategoryImg)
         break
       }
       case 'cancel': {
@@ -77,7 +77,7 @@ const ViewCategory = () => {
   const handleDeleteProduct = async (itemId: string, imgUrl: string) => {
     try {
       const response = await axios.delete(
-        `${API_URL}/products/${itemId}?imgUrl=${imgUrl}`,
+        `${API_URL}/categories/${itemId}?imgUrl=${imgUrl}`,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -85,9 +85,9 @@ const ViewCategory = () => {
           }
         }
       )
-      const { itemDeleted, message } = response.data
-      setIsItemDeleted(itemDeleted)
-      setItemDeletedMsg(message)
+      const { categoryDeleted, message } = response.data
+      setIsCategoryDeleted(categoryDeleted)
+      setCategoryDeletedMsg(message)
       //Remove waiting modal
       setTimeout(() => {
         setModalLoading(false)
@@ -105,15 +105,15 @@ const ViewCategory = () => {
     <Layout>
       <section className='container overflow-x-auto px-5 rtl mx-auto max-w-6xl h-full'>
         <div className='hidden'>
-          {isItemDeleted === 1
+          {isCategoryDeleted === 1
             ? notify({
                 type: 'success',
-                msg: itemDeletedMsg,
+                msg: itemCategoryMsg,
                 reloadIn: TIME_TO_EXECUTE,
-                reloadTo: goTo('products')
+                reloadTo: goTo('categories')
               })
-            : isItemDeleted === 0
-            ? notify({ type: 'error', msg: itemDeletedMsg })
+            : isCategoryDeleted === 0
+            ? notify({ type: 'error', msg: itemCategoryMsg })
             : null}
         </div>
         {/* Confirm Box */}
@@ -121,13 +121,13 @@ const ViewCategory = () => {
           <Modal
             status={Loading}
             classes='text-blue-600 dark:text-blue-400 text-lg'
-            msg={`هل أنت متأكد من حذف ${delCategoryName} ؟ لا يمكن التراجع عن هذا القرار`}
+            msg={`هل أنت متأكد من حذف تصنيف الــ ${delCategoryName} ؟ لا يمكن التراجع عن هذا القرار`}
             ctaConfirmBtns={['حذف', 'الغاء']}
           />
         )}
         <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>
 
-        <Link to={goTo(`add`)}>
+        <Link to={goTo(`category/add`)}>
           <ClickableButton className='bg-blue-500 hover:bg-blue-600 shadow-blue-600 hover:shadow-blue-800'>
             <>
               <AddBtn className='inline-flex ml-4 w-4 h-4 fill-white' />
@@ -152,7 +152,7 @@ const ViewCategory = () => {
             {loadingAuth || loading ? (
               <tr>
                 <td colSpan={100} className='p-5'>
-                  <LoadingSpinner title='جار البحث عن المنتجات...' />
+                  <LoadingSpinner title='جار البحث عن التصنيفات...' />
                 </td>
               </tr>
             ) : categories && categories.length > 0 ? (
@@ -177,7 +177,7 @@ const ViewCategory = () => {
                   </td>
                   <td className='min-w-[12rem]'>
                     <Link to={goTo(`category/${category.id}`)} className='py-3 px-5'>
-                      {removeSlug(category.categoryNameEn)}
+                      {removeSlug(category.categoryNameAr)}
                     </Link>
                   </td>
                   <td>
@@ -222,10 +222,10 @@ const ViewCategory = () => {
                     <NavMenu>
                       <DeleteBtn
                         id={category.id}
-                        itemName={category.categoryNameEn}
+                        itemName={category.categoryNameAr}
                         imgUrl={category.imgUrl}
                       />
-                      <EditBtn id={category.id} />
+                      <EditBtn to='category' id={category.id} />
                     </NavMenu>
                   </td>
                 </tr>
@@ -235,13 +235,13 @@ const ViewCategory = () => {
                 <td colSpan={100} className='p-5'>
                   <div className='flex flex-col justify-center items-center gap-y-4'>
                     <p className='text-red-600 dark:text-red-400'>
-                      عفواً، لم يتم العثور على منتجات
+                      عفواً، لم يتم العثور على تصنيفات
                     </p>
                     <Link
-                      to={goTo('add')}
+                      to={goTo('category/add')}
                       className='rounded-md bg-blue-600 px-5 py-1 text-center text-sm text-white hover:bg-gray-700'
                     >
-                      أضف منتج
+                      أضف تصنيف
                     </Link>
                   </div>
                 </td>

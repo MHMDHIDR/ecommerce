@@ -8,71 +8,66 @@ import { firebaseApp } from '../../helpers/firebase.js'
 export const addCategory = asyncHandler(async (req: Request, res: Response) => {
   let {
     addedById,
-    itemName,
-    currentPrice,
-    quantity,
-    category,
+    addedByName,
+    categoryNameEn,
+    categoryNameAr,
     description,
-    productStatus
+    categoryStatus
   } = req.body
 
   const id = randomUUID()
   const values = [
     id,
     addedById,
-    itemName,
+    addedByName,
+    categoryNameEn,
+    categoryNameAr,
     '/assets/img/logo.png',
-    parseInt(currentPrice),
-    parseInt(currentPrice),
-    parseInt(quantity),
-    category,
     description,
-    productStatus
+    categoryStatus
   ]
 
-  const query = `INSERT INTO products (
+  const query = `INSERT INTO categories (
     id,
     addedById,
-    itemName,
+    addedByName,
+    categoryNameEn,
+    categoryNameAr,
     imgUrl,
-    currentPrice,
-    oldPrice,
-    quantity,
-    category,
     description,
-    productStatus,
+    categoryStatus,
     CreateDate,
     UpdateDate
-  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`
 
   if (req.files) {
     firebaseApp
-    let { productImg } = req.files
+    let { categoryImg } = req.files
     const storage = getStorage()
-    const productImgName = Array.isArray(productImg)
-      ? productImg[0].name
-      : productImg.name
-    const productImgData = Array.isArray(productImg)
-      ? productImg[0].data
-      : productImg.data
+    const categoryImgName = Array.isArray(categoryImg)
+      ? categoryImg[0].name
+      : categoryImg.name
+    const productImgData = Array.isArray(categoryImg)
+      ? categoryImg[0].data
+      : categoryImg.data
 
-    const imageRef = ref(storage, `products/${id}/${id}_${productImgName}`)
+    const imageRef = ref(storage, `categories/${id}/${id}_${categoryImgName}`)
     await uploadBytes(imageRef, productImgData)
     const downloadURL = await getDownloadURL(imageRef)
-    values[3] = downloadURL
+    values[5] = downloadURL
   }
 
   db.query(query, values, (error: any, _data: any) => {
     if (error) {
       return res.status(500).json({
-        itemAdded: 0,
+        categoryAdded: 0,
         message: `عفواً حدث خطأ! ${error}`
       })
     }
 
     return res.status(201).json({
-      itemAdded: 1,
-      message: 'تم اضافة المنتج بنجاح'
+      categoryAdded: 1,
+      message: 'تم اضافة التصنيف بنجاح'
     })
   })
 })

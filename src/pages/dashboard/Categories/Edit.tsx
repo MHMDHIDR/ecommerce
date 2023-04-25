@@ -22,7 +22,7 @@ import { CategoryProps, UserType, catchResponse } from '@/types'
 import { getCookies } from '@/utils/cookies'
 
 const EditCategory = () => {
-  const DOCUMENT_TITLE = 'تعديل المنتج'
+  const DOCUMENT_TITLE = 'تعديل التصنيف'
   useDocumentTitle(DOCUMENT_TITLE)
 
   const { loading: loadingAuth, userData } = useAuth()
@@ -77,29 +77,29 @@ const EditCategory = () => {
         ? categoryStatus || category?.categoryStatus
         : 'close'
     const currentCategoryDesc = categoryDesc || category?.description!
-    const currentProductImg = category?.imgUrl!
+    const currentCategoryImg = category?.imgUrl!
 
     //using FormData to send constructed data
     const formData = new FormData()
-    formData.append('categoryNameEn', currentCategoryNameAr)
-    formData.append('categoryNameAr', currentCategoryNameEn)
+    formData.append('categoryNameAr', currentCategoryNameAr)
+    formData.append('categoryNameEn', currentCategoryNameEn)
     formData.append('categoryStatus', currentCategoryStatus ?? 'close')
     formData.append('description', currentCategoryDesc)
-    formData.append('currentProductImg', currentProductImg)
+    formData.append('currentCategoryImg', currentCategoryImg)
     file.map((img: any) => {
       formData.append('categoryImg', img)
     })
 
     try {
-      const response = await axios.patch(`${API_URL}/products/${id}`, formData, {
+      const response = await axios.patch(`${API_URL}/categories/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`
         }
       })
-      const { itemUpdated, message } = response.data
+      const { categoryUpdated, message } = response.data
 
-      setUpdatedCategoryStatus(itemUpdated)
+      setUpdatedCategoryStatus(categoryUpdated)
       setUpdatedCategoryMessage(message)
     } catch (err: any) {
       const {
@@ -123,7 +123,7 @@ const EditCategory = () => {
         break
       }
       case 'confirm': {
-        handleDeleteProduct(delCategoryId)
+        handleDeleteCategory(delCategoryId)
         break
       }
       case 'cancel': {
@@ -133,17 +133,17 @@ const EditCategory = () => {
     }
   })
 
-  const handleDeleteProduct = async (itemId: string) => {
+  const handleDeleteCategory = async (itemId: string) => {
     const imgUrl = category?.imgUrl!
     try {
       const response = await axios.delete(
-        `${API_URL}/products/${itemId}?imgUrl=${imgUrl}`,
+        `${API_URL}/categories/${itemId}?imgUrl=${imgUrl}`,
         {
           headers: { Authorization: `Bearer ${token}` }
         }
       )
-      const { itemDeleted, message } = response.data
-      setIsCategoryDeleted(itemDeleted)
+      const { categoryDeleted, message } = response.data
+      setIsCategoryDeleted(categoryDeleted)
       setCategoryDeletedMsg(message)
       //Remove waiting modal
       setTimeout(() => {
@@ -176,7 +176,7 @@ const EditCategory = () => {
                 type: 'success',
                 msg: CategoryDeletedMsg,
                 reloadIn: TIME_TO_EXECUTE,
-                reloadTo: goTo('products')
+                reloadTo: goTo('categories')
               })
             : isCategoryDeleted === 0
             ? notify({ type: 'error', msg: CategoryDeletedMsg })
@@ -188,7 +188,7 @@ const EditCategory = () => {
           <Modal
             status={Loading}
             classes='text-blue-600 dark:text-blue-400 text-lg'
-            msg={`هل أنت متأكد من حذف ${delCategoryName} ؟ لا يمكن التراجع عن هذا القرار`}
+            msg={`هل أنت متأكد من حذف تصنيف الــ ${delCategoryName} ؟ لا يمكن التراجع عن هذا القرار`}
             ctaConfirmBtns={['حذف', 'الغاء']}
           />
         )}
@@ -196,7 +196,7 @@ const EditCategory = () => {
 
         {loading ? (
           <div className='flex justify-center items-center my-48'>
-            <LoadingSpinner title='جار البحث عن المنتج...' />
+            <LoadingSpinner title='جار البحث عن التصنيف...' />
           </div>
         ) : (
           <>
@@ -244,6 +244,7 @@ const EditCategory = () => {
                   required
                 />
               </label>
+
               {type === 'admin' && (
                 <div className='form__group'>
                   <span className='form__label'>حالة المنتج</span>
@@ -281,6 +282,7 @@ const EditCategory = () => {
                   </label>
                 </div>
               )}
+
               <label htmlFor='description' className='form__group'>
                 <span className='form__label'>الوصـــــف</span>
                 <textarea
@@ -294,6 +296,7 @@ const EditCategory = () => {
                   required
                 ></textarea>
               </label>
+
               <div className='flex items-center gap-x-20'>
                 <button
                   type='submit'
@@ -312,7 +315,7 @@ const EditCategory = () => {
                     'تحديث'
                   )}
                 </button>
-                <DeleteBtn id={category?.id!} itemName={category?.categoryNameEn!} />
+                <DeleteBtn id={category?.id!} itemName={category?.categoryNameAr!} />
               </div>
             </form>
           </>

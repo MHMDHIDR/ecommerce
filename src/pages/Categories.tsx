@@ -5,7 +5,7 @@ import BackButton from '@/components/Icons/BackButton'
 import Layout from '@/components/Layout'
 import { LoadingPage } from '@/components/Loading'
 import SearchBar from '@/components/SearchBar'
-import { CATEGORIES, PRODUCT, isSmallScreen } from '@/constants'
+import { PRODUCT, isSmallScreen } from '@/constants'
 import { useAxios } from '@/hooks/useAxios'
 import { ProductProps } from '@/types'
 
@@ -34,7 +34,7 @@ const Categories = () => {
           <CategoryProducts name={name} products={products} />
         ) : (
           <div className='flex flex-wrap justify-center mt-5 gap-3 md:gap-12'>
-            {CATEGORIES.map(
+            {[].map(
               (
                 {
                   ar_label,

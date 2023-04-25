@@ -8,7 +8,7 @@ import SearchBar from '@/components/SearchBar'
 import Filter from '@/components/Icons/Filter'
 import Arrow from '@/components/Icons/Arrow'
 import CategoryProducts from '@/components/CategoryProducts'
-import { CATEGORIES, isSmallScreen, ITEMS_PER_PAGE, PRODUCT } from '@/constants'
+import { isSmallScreen, ITEMS_PER_PAGE, PRODUCT } from '@/constants'
 import abstractText from '@/utils/abstractText'
 import Slider from '@/components/Slider'
 import { ProductProps } from '@/types'
@@ -94,7 +94,7 @@ const Home = () => {
               التصنيفات
             </Link>
             <ul className='flex gap-x-3 overflow-x-auto'>
-              {CATEGORIES.map(({ ar_label }: { ar_label: string }, idx: number) => (
+              {[].map(({ ar_label }: { ar_label: string }, idx: number) => (
                 <li
                   key={idx}
                   className={`border text-sm rounded-full py-0.5 px-3 cursor-pointer

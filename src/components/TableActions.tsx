@@ -114,10 +114,10 @@ export const DeliveredBtn = ({
   </button>
 )
 
-export const EditBtn = ({ id }: any) => (
+export const EditBtn = ({ id, to }: any) => (
   <Link
     id='editBtn'
-    to={goTo(`product/${id}`)}
+    to={goTo(`${to ? to : 'product'}/${id}`)}
     className='m-1 py-2 text-xs text-white bg-gray-600 rounded-md hover:bg-gray-700 min-w-[7rem] relative text-center overflow-hidden border'
     data-tooltip='تعديل الطلب'
   >

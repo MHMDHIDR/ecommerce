@@ -15,29 +15,29 @@ export const updateCategory = asyncHandler(async (req: Request, res: Response) =
   let {
     categoryNameEn,
     categoryNameAr,
+    currentCategoryImg,
     categoryStatus,
-    description,
-    currentCategoryImg
+    description
   } = req.body
 
   const values = [
     categoryNameEn,
     categoryNameAr,
-    categoryStatus,
+    currentCategoryImg,
     description,
-    currentCategoryImg
+    categoryStatus
   ]
 
   if (req.files) {
     firebaseApp
-    let { productImg } = req.files
+    let { categoryImg } = req.files
     const storage = getStorage()
-    const productImgName = Array.isArray(productImg)
-      ? productImg[0].name
-      : productImg.name
-    const productImgData = Array.isArray(productImg)
-      ? productImg[0].data
-      : productImg.data
+    const categoryImgName = Array.isArray(categoryImg)
+      ? categoryImg[0].name
+      : categoryImg.name
+    const productImgData = Array.isArray(categoryImg)
+      ? categoryImg[0].data
+      : categoryImg.data
 
     // Delete the old image if it exists
     if (currentCategoryImg) {
@@ -51,14 +51,14 @@ export const updateCategory = asyncHandler(async (req: Request, res: Response) =
       }
     }
 
-    const imageRef = ref(storage, `products/${id}/${id}_${productImgName}`)
+    const imageRef = ref(storage, `categories/${id}/${id}_${categoryImgName}`)
     await uploadBytes(imageRef, productImgData)
     const downloadURL = await getDownloadURL(imageRef)
-    values[1] = downloadURL
+    values[2] = downloadURL
   }
 
   const query =
-    'UPDATE products SET `categoryNameEn`= ?, `categoryNameAr`= ?, `imgUrl`= ?, `currentPrice`= ?, `oldPrice`= ?, `quantity`= ?, `category`= ?, `description`= ?, `productStatus`= ?, `UpdateDate`= CURRENT_TIMESTAMP WHERE id = ?'
+    'UPDATE categories SET `categoryNameEn`= ?, `categoryNameAr`= ?, `imgUrl`= ?, `description`= ?, `categoryStatus`= ?, `UpdateDate`= CURRENT_TIMESTAMP WHERE id = ?'
 
   db.query(query, [...values, id], (error: any, _data: any) => {
     return error
@@ -68,7 +68,7 @@ export const updateCategory = asyncHandler(async (req: Request, res: Response) =
         })
       : res.status(201).json({
           categoryUpdated: 1,
-          message: 'تم تحديث المنتج بنجاح'
+          message: 'تم تحديث التصنيف بنجاح'
         })
   })
 })

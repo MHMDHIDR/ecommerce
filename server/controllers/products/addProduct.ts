@@ -8,6 +8,7 @@ import { firebaseApp } from '../../helpers/firebase.js'
 export const addProduct = asyncHandler(async (req: Request, res: Response) => {
   let {
     addedById,
+    addedByName,
     itemName,
     currentPrice,
     quantity,
@@ -20,6 +21,7 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
   const values = [
     id,
     addedById,
+    addedByName,
     itemName,
     '/assets/img/logo.png',
     parseInt(currentPrice),
@@ -33,6 +35,7 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
   const query = `INSERT INTO products (
     id,
     addedById,
+    addedByName,
     itemName,
     imgUrl,
     currentPrice,
@@ -43,7 +46,7 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
     productStatus,
     CreateDate,
     UpdateDate
-  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`
 
   if (req.files) {
     firebaseApp

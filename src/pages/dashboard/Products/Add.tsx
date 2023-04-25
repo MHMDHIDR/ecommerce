@@ -7,13 +7,7 @@ import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import FileUpload from '@/components/FileUpload'
 import BackButton from '@/components/Icons/BackButton'
 import Layout from '@/components/Layout'
-import {
-  isSmallScreen,
-  CATEGORIES,
-  API_URL,
-  USER_DATA,
-  TIME_TO_EXECUTE
-} from '@/constants'
+import { isSmallScreen, API_URL, USER_DATA, TIME_TO_EXECUTE } from '@/constants'
 import goTo from '@/utils/goTo'
 import { FileUploadContext } from '@/contexts/FileUploadContext'
 import { createSlug } from '@/utils/slug'
@@ -32,7 +26,7 @@ const AddProduct = () => {
 
   const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
   const { loading, userData } = useAuth()
-  const { id, type } = !userData
+  const { id, type, firstname, lastname, username } = !userData
     ? getLocalStorageUser()
       ? parseJson(getLocalStorageUser())[0]
       : USER_DATA
@@ -63,6 +57,10 @@ const AddProduct = () => {
     //using FormData to send constructed data
     const formData = new FormData()
     formData.append('addedById', id)
+    formData.append(
+      'addedByName',
+      firstname.length > 0 ? firstname + ' ' + lastname : username
+    ) //if we've firstname and lastname add them, else use the username
     formData.append('itemName', itemName)
     formData.append('currentPrice', currentPrice)
     formData.append('quantity', quantity)
@@ -209,7 +207,7 @@ const AddProduct = () => {
               }
             >
               <option value=''>اختر التصنيف</option>
-              {CATEGORIES?.map(({ en_label, ar_label }, idx) => (
+              {[]?.map(({ en_label, ar_label }, idx) => (
                 <option key={idx} value={en_label}>
                   {ar_label}
                 </option>
