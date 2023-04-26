@@ -182,6 +182,7 @@ const ViewUsers = () => {
               <th className='py-2'>الصورة</th>
               <th className='py-2'>الإســـــــــــم</th>
               <th className='py-2'>اسم المستخدم</th>
+              <th className='py-2'>رقم الهاتف</th>
               <th className='py-2'>الصلاحية</th>
               <th className='py-2'>حالة الحساب</th>
               <th className='py-2'>تاريخ إنشاء الحساب</th>
@@ -217,6 +218,7 @@ const ViewUsers = () => {
                       : user.username}
                   </td>
                   <td className='min-w-[10rem]'>{user.username}</td>
+                  <td className='min-w-[10rem]'>{user.phone}</td>
                   <td>
                     <span className='inline-block min-w-max font-bold'>
                       {user.type === 'admin'
