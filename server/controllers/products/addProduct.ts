@@ -62,7 +62,7 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
     const imageRef = ref(storage, `products/${id}/${id}_${productImgName}`)
     await uploadBytes(imageRef, productImgData)
     const downloadURL = await getDownloadURL(imageRef)
-    values[3] = downloadURL
+    values[4] = downloadURL
   }
 
   db.query(query, values, (error: any, _data: any) => {

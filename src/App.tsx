@@ -61,9 +61,7 @@ const App = () => {
                   <Route path='/notifications' element={<Notifications />} />
                   <Route path='/products' element={<Products />} />
                   <Route path='/product/:id' element={<Product />} />
-                  <Route path='/categories' element={<Categories />}>
-                    <Route path=':name' element={<Categories />} />
-                  </Route>
+                  <Route path='/categories/:name' element={<Categories />}></Route>
                   <Route path='/privacy-policy' element={<PrivacyPolicy />} />
                   <Route path='/terms-and-conditions' element={<TermsConditions />} />
                   {/* Profile Routes */}

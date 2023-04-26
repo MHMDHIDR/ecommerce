@@ -38,7 +38,7 @@ const AddProduct = () => {
   const [itemName, setItemName] = useState('')
   const [currentPrice, setCurrentPrice] = useState('')
   const [quantity, setQuantity] = useState('')
-  const [category, setCategory] = useState<any>([])
+  const [categoryId, setCategoryId] = useState<any>([])
   const [productStatus, setProductStatus] = useState('open')
   const [itemDesc, setItemDesc] = useState('')
   const [addItemStatus, setAddItemStatus] = useState<number | null>(null)
@@ -80,7 +80,7 @@ const AddProduct = () => {
     formData.append('itemName', itemName)
     formData.append('currentPrice', currentPrice)
     formData.append('quantity', quantity)
-    formData.append('category', category[0])
+    formData.append('categoryId', categoryId[0])
     formData.append('productStatus', type === 'supplier' ? 'close' : productStatus)
     formData.append('description', itemDesc)
     file.map((img: any) => {
@@ -216,20 +216,18 @@ const AddProduct = () => {
               id='category'
               className='form__input'
               onChange={e =>
-                setCategory([
+                setCategoryId([
                   e.target.value.trim(),
                   e.target.options[e.target.selectedIndex].textContent
                 ])
               }
             >
               <option value=''>اختر التصنيف</option>
-              {categories?.map(
-                ({ id, categoryNameEn, categoryNameAr }: CategoryProps) => (
-                  <option key={id} value={categoryNameEn}>
-                    {removeSlug(categoryNameAr)}
-                  </option>
-                )
-              )}
+              {categories?.map(({ id, categoryNameAr }: CategoryProps) => (
+                <option key={id} value={id}>
+                  {removeSlug(categoryNameAr)}
+                </option>
+              ))}
             </select>
           </label>
 

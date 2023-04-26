@@ -21,10 +21,8 @@ const CategoryProducts = ({
 
   return (
     <>
-      <h2 className='my-5'>{name || category}</h2>
-
       {products && products.length > 0 ? (
-        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-10 gap-x-4'>
+        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-10 gap-x-4 my-10'>
           {products?.map((product: ProductProps) => (
             <motion.div
               key={product.id}

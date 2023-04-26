@@ -62,7 +62,7 @@ const Categories = () => {
                     to={categoryNameEn}
                     className='block relative overflow-hidden duration-300 bg-cover w-80 h-24 md:h-60 rounded-2xl group'
                   >
-                    <span className='flex justify-center w-full absolute bg-black dark:bg-white dark:text-black opacity-80 py-1 group-hover:py-28 duration-[inherit]'>
+                    <span className='flex justify-center w-full absolute text-white bg-black dark:text-black dark:bg-white opacity-70 font-black py-1 group-hover:py-28 duration-[inherit]'>
                       {removeSlug(categoryNameAr)}
                     </span>
                     <img
