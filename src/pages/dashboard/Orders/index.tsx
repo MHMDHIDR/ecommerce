@@ -22,6 +22,7 @@ import Modal from '@/components/Modal'
 import { Loading } from '@/components/Icons/Status'
 import notify from '@/utils/notify'
 import { getUserFullName } from '@/utils/getUser'
+import LazyImage from '@/components/LazyImage'
 
 const SupplierDashboard = () => {
   const DOCUMENT_TITLE = 'الطلبــــــــات'
@@ -201,7 +202,7 @@ const SupplierDashboard = () => {
                       <span>{removeSlug(item.itemName)}</span>
                     </td>
                     <td className='py-2'>
-                      <img
+                      <LazyImage
                         loading='lazy'
                         src={item.imgUrl}
                         alt={item.itemName}

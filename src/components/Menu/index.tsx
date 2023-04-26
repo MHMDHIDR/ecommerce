@@ -15,6 +15,7 @@ import { AppSettingsProps } from '@/types'
 import { isActiveLink } from '@/utils/isActiveLink'
 import { isSmallScreen, USER_DATA } from '@/constants'
 import Item from './Item'
+import LazyImage from '../LazyImage'
 
 const Menu = () => {
   const { isSidebarOpen, menuToggler } = useContext<AppSettingsProps>(AppSettingsContext)
@@ -45,7 +46,7 @@ const Menu = () => {
       to: !id ? '/login' : '/profile',
       icon: () => {
         return isAuth ? (
-          <img
+          <LazyImage
             src={avatarUrl}
             width={16}
             height={16}
@@ -81,7 +82,7 @@ const Menu = () => {
       to: !id ? '/login' : '/profile',
       icon: () => {
         return isAuth ? (
-          <img
+          <LazyImage
             src={avatarUrl}
             width={16}
             height={16}
@@ -122,7 +123,7 @@ const Menu = () => {
       to: !id ? '/login' : '/profile',
       icon: () => {
         return isAuth ? (
-          <img
+          <LazyImage
             src={avatarUrl}
             width={16}
             height={16}

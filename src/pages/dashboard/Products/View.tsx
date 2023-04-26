@@ -23,6 +23,7 @@ import ModalNotFound from '@/components/Modal/ModalNotFound'
 import NavMenu from '@/components/NavMenu'
 import { ClickableButton } from '@/components/Button'
 import { AddBtn } from '@/components/Icons/ControlBtn'
+import LazyImage from '@/components/LazyImage'
 
 const ViewProduct = () => {
   const DOCUMENT_TITLE = 'عرض المنتجات'
@@ -166,7 +167,7 @@ const ViewProduct = () => {
                   </td>
                   <td>
                     <Link to={goTo(`product/${product.id}`)} className='py-3 px-5'>
-                      <img
+                      <LazyImage
                         loading='lazy'
                         src={product.imgUrl}
                         alt={product.itemName}

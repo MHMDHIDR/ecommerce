@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { Suspense, lazy } from 'react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 //components
@@ -12,37 +12,37 @@ import ThemeContextProvider from '@/contexts/ThemeContext'
 import AppSettingsContextProvider from '@/contexts/AppSettingsContext'
 
 //pages
-import Home from './pages/Home'
-import Products from './pages/Products'
-import Product from './pages/Product'
-import Categories from './pages/Categories'
-import Cart from './pages/Cart'
-import CompletedOrders from './pages/Cart/CompletedOrders'
-import OrderAddress from './pages/OrderAddress'
-import Notifications from './pages/Notifications'
-import PrivacyPolicy from './pages/PrivacyPolicy'
-import TermsConditions from './pages/TermsConditions'
-import AddProduct from './pages/dashboard/Products/Add'
-import EditProduct from './pages/dashboard/Products/Edit'
-import ViewProduct from './pages/dashboard/Products/View'
-import SupplierDashboard from './pages/dashboard/Orders'
-import DashboardViewUsers from './pages/dashboard/Users/View'
-import Profile from './pages/Profile'
-import EditProfile from './pages/Profile/EditProfile'
-import Favourites from './pages/Profile/Favourites'
-import ShippingAddress from './pages/Profile/ShippingAddress'
-import Search from './pages/Search'
+const Home = lazy(() => import('./pages/Home'))
+const Products = lazy(() => import('./pages/Products'))
+const Product = lazy(() => import('./pages/Product'))
+const Categories = lazy(() => import('./pages/Categories'))
+const Cart = lazy(() => import('./pages/Cart'))
+const CompletedOrders = lazy(() => import('./pages/Cart/CompletedOrders'))
+const OrderAddress = lazy(() => import('./pages/OrderAddress'))
+const Notifications = lazy(() => import('./pages/Notifications'))
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'))
+const TermsConditions = lazy(() => import('./pages/TermsConditions'))
+const AddProduct = lazy(() => import('./pages/dashboard/Products/Add'))
+const EditProduct = lazy(() => import('./pages/dashboard/Products/Edit'))
+const ViewProduct = lazy(() => import('./pages/dashboard/Products/View'))
+const SupplierDashboard = lazy(() => import('./pages/dashboard/Orders'))
+const DashboardViewUsers = lazy(() => import('./pages/dashboard/Users/View'))
+const Profile = lazy(() => import('./pages/Profile'))
+const EditProfile = lazy(() => import('./pages/Profile/EditProfile'))
+const Favourites = lazy(() => import('./pages/Profile/Favourites'))
+const ShippingAddress = lazy(() => import('./pages/Profile/ShippingAddress'))
+const Search = lazy(() => import('./pages/Search'))
 //Auth routes
-import Signup from './pages/auth/Signup'
-import Login from './pages/auth/Login'
-import SupplierLogin from './pages/auth/Supplier/SupplierLogin'
-import SupplierSignup from './pages/auth/Supplier/SupplierSignup'
-import AdminLogin from './pages/auth/Admin/AdminLogin'
-import AdminSignup from './pages/auth/Admin/AdminSignup'
-import AddCategory from './pages/dashboard/Categories/Add'
-import ViewCategory from './pages/dashboard/Categories/View'
-import EditCategory from './pages/dashboard/Categories/Edit'
-import DashboardOrderDetails from './pages/dashboard/Orders/Details'
+const Signup = lazy(() => import('./pages/auth/Signup'))
+const Login = lazy(() => import('./pages/auth/Login'))
+const SupplierLogin = lazy(() => import('./pages/auth/Supplier/SupplierLogin'))
+const SupplierSignup = lazy(() => import('./pages/auth/Supplier/SupplierSignup'))
+const AdminLogin = lazy(() => import('./pages/auth/Admin/AdminLogin'))
+const AdminSignup = lazy(() => import('./pages/auth/Admin/AdminSignup'))
+const AddCategory = lazy(() => import('./pages/dashboard/Categories/Add'))
+const ViewCategory = lazy(() => import('./pages/dashboard/Categories/View'))
+const EditCategory = lazy(() => import('./pages/dashboard/Categories/Edit'))
+const DashboardOrderDetails = lazy(() => import('./pages/dashboard/Orders/Details'))
 
 const App = () => {
   return (

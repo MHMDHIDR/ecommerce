@@ -2,6 +2,7 @@ import { Key, useContext } from 'react'
 import { FileUploadContext } from '@/contexts/FileUploadContext'
 import { FileUploadProps, ImgsProps } from '@/types'
 import Pen from './Icons/Pen'
+import LazyImage from './LazyImage'
 
 const FileUpload = ({ data, required = true }: { data: any; required?: boolean }) => {
   const { file, fileURLs, onFileRemove, onFileAdd } =
@@ -18,7 +19,7 @@ const FileUpload = ({ data, required = true }: { data: any; required?: boolean }
                 key={index}
                 className={`flex items-center flex-col gap-y-3 max-h-44 h-44 place-content-center relative`}
               >
-                <img
+                <LazyImage
                   loading='lazy'
                   src={fileURL}
                   alt={data?.imgName}
@@ -47,7 +48,7 @@ const FileUpload = ({ data, required = true }: { data: any; required?: boolean }
                   htmlFor='uploadImg'
                   className='flex items-center flex-col gap-y-3 max-h-44 h-44 place-content-center cursor-pointer relative'
                 >
-                  <img
+                  <LazyImage
                     loading='lazy'
                     src={ImgDisplayPath}
                     alt={ImgDisplayName}

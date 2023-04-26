@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { PRODUCT, isSmallScreen } from '@/constants'
+import { useAxios } from '@/hooks/useAxios'
+import { CategoryProps, ProductProps } from '@/types'
+import { removeSlug } from '@/utils/slug'
 import CategoryProducts from '@/components/CategoryProducts'
 import BackButton from '@/components/Icons/BackButton'
 import Layout from '@/components/Layout'
 import { LoadingPage } from '@/components/Loading'
 import SearchBar from '@/components/SearchBar'
-import { PRODUCT, isSmallScreen } from '@/constants'
-import { useAxios } from '@/hooks/useAxios'
-import { CategoryProps, ProductProps } from '@/types'
-import { removeSlug } from '@/utils/slug'
+import LazyImage from '@/components/LazyImage'
 
 const Categories = () => {
   const { name } = useParams()
@@ -65,7 +66,7 @@ const Categories = () => {
                     <span className='flex justify-center w-full absolute text-white bg-black dark:text-black dark:bg-white opacity-70 font-black py-1 group-hover:py-28 duration-[inherit]'>
                       {removeSlug(categoryNameAr)}
                     </span>
-                    <img
+                    <LazyImage
                       src={imgUrl}
                       height={96}
                       width={320}

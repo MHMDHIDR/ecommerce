@@ -5,6 +5,7 @@ import Icon404 from './Icons/Icon404'
 import { ProductProps } from '@/types'
 import { removeSlug } from '@/utils/slug'
 import HeartIcon from './Icons/HeartIcon'
+import LazyImage from './LazyImage'
 
 const CategoryProducts = ({
   name,
@@ -45,7 +46,7 @@ const CategoryProducts = ({
                 className='relative block sm:max-w-[10rem] lg:max-w-xs w-fit overflow-hidden mx-auto'
               >
                 <div className='h-40 w-40'>
-                  <img
+                  <LazyImage
                     width={160}
                     height={160}
                     className='h-full w-full rounded-lg object-cover'

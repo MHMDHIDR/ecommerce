@@ -11,6 +11,7 @@ import useAuth from '@/hooks/useAuth'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import { catchResponse } from '@/types'
 import Divider from '@/components/Divider'
+import LazyImage from '@/components/LazyImage'
 
 const Login = () => {
   const DOCUMENT_TITLE = 'تسجيل الدخول'
@@ -91,7 +92,11 @@ const Login = () => {
         </div>
 
         <div className='flex h-full flex-wrap items-center justify-center'>
-          <img src='assets/img/logo.png' className='w-40 h-32 mb-10' alt='Logo image' />
+          <LazyImage
+            src='assets/img/logo.png'
+            className='w-40 h-32 mb-10'
+            alt='Logo image'
+          />
 
           <form className='w-full rtl' onSubmit={handleLogin}>
             <label htmlFor='userTel' className='relative flex mb-6'>

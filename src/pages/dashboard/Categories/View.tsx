@@ -23,6 +23,7 @@ import ModalNotFound from '@/components/Modal/ModalNotFound'
 import NavMenu from '@/components/NavMenu'
 import { ClickableButton } from '@/components/Button'
 import { AddBtn } from '@/components/Icons/ControlBtn'
+import LazyImage from '@/components/LazyImage'
 
 const ViewCategory = () => {
   const DOCUMENT_TITLE = 'التصنيفــــــــــات'
@@ -175,7 +176,7 @@ const ViewCategory = () => {
                         type !== 'admin' ? 'pointer-events-none' : ''
                       }`}
                     >
-                      <img
+                      <LazyImage
                         loading='lazy'
                         src={category.imgUrl}
                         alt={category.categoryNameEn}

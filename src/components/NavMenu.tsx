@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { NavMenuPros } from '@/types'
 import abstractText from '@/utils/abstractText'
+import LazyImage from './LazyImage'
 
 const NavMenu: React.FC<NavMenuPros> = ({
   children,
@@ -36,7 +37,7 @@ const NavMenu: React.FC<NavMenuPros> = ({
         </span>
 
         {src && (
-          <img
+          <LazyImage
             src={src || '/assets/img/logo.png'}
             alt={label}
             height={30}

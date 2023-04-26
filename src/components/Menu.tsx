@@ -9,12 +9,13 @@ import { AddBtn } from './Icons/ControlBtn'
 import Logo from './Icons/Logo'
 import Shop from './Icons/Shop'
 import Catetory from './Icons/Catetory'
+import UsersIcon from './Icons/UsersIcon'
 import { isActiveLink } from '@/utils/isActiveLink'
 import { isSmallScreen, USER_DATA } from '@/constants'
-import UsersIcon from './Icons/UsersIcon'
 import { AppSettingsProps } from '@/types'
 import Overlay from './Overlay'
 import useAuth from '@/hooks/useAuth'
+import LazyImage from './LazyImage'
 
 const Menu = () => {
   const { isSidebarOpen, menuToggler } = useContext<AppSettingsProps>(AppSettingsContext)
@@ -45,7 +46,7 @@ const Menu = () => {
       to: !id ? '/login' : '/profile',
       icon: () => {
         return isAuth ? (
-          <img
+          <LazyImage
             src={avatarUrl}
             width={16}
             height={16}
@@ -86,7 +87,7 @@ const Menu = () => {
       to: !id ? '/login' : '/profile',
       icon: () => {
         return isAuth ? (
-          <img
+          <LazyImage
             src={avatarUrl}
             width={16}
             height={16}
@@ -132,7 +133,7 @@ const Menu = () => {
       to: !id ? '/login' : '/profile',
       icon: () => {
         return isAuth ? (
-          <img
+          <LazyImage
             src={avatarUrl}
             width={16}
             height={16}

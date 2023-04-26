@@ -1,8 +1,9 @@
 import { Suspense } from 'react'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
+import abstractText from '@/utils/abstractText'
 import { LoadingPage } from '@/components/Loading'
 import Layout from '@/components/Layout'
-import abstractText from '@/utils/abstractText'
+import LazyImage from '@/components/LazyImage'
 
 const Notifications = () => {
   useDocumentTitle('الاشعارات')
@@ -19,7 +20,7 @@ const Notifications = () => {
                 className='border-b dark:border-b-0 last-of-type:border-b-0 py-1'
               >
                 <div className='flex items-center gap-x-3 bg-white dark:bg-gray-700 overflow-hidden rounded-lg px-2'>
-                  <img
+                  <LazyImage
                     className='h-12 w-12 rounded-full object-cover'
                     src='https://tecdn.b-cdn.net/img/new/avatars/2.jpg'
                     alt='Profile'

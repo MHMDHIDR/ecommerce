@@ -8,6 +8,7 @@ import useDocumentTitle from '@/hooks/useDocumentTitle'
 import { catchResponse } from '@/types'
 import useAuth from '@/hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
+import LazyImage from '@/components/LazyImage'
 
 const AdminSignup = () => {
   const DOCUMENT_TITLE = 'تسجيل حساب إداري'
@@ -95,7 +96,11 @@ const AdminSignup = () => {
         </div>
 
         <div className='flex h-full flex-wrap items-center justify-center'>
-          <img src='assets/img/logo.png' className='w-40 h-32 mb-10' alt='Logo image' />
+          <LazyImage
+            src='assets/img/logo.png'
+            className='w-40 h-32 mb-10'
+            alt='Logo image'
+          />
 
           <form className='w-full rtl' onSubmit={handleRegister}>
             <h2 className='font-bold my-10 select-none'>معلومات شخصية:</h2>

@@ -4,6 +4,7 @@ import { DotButton, PrevButton, NextButton } from './EmblaCarouselButtons'
 import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react'
 import { Thumb } from './EmblaCarouselThumb'
 import { removeSlug } from '@/utils/slug'
+import LazyImage from '../LazyImage'
 
 const EmblaCarousel = ({ slides, media, smallView = false }: any) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -80,7 +81,7 @@ const EmblaCarousel = ({ slides, media, smallView = false }: any) => {
                       : 'h-[19.3rem] sm:[19.3rem] md:h-96'
                   }`}
                 >
-                  <img
+                  <LazyImage
                     loading='lazy'
                     className={`absolute z-30 block object-cover w-full min-h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 hover:scale-110 transition-transform duration-200`}
                     src={mediaByIndex(index) || '/assets/img/logo.png'}

@@ -1,23 +1,24 @@
 import { useRef, useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
-import { LoadingPage, LoadingSpinner } from '@/components/Loading'
-import Layout from '@/components/Layout'
 import { useCart } from '@/contexts/CartContext'
 import { API_URL, USER_DATA, isSmallScreen } from '@/constants'
 import abstractText from '@/utils/abstractText'
-import NoItems from '@/components/NoItems'
 import { getCookies } from '@/utils/cookies'
+import notify from '@/utils/notify'
 import { useAxios } from '@/hooks/useAxios'
 import { parseJson, stringJson } from '@/utils/jsonTools'
 import useAuth from '@/hooks/useAuth'
 import { AppSettingsProps, UserType } from '@/types'
 import { AppSettingsContext } from '@/contexts/AppSettingsContext'
-import axios from 'axios'
+import { LoadingPage, LoadingSpinner } from '@/components/Loading'
+import Layout from '@/components/Layout'
+import NoItems from '@/components/NoItems'
 import { Error, Success } from '@/components/Icons/Status'
 import Modal from '@/components/Modal'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
-import notify from '@/utils/notify'
+import LazyImage from '@/components/LazyImage'
 
 const OrderAddress = () => {
   const DOCUMENT_TITLE = 'عنوان التوصيل'
@@ -181,7 +182,7 @@ const OrderAddress = () => {
                 to={`/product/${item.id}`} //to product link using id or name [/product/:name] to make url more SEO friendly
                 className='flex items-center gap-x-3 bg-white dark:bg-gray-700 overflow-hidden rounded-xl shadow-md p-2 mb-2'
               >
-                <img
+                <LazyImage
                   className='h-16 w-16 rounded-lg object-cover'
                   src={item.imgUrl}
                   alt={item.name}

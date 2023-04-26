@@ -6,6 +6,7 @@ import { parseJson } from '@/utils/jsonTools'
 import { USER_DATA } from '@/constants'
 import UsersIcon from './Icons/UsersIcon'
 import CartNavLink from './CartNavLink'
+import LazyImage from './LazyImage'
 
 const Nav = () => {
   const { menuToggler, getLocalStorageUser } = useContext(AppSettingsContext)
@@ -55,7 +56,7 @@ const Nav = () => {
               aria-label={!id ? 'Login to your account' : 'view your profile page'}
             >
               {isAuth ? (
-                <img
+                <LazyImage
                   src={avatarUrl}
                   className='rounded-full w-8 h-8'
                   style={{ height: '32px', width: '32px' }}

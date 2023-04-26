@@ -18,6 +18,7 @@ import { USER_DATA, isSmallScreen } from '@/constants'
 import abstractText from '@/utils/abstractText'
 import { parseJson } from '@/utils/jsonTools'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
+import LazyImage from '@/components/LazyImage'
 
 const Cart = () => {
   useDocumentTitle('السلة')
@@ -85,7 +86,7 @@ const Cart = () => {
                         to={`/product/${item.id}`} //to product link using id or name [/product/:name] to make url more SEO friendly
                         className='flex items-center gap-x-3 bg-white dark:bg-gray-700 overflow-hidden rounded-md px-1.5'
                       >
-                        <img
+                        <LazyImage
                           className='h-16 w-16 rounded-lg object-cover'
                           src={item.imgUrl}
                           alt={item.name}

@@ -8,6 +8,7 @@ import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import { catchResponse } from '@/types'
 import useAuth from '@/hooks/useAuth'
+import LazyImage from '@/components/LazyImage'
 
 const SupplierSignup = () => {
   const DOCUMENT_TITLE = 'تسجيل حساب التاجر'
@@ -105,7 +106,11 @@ const SupplierSignup = () => {
         </div>
 
         <div className='flex h-full flex-wrap items-center justify-center'>
-          <img src='assets/img/logo.png' className='w-40 h-32 mb-10' alt='Logo image' />
+          <LazyImage
+            src='assets/img/logo.png'
+            className='w-40 h-32 mb-10'
+            alt='Logo image'
+          />
 
           <form className='w-full rtl' onSubmit={handleRegister}>
             <h2 className='font-bold my-10 select-none'>معلومات شخصية:</h2>

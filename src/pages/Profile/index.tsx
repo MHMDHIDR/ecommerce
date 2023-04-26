@@ -11,6 +11,7 @@ import { isSmallScreen, PROFILE_LINKS, USER_DATA } from '@/constants'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
 import { parseJson } from '@/utils/jsonTools'
 import { AppSettingsProps } from '@/types'
+import LazyImage from '@/components/LazyImage'
 
 const Profile = () => {
   const DOCUMENT_TITLE = 'إعدادات الحساب'
@@ -49,7 +50,7 @@ const Profile = () => {
             to={`edit`}
             className='flex items-center gap-x-3 overflow-hidden rounded-lg bg-white dark:bg-gray-700 p-2 shadow-md'
           >
-            <img
+            <LazyImage
               className='h-16 w-16 rounded-lg object-cover'
               src={avatarUrl}
               alt={`${username} Avatar`}

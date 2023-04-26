@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
+import { isSmallScreen, PRODUCT } from '@/constants'
+import abstractText from '@/utils/abstractText'
+import { ProductProps } from '@/types'
+import { useAxios } from '@/hooks/useAxios'
+import { removeSlug } from '@/utils/slug'
 import { LoadingPage } from '@/components/Loading'
 import Layout from '@/components/Layout'
 import SearchBar from '@/components/SearchBar'
 import Filter from '@/components/Icons/Filter'
 import Arrow from '@/components/Icons/Arrow'
 import CategoryProducts from '@/components/CategoryProducts'
-import { isSmallScreen, PRODUCT } from '@/constants'
-import abstractText from '@/utils/abstractText'
-import { ProductProps } from '@/types'
-import { useAxios } from '@/hooks/useAxios'
-import { removeSlug } from '@/utils/slug'
+import LazyImage from '@/components/LazyImage'
 
 const Home = () => {
   useDocumentTitle('المنتجات')
@@ -53,7 +54,7 @@ const Home = () => {
               to={`/product/${mostOrdered.id}`}
               className='flex items-center gap-x-3 overflow-hidden rounded-lg bg-white dark:bg-gray-700 px-1.5 shadow-md'
             >
-              <img
+              <LazyImage
                 className='h-16 w-16 rounded-lg object-cover'
                 src={mostOrdered.imgUrl}
                 alt={mostOrdered.itemName}

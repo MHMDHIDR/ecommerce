@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import { useAxios } from '@/hooks/useAxios'
+import { isSmallScreen, ITEMS_PER_PAGE, PRODUCT } from '@/constants'
+import abstractText from '@/utils/abstractText'
+import { removeSlug } from '@/utils/slug'
+import { CategoryProps, ProductProps } from '@/types'
 import { LoadingPage } from '@/components/Loading'
 import Layout from '@/components/Layout'
 import SearchBar from '@/components/SearchBar'
@@ -9,10 +13,7 @@ import Filter from '@/components/Icons/Filter'
 import Arrow from '@/components/Icons/Arrow'
 import CategoryProducts from '@/components/CategoryProducts'
 import Slider from '@/components/Slider'
-import { isSmallScreen, ITEMS_PER_PAGE, PRODUCT } from '@/constants'
-import abstractText from '@/utils/abstractText'
-import { removeSlug } from '@/utils/slug'
-import { CategoryProps, ProductProps } from '@/types'
+import LazyImage from '@/components/LazyImage'
 
 const Home = () => {
   const DOCUMENT_TITLE = 'الرئيسية'
@@ -80,7 +81,7 @@ const Home = () => {
               to={`/product/${mostOrdered.id}`}
               className='flex items-center gap-x-3 overflow-hidden rounded-lg bg-white dark:bg-gray-700 px-1.5 shadow-md'
             >
-              <img
+              <LazyImage
                 className='h-16 w-16 rounded-lg object-cover'
                 src={mostOrdered.imgUrl}
                 alt={mostOrdered.itemName}

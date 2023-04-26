@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
-import { LoadingPage } from '@/components/Loading'
-import Layout from '@/components/Layout'
-import NoItems from '@/components/NoItems'
-import SearchBar from '@/components/SearchBar'
 import { useAxios } from '@/hooks/useAxios'
-import Filter from '@/components/Icons/Filter'
 import { ProductProps } from '@/types'
 import abstractText from '@/utils/abstractText'
 import { isSmallScreen } from '@/constants'
 import { removeSlug } from '@/utils/slug'
+import { LoadingPage } from '@/components/Loading'
+import Layout from '@/components/Layout'
+import NoItems from '@/components/NoItems'
+import SearchBar from '@/components/SearchBar'
+import Filter from '@/components/Icons/Filter'
 import Icon404 from '@/components/Icons/Icon404'
+import LazyImage from '@/components/LazyImage'
 
 const Search = () => {
   useDocumentTitle('البحث')
@@ -57,7 +58,7 @@ const Search = () => {
               to={`/product/${item.id}`}
               className='flex items-center gap-x-3 overflow-hidden rounded-lg bg-white dark:bg-gray-700 px-1.5 shadow-md my-10 hover:-translate-x-2 transition-transform duration-300'
             >
-              <img
+              <LazyImage
                 className='h-16 w-16 rounded-lg object-cover'
                 src={item.imgUrl}
                 alt={item.itemName}

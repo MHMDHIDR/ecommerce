@@ -11,6 +11,7 @@ import { Item } from '@/types'
 import Controls from '../Cart/Controls'
 import { isSmallScreen, PRODUCT } from '@/constants'
 import BackButton from '@/components/Icons/BackButton'
+import LazyImage from '@/components/LazyImage'
 
 const Favourites = () => {
   useDocumentTitle('قائمة المفضلة')
@@ -37,7 +38,7 @@ const Favourites = () => {
                   key={id}
                   className='flex items-center gap-x-3 overflow-hidden rounded-lg bg-white dark:bg-gray-700 px-2 shadow-md'
                 >
-                  <img
+                  <LazyImage
                     className='h-16 w-16 rounded-lg object-cover'
                     src={PRODUCT(id).imgUrl}
                     alt={PRODUCT(id).itemName}

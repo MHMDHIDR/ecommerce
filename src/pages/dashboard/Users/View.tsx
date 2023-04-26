@@ -20,6 +20,7 @@ import { API_URL, TIME_TO_EXECUTE, USER_DATA } from '@/constants'
 import { getCookies } from '@/utils/cookies'
 import { parseJson, stringJson } from '@/utils/jsonTools'
 import NavMenu from '@/components/NavMenu'
+import LazyImage from '@/components/LazyImage'
 
 const ViewUsers = () => {
   const DOCUMENT_TITLE = 'المستخدمين'
@@ -201,7 +202,7 @@ const ViewUsers = () => {
                     <span>{idx + 1}</span>
                   </td>
                   <td>
-                    <img
+                    <LazyImage
                       loading='lazy'
                       src={user.avatarUrl}
                       alt={user.username}

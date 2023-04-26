@@ -1,7 +1,4 @@
 import { Link, useParams } from 'react-router-dom'
-import Menu from '@/components/Menu'
-import BackButton from '@/components/Icons/BackButton'
-import { CartIconLined } from '@/components/Icons/CartIcon'
 import { ITEMS_PER_PAGE, USER_DATA, isSmallScreen } from '@/constants'
 import { useCart } from '@/contexts/CartContext'
 import { AppSettingsContext } from '@/contexts/AppSettingsContext'
@@ -10,13 +7,17 @@ import Controls from './Cart/Controls'
 import { useContext, useEffect, useState } from 'react'
 import { useAxios } from '@/hooks/useAxios'
 import useAuth from '@/hooks/useAuth'
+import { removeSlug } from '@/utils/slug'
+import { parseJson } from '@/utils/jsonTools'
+import abstractText from '@/utils/abstractText'
+import Menu from '@/components/Menu'
+import BackButton from '@/components/Icons/BackButton'
+import { CartIconLined } from '@/components/Icons/CartIcon'
 import { LoadingPage } from '@/components/Loading'
 import NoItems from '@/components/NoItems'
 import Icon404 from '@/components/Icons/Icon404'
 import Layout from '@/components/Layout'
-import { removeSlug } from '@/utils/slug'
-import { parseJson } from '@/utils/jsonTools'
-import abstractText from '@/utils/abstractText'
+import LazyImage from '@/components/LazyImage'
 
 const Product = () => {
   const { id } = useParams()
@@ -62,7 +63,7 @@ const Product = () => {
               </span>
             ) : null}
 
-            <img
+            <LazyImage
               className='object-contain w-80 h-80 max-w-xs mx-auto'
               src={product.imgUrl}
               alt={product.itemName}
@@ -149,7 +150,7 @@ const Product = () => {
                     className='inline-block max-w-[5rem] max-h-[5rem] min-w-[5rem] md:max-w-[11rem] md:max-h-[11rem] md:min-w-[11rem]'
                     to={`/product/${id}`}
                   >
-                    <img
+                    <LazyImage
                       loading='lazy'
                       src={imgUrl}
                       className='w-full h-full rounded-xl'
