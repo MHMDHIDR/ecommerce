@@ -7,7 +7,7 @@ export const getProduct = asyncHandler(async (req: Request, res: Response) => {
   const query = `
     SELECT p.*, c.categoryNameEn
     FROM products p
-    JOIN categories c ON p.category_id = c.id
+    JOIN categories c ON p.categoryId = c.id
     WHERE p.id = ?
   `
 

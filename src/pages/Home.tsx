@@ -8,11 +8,11 @@ import SearchBar from '@/components/SearchBar'
 import Filter from '@/components/Icons/Filter'
 import Arrow from '@/components/Icons/Arrow'
 import CategoryProducts from '@/components/CategoryProducts'
+import Slider from '@/components/Slider'
 import { isSmallScreen, ITEMS_PER_PAGE, PRODUCT } from '@/constants'
 import abstractText from '@/utils/abstractText'
-import Slider from '@/components/Slider'
-import { ProductProps } from '@/types'
 import { removeSlug } from '@/utils/slug'
+import { CategoryProps, ProductProps } from '@/types'
 
 const Home = () => {
   const DOCUMENT_TITLE = 'الرئيسية'
@@ -21,23 +21,38 @@ const Home = () => {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
 
   const [products, setProducts] = useState<ProductProps[]>([PRODUCT('1')])
+  const [categories, setCategories] = useState<CategoryProps[] | null>(null)
   const [itemsCount, setItemsCount] = useState()
   const [mostOrdered, setMostOrdered] = useState<ProductProps>(PRODUCT('1'))
 
+  const { response: responseCategories, loading: loadingCategories } = useAxios({
+    url: `/categories`
+  })
   const { response, data, loading } = useAxios({ url: `/products?status=open` })
   const { data: mostOrderedResponse, loading: mostOrderedLoading } = useAxios({
     url: `/products/mostOrdered`
   })
 
   useEffect(() => {
-    if (response !== null && mostOrderedResponse !== null) {
+    if (
+      response !== null &&
+      responseCategories !== null &&
+      mostOrderedResponse !== null
+    ) {
+      setCategories(
+        responseCategories.map(({ categoryNameEn, categoryNameAr }: CategoryProps) => ({
+          categoryNameEn,
+          categoryNameAr
+        }))
+      )
+
       setProducts(response)
       setItemsCount(data.itemsCount)
       setMostOrdered(mostOrderedResponse)
     }
-  }, [response])
+  }, [response, responseCategories])
 
-  return loading || mostOrderedLoading ? (
+  return loading || loadingCategories || mostOrderedLoading ? (
     <LoadingPage />
   ) : (
     <Layout>
@@ -94,10 +109,12 @@ const Home = () => {
               التصنيفات
             </Link>
             <ul className='flex gap-x-3 overflow-x-auto'>
-              {[].map(({ ar_label }: { ar_label: string }, idx: number) => (
-                <li
-                  key={idx}
-                  className={`border text-sm rounded-full py-0.5 px-3 cursor-pointer
+              {categories &&
+                categories.map(
+                  ({ categoryNameEn, categoryNameAr }: CategoryProps, idx: number) => (
+                    <li
+                      key={idx}
+                      className={`border text-sm rounded-full py-0.5 px-3 cursor-pointer
                               bg-gray-100 dark:bg-gray-800
                               border-gray-800 dark:border-gray-100
                               text-gray-800 dark:text-gray-100
@@ -106,13 +123,14 @@ const Home = () => {
                               hover:bg-gray-800 dark:hover:bg-gray-100
                               hover:text-gray-100 dark:hover:text-gray-800
                     `}
-                  onClick={e =>
-                    setSelectedCategory((e.target as HTMLElement).textContent!)
-                  }
-                >
-                  {ar_label}
-                </li>
-              ))}
+                      onClick={e =>
+                        setSelectedCategory((e.target as HTMLElement).textContent!)
+                      }
+                    >
+                      {removeSlug(categoryNameAr)}
+                    </li>
+                  )
+                )}
             </ul>
           </div>
 

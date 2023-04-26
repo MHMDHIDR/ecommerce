@@ -32,10 +32,12 @@ const Product = () => {
   const [product, setProduct] = useState<ProductProps>()
   const [relevantProducts, setRelevantProducts] = useState<ProductProps[]>()
 
-  const { data, loading } = useAxios({ url: `/products/${id}` })
+  const { data, loading }: { data: ProductProps[]; loading: boolean } = useAxios({
+    url: `/products/${id}`
+  })
 
   const { response, loading: relevantProductsLoading } = useAxios({
-    url: `/products?category=${data && data[0]?.category}`
+    url: `/products?category=${data && data[0]?.categoryId}`
   })
 
   useEffect(() => {

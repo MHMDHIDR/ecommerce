@@ -52,7 +52,9 @@ export const PRODUCT = (id: string) => {
     oldPrice: 299,
     rating: 5.0,
     quantity: 1,
-    category_id: 'abcd1234',
+    categoryId: 'abcd1234',
+    categoryNameEn: '',
+    categoryNameAr: '',
     description: `
     لابتوب ماك-بوك آير الجديد، سرعة فائقة وجودة كبيرة ... لابتوب ماك-بوك آير الجديد، سرعة فائقة وجودة كبيرة
     لابتوب ماك-بوك آير الجديد، سرعة فائقة وجودة كبيرة ... لابتوب ماك-بوك آير الجديد، سرعة فائقة وجودة كبيرة

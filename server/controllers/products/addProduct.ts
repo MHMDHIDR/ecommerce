@@ -12,7 +12,7 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
     itemName,
     currentPrice,
     quantity,
-    category,
+    categoryId,
     description,
     productStatus
   } = req.body
@@ -27,7 +27,7 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
     parseInt(currentPrice),
     parseInt(currentPrice),
     parseInt(quantity),
-    category,
+    categoryId,
     description,
     productStatus
   ]
@@ -41,7 +41,7 @@ export const addProduct = asyncHandler(async (req: Request, res: Response) => {
     currentPrice,
     oldPrice,
     quantity,
-    category,
+    categoryId,
     description,
     productStatus,
     CreateDate,

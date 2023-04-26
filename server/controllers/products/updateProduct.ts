@@ -16,7 +16,7 @@ export const updateProduct = asyncHandler(async (req: Request, res: Response) =>
     itemName,
     currentPrice,
     quantity,
-    category,
+    categoryId,
     productStatus,
     description,
     currentProductImg
@@ -28,7 +28,7 @@ export const updateProduct = asyncHandler(async (req: Request, res: Response) =>
     parseInt(currentPrice),
     parseInt(currentPrice),
     parseInt(quantity),
-    category,
+    categoryId,
     description,
     productStatus
   ]
@@ -63,7 +63,7 @@ export const updateProduct = asyncHandler(async (req: Request, res: Response) =>
   }
 
   const query =
-    'UPDATE products SET `itemName`= ?, `imgUrl`= ?, `currentPrice`= ?, `oldPrice`= ?, `quantity`= ?, `category`= ?, `description`= ?, `productStatus`= ?, `UpdateDate`= CURRENT_TIMESTAMP WHERE id = ?'
+    'UPDATE products SET `itemName`= ?, `imgUrl`= ?, `currentPrice`= ?, `oldPrice`= ?, `quantity`= ?, `categoryId`= ?, `description`= ?, `productStatus`= ?, `UpdateDate`= CURRENT_TIMESTAMP WHERE id = ?'
 
   db.query(query, [...values, id], (error: any, _data: any) => {
     return error

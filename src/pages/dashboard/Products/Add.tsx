@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import useAuth from '@/hooks/useAuth'
@@ -10,13 +10,14 @@ import Layout from '@/components/Layout'
 import { isSmallScreen, API_URL, USER_DATA, TIME_TO_EXECUTE } from '@/constants'
 import goTo from '@/utils/goTo'
 import { FileUploadContext } from '@/contexts/FileUploadContext'
-import { createSlug } from '@/utils/slug'
+import { createSlug, removeSlug } from '@/utils/slug'
 import notify from '@/utils/notify'
 import { getCookies } from '@/utils/cookies'
-import { AppSettingsProps } from '@/types'
+import { AppSettingsProps, CategoryProps } from '@/types'
 import { AppSettingsContext } from '@/contexts/AppSettingsContext'
 import { parseJson } from '@/utils/jsonTools'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
+import { useAxios } from '@/hooks/useAxios'
 
 const AddProduct = () => {
   const DOCUMENT_TITLE = 'إضافة منتج جديد'
@@ -33,6 +34,7 @@ const AddProduct = () => {
     : userData
 
   //Form States
+  const [categories, setCategories] = useState<CategoryProps[] | null>(null)
   const [itemName, setItemName] = useState('')
   const [currentPrice, setCurrentPrice] = useState('')
   const [quantity, setQuantity] = useState('')
@@ -44,6 +46,20 @@ const AddProduct = () => {
   const [isAdding, setIsAdding] = useState(false)
 
   const { file } = useContext(FileUploadContext)
+
+  const { response, loading: loadingCategories } = useAxios({ url: `/categories` })
+
+  useEffect(() => {
+    if (response !== null) {
+      setCategories(
+        response.map(({ id, categoryNameEn, categoryNameAr }: CategoryProps) => ({
+          id,
+          categoryNameEn,
+          categoryNameAr
+        }))
+      )
+    }
+  }, [response])
 
   const handleAddProduct = async (e: {
     target: any
@@ -94,7 +110,7 @@ const AddProduct = () => {
     }
   }
 
-  return loading ? (
+  return loading || loadingCategories ? (
     <LoadingPage />
   ) : !id && type !== 'admin' && type !== 'supplier' ? (
     <ModalNotFound />
@@ -207,11 +223,13 @@ const AddProduct = () => {
               }
             >
               <option value=''>اختر التصنيف</option>
-              {[]?.map(({ en_label, ar_label }, idx) => (
-                <option key={idx} value={en_label}>
-                  {ar_label}
-                </option>
-              ))}
+              {categories?.map(
+                ({ id, categoryNameEn, categoryNameAr }: CategoryProps) => (
+                  <option key={id} value={categoryNameEn}>
+                    {removeSlug(categoryNameAr)}
+                  </option>
+                )
+              )}
             </select>
           </label>
 

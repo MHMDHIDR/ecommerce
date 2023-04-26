@@ -7,7 +7,8 @@ import { LoadingPage } from '@/components/Loading'
 import SearchBar from '@/components/SearchBar'
 import { PRODUCT, isSmallScreen } from '@/constants'
 import { useAxios } from '@/hooks/useAxios'
-import { ProductProps } from '@/types'
+import { CategoryProps, ProductProps } from '@/types'
+import { removeSlug } from '@/utils/slug'
 
 const Categories = () => {
   const { name } = useParams()
@@ -15,17 +16,33 @@ const Categories = () => {
   //products inside the item page
 
   const [products, setProducts] = useState<ProductProps[]>([PRODUCT('1')])
+  const [categories, setCategories] = useState<CategoryProps[] | null>(null)
+
+  const { response: responseCategories, loading: loadingCategories } = useAxios({
+    url: `/categories`
+  })
   const { response, loading } = useAxios({ url: `/products?status=open` })
 
   useEffect(() => {
-    if (response !== null) setProducts(response)
-  }, [response])
+    if (response !== null && responseCategories !== null) {
+      setCategories(
+        responseCategories.map(
+          ({ categoryNameEn, categoryNameAr, imgUrl }: CategoryProps) => ({
+            categoryNameEn,
+            categoryNameAr,
+            imgUrl
+          })
+        )
+      )
+      setProducts(response)
+    }
+  }, [response, responseCategories])
 
-  return loading ? (
+  return loading || loadingCategories ? (
     <LoadingPage />
   ) : (
     <Layout>
-      <section className='container px-7 mx-auto my-10 flex flex-col rtl mb-24 max-w-6xl'>
+      <section className='container px-7 mx-auto h-full my-10 flex flex-col rtl mb-24 max-w-6xl'>
         <div className='flex gap-x-7 items-center justify-between'>
           <SearchBar />
           {isSmallScreen && <BackButton to='/' className='w-8 h-8' />}
@@ -33,32 +50,31 @@ const Categories = () => {
         {name ? (
           <CategoryProducts name={name} products={products} />
         ) : (
-          <div className='flex flex-wrap justify-center mt-5 gap-3 md:gap-12'>
-            {[].map(
-              (
-                {
-                  ar_label,
-                  en_label,
-                  itemCount
-                }: { ar_label: string; en_label: string; itemCount: number },
-                idx: number
-              ) => (
-                <Link
-                  key={idx}
-                  to={en_label}
-                  className='block overflow-hidden transition-transform duration-300 bg-cover w-80 h-24 md:h-60 rounded-2xl hover:-translate-y-2'
-                >
-                  <div
-                    className={`flex items-center pr-3 justify-left h-full text-sm font-bold bg-gray-800 md:text-base 2xl:text-xl bg-opacity-70 bg-[url("/assets/img/logo.png")] bg-cover bg-[left]`}
+          <div className='flex flex-wrap justify-center mt-16 gap-3 md:gap-12'>
+            {categories &&
+              categories.map(
+                (
+                  { categoryNameEn, categoryNameAr, imgUrl }: CategoryProps,
+                  idx: number
+                ) => (
+                  <Link
+                    key={idx}
+                    to={categoryNameEn}
+                    className='block relative overflow-hidden duration-300 bg-cover w-80 h-24 md:h-60 rounded-2xl group'
                   >
-                    <div className='flex flex-col bg-black bg-opacity-60 px-2 py-0.5 text-white rounded'>
-                      <span>{ar_label}</span>
-                      <span>{itemCount} منتج</span>
-                    </div>
-                  </div>
-                </Link>
-              )
-            )}
+                    <span className='flex justify-center w-full absolute bg-black dark:bg-white dark:text-black opacity-80 py-1 group-hover:py-28 duration-[inherit]'>
+                      {removeSlug(categoryNameAr)}
+                    </span>
+                    <img
+                      src={imgUrl}
+                      height={96}
+                      width={320}
+                      alt={categoryNameEn}
+                      className='w-full h-full'
+                    />
+                  </Link>
+                )
+              )}
           </div>
         )}
       </section>

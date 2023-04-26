@@ -103,13 +103,13 @@ export const paginatedResults = (table: string) => {
           }
           response.numberOfPages = Math.ceil(response.itemsCount / reqLimit)
         } else if (category) {
-          query = `SELECT * FROM ${table} WHERE category = ? ORDER BY ${
+          query = `SELECT * FROM ${table} WHERE categoryId = ? ORDER BY ${
             orderBy ? `${orderBy} DESC` : `updateDate DESC`
           }`
 
           response.response = await db.promise().query(query, [category])
           response.response = response.response[0]
-          const countQuery = `SELECT COUNT(*) as count FROM ${table} WHERE category = ?`
+          const countQuery = `SELECT COUNT(*) as count FROM ${table} WHERE categoryId = ?`
           const countResult = await db.promise().query(countQuery, [category])
           const itemsCount = countResult[0][0].count
 

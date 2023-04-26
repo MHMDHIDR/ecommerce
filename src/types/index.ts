@@ -169,7 +169,7 @@ export type ProductProps = {
   oldPrice: number
   rating: number
   quantity: number
-  category_id: string
+  categoryId: string
   categoryNameEn: string
   categoryNameAr: string
   description: string

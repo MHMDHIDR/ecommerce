@@ -128,7 +128,7 @@ const ViewCategory = () => {
         <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>
 
         <Link to={goTo(`category/add`)}>
-          <ClickableButton className='bg-blue-500 hover:bg-blue-600 shadow-blue-600 hover:shadow-blue-800'>
+          <ClickableButton className='bg-sky-500 hover:bg-sky-600 shadow-sky-600 hover:shadow-sky-800'>
             <>
               <AddBtn className='inline-flex ml-4 w-4 h-4 fill-white' />
               <span>أضف تصنيف</span>

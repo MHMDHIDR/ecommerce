@@ -37,11 +37,10 @@ const EditProduct = () => {
 
   //Form States
   const [product, setProduct] = useState<ProductProps | null>(null)
-  const [categories, setCategories] = useState<CategoryProps[] | null>(null)
   const [itemName, setItemName] = useState('')
   const [currentPrice, setCurrentPrice] = useState('')
   const [quantity, setQuantity] = useState('')
-  const [category, setCategory] = useState<any>([])
+  const [categoryId, setCategoryId] = useState<any>([])
   const [productStatus, setProductStatus] = useState('')
   const [itemDesc, setItemDesc] = useState('')
   const [delProductId, setDelProductId] = useState('')
@@ -55,19 +54,16 @@ const EditProduct = () => {
 
   const { file } = useContext(FileUploadContext)
 
-  const { response, loading: loadingCategories } = useAxios({ url: `/categories` })
+  const { response: categories, loading: loadingCategories } = useAxios({
+    url: `/categories`
+  })
   const { data, loading } = useAxios({ url: `/products/${id}` })
+
   useEffect(() => {
-    if (data !== null && response !== null) {
+    if (data !== null) {
       setProduct(data[0])
-      setCategories(
-        response.map(({ categoryNameEn, categoryNameAr }: CategoryProps) => ({
-          categoryNameEn,
-          categoryNameAr
-        }))
-      )
     }
-  }, [data, response])
+  }, [data, loading])
 
   const handleUpdateProduct = async (e: {
     target: any
@@ -81,7 +77,7 @@ const EditProduct = () => {
     const currentProductName = itemName || product?.itemName!
     const currentProductPrice = currentPrice || String(product?.currentPrice)
     const currentProductQuantity = quantity || String(product?.quantity)
-    const currentProductCategory = category[0] || product?.category_id
+    const currentProductCategoryId = categoryId[0] || product?.categoryId
     const currentProductStatus =
       type === 'supplier'
         ? product?.productStatus!
@@ -96,7 +92,7 @@ const EditProduct = () => {
     formData.append('itemName', currentProductName)
     formData.append('currentPrice', currentProductPrice)
     formData.append('quantity', currentProductQuantity)
-    formData.append('category', currentProductCategory)
+    formData.append('categoryId', currentProductCategoryId)
     formData.append('productStatus', currentProductStatus ?? 'close')
     formData.append('description', currentProductDesc)
     formData.append('currentProductImg', currentProductImg)
@@ -168,7 +164,7 @@ const EditProduct = () => {
     }
   }
 
-  return loadingAuth ? (
+  return loadingAuth || loading || loadingCategories ? (
     <LoadingPage />
   ) : !userId || (type !== 'admin' && type !== 'supplier') ? (
     <ModalNotFound />
@@ -208,169 +204,159 @@ const EditProduct = () => {
         )}
         {isSmallScreen && <BackButton to='/' className='absolute z-50 top-6 left-6' />}
 
-        {loading || loadingCategories ? (
-          <div className='flex justify-center items-center my-48'>
-            <LoadingSpinner title='جار البحث عن المنتج...' />
-          </div>
-        ) : (
-          <>
-            <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>
-            <form
-              className='relative flex flex-col items-center'
-              onSubmit={handleUpdateProduct}
-            >
-              <label htmlFor='uploadImg' className='flex items-center gap-y-2 flex-col'>
-                <FileUpload
-                  data={{
-                    defaultImg: [
-                      {
-                        ImgDisplayName: product?.itemName,
-                        ImgDisplayPath: product?.imgUrl
-                      }
-                    ],
-                    imgName: product?.itemName,
-                    label: 'تغيير صورة'
-                  }}
-                  required={false}
-                />
-              </label>
-
-              <label htmlFor='username' className='form__group'>
-                <span className='form__label'>اسم المنتج</span>
-                <input
-                  type='text'
-                  id='username'
-                  className='form__input'
-                  onChange={e => setItemName(createSlug(e.target.value.trim()))}
-                  defaultValue={removeSlug(product?.itemName!)}
-                  required
-                />
-              </label>
-
-              <label htmlFor='price' className='form__group'>
-                <span className='form__label'>السعر</span>
-                <input
-                  type='number'
-                  id='price'
-                  className='form__input'
-                  onChange={e => setCurrentPrice(e.target.value.trim())}
-                  defaultValue={product?.currentPrice}
-                  required
-                />
-              </label>
-
-              <label htmlFor='quantity' className='form__group'>
-                <span className='form__label'>الكمية</span>
-                <input
-                  type='number'
-                  id='quantity'
-                  className='form__input'
-                  onChange={e => setQuantity(e.target.value.trim())}
-                  defaultValue={product?.quantity}
-                  required
-                />
-              </label>
-
-              {type === 'admin' && (
-                <div className='form__group'>
-                  <span className='form__label'>حالة المنتج</span>
-                  <label className='form__group cursor-pointer' htmlFor='open'>
-                    <input
-                      className='form__input'
-                      type='radio'
-                      id='open'
-                      name='type'
-                      value='open'
-                      checked={
-                        productStatus
-                          ? productStatus === 'open'
-                          : product?.productStatus === 'open'
-                      }
-                      onChange={() => setProductStatus('open')}
-                    />
-                    <span>مفتوح</span>
-                  </label>
-                  <label className='form__group cursor-pointer' htmlFor='close'>
-                    <input
-                      className='form__input'
-                      type='radio'
-                      id='close'
-                      name='type'
-                      value='close'
-                      checked={
-                        productStatus
-                          ? productStatus === 'close'
-                          : product?.productStatus === 'close'
-                      }
-                      onChange={() => setProductStatus('close')}
-                    />
-                    <span>مغلق</span>
-                  </label>
-                </div>
-              )}
-
-              <label htmlFor='category' className='form__group'>
-                <span className='form__label'>التصنيف</span>
-                <select
-                  id='category'
-                  className='form__input'
-                  onChange={e =>
-                    setCategory([
-                      e.target.value.trim(),
-                      e.target.options[e.target.selectedIndex].textContent
-                    ])
+        <h2 className='text-xl text-center my-16'>{DOCUMENT_TITLE}</h2>
+        <form
+          className='relative flex flex-col items-center'
+          onSubmit={handleUpdateProduct}
+        >
+          <label htmlFor='uploadImg' className='flex items-center gap-y-2 flex-col'>
+            <FileUpload
+              data={{
+                defaultImg: [
+                  {
+                    ImgDisplayName: product?.itemName,
+                    ImgDisplayPath: product?.imgUrl
                   }
-                  value={product?.categoryNameEn}
-                  required
-                >
-                  <option value=''>اختر التصنيف</option>
-                  {categories?.map(
-                    ({ categoryNameEn, categoryNameAr }: any, idx: number) => (
-                      <option key={idx} value={categoryNameEn}>
-                        {removeSlug(categoryNameAr)}
-                      </option>
-                    )
-                  )}
-                </select>
-              </label>
+                ],
+                imgName: product?.itemName,
+                label: 'تغيير صورة'
+              }}
+              required={false}
+            />
+          </label>
 
-              <label htmlFor='description' className='form__group'>
-                <span className='form__label'>وصف المنتج</span>
-                <textarea
-                  name='description'
-                  id='description'
-                  minLength={10}
-                  maxLength={300}
+          <label htmlFor='username' className='form__group'>
+            <span className='form__label'>اسم المنتج</span>
+            <input
+              type='text'
+              id='username'
+              className='form__input'
+              onChange={e => setItemName(createSlug(e.target.value.trim()))}
+              defaultValue={removeSlug(product?.itemName!)}
+              required
+            />
+          </label>
+
+          <label htmlFor='price' className='form__group'>
+            <span className='form__label'>السعر</span>
+            <input
+              type='number'
+              id='price'
+              className='form__input'
+              onChange={e => setCurrentPrice(e.target.value.trim())}
+              defaultValue={product?.currentPrice}
+              required
+            />
+          </label>
+
+          <label htmlFor='quantity' className='form__group'>
+            <span className='form__label'>الكمية</span>
+            <input
+              type='number'
+              id='quantity'
+              className='form__input'
+              onChange={e => setQuantity(e.target.value.trim())}
+              defaultValue={product?.quantity}
+              required
+            />
+          </label>
+
+          {type === 'admin' && (
+            <div className='form__group'>
+              <span className='form__label'>حالة المنتج</span>
+              <label className='form__group cursor-pointer' htmlFor='open'>
+                <input
                   className='form__input'
-                  onChange={e => setItemDesc(e.target.value.trim())}
-                  defaultValue={product?.description}
-                  required
-                ></textarea>
+                  type='radio'
+                  id='open'
+                  name='type'
+                  value='open'
+                  checked={
+                    productStatus
+                      ? productStatus === 'open'
+                      : product?.productStatus === 'open'
+                  }
+                  onChange={() => setProductStatus('open')}
+                />
+                <span>مفتوح</span>
               </label>
+              <label className='form__group cursor-pointer' htmlFor='close'>
+                <input
+                  className='form__input'
+                  type='radio'
+                  id='close'
+                  name='type'
+                  value='close'
+                  checked={
+                    productStatus
+                      ? productStatus === 'close'
+                      : product?.productStatus === 'close'
+                  }
+                  onChange={() => setProductStatus('close')}
+                />
+                <span>مغلق</span>
+              </label>
+            </div>
+          )}
 
-              <div className='flex items-center gap-x-20'>
-                <button
-                  type='submit'
-                  className={`min-w-[7rem] bg-green-600 hover:bg-green-700 text-white py-1.5 px-6 rounded-md${
-                    isUpdating || updateItemStatus === 1
-                      ? ' disabled:opacity-30 disabled:hover:bg-green-700 disabled:cursor-not-allowed'
-                      : ''
-                  }`}
-                >
-                  {isUpdating ? (
-                    <>
-                      <LoadingSpinner />
-                      &nbsp; جارِ تحديث المنتج...
-                    </>
-                  ) : (
-                    'تحديث'
-                  )}
-                </button>
-                <DeleteBtn id={product?.id!} itemName={product?.itemName!} />
-              </div>
-            </form>
-          </>
-        )}
+          <label htmlFor='category' className='form__group'>
+            <span className='form__label'>التصنيف</span>
+            <select
+              id='category'
+              className='form__input'
+              onChange={e =>
+                setCategoryId([
+                  e.target.value.trim(),
+                  e.target.options[e.target.selectedIndex].textContent
+                ])
+              }
+              defaultValue={data[0]?.categoryId}
+              required
+            >
+              <option value=''>اختر التصنيف</option>
+              {categories?.map(({ id, categoryNameAr }: CategoryProps) => (
+                <option key={id} value={id}>
+                  {removeSlug(categoryNameAr)}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label htmlFor='description' className='form__group'>
+            <span className='form__label'>وصف المنتج</span>
+            <textarea
+              name='description'
+              id='description'
+              minLength={10}
+              maxLength={300}
+              className='form__input'
+              onChange={e => setItemDesc(e.target.value.trim())}
+              defaultValue={product?.description}
+              required
+            ></textarea>
+          </label>
+
+          <div className='flex items-center gap-x-20'>
+            <button
+              type='submit'
+              className={`min-w-[7rem] bg-green-600 hover:bg-green-700 text-white py-1.5 px-6 rounded-md${
+                isUpdating || updateItemStatus === 1
+                  ? ' disabled:opacity-30 disabled:hover:bg-green-700 disabled:cursor-not-allowed'
+                  : ''
+              }`}
+            >
+              {isUpdating ? (
+                <>
+                  <LoadingSpinner />
+                  &nbsp; جارِ تحديث المنتج...
+                </>
+              ) : (
+                'تحديث'
+              )}
+            </button>
+            <DeleteBtn id={product?.id!} itemName={product?.itemName!} />
+          </div>
+        </form>
       </section>
     </Layout>
   )
