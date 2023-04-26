@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import { AppSettingsContext } from '@/contexts/AppSettingsContext'
-import { UserType } from '@/types'
+import { UserType, UserTypes } from '@/types'
 import { parseJson } from '@/utils/jsonTools'
 import { getCookies } from '@/utils/cookies'
 import { isValidJwt, parseJwt } from '@/utils/jwt'
@@ -10,7 +10,7 @@ import { API_URL } from '@/constants'
 const useAuth = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false)
   const [userData, setUserData] = useState<UserType | null>(null)
-  const [userType, setUserType] = useState<UserType['type']>('user')
+  const [userType, setUserType] = useState<UserType['type']>(UserTypes.User)
   const [dataFrom, setDataFrom] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(true)
   const { setLocalStorageUser, getLocalStorageUser } = useContext(AppSettingsContext)
