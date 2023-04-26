@@ -263,6 +263,12 @@ export type NotifyProps = {
     | 'bottom-left'
 }
 
+export enum UserTypes {
+  User = 'user',
+  Supplier = 'supplier',
+  Admin = 'admin'
+}
+
 export type UserType = {
   id: string
   firstname?: string
@@ -276,7 +282,7 @@ export type UserType = {
   avatarUrl: string
   phone: string
   status: string
-  type: 'supplier' | 'user' | 'admin'
+  type: UserTypes
   registerDate: string
   isAuth?: boolean
   dataFrom?: string

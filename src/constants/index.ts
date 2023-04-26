@@ -1,3 +1,5 @@
+import { UserType, UserTypes } from '@/types'
+
 export const { origin }: any = typeof window !== 'undefined' && window.location
 
 export const ITEMS_PER_PAGE = 7
@@ -22,7 +24,7 @@ export const PROFILE_LINKS = [
   { label: 'سياسة الاستخدام', to: '/terms-and-conditions' }
 ]
 
-export const USER_DATA = {
+export const USER_DATA: UserType = {
   id: '',
   username: 'اسم المستخدم',
   firstname: '',
@@ -31,7 +33,7 @@ export const USER_DATA = {
   avatarUrl: '/assets/img/logo.jpg',
   phone: '0123 456 789',
   status: '',
-  type: 'user',
+  type: UserTypes.User,
   registerDate: ''
 }
 
