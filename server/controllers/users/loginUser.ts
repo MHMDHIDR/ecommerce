@@ -30,7 +30,7 @@ export const loginUser = asyncHandler(
           return res.status(200).json({
             userLoggedIn: 1,
             message: 'تم تسجيل الدخول بنجاح',
-            token: signJwt({ userId: user.id })
+            token: signJwt({ userId: user.id, userType: user.type })
           })
         } else {
           return res

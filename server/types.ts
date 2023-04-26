@@ -6,7 +6,10 @@ export type authUserRequestProps = Response & {
   }
 }
 
-export type JwtObject = { userId: string }
+export type JwtObject = {
+  userId: string
+  userType?: string
+}
 
 export type CustomPaginateResponse = Response & {
   paginatedResults?: Record<string, any>

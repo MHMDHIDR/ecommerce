@@ -6,6 +6,7 @@ import useEventListener from '@/hooks/useEventListener'
 import { useAxios } from '@/hooks/useAxios'
 import useAuth from '@/hooks/useAuth'
 import { FileUploadContext } from '@/contexts/FileUploadContext'
+import { AppSettingsContext } from '@/contexts/AppSettingsContext'
 import { isSmallScreen, API_URL, USER_DATA, TIME_TO_EXECUTE } from '@/constants'
 import BackButton from '@/components/Icons/BackButton'
 import Layout from '@/components/Layout'
@@ -18,19 +19,22 @@ import ModalNotFound from '@/components/Modal/ModalNotFound'
 import { createSlug, removeSlug } from '@/utils/slug'
 import notify from '@/utils/notify'
 import goTo from '@/utils/goTo'
-import { CategoryProps, UserType, catchResponse } from '@/types'
+import { AppSettingsProps, CategoryProps, UserType, catchResponse } from '@/types'
 import { getCookies } from '@/utils/cookies'
+import { parseJson } from '@/utils/jsonTools'
 
 const EditCategory = () => {
   const DOCUMENT_TITLE = 'تعديل التصنيف'
   useDocumentTitle(DOCUMENT_TITLE)
 
-  const { loading: loadingAuth, userData } = useAuth()
-  const { id: userId, type }: { id: UserType['id']; type: UserType['type'] } =
-    userData || {
-      id: USER_DATA.type,
-      type: USER_DATA.type
-    }
+  const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
+
+  const { loading: loadingAuth, userData, userType } = useAuth()
+  const { id: userId }: UserType = !userData
+    ? getLocalStorageUser()
+      ? parseJson(getLocalStorageUser())[0]
+      : USER_DATA
+    : userData
   const token = getCookies()
 
   const { id } = useParams()
@@ -71,9 +75,9 @@ const EditCategory = () => {
     const currentCategoryNameAr = categoryNameAr || category?.categoryNameAr!
     const currentCategoryNameEn = categoryNameEn || category?.categoryNameEn!
     const currentCategoryStatus =
-      type === 'supplier'
+      userType === 'supplier'
         ? category?.categoryStatus!
-        : type === 'admin'
+        : userType === 'admin'
         ? categoryStatus || category?.categoryStatus
         : 'close'
     const currentCategoryDesc = categoryDesc || category?.description!
@@ -156,8 +160,8 @@ const EditCategory = () => {
 
   return loadingAuth ? (
     <LoadingPage />
-  ) : !userId || (type !== 'admin' && type !== 'supplier') ? (
-    <ModalNotFound />
+  ) : !userId || userType !== 'admin' ? (
+    <ModalNotFound btnLink='/supplier/categories' btnName='التصنيفات' />
   ) : (
     <Layout>
       <section className='container overflow-x-hidden px-5 rtl mx-auto max-w-6xl h-full'>
@@ -245,7 +249,7 @@ const EditCategory = () => {
                 />
               </label>
 
-              {type === 'admin' && (
+              {userType === 'admin' && (
                 <div className='form__group'>
                   <span className='form__label'>حالة المنتج</span>
                   <label className='form__group cursor-pointer' htmlFor='open'>

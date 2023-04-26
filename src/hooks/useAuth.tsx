@@ -10,6 +10,7 @@ import { API_URL } from '@/constants'
 const useAuth = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false)
   const [userData, setUserData] = useState<UserType | null>(null)
+  const [userType, setUserType] = useState<UserType['type']>('user')
   const [dataFrom, setDataFrom] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(true)
   const { setLocalStorageUser, getLocalStorageUser } = useContext(AppSettingsContext)
@@ -19,8 +20,9 @@ const useAuth = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (token && isValidJwt(token)) {
-        const { userId } = parseJwt(token)
+        const { userId, userType } = parseJwt(token)
         setLoading(true)
+        setUserType(userType)
 
         // check if user is already in local storage
         const localUser = getLocalStorageUser()
@@ -32,9 +34,7 @@ const useAuth = () => {
         } else {
           const { data } = await axios.get(
             `${API_URL}/users${userId ? '/' + userId : ''}`,
-            {
-              headers: { Authorization: `Bearer ${token}` }
-            }
+            { headers: { Authorization: `Bearer ${token}` } }
           )
 
           setIsAuth(true)
@@ -54,7 +54,7 @@ const useAuth = () => {
     fetchData()
   }, [token, setLocalStorageUser, getLocalStorageUser, loading])
 
-  return { isAuth, userData, dataFrom, loading }
+  return { isAuth, userType, userData, dataFrom, loading }
 }
 
 export default useAuth

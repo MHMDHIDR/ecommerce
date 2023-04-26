@@ -276,7 +276,7 @@ export type UserType = {
   avatarUrl: string
   phone: string
   status: string
-  type: string
+  type: 'supplier' | 'user' | 'admin'
   registerDate: string
   isAuth?: boolean
   dataFrom?: string

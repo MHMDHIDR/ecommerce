@@ -30,7 +30,7 @@ export const loginAdmin = asyncHandler(
           return res.status(200).json({
             adminLoggedIn: 1,
             message: 'تم تسجيل الدخول بنجاح',
-            token: signJwt({ userId: admin.id })
+            token: signJwt({ userId: admin.id, userType: admin.type })
           })
         } else {
           return res.status(401).json({

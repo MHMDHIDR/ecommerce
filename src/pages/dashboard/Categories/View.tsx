@@ -145,7 +145,7 @@ const ViewCategory = () => {
               <th className='py-2'>الحالة</th>
               <th className='py-2'>تاريخ الإنشاء</th>
               <th className='py-2'>تاريخ تحديث</th>
-              <th className='py-2'>الإجراء</th>
+              {type === 'admin' ? <th className='py-2'>الإجراء</th> : null}
             </tr>
           </thead>
           <tbody className='divide-y divide-gray-100 dark:divide-gray-500 border-t border-gray-100 dark:border-gray-500'>
@@ -159,12 +159,22 @@ const ViewCategory = () => {
               categories?.map((category: CategoryProps, idx: number) => (
                 <tr className='hover:bg-gray-50 dark:hover:bg-gray-700' key={category.id}>
                   <td>
-                    <Link to={goTo(`category/${category.id}`)} className='py-3 px-5'>
+                    <Link
+                      to={type === 'admin' ? goTo(`category${category.id}`) : ''}
+                      className={`py-3 px-5 ${
+                        type !== 'admin' ? 'pointer-events-none' : ''
+                      }`}
+                    >
                       <span>{idx + 1}</span>
                     </Link>
                   </td>
                   <td>
-                    <Link to={goTo(`category/${category.id}`)} className='py-3 px-5'>
+                    <Link
+                      to={type === 'admin' ? goTo(`category${category.id}`) : ''}
+                      className={`py-3 px-5 ${
+                        type !== 'admin' ? 'pointer-events-none' : ''
+                      }`}
+                    >
                       <img
                         loading='lazy'
                         src={category.imgUrl}
@@ -176,12 +186,22 @@ const ViewCategory = () => {
                     </Link>
                   </td>
                   <td className='min-w-[12rem]'>
-                    <Link to={goTo(`category/${category.id}`)} className='py-3 px-5'>
+                    <Link
+                      to={type === 'admin' ? goTo(`category${category.id}`) : ''}
+                      className={`py-3 px-5 ${
+                        type !== 'admin' ? 'pointer-events-none' : ''
+                      }`}
+                    >
                       {removeSlug(category.categoryNameAr)}
                     </Link>
                   </td>
                   <td>
-                    <Link to={goTo(`category/${category.id}`)} className='py-3 px-5'>
+                    <Link
+                      to={type === 'admin' ? goTo(`category${category.id}`) : ''}
+                      className={`py-3 px-5 ${
+                        type !== 'admin' ? 'pointer-events-none' : ''
+                      }`}
+                    >
                       <span
                         className={`inline-flex items-center gap-1 min-w-max rounded-full bg-green-50 px-2 py-1 text-xs ${
                           category.categoryStatus === 'accept'
@@ -209,25 +229,37 @@ const ViewCategory = () => {
                     </Link>
                   </td>
                   <td className='min-w-[14rem]'>
-                    <Link to={goTo(`category/${category.id}`)} className='py-3 px-5'>
+                    <Link
+                      to={type === 'admin' ? goTo(`category${category.id}`) : ''}
+                      className={`py-3 px-5 ${
+                        type !== 'admin' ? 'pointer-events-none' : ''
+                      }`}
+                    >
                       <span>{createLocaleDateString(category.createDate)}</span>
                     </Link>
                   </td>
                   <td className='min-w-[14rem]'>
-                    <Link to={goTo(`category/${category.id}`)} className='py-3 px-5'>
+                    <Link
+                      to={type === 'admin' ? goTo(`category${category.id}`) : ''}
+                      className={`py-3 px-5 ${
+                        type !== 'admin' ? 'pointer-events-none' : ''
+                      }`}
+                    >
                       <span>{createLocaleDateString(category.updateDate)}</span>
                     </Link>
                   </td>
-                  <td>
-                    <NavMenu>
-                      <DeleteBtn
-                        id={category.id}
-                        itemName={category.categoryNameAr}
-                        imgUrl={category.imgUrl}
-                      />
-                      <EditBtn to='category' id={category.id} />
-                    </NavMenu>
-                  </td>
+                  {type === 'admin' ? (
+                    <td>
+                      <NavMenu>
+                        <DeleteBtn
+                          id={category.id}
+                          itemName={category.categoryNameAr}
+                          imgUrl={category.imgUrl}
+                        />
+                        <EditBtn to='category' id={category.id} />
+                      </NavMenu>
+                    </td>
+                  ) : null}
                 </tr>
               ))
             ) : (
