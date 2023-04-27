@@ -38,7 +38,7 @@ const Product = () => {
   })
 
   const { response, loading: relevantProductsLoading } = useAxios({
-    url: `/products?category=${data && data[0]?.categoryId}`
+    url: `/products?status=open&category=${data && data[0]?.categoryId}`
   })
 
   useEffect(() => {
