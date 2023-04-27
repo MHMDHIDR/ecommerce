@@ -8,11 +8,9 @@ import HeartIcon from './Icons/HeartIcon'
 import LazyImage from './LazyImage'
 
 const CategoryProducts = ({
-  name,
   category,
   products
 }: {
-  name?: string
   category?: string
   products: ProductProps[]
 }) => {

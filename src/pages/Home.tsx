@@ -41,10 +41,13 @@ const Home = () => {
       mostOrderedResponse !== null
     ) {
       setCategories(
-        responseCategories.map(({ categoryNameEn, categoryNameAr }: CategoryProps) => ({
-          categoryNameEn,
-          categoryNameAr
-        }))
+        responseCategories.map(
+          ({ id, categoryNameEn, categoryNameAr }: CategoryProps) => ({
+            id,
+            categoryNameEn,
+            categoryNameAr
+          })
+        )
       )
 
       setProducts(response)
@@ -109,13 +112,13 @@ const Home = () => {
             <Link className='my-3 font-bold' to={'categories'}>
               التصنيفات
             </Link>
-            <ul className='flex gap-x-3 overflow-x-auto'>
+            <menu className='flex gap-3 overflow-x-auto'>
               {categories &&
-                categories.map(
-                  ({ categoryNameEn, categoryNameAr }: CategoryProps, idx: number) => (
-                    <li
-                      key={idx}
-                      className={`border text-sm rounded-full py-0.5 px-3 cursor-pointer
+                categories.map(({ id, categoryNameAr }: CategoryProps, idx: number) => (
+                  <Link
+                    to={`category/${id}`}
+                    key={idx}
+                    className={`border text-sm rounded-full py-0.5 px-3 cursor-pointer
                               bg-gray-100 dark:bg-gray-800
                               border-gray-800 dark:border-gray-100
                               text-gray-800 dark:text-gray-100
@@ -124,15 +127,14 @@ const Home = () => {
                               hover:bg-gray-800 dark:hover:bg-gray-100
                               hover:text-gray-100 dark:hover:text-gray-800
                     `}
-                      onClick={e =>
-                        setSelectedCategory((e.target as HTMLElement).textContent!)
-                      }
-                    >
-                      {removeSlug(categoryNameAr)}
-                    </li>
-                  )
-                )}
-            </ul>
+                    onClick={e =>
+                      setSelectedCategory((e.target as HTMLElement).textContent!)
+                    }
+                  >
+                    {removeSlug(categoryNameAr)}
+                  </Link>
+                ))}
+            </menu>
           </div>
 
           <div className='flex items-center justify-between -mb-6'>

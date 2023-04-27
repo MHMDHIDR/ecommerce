@@ -16,6 +16,7 @@ const Home = lazy(() => import('./pages/Home'))
 const Products = lazy(() => import('./pages/Products'))
 const Product = lazy(() => import('./pages/Product'))
 const Categories = lazy(() => import('./pages/Categories'))
+const CategoryItems = lazy(() => import('./pages/CategoryItems'))
 const Cart = lazy(() => import('./pages/Cart'))
 const CompletedOrders = lazy(() => import('./pages/Cart/CompletedOrders'))
 const OrderAddress = lazy(() => import('./pages/OrderAddress'))
@@ -61,7 +62,8 @@ const App = () => {
                   <Route path='/notifications' element={<Notifications />} />
                   <Route path='/products' element={<Products />} />
                   <Route path='/product/:id' element={<Product />} />
-                  <Route path='/categories/:name' element={<Categories />}></Route>
+                  <Route path='/categories' element={<Categories />} />
+                  <Route path='/category/:id' element={<CategoryItems />} />
                   <Route path='/privacy-policy' element={<PrivacyPolicy />} />
                   <Route path='/terms-and-conditions' element={<TermsConditions />} />
                   {/* Profile Routes */}

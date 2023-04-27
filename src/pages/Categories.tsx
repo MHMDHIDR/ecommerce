@@ -12,72 +12,59 @@ import SearchBar from '@/components/SearchBar'
 import LazyImage from '@/components/LazyImage'
 
 const Categories = () => {
-  const { name } = useParams()
-  //look for [ name ] in database if available then show the
-  //products inside the item page
-
-  const [products, setProducts] = useState<ProductProps[]>([PRODUCT('1')])
   const [categories, setCategories] = useState<CategoryProps[] | null>(null)
 
-  const { response: responseCategories, loading: loadingCategories } = useAxios({
-    url: `/categories`
-  })
-  const { response, loading } = useAxios({ url: `/products?status=open` })
+  const { response, loading } = useAxios({ url: `/categories` })
 
   useEffect(() => {
-    if (response !== null && responseCategories !== null) {
+    if (response !== null) {
       setCategories(
-        responseCategories.map(
-          ({ categoryNameEn, categoryNameAr, imgUrl }: CategoryProps) => ({
-            categoryNameEn,
-            categoryNameAr,
-            imgUrl
-          })
-        )
+        response.map(({ id, categoryNameEn, categoryNameAr, imgUrl }: CategoryProps) => ({
+          id,
+          categoryNameEn,
+          categoryNameAr,
+          imgUrl
+        }))
       )
-      setProducts(response)
     }
-  }, [response, responseCategories])
+  }, [response])
 
-  return loading || loadingCategories ? (
+  return loading ? (
     <LoadingPage />
   ) : (
     <Layout>
       <section className='container px-7 mx-auto h-full my-10 flex flex-col rtl mb-24 max-w-6xl'>
         <div className='flex gap-x-7 items-center justify-between'>
           <SearchBar />
+
           {isSmallScreen && <BackButton to='/' className='w-8 h-8' />}
         </div>
-        {name ? (
-          <CategoryProducts name={name} products={products} />
-        ) : (
-          <div className='flex flex-wrap justify-center mt-16 gap-3 md:gap-12'>
-            {categories &&
-              categories.map(
-                (
-                  { categoryNameEn, categoryNameAr, imgUrl }: CategoryProps,
-                  idx: number
-                ) => (
-                  <Link
-                    key={idx}
-                    to={categoryNameEn}
-                    className='block relative overflow-hidden duration-300 bg-cover w-80 h-24 md:h-60 rounded-2xl group'
-                  >
-                    <span className='flex justify-center w-full absolute text-white bg-black dark:text-black dark:bg-white opacity-70 font-black py-1 group-hover:py-28 duration-[inherit]'>
-                      {removeSlug(categoryNameAr)}
-                    </span>
-                    <LazyImage
-                      src={imgUrl}
-                      height={96}
-                      width={320}
-                      alt={categoryNameEn}
-                      className='w-full h-full'
-                    />
-                  </Link>
-                )
-              )}
-          </div>
-        )}
+        <div className='flex flex-wrap justify-center mt-16 gap-3 md:gap-12'>
+          {categories &&
+            categories.map(
+              (
+                { id, categoryNameEn, categoryNameAr, imgUrl }: CategoryProps,
+                idx: number
+              ) => (
+                <Link
+                  key={idx}
+                  to={`/category/${id}`}
+                  className='block relative overflow-hidden duration-300 bg-cover w-80 h-24 md:h-60 rounded-2xl group'
+                >
+                  <span className='flex justify-center w-full absolute text-white bg-black dark:text-black dark:bg-white opacity-70 font-black py-1 group-hover:py-28 duration-[inherit]'>
+                    {removeSlug(categoryNameAr)}
+                  </span>
+                  <LazyImage
+                    src={imgUrl}
+                    height={96}
+                    width={320}
+                    alt={categoryNameEn}
+                    className='w-full h-full'
+                  />
+                </Link>
+              )
+            )}
+        </div>
       </section>
     </Layout>
   )
