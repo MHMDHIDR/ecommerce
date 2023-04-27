@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom'
 import { AppSettingsContext } from '@/contexts/AppSettingsContext'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import useAuth from '@/hooks/useAuth'
+import { isSmallScreen, PROFILE_LINKS, USER_DATA } from '@/constants'
+import { parseJson } from '@/utils/jsonTools'
+import { AppSettingsProps, UserTypes } from '@/types'
 import { LoadingPage } from '@/components/Loading'
 import Layout from '@/components/Layout'
 import BorderLink from '@/components/Icons/BorderLink'
 import BackButton from '@/components/Icons/BackButton'
-import { isSmallScreen, PROFILE_LINKS, USER_DATA } from '@/constants'
 import ModalNotFound from '@/components/Modal/ModalNotFound'
-import { parseJson } from '@/utils/jsonTools'
-import { AppSettingsProps } from '@/types'
 import LazyImage from '@/components/LazyImage'
 
 const Profile = () => {
@@ -25,7 +25,8 @@ const Profile = () => {
     username,
     firstname,
     lastname,
-    phone
+    phone,
+    type
   } = !userData
     ? getLocalStorageUser()
       ? parseJson(getLocalStorageUser()) ?? parseJson(getLocalStorageUser())[0]
@@ -65,27 +66,35 @@ const Profile = () => {
             </div>
           </Link>
           <div className='p-3 border border-gray-400 rounded-xl my-10 space-y-7'>
-            {PROFILE_LINKS.slice(0, PROFILE_LINKS.length - 2).map(
-              ({ label, to }: { label: string; to: string }, idx: number) => (
+            {PROFILE_LINKS.filter(link => {
+              return link.to === '/completed-orders' ||
+                link.to === 'favourites' ||
+                link.to === 'shipping-address'
+                ? type === UserTypes.User
+                : true
+            })
+              .slice(0, PROFILE_LINKS.length - 2)
+              .map(({ label, to }: { label: string; to: string }, idx: number) => (
                 <BorderLink key={idx}>
                   <Link className='inline-block w-full' to={to}>
                     {label}
                   </Link>
                 </BorderLink>
-              )
-            )}
+              ))}
           </div>
-          <div className='p-3 border border-gray-400 rounded-xl space-y-7'>
-            {PROFILE_LINKS.slice(PROFILE_LINKS.length - 2, PROFILE_LINKS.length).map(
-              ({ label, to }: { label: string; to: string }, idx: number) => (
-                <BorderLink key={idx}>
-                  <Link className='inline-block w-full' to={to}>
-                    {label}
-                  </Link>
-                </BorderLink>
-              )
-            )}
-          </div>
+          {type === UserTypes.User ? (
+            <div className='p-3 border border-gray-400 rounded-xl space-y-7'>
+              {PROFILE_LINKS.slice(PROFILE_LINKS.length - 2, PROFILE_LINKS.length).map(
+                ({ label, to }: { label: string; to: string }, idx: number) => (
+                  <BorderLink key={idx}>
+                    <Link className='inline-block w-full' to={to}>
+                      {label}
+                    </Link>
+                  </BorderLink>
+                )
+              )}
+            </div>
+          ) : null}
         </div>
       </section>
     </Layout>

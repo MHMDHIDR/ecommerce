@@ -44,7 +44,7 @@ const Nav = () => {
           </span>
         </button>
 
-        {type === 'admin' || type === 'supplier' ? null : <CartNavLink />}
+        {type === 'user' ? <CartNavLink /> : null}
 
         <div className='relative flex items-center'>
           <div className='relative'>

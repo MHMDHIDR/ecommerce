@@ -18,7 +18,7 @@ export const addOrder = asyncHandler(async (req: Request, res: Response) => {
         imgUrl,
         quantity,
         price,
-        category,
+        categoryId,
         supplierId,
         supplierName,
         createDate,
@@ -31,7 +31,7 @@ export const addOrder = asyncHandler(async (req: Request, res: Response) => {
         item.imgUrl,
         item.quantity,
         item.currentPrice,
-        item.category,
+        item.categoryId,
         item.addedById,
         item.addedByName
       ]
