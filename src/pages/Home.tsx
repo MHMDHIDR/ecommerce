@@ -27,8 +27,9 @@ const Home = () => {
   const [mostOrdered, setMostOrdered] = useState<ProductProps>(PRODUCT('1'))
 
   const { response: responseCategories, loading: loadingCategories } = useAxios({
-    url: `/categories`
+    url: `/categories?hasProducts=true`
   })
+
   const { response, data, loading } = useAxios({ url: `/products?status=open` })
   const { data: mostOrderedResponse, loading: mostOrderedLoading } = useAxios({
     url: `/products/mostOrdered`

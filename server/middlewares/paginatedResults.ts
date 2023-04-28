@@ -13,7 +13,8 @@ export const paginatedResults = (table: string) => {
       status,
       supplierId,
       orderId,
-      category
+      category,
+      hasProducts
     } = req.query
     const reqPage = parseInt(page) || 1
     const reqLimit = parseInt(limit) || parseInt(process.env.BIG_LIMIT!)
@@ -213,6 +214,49 @@ export const paginatedResults = (table: string) => {
             }
           }
           response.numberOfPages = Math.ceil(response.itemsCount / reqLimit)
+        } else if (hasProducts) {
+          query = `
+            SELECT c.*, COUNT(p.categoryId) AS productCount
+            FROM categories c
+            LEFT JOIN products p ON c.id = p.categoryId
+            ${addedById ? 'WHERE c.addedById = ?' : ''}
+            ${status ? 'AND p.productStatus = ?' : ''}
+            GROUP BY c.id
+            ORDER BY ${orderBy ? `${orderBy} DESC` : `c.updateDate DESC`}`
+
+          response.response = await db.promise().query(query, [addedById, status])
+          response.response = response.response[0]
+
+          const countQuery = `
+            SELECT COUNT(DISTINCT c.id) AS count
+            FROM categories c
+            LEFT JOIN products p ON c.id = p.categoryId
+            ${addedById ? 'WHERE c.addedById = ?' : ''}
+            ${status ? 'AND p.productStatus = ?' : ''}`
+
+          const countResult = await db.promise().query(countQuery, [addedById, status])
+          const itemsCount = countResult[0][0].count
+
+          response.response = response.response.filter(
+            (category: any) => category.productCount > 0
+          )
+          response.itemsCount = response.response.length
+
+          if (endIndex < itemsCount) {
+            response.next = {
+              page: reqPage + 1,
+              limit: reqLimit
+            }
+          }
+
+          if (startIndex > 0) {
+            response.previous = {
+              page: reqPage - 1,
+              limit: reqLimit
+            }
+          }
+
+          response.numberOfPages = Math.ceil(response.itemsCount / reqLimit)
         } else {
           query = `SELECT * FROM ${table} ${addedById ? 'WHERE addedById = ?' : ''} ${
             status ? 'WHERE productStatus = ?' : ''
@@ -247,6 +291,7 @@ export const paginatedResults = (table: string) => {
         query = `SELECT * FROM ${table} ${addedById ? 'WHERE addedById = ?' : ''} ${
           status ? 'WHERE productStatus = ?' : ''
         } ORDER BY ${orderBy ? `${orderBy} DESC` : `updateDate DESC`} LIMIT ? OFFSET ?`
+
         response.response = await db
           .promise()
           .query(query, [addedById, status, reqLimit, startIndex])
