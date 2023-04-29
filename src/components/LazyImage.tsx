@@ -27,7 +27,7 @@ const LazyImage = (props: any) => {
   return inView ? (
     <img {...props} />
   ) : (
-    <img ref={ref} width={176} height={176} className='bg-gray-300' />
+    <img ref={ref} width={176} height={176} className='bg-gray-300' alt='Product View' />
   )
 }
 export default LazyImage

@@ -1,6 +1,6 @@
 {
-  "start_url": "https://mhmdhidr-ecommerce.vercel.app",
-  "scope": "https://mhmdhidr-ecommerce.vercel.app",
+  "start_url": "https://ecommerce-mhmdhidr.vercel.app",
+  "scope": "https://ecommerce-mhmdhidr.vercel.app",
   "orientation": "portrait",
   "background_color": "#ced1d6",
   "theme_color": "#ced1d6",
@@ -8,13 +8,7 @@
   "name": "eCommerce",
   "short_name": "eCommerce",
   "description": "eCommerce Web and App to order and find different items",
-  "categories": [
-    "eCommerce",
-    "Order",
-    "different",
-    "items",
-    "Online"
-  ],
+  "categories": ["eCommerce", "Order", "different", "items", "Online"],
   "icons": [
     {
       "src": "public/assets/img/icons/mobile/manifest-icon-192.maskable.png",
