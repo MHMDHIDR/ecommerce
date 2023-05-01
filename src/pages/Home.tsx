@@ -120,7 +120,8 @@ const Home = () => {
                     to={`category/${id}`}
                     key={idx}
                     className={`border text-sm rounded-full py-0.5 px-3 cursor-pointer
-                              bg-gray-100 dark:bg-gray-800
+                              min-w-fit my-auto  
+                            bg-gray-100 dark:bg-gray-800
                               border-gray-800 dark:border-gray-100
                               text-gray-800 dark:text-gray-100
                               focus:bg-gray-800 dark:focus:bg-gray-100
