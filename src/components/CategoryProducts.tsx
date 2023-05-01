@@ -32,17 +32,18 @@ const CategoryProducts = ({
                 type: 'spring',
                 duration: 3
               }}
+              className='relative block w-fit mx-auto'
             >
+              <span
+                className='absolute right-0 -top-2 cursor-pointer p-1.5 bg-white rounded-full group z-10'
+                onClick={() => addToWishlist(product?.id)}
+              >
+                <HeartIcon className='w-5 h-5 fill-blue-300 group-hover:fill-blue-400' />
+              </span>
               <Link
                 to={`/product/${product?.id}`}
-                className='relative block sm:max-w-[10rem] lg:max-w-xs w-fit mx-auto'
+                className='block sm:max-w-[10rem] lg:max-w-xs'
               >
-                <span
-                  className='absolute right-0 -top-2 cursor-pointer p-1.5 bg-white rounded-full group z-10'
-                  onClick={() => addToWishlist(product?.id)}
-                >
-                  <HeartIcon className='w-5 h-5 fill-blue-300 group-hover:fill-blue-400' />
-                </span>
                 <div className='h-40 w-40'>
                   <LazyImage
                     width={160}

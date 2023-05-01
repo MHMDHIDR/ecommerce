@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { PRODUCT, isSmallScreen } from '@/constants'
+import { Link } from 'react-router-dom'
+import { isSmallScreen } from '@/constants'
 import { useAxios } from '@/hooks/useAxios'
-import { CategoryProps, ProductProps } from '@/types'
+import { CategoryProps } from '@/types'
 import { removeSlug } from '@/utils/slug'
-import CategoryProducts from '@/components/CategoryProducts'
 import BackButton from '@/components/Icons/BackButton'
 import Layout from '@/components/Layout'
 import { LoadingPage } from '@/components/Loading'
@@ -14,7 +13,7 @@ import LazyImage from '@/components/LazyImage'
 const Categories = () => {
   const [categories, setCategories] = useState<CategoryProps[] | null>(null)
 
-  const { response, loading } = useAxios({ url: `/categories` })
+  const { response, loading } = useAxios({ url: `/categories?hasProducts=true` })
 
   useEffect(() => {
     if (response !== null) {
