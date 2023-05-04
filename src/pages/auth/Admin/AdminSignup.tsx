@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { API_URL, TIME_TO_EXECUTE, USER_DATA } from '@/constants'
 import axios from 'axios'
-import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
 import notify from '@/utils/notify'
-import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import { catchResponse } from '@/types'
 import useAuth from '@/hooks/useAuth'
-import { useNavigate } from 'react-router-dom'
+import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
+import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import LazyImage from '@/components/LazyImage'
 
 const AdminSignup = () => {

@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
 import { API_URL, TIME_TO_EXECUTE, USER_DATA } from '@/constants'
 import notify from '@/utils/notify'
-import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import { setCookies } from '@/utils/cookies'
 import useAuth from '@/hooks/useAuth'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import { catchResponse } from '@/types'
+import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
+import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import LazyImage from '@/components/LazyImage'
 
 const SupplierLogin = () => {

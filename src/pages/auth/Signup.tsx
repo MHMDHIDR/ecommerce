@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Facebook, Google } from '@/components/Icons/Socials'
+import { Link, useNavigate } from 'react-router-dom'
 import { API_URL, TIME_TO_EXECUTE, USER_DATA } from '@/constants'
 import axios from 'axios'
-import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
 import notify from '@/utils/notify'
-import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import useAuth from '@/hooks/useAuth'
 import { catchResponse } from '@/types'
+import { Facebook, Google } from '@/components/Icons/Socials'
+import { EyeIconClose, EyeIconOpen } from '@/components/Icons/EyeIcon'
+import { LoadingPage, LoadingSpinner } from '@/components/Loading'
 import Divider from '@/components/Divider'
 import LazyImage from '@/components/LazyImage'
 
@@ -24,6 +24,7 @@ const Signup = () => {
   const [tel, setTel] = useState('')
   const [password, setPassword] = useState('')
   const [termsAndConditions, setTermsAndConditions] = useState(false)
+
   const [isPassVisible, setIsPassVisible] = useState(false)
   const [regStatus, setRegStatus] = useState<number>()
   const [regMsg, setRegMsg] = useState('')
@@ -147,28 +148,29 @@ const Signup = () => {
               </span>
             </label>
 
-            <div className='mb-6 flex items-center justify-between'>
-              <div className='flex gap-x-2 mb-[0.125rem] min-h-[1.5rem]'>
-                <input
-                  type='checkbox'
-                  id='terms&condCheckbox'
-                  onChange={e => setTermsAndConditions(e.target.checked)}
-                  required
-                />
-                <label className='hover:cursor-pointer' htmlFor='terms&condCheckbox'>
-                  بالضغط هنا فأنت توافق على
-                  <div className='inline-flex items-center gap-x-2 pr-2'>
-                    <Link to='/terms-and-conditions' className='underline-hover '>
-                      شروط الاستخدام
-                    </Link>
-                    و
-                    <Link to='/privacy-policy' className='underline-hover '>
-                      سياسة الخصوصية
-                    </Link>
-                  </div>
-                </label>
+            <label
+              className='flex mb-6 gap-x-2 mbs-[0.125rem] min-h-[1.5rem]'
+              htmlFor='terms&condCheckbox'
+            >
+              <input
+                type='checkbox'
+                id='terms&condCheckbox'
+                onChange={e => setTermsAndConditions(e.target.checked)}
+                required
+              />
+              <div className='hover:cursor-pointer select-none'>
+                بالضغط هنا فأنت توافق على
+                <div className='inline-flex items-center gap-x-2 pr-2'>
+                  <Link to='/terms-and-conditions' className='underline-hover '>
+                    شروط الاستخدام
+                  </Link>
+                  و
+                  <Link to='/privacy-policy' className='underline-hover '>
+                    سياسة الخصوصية
+                  </Link>
+                </div>
               </div>
-            </div>
+            </label>
 
             <button
               type='submit'
