@@ -4,6 +4,7 @@ import axios from 'axios'
 import { API_URL, TIME_TO_EXECUTE, USER_DATA } from '@/constants'
 import notify from '@/utils/notify'
 import { setCookies } from '@/utils/cookies'
+import { validPassword, validPhone } from '@/utils/validForm'
 import useAuth from '@/hooks/useAuth'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import { catchResponse } from '@/types'
@@ -29,6 +30,17 @@ const AdminLogin = () => {
 
   const handleLogin = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
+
+    if (!validPhone(tel)) {
+      notify({ type: 'error', msg: 'رقم الهاتف غير صالح.' })
+      return
+    } else if (!validPassword(password)) {
+      notify({
+        type: 'error',
+        msg: 'كلمة المرور يجب أن تحتوي على 8-30 حرفًا، ويجب أن تحتوي على حرف كبير وحرف صغير ورمز خاص على الأقل.'
+      })
+      return
+    }
 
     const formData = new FormData()
     formData.append('tel', tel)
@@ -89,11 +101,13 @@ const AdminLogin = () => {
         </div>
 
         <div className='flex h-full flex-wrap items-center justify-center'>
-          <LazyImage
-            src='assets/img/logo.png'
-            className='w-40 h-32 mb-10'
-            alt='Logo image'
-          />
+          <Link to='/'>
+            <LazyImage
+              src='assets/img/logo.png'
+              className='w-40 h-32 mb-10'
+              alt='Logo image'
+            />
+          </Link>
 
           <form className='w-full rtl' onSubmit={handleLogin}>
             <label htmlFor='userTel' className='relative flex mb-6'>

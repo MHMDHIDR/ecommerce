@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { API_URL, TIME_TO_EXECUTE, USER_DATA } from '@/constants'
 import axios from 'axios'
 import notify from '@/utils/notify'
+import { validName, validPassword, validPhone, validUsername } from '@/utils/validForm'
 import useDocumentTitle from '@/hooks/useDocumentTitle'
 import { catchResponse } from '@/types'
 import useAuth from '@/hooks/useAuth'
@@ -33,6 +34,35 @@ const AdminSignup = () => {
 
   const handleRegister = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
+
+    if (!validName(firstname)) {
+      notify({
+        type: 'error',
+        msg: 'اسم المستخدم يجب أن يتكون من حروف إنجليزية فقط أو عربية فقط ويكون طوله بين 3 و 20 حرفًا.'
+      })
+      return
+    } else if (!validName(lastname)) {
+      notify({
+        type: 'error',
+        msg: 'اسم المستخدم يجب أن يتكون من حروف إنجليزية فقط أو عربية فقط ويكون طوله بين 3 و 20 حرفًا.'
+      })
+      return
+    } else if (!validUsername(username)) {
+      notify({
+        type: 'error',
+        msg: 'اسم المستخدم يجب أن يتكون من حروف إنجليزية فقط ويكون طوله بين 3 و 20 حرفًا.'
+      })
+      return
+    } else if (!validPhone(tel)) {
+      notify({ type: 'error', msg: 'رقم الهاتف غير صالح.' })
+      return
+    } else if (!validPassword(password)) {
+      notify({
+        type: 'error',
+        msg: 'كلمة المرور يجب أن تحتوي على 8-30 حرفًا، ويجب أن تحتوي على حرف كبير وحرف صغير ورمز خاص على الأقل.'
+      })
+      return
+    }
 
     const formData = new FormData()
     formData.append('firstname', firstname)
@@ -96,11 +126,13 @@ const AdminSignup = () => {
         </div>
 
         <div className='flex h-full flex-wrap items-center justify-center'>
-          <LazyImage
-            src='assets/img/logo.png'
-            className='w-40 h-32 mb-10'
-            alt='Logo image'
-          />
+          <Link to='/'>
+            <LazyImage
+              src='assets/img/logo.png'
+              className='w-40 h-32 mb-10'
+              alt='Logo image'
+            />
+          </Link>
 
           <form className='w-full rtl' onSubmit={handleRegister}>
             <h2 className='font-bold my-10 select-none'>معلومات شخصية:</h2>
