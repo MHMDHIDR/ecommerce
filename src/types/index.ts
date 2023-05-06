@@ -263,6 +263,8 @@ export type NotifyProps = {
     | 'bottom-right'
     | 'bottom-center'
     | 'bottom-left'
+
+  duration?: number
 }
 
 export enum UserTypes {

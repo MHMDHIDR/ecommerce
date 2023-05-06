@@ -24,7 +24,7 @@ const CategoryProducts = ({
 }) => {
   const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
   const token = getCookies()
-  const { userData } = useAuth()
+  const { userData, isAuth } = useAuth()
   const { id: userId } = !userData
     ? getLocalStorageUser()
       ? parseJson(getLocalStorageUser()) ?? parseJson(getLocalStorageUser())[0]
@@ -134,7 +134,16 @@ const CategoryProducts = ({
             >
               <span
                 className='absolute -right-0.5 -top-2 cursor-pointer p-2 bg-gray-50 rounded-full group z-10'
-                onClick={() => addToWishlist(product?.id)}
+                onClick={() => {
+                  return !isAuth
+                    ? notify({
+                        type: 'error',
+                        msg: `يجب عليك تسجيل الدخول أولاً لإضافة منتج للمفضلة`,
+                        position: 'top-center',
+                        duration: 2
+                      })
+                    : addToWishlist(product?.id)
+                }}
               >
                 <HeartUnfilled className='w-5 h-5 fill-red-500 group-hover:scale-110 transition-transform' />
                 {/* <HeartFilled className='w-5 h-5 fill-red-300 group-hover:fill-red-400' /> */}
