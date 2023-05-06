@@ -144,6 +144,8 @@ export type catchResponse = {
     data: {
       message: string
       error: string
+      itemAdded?: number
+      itemDeleted?: number
       userLoggedIn?: number
       supplierLoggedIn?: number
       adminLoggedIn?: number

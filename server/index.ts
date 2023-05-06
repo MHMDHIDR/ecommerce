@@ -37,11 +37,13 @@ import products from './routes/products.js'
 import categories from './routes/categories.js'
 import orders from './routes/orders.js'
 import users from './routes/users.js'
+import wishlists from './routes/wishlists.js'
 
 // Use Routes
 app.use('/products', products)
 app.use('/categories', categories)
 app.use('/orders', orders)
 app.use('/users', users)
+app.use('/wishlists', wishlists)
 
 app.listen(PORT || 4000, () => console.log(`APP RUNNING ON=> ${PORT || 4000}`))

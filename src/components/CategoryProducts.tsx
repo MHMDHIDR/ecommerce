@@ -1,11 +1,19 @@
+import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 import { motion } from 'framer-motion'
 import NoItems from './NoItems'
 import Icon404 from './Icons/Icon404'
-import { ProductProps } from '@/types'
+import { HeartUnfilled, HeartFilled } from './Icons/HeartIcon'
+import { AppSettingsProps, ProductProps, catchResponse } from '@/types'
 import { removeSlug } from '@/utils/slug'
-import HeartIcon from './Icons/HeartIcon'
+import { parseJson } from '@/utils/jsonTools'
+import notify from '@/utils/notify'
+import { getCookies } from '@/utils/cookies'
 import LazyImage from './LazyImage'
+import { AppSettingsContext } from '@/contexts/AppSettingsContext'
+import useAuth from '@/hooks/useAuth'
+import { API_URL, USER_DATA } from '@/constants'
 
 const CategoryProducts = ({
   category,
@@ -14,14 +22,104 @@ const CategoryProducts = ({
   category?: string
   products: ProductProps[]
 }) => {
-  const addToWishlist = (id: string) => {
-    console.log(`Add ${id} item to users Wishlist`)
+  const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
+  const token = getCookies()
+  const { userData } = useAuth()
+  const { id: userId } = !userData
+    ? getLocalStorageUser()
+      ? parseJson(getLocalStorageUser()) ?? parseJson(getLocalStorageUser())[0]
+      : USER_DATA
+    : userData
+
+  const [addedToWishlistStatus, setAddedToWishlistStatus] = useState<any>(null)
+  const [addedToWishlistMsg, setAddedToWishlistMsg] = useState<any>('')
+  const [deletedFromWishlistStatus, setDeletedFromWishlistStatus] = useState<any>(null)
+  const [deletedFromWishlistMsg, setDeletedFromWishlistMsg] = useState<any>('')
+
+  //Add a Product Item to user's Wishlist
+  const addToWishlist = async (id: string) => {
+    const formData = new FormData()
+    formData.append('userId', userId)
+
+    try {
+      const { data } = await axios.post(`${API_URL}/wishlists/${id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`
+        }
+      })
+      const { itemAdded, message } = data
+
+      setAddedToWishlistStatus(itemAdded)
+      setAddedToWishlistMsg(message)
+    } catch (error: any) {
+      const {
+        response: {
+          data: { message, itemAdded }
+        }
+      }: catchResponse = error
+      setAddedToWishlistStatus(itemAdded)
+      setAddedToWishlistMsg(message)
+    }
+  }
+
+  //Delete a Product Item from user's Wishlist
+  const DeleteFromWishlist = async (id: string) => {
+    try {
+      const { data } = await axios.delete(`${API_URL}/wishlists/${id}`, {
+        data: { userId },
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`
+        }
+      })
+      const { itemDeleted, message } = data
+
+      setDeletedFromWishlistStatus(itemDeleted)
+      setDeletedFromWishlistMsg(message)
+    } catch (error: any) {
+      const {
+        response: {
+          data: { message, itemDeleted }
+        }
+      }: catchResponse = error
+      setDeletedFromWishlistStatus(itemDeleted)
+      setDeletedFromWishlistMsg(message)
+    }
   }
 
   return (
     <>
       {products && products.length > 0 ? (
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-10 gap-x-4 my-10'>
+          <div className='hidden'>
+            {addedToWishlistStatus === 1
+              ? notify({
+                  type: 'success',
+                  msg: addedToWishlistMsg,
+                  position: 'top-center'
+                })
+              : addedToWishlistStatus === 0
+              ? notify({
+                  type: 'error',
+                  msg: deletedFromWishlistMsg,
+                  position: 'top-center'
+                })
+              : deletedFromWishlistStatus === 1
+              ? notify({
+                  type: 'success',
+                  msg: deletedFromWishlistMsg,
+                  position: 'top-center'
+                })
+              : deletedFromWishlistStatus === 0
+              ? notify({
+                  type: 'error',
+                  msg: deletedFromWishlistMsg,
+                  position: 'top-center'
+                })
+              : null}
+          </div>
+
           {products?.map((product: ProductProps) => (
             <motion.div
               key={product.id}
@@ -35,10 +133,11 @@ const CategoryProducts = ({
               className='relative block w-fit mx-auto'
             >
               <span
-                className='absolute right-0 -top-2 cursor-pointer p-1.5 bg-white rounded-full group z-10'
+                className='absolute -right-0.5 -top-2 cursor-pointer p-2 bg-gray-50 rounded-full group z-10'
                 onClick={() => addToWishlist(product?.id)}
               >
-                <HeartIcon className='w-5 h-5 fill-blue-300 group-hover:fill-blue-400' />
+                <HeartUnfilled className='w-5 h-5 fill-red-500 group-hover:scale-110 transition-transform' />
+                {/* <HeartFilled className='w-5 h-5 fill-red-300 group-hover:fill-red-400' /> */}
               </span>
               <Link
                 to={`/product/${product?.id}`}
