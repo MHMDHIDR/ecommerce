@@ -14,7 +14,8 @@ export const paginatedResults = (table: string) => {
       supplierId,
       orderId,
       category,
-      hasProducts
+      hasProducts,
+      wishlistUserId
     } = req.query
     const reqPage = parseInt(page) || 1
     const reqLimit = parseInt(limit) || parseInt(process.env.BIG_LIMIT!)
@@ -166,6 +167,32 @@ export const paginatedResults = (table: string) => {
           response.response = response.response[0]
           const countQuery = `SELECT COUNT(*) as count FROM ${table} WHERE addedById = ? AND productStatus = ?`
           const countResult = await db.promise().query(countQuery, [addedById, status])
+          const itemsCount = countResult[0][0].count
+
+          response.itemsCount = itemsCount
+          if (endIndex < itemsCount) {
+            response.next = {
+              page: reqPage + 1,
+              limit: reqLimit
+            }
+          }
+
+          if (startIndex > 0) {
+            response.previous = {
+              page: reqPage - 1,
+              limit: reqLimit
+            }
+          }
+          response.numberOfPages = Math.ceil(response.itemsCount / reqLimit)
+        } else if (wishlistUserId) {
+          query = `SELECT * FROM ${table} WHERE userId = ? ORDER BY ${
+            orderBy ? `${orderBy} DESC` : `createDate DESC`
+          }`
+
+          response.response = await db.promise().query(query, [wishlistUserId])
+          response.response = response.response[0]
+          const countQuery = `SELECT COUNT(*) as count FROM ${table} WHERE userId = ?`
+          const countResult = await db.promise().query(countQuery, [wishlistUserId])
           const itemsCount = countResult[0][0].count
 
           response.itemsCount = itemsCount

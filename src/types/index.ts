@@ -251,6 +251,12 @@ export type ControlBtnProps = {
   id?: string
 }
 
+export type WishlistProps = {
+  createDate: string
+  productId: string
+  userId: string
+}
+
 export type NotifyProps = {
   type: 'success' | 'info' | 'error'
   msg: string
