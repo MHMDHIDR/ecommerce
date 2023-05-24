@@ -41,13 +41,15 @@ const CategoryProducts = ({
     { userId: '', productId: '', createDate: '' }
   ])
 
-  const { response, loading } = useAxios({
-    url: `/wishlists?wishlistUserId=${userId}`,
-    headers: stringJson({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    })
-  })
+  const { response, loading } = !userId
+    ? { response: null, loading: false }
+    : useAxios({
+        url: `/wishlists?wishlistUserId=${userId}`,
+        headers: stringJson({
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        })
+      })
 
   useEffect(() => {
     if (response !== null) setCurrentWishlistItems(response)

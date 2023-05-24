@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "client": "vite --port 3000",
+    "client": "vite --port 3001",
     "dev": "concurrently \"yarn client\" \"yarn api\"",
     "api": "cd server && yarn dev",
     "build": "tsc && vite build",

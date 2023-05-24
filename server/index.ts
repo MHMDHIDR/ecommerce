@@ -21,7 +21,7 @@ app.use(
     origin: [
       `https://ecommerce-mhmdhidr.vercel.app`,
       `https://mhmdhidr-ecommerce.vercel.app`,
-      `http://localhost:3000`
+      `http://localhost:3001`
     ]
   })
 )
