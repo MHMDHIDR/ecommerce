@@ -157,31 +157,24 @@ const CategoryProducts = ({
           }}
           className='relative block w-fit mx-auto'
         >
-          <span
-            className='absolute -right-0.5 -top-2 cursor-pointer p-2 bg-gray-50 rounded-full group z-10'
-            onClick={() => {
-              if (!isAuth) {
-                notify({
-                  type: 'error',
-                  msg: `يجب عليك تسجيل الدخول أولاً لإضافة منتج للمفضلة`,
-                  position: 'top-center',
-                  duration: 2
-                })
-              } else {
+          {isAuth && (
+            <span
+              className='absolute -right-0.5 -top-2 cursor-pointer p-2 bg-gray-50 rounded-full group z-10'
+              onClick={() => {
                 if (isInWishlist(product.id)) {
                   removeFromWishlist(product.id)
                 } else {
                   addToWishlist(product.id)
                 }
-              }
-            }}
-          >
-            {isInWishlist(product.id) ? (
-              <HeartFilled className='w-5 h-5 fill-red-300 group-hover:fill-red-400' />
-            ) : (
-              <HeartUnfilled className='w-5 h-5 fill-red-500 group-hover:scale-110 transition-transform' />
-            )}
-          </span>
+              }}
+            >
+              {isInWishlist(product.id) ? (
+                <HeartFilled className='w-5 h-5 fill-red-300 group-hover:fill-red-400' />
+              ) : (
+                <HeartUnfilled className='w-5 h-5 fill-red-500 group-hover:scale-110 transition-transform' />
+              )}
+            </span>
+          )}
           <Link
             to={`/product/${product?.id}`}
             className='block sm:max-w-[10rem] lg:max-w-xs'
