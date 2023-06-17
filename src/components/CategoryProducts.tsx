@@ -26,7 +26,7 @@ const CategoryProducts = ({
 }) => {
   const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
   const token = getCookies()
-  const { userData, isAuth, loading: loadingAuth } = useAuth()
+  const { userData, isAuth, userType, loading: loadingAuth } = useAuth()
   const { id: userId } = !userData
     ? getLocalStorageUser()
       ? parseJson(getLocalStorageUser()) ?? parseJson(getLocalStorageUser())[0]
@@ -41,8 +41,11 @@ const CategoryProducts = ({
     { userId: '', productId: '', createDate: '' }
   ])
 
-  const { response, loading } = !userId
-    ? { response: null, loading: false }
+  const {
+    response,
+    loading
+  }: { response: WishlistProps[] | null; loading: boolean | null } = !userType
+    ? { response: null, loading: null }
     : useAxios({
         url: `/wishlists?wishlistUserId=${userId}`,
         headers: stringJson({
@@ -115,7 +118,7 @@ const CategoryProducts = ({
     )
   }
 
-  return loadingAuth ? (
+  return loadingAuth || loading ? (
     <LoadingPage />
   ) : products && products.length > 0 ? (
     <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-10 gap-x-4 my-10'>
