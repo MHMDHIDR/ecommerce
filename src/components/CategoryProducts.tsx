@@ -26,7 +26,7 @@ const CategoryProducts = ({
 }) => {
   const { getLocalStorageUser } = useContext<AppSettingsProps>(AppSettingsContext)
   const token = getCookies()
-  const { userData, isAuth } = useAuth()
+  const { userData, isAuth, loading: loadingAuth } = useAuth()
   const { id: userId } = !userData
     ? getLocalStorageUser()
       ? parseJson(getLocalStorageUser()) ?? parseJson(getLocalStorageUser())[0]
@@ -52,7 +52,9 @@ const CategoryProducts = ({
       })
 
   useEffect(() => {
-    if (response !== null) setCurrentWishlistItems(response)
+    if (response !== null) {
+      setCurrentWishlistItems(response)
+    }
   }, [response])
 
   //Add a Product Item to user's Wishlist
@@ -113,7 +115,7 @@ const CategoryProducts = ({
     )
   }
 
-  return loading ? (
+  return loadingAuth ? (
     <LoadingPage />
   ) : products && products.length > 0 ? (
     <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-10 gap-x-4 my-10'>

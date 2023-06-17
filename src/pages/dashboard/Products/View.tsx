@@ -132,7 +132,7 @@ const ViewProduct = () => {
           <ClickableButton className='bg-blue-500 hover:bg-blue-600 shadow-blue-600 hover:shadow-blue-800'>
             <>
               <AddBtn className='inline-flex ml-4 w-4 h-4 fill-white' />
-              <span>إضافة وجبة</span>
+              <span>إضافة منتج</span>
             </>
           </ClickableButton>
         </Link>
