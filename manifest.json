@@ -1,6 +1,6 @@
 {
-  "start_url": "https://ecommerce-mhmdhidr.vercel.app",
-  "scope": "https://ecommerce-mhmdhidr.vercel.app",
+  "start_url": "http://localhost:3001",
+  "scope": "http://localhost:3001",
   "orientation": "portrait",
   "background_color": "#ced1d6",
   "theme_color": "#ced1d6",

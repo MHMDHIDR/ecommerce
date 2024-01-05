@@ -26,7 +26,7 @@ app.use(
   })
 )
 
-app.get('/', (_req: Request, res: Response) =>
+app.get('/', (_req, res) =>
   res.send(
     `<body style='overflow:hidden;word-spacing:2rem;height:100vh;display:grid;place-items:center;font-size:3em;font-weight:bold;color:white;background-color:#222'>WELCOME TO eCommerce API</body>`
   )

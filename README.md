@@ -64,4 +64,4 @@ yarn start
 
 ##### All rights reserved
 
-&copy; Mohammed Hayder
+&copy; Mohammed Haydar
